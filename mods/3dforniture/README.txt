@@ -1,6 +1,7 @@
-3D Furniture 1.0 (GPL)
+[Mod] 3D Furniture [1.0] [3dforniture]
 
-http://minetest.net/forum/viewtopic.php?id=2207
+Homepage: http://minetest.net/forum/viewtopic.php?id=2207
+License: GPL
 
 Contributors:
 tonyka - author
