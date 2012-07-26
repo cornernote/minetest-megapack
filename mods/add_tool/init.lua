@@ -18,8 +18,12 @@
 -- For example:
 --    moreores_tool_goldpick.png
 
-register_tool_type = function(modname, typename, crafttype, basetime, basedurability, extra_rules)
+-- Updated by Calinou on 2011-01-23
+-- For More Ores mod
+
+register_tool_type = function(modname, labelname, typename, crafttype, basetime, basedurability, extra_rules)
    minetest.register_craft({
+      description = labelname,
       output = 'tool "'..modname..':'..typename..'_pick'..'"',
       recipe = {
          { crafttype, crafttype, crafttype },
@@ -29,6 +33,7 @@ register_tool_type = function(modname, typename, crafttype, basetime, basedurabi
    })
 
    minetest.register_craft({
+      description = labelname,
       output = 'tool "'..modname..':'..typename..'_shovel'..'"',
       recipe = {
          { '', crafttype, '' },
@@ -38,6 +43,7 @@ register_tool_type = function(modname, typename, crafttype, basetime, basedurabi
    })
 
    minetest.register_craft({
+      description = labelname,
       output = 'tool "'..modname..':'..typename..'_axe'..'"',
       recipe = {
          { crafttype, crafttype },
@@ -47,6 +53,7 @@ register_tool_type = function(modname, typename, crafttype, basetime, basedurabi
    })
 
    minetest.register_craft({
+      description = labelname,
       output = 'tool "'..modname..':'..typename..'_sword'..'"',
       recipe = {
          { crafttype },
@@ -58,7 +65,7 @@ register_tool_type = function(modname, typename, crafttype, basetime, basedurabi
    local ft = basetime + (extra_rules.pick_speed or 0)
    local fd = basedurability + (extra_rules.pick_durability or 0)
    minetest.register_tool(modname..":"..typename.."_pick", {
-      image = modname.."_tool_"..typename.."pick.png",
+      inventory_image = modname.."_tool_"..typename.."pick.png",
       basetime = ft,
       dt_weight = 0,
       dt_crackiness = -0.5,
@@ -74,7 +81,7 @@ register_tool_type = function(modname, typename, crafttype, basetime, basedurabi
    ft = basetime + (extra_rules.shovel_speed or 0)
    fd = basedurability + (extra_rules.shovel_durability or 0)
    minetest.register_tool(modname..":"..typename.."_shovel", {
-      image = modname.."_tool_"..typename.."shovel.png",
+      inventory_image = modname.."_tool_"..typename.."shovel.png",
       basetime = ft,
       dt_weight = 0.5,
       dt_crackiness = 2,
@@ -90,7 +97,7 @@ register_tool_type = function(modname, typename, crafttype, basetime, basedurabi
    ft = basetime + (extra_rules.axe_speed or 0)
    fd = basedurability + (extra_rules.axe_durability or 0)
    minetest.register_tool(modname..":"..typename.."_axe", {
-      image = modname.."_tool_"..typename.."axe.png",
+      inventory_image = modname.."_tool_"..typename.."axe.png",
       basetime = ft,
       dt_weight = 0.5,
       dt_crackiness = -0.2,
@@ -106,7 +113,7 @@ register_tool_type = function(modname, typename, crafttype, basetime, basedurabi
    ft = basetime + (extra_rules.sword_speed or 0)
    fd = basedurability + (extra_rules.sword_durability or 0)
    minetest.register_tool(modname..":"..typename.."_sword", {
-      image = modname.."_tool_"..typename.."sword.png",
+      inventory_image = modname.."_tool_"..typename.."sword.png",
       basetime = ft,
       dt_weight = 3,
       dt_crackiness = 0,
