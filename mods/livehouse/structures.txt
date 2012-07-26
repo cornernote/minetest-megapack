@@ -1,4 +1,4 @@
-# Wooden cross
+# Wooden cross - direction 1
 ; Floor 1
 -1 0 -1 default:wood
 -1 0 0 default:wood
@@ -35,3 +35,438 @@
 1 3 -1 default:stone
 1 3 0 default:stone
 1 3 1 default:stone
+# Wooden cross - direction 2
+; Floor 1
+-1 0 -1 default:wood
+-1 0 0 default:wood
+-1 0 1 default:wood
+0 0 -1 default:wood
+0 0 0 default:wood
+0 0 1 default:wood
+1 0 -1 default:wood
+1 0 0 default:wood
+1 0 1 default:wood
+; Floor 2
+-1 1 -1 default:wood
+-1 1 0 default:wood
+-1 1 1 default:wood
+0 1 -1 default:wood
+0 1 1 default:wood
+1 1 -1 default:wood
+1 1 1 default:wood
+; Floor 3
+-1 2 -1 default:wood
+-1 2 0 default:wood
+-1 2 1 default:wood
+0 2 -1 default:glass
+0 2 1 default:glass
+1 2 -1 default:wood
+1 2 1 default:wood
+; Floor 4
+-1 3 -1 default:stone
+-1 3 0 default:stone
+-1 3 1 default:stone
+0 3 -1 default:stone
+0 3 0 default:stone
+0 3 1 default:stone
+1 3 -1 default:stone
+1 3 0 default:stone
+1 3 1 default:stone
+# Wooden cross - direction 3
+; Floor 1
+-1 0 -1 default:wood
+-1 0 0 default:wood
+-1 0 1 default:wood
+0 0 -1 default:wood
+0 0 0 default:wood
+0 0 1 default:wood
+1 0 -1 default:wood
+1 0 0 default:wood
+1 0 1 default:wood
+; Floor 2
+-1 1 -1 default:wood
+-1 1 0 default:wood
+-1 1 1 default:wood
+0 1 1 default:wood
+1 1 -1 default:wood
+1 1 0 default:wood
+1 1 1 default:wood
+; Floor 3
+-1 2 -1 default:wood
+-1 2 0 default:glass
+-1 2 1 default:wood
+0 2 1 default:wood
+1 2 -1 default:wood
+1 2 0 default:glass
+1 2 1 default:wood
+; Floor 4
+-1 3 -1 default:stone
+-1 3 0 default:stone
+-1 3 1 default:stone
+0 3 -1 default:stone
+0 3 0 default:stone
+0 3 1 default:stone
+1 3 -1 default:stone
+1 3 0 default:stone
+1 3 1 default:stone
+# Wooden cross - direction 4
+; Floor 1
+-1 0 -1 default:wood
+-1 0 0 default:wood
+-1 0 1 default:wood
+0 0 -1 default:wood
+0 0 0 default:wood
+0 0 1 default:wood
+1 0 -1 default:wood
+1 0 0 default:wood
+1 0 1 default:wood
+; Floor 2
+-1 1 -1 default:wood
+-1 1 0 default:wood
+-1 1 1 default:wood
+0 1 -1 default:wood
+1 1 -1 default:wood
+1 1 0 default:wood
+1 1 1 default:wood
+; Floor 3
+-1 2 -1 default:wood
+-1 2 0 default:glass
+-1 2 1 default:wood
+0 2 -1 default:wood
+1 2 -1 default:wood
+1 2 0 default:glass
+1 2 1 default:wood
+; Floor 4
+-1 3 -1 default:stone
+-1 3 0 default:stone
+-1 3 1 default:stone
+0 3 -1 default:stone
+0 3 0 default:stone
+0 3 1 default:stone
+1 3 -1 default:stone
+1 3 0 default:stone
+1 3 1 default:stone
+# Wooden cross - with castle roof - direction 1
+; Floor 1
+-1 0 -1 default:wood
+-1 0 0 default:wood
+-1 0 1 default:wood
+0 0 -1 default:wood
+0 0 0 default:wood
+0 0 1 default:wood
+1 0 -1 default:wood
+1 0 0 default:wood
+1 0 1 default:wood
+; Floor 2
+-1 1 -1 default:wood
+-1 1 1 default:wood
+0 1 -1 default:wood
+0 1 1 default:wood
+1 1 -1 default:wood
+1 1 0 default:wood
+1 1 1 default:wood
+; Floor 3
+-1 2 -1 default:wood
+-1 2 1 default:wood
+0 2 -1 default:glass
+0 2 1 default:glass
+1 2 -1 default:wood
+1 2 0 default:wood
+1 2 1 default:wood
+; Floor 4
+-1 3 -1 default:stone
+-1 3 0 default:stone
+-1 3 1 default:stone
+0 3 -1 default:stone
+0 3 0 default:stone
+0 3 1 default:stone
+1 3 -1 default:stone
+1 3 0 default:stone
+1 3 1 default:stone
+; Floor 5
+-1 4 -1 default:stone
+-1 4 1 default:stone
+1 4 -1 default:stone
+1 4 1 default:stone
+# Wooden cross - with castle roof - direction 2
+; Floor 1
+-1 0 -1 default:wood
+-1 0 0 default:wood
+-1 0 1 default:wood
+0 0 -1 default:wood
+0 0 0 default:wood
+0 0 1 default:wood
+1 0 -1 default:wood
+1 0 0 default:wood
+1 0 1 default:wood
+; Floor 2
+-1 1 -1 default:wood
+-1 1 0 default:wood
+-1 1 1 default:wood
+0 1 -1 default:wood
+0 1 1 default:wood
+1 1 -1 default:wood
+1 1 1 default:wood
+; Floor 3
+-1 2 -1 default:wood
+-1 2 0 default:wood
+-1 2 1 default:wood
+0 2 -1 default:glass
+0 2 1 default:glass
+1 2 -1 default:wood
+1 2 1 default:wood
+; Floor 4
+-1 3 -1 default:stone
+-1 3 0 default:stone
+-1 3 1 default:stone
+0 3 -1 default:stone
+0 3 0 default:stone
+0 3 1 default:stone
+1 3 -1 default:stone
+1 3 0 default:stone
+1 3 1 default:stone
+; Floor 5
+-1 4 -1 default:stone
+-1 4 1 default:stone
+1 4 -1 default:stone
+1 4 1 default:stone
+# Wooden cross - with castle roof - direction 3
+; Floor 1
+-1 0 -1 default:wood
+-1 0 0 default:wood
+-1 0 1 default:wood
+0 0 -1 default:wood
+0 0 0 default:wood
+0 0 1 default:wood
+1 0 -1 default:wood
+1 0 0 default:wood
+1 0 1 default:wood
+; Floor 2
+-1 1 -1 default:wood
+-1 1 0 default:wood
+-1 1 1 default:wood
+0 1 1 default:wood
+1 1 -1 default:wood
+1 1 0 default:wood
+1 1 1 default:wood
+; Floor 3
+-1 2 -1 default:wood
+-1 2 0 default:glass
+-1 2 1 default:wood
+0 2 1 default:wood
+1 2 -1 default:wood
+1 2 0 default:glass
+1 2 1 default:wood
+; Floor 4
+-1 3 -1 default:stone
+-1 3 0 default:stone
+-1 3 1 default:stone
+0 3 -1 default:stone
+0 3 0 default:stone
+0 3 1 default:stone
+1 3 -1 default:stone
+1 3 0 default:stone
+1 3 1 default:stone
+; Floor 5
+-1 4 -1 default:stone
+-1 4 1 default:stone
+1 4 -1 default:stone
+1 4 1 default:stone
+# Wooden cross - with castle roof - direction 4
+; Floor 1
+-1 0 -1 default:wood
+-1 0 0 default:wood
+-1 0 1 default:wood
+0 0 -1 default:wood
+0 0 0 default:wood
+0 0 1 default:wood
+1 0 -1 default:wood
+1 0 0 default:wood
+1 0 1 default:wood
+; Floor 2
+-1 1 -1 default:wood
+-1 1 0 default:wood
+-1 1 1 default:wood
+0 1 -1 default:wood
+1 1 -1 default:wood
+1 1 0 default:wood
+1 1 1 default:wood
+; Floor 3
+-1 2 -1 default:wood
+-1 2 0 default:glass
+-1 2 1 default:wood
+0 2 -1 default:wood
+1 2 -1 default:wood
+1 2 0 default:glass
+1 2 1 default:wood
+; Floor 4
+-1 3 -1 default:stone
+-1 3 0 default:stone
+-1 3 1 default:stone
+0 3 -1 default:stone
+0 3 0 default:stone
+0 3 1 default:stone
+1 3 -1 default:stone
+1 3 0 default:stone
+1 3 1 default:stone
+; Floor 5
+-1 4 -1 default:stone
+-1 4 1 default:stone
+1 4 -1 default:stone
+1 4 1 default:stone
+# Wooden cross - with pointy roof - direction 1
+; Floor 1
+-1 0 -1 default:wood
+-1 0 0 default:wood
+-1 0 1 default:wood
+0 0 -1 default:wood
+0 0 0 default:wood
+0 0 1 default:wood
+1 0 -1 default:wood
+1 0 0 default:wood
+1 0 1 default:wood
+; Floor 2
+-1 1 -1 default:wood
+-1 1 1 default:wood
+0 1 -1 default:wood
+0 1 1 default:wood
+1 1 -1 default:wood
+1 1 0 default:wood
+1 1 1 default:wood
+; Floor 3
+-1 2 -1 default:wood
+-1 2 1 default:wood
+0 2 -1 default:glass
+0 2 1 default:glass
+1 2 -1 default:wood
+1 2 0 default:wood
+1 2 1 default:wood
+; Floor 4
+-1 3 -1 default:stone
+-1 3 0 default:stone
+-1 3 1 default:stone
+0 3 -1 default:stone
+0 3 0 default:stone
+0 3 1 default:stone
+1 3 -1 default:stone
+1 3 0 default:stone
+1 3 1 default:stone
+; Floor 5
+0 4 0 default:stone
+# Wooden cross - with pointy roof - direction 2
+; Floor 1
+-1 0 -1 default:wood
+-1 0 0 default:wood
+-1 0 1 default:wood
+0 0 -1 default:wood
+0 0 0 default:wood
+0 0 1 default:wood
+1 0 -1 default:wood
+1 0 0 default:wood
+1 0 1 default:wood
+; Floor 2
+-1 1 -1 default:wood
+-1 1 0 default:wood
+-1 1 1 default:wood
+0 1 -1 default:wood
+0 1 1 default:wood
+1 1 -1 default:wood
+1 1 1 default:wood
+; Floor 3
+-1 2 -1 default:wood
+-1 2 0 default:wood
+-1 2 1 default:wood
+0 2 -1 default:glass
+0 2 1 default:glass
+1 2 -1 default:wood
+1 2 1 default:wood
+; Floor 4
+-1 3 -1 default:stone
+-1 3 0 default:stone
+-1 3 1 default:stone
+0 3 -1 default:stone
+0 3 0 default:stone
+0 3 1 default:stone
+1 3 -1 default:stone
+1 3 0 default:stone
+1 3 1 default:stone
+; Floor 5
+0 4 0 default:stone
+# Wooden cross - with pointy roof - direction 3
+; Floor 1
+-1 0 -1 default:wood
+-1 0 0 default:wood
+-1 0 1 default:wood
+0 0 -1 default:wood
+0 0 0 default:wood
+0 0 1 default:wood
+1 0 -1 default:wood
+1 0 0 default:wood
+1 0 1 default:wood
+; Floor 2
+-1 1 -1 default:wood
+-1 1 0 default:wood
+-1 1 1 default:wood
+0 1 1 default:wood
+1 1 -1 default:wood
+1 1 0 default:wood
+1 1 1 default:wood
+; Floor 3
+-1 2 -1 default:wood
+-1 2 0 default:glass
+-1 2 1 default:wood
+0 2 1 default:wood
+1 2 -1 default:wood
+1 2 0 default:glass
+1 2 1 default:wood
+; Floor 4
+-1 3 -1 default:stone
+-1 3 0 default:stone
+-1 3 1 default:stone
+0 3 -1 default:stone
+0 3 0 default:stone
+0 3 1 default:stone
+1 3 -1 default:stone
+1 3 0 default:stone
+1 3 1 default:stone
+; Floor 5
+0 4 0 default:stone
+# Wooden cross - with pointy roof - direction 4
+; Floor 1
+-1 0 -1 default:wood
+-1 0 0 default:wood
+-1 0 1 default:wood
+0 0 -1 default:wood
+0 0 0 default:wood
+0 0 1 default:wood
+1 0 -1 default:wood
+1 0 0 default:wood
+1 0 1 default:wood
+; Floor 2
+-1 1 -1 default:wood
+-1 1 0 default:wood
+-1 1 1 default:wood
+0 1 -1 default:wood
+1 1 -1 default:wood
+1 1 0 default:wood
+1 1 1 default:wood
+; Floor 3
+-1 2 -1 default:wood
+-1 2 0 default:glass
+-1 2 1 default:wood
+0 2 -1 default:wood
+1 2 -1 default:wood
+1 2 0 default:glass
+1 2 1 default:wood
+; Floor 4
+-1 3 -1 default:stone
+-1 3 0 default:stone
+-1 3 1 default:stone
+0 3 -1 default:stone
+0 3 0 default:stone
+0 3 1 default:stone
+1 3 -1 default:stone
+1 3 0 default:stone
+1 3 1 default:stone
+; Floor 5
+0 4 0 default:stone
