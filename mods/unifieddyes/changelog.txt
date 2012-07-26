@@ -1,0 +1,42 @@
+Changelog:
+
+2012-07-16 (a bit later): fixed a minor error in generation of medium grey.
+
+2012-07-16: Added a new set of colors, "light" (brightness of 150% versus the 
+'full' shade), for a total of 89.  No 50% saturation version of this set.  
+Added a palette image showing the full set of colors.
+
+2012-07-13:  Fixed some missing commas.
+
+2012-07-13: Added a script to aid in the generation of new textures for mods 
+that depend on unifieddyes.  Moved this changelog from the forum into the 
+distribution directory.  Rewrote the README to contain everything from the 
+forum post, and expanded it to document the new generation script.
+
+2012-07-12 (a bit later): added groups = {dye=1}, to each register_craftitem 
+call, to make it easier for other mods to identify the dyes and categorize 
+them.
+
+2012-07-12: moved project to github.
+
+2012-07-11 (continuing): Tweaked the script to remove titanium dioxide from the 
+output, since it isn't intended to be directly used as a dye/paint (but rather, 
+to make paint that can then be used).  Regenerated colors.txt.
+
+2012-07-11 (immediately after): The script was reading the wrong pixel from the 
+image, resulting in lighter-than-correct colors.  Fixed it and regenerated the 
+colors.txt file.
+
+2012-07-11: Added a script to list all of the colors and their RGB values and 
+texture filenames, and a text file containing the output thereof.
+
+2012-07-08 (a bit later): deleted a few unused files (copy&paste error).
+
+2012-07-08: Major boost in the number of available colors - was 8, now 77.  
+Should cover pretty much the entire spectrum of colors one might use in this 
+game.
+
+2012-07-02: Deleted a few redundant files (leftovers from when I wanted to 
+merge in flowers and then changed my mind).
+
+2012-06-26: Initial upload.
