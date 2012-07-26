@@ -1,0 +1,28 @@
+Date 2012 01 28
+
+testcases to check before release:
+
+
+Features:
+
+-animals moving
+-catching animals with lasso
+-catching animals with net
+-killing animals
+-harvesting animals
+-animals doing meele attack
+-animals transforming on harvest
+-animals auto transform
+-animals taking damage in sun
+-animals self destruct
+-animals honoring jump limitiations
+-animals random dropping
+-animals honoring movement medium
+-animals doing random jumps
+-animals level changing
+
+
+General:
+-version number correct?
+-readme correct?
+-debug output disabled?

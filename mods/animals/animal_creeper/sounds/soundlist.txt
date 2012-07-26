@@ -1,0 +1,14 @@
+--creeper--
+random:
+	random_1.ogg
+hit:
+	--missing--
+die:
+	die.ogg
+self_destruct:
+	bomb_explosion.ogg
+
+
+
+
+

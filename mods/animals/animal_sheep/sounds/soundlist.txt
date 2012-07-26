@@ -1,0 +1,23 @@
+--heep/naked sheep--
+random:
+	Mudchute_sheep_1.ogg
+hit:
+	--missing--
+die:
+	--missing--
+catch:
+	--missing--
+harvest:
+	harvest.ogg
+
+
+
+--lamb--
+random:
+	Mudchute_lamb_1.ogg
+hit:
+	--missing--
+die:
+	--missing--
+catch:
+	--missing--
