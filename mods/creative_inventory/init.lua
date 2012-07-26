@@ -57,7 +57,7 @@ local function getModName(pos)
 end
 minetest.register_node("creative_inventory:creativeChest", {
 	description = "Creative Chest",
-	tiles = {"default_chest_top.png", "default_chest_top.png", "default_chest_side.png",
+	tile_images = {"default_chest_top.png", "default_chest_top.png", "default_chest_side.png",
 		"default_chest_side.png", "default_chest_side.png", "default_chest_front.png"},
 	paramtype2 = "facedir",
 	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},

@@ -1,22 +1,3 @@
---Help-Functions
-local APPROXIMATION = 0.8
-
-local equals = function(num1, num2)
-	if math.abs(num1-num2) <= APPROXIMATION then
-		return true
-	else
-		return false
-	end
-end
-
-local pos_equals = function(pos1, pos2)
-	if pos1.x == pos2.x and pos1.y == pos2.y and pos1.z == pos2.z then
-		return true
-	else
-		return false
-	end
-end
-
 --=========
 -- Maximum speed of the cart
 --=========
@@ -31,25 +12,24 @@ local TRANSPORT_PLAYER = true
 --=========
 local SOUND_FILE = ""
 
-local RAILS = {"default:rail", "carts:meseconrail_off", "carts:meseconrail_on"}
+RAILS = {"default:rail", "carts:meseconrail_off", "carts:meseconrail_on", "carts:meseconrail_stop_off", "carts:meseconrail_stop_on"}
 
 --Initialwerte
 local cart = {
 	physical = true,
-	collisionbox = {-0.4, -0.4, -0.4, 0.4, 0.4, 0.4},
+	collisionbox = {-0.425, -0.425, -0.425, 0.425, 0.425, 0.425},
 	visual = "cube",
-	textures = {"carts_cart_top.png", "carts_cart_side.png", "carts_cart_side.png", "carts_cart_side.png", "carts_cart_side.png", "carts_cart_side.png"},
-	visual_size = {x=.8, y=.8, z=0.8},
+	textures = {"carts_cart_top.png", "carts_cart_bottom.png", "carts_cart_side.png", "carts_cart_side.png", "carts_cart_side.png", "carts_cart_side.png"},
+	visual_size = {x=.85, y=.85, z=0.85},
 	--Variablen
-	fahren = false,
-	fallen = false,
-	bremsen = false,
-	v = 0,
-	dir = nil,
-	vertikal = -10,
-	items = {},
-	weiche = {x=nil, y=nil, z=nil},
-	handler = nil,
+	fahren = false, -- gibt an ob in irgeneiner weise gefahren wird
+	fallen = false, -- gibt an, ob das cart bergab fährt
+	bremsen = false, -- gibt an, ob das cart bremst/bremsen soll
+	dir = nil, -- gibt die Fahrtrichtung an
+	old_dir = nil, -- speichert Fahrtrichtung auch beim stehen
+	items = {}, -- Liste der zu transportierenden items
+	weiche = {x=nil, y=nil, z=nil}, -- wenn gerade über Weiche gefahren wird die Position hier gespeichert (um Dopplungen zu verhindern)
+	sound_handler = nil, -- Referenz auf den Sound-Hanlder vom cart
 }
 
 --Aktuelle Geschwindigkeit in Fahrtrichtung zurückgeben
@@ -84,13 +64,13 @@ end
 --Beschleunigung abhängig von der Fahrtrichtung setzen
 function cart:set_acceleration(staerke)
 	if self.dir == "x+" then
-		self.object:setacceleration({x=staerke, y=self.vertikal, z=0})
+		self.object:setacceleration({x=staerke, y=-10, z=0})
 	elseif self.dir == "x-" then
-		self.object:setacceleration({x=-staerke, y=self.vertikal, z=0})
+		self.object:setacceleration({x=-staerke, y=-10, z=0})
 	elseif self.dir == "z+" then
-		self.object:setacceleration({x=0, y=self.vertikal, z=staerke})
+		self.object:setacceleration({x=0, y=-10, z=staerke})
 	elseif self.dir == "z-" then
-		self.object:setacceleration({x=0, y=self.vertikal, z=-staerke})
+		self.object:setacceleration({x=0, y=-10, z=-staerke})
 	end
 end
 
@@ -99,15 +79,14 @@ function cart:stop()
 	self.fahren = false
 	self.bremsen = false
 	self.items = {}
-	self.vertikal = -10
 	self.fallen = false
-	self.object:setacceleration({x = 0, y = self.vertikal, z = 0})
+	self.object:setacceleration({x = 0, y = -10, z = 0})
 	self:set_speed(0)
 	local pos = self.object:getpos()
 	self.object:setpos(pos)
-	if self.handler ~= nil then
-		minetest.sound_stop(self.handler)
-		self.handler = nil
+	if self.sound_handler ~= nil then
+		minetest.sound_stop(self.sound_handler)
+		self.sound_handler = nil
 	end
 end
 
@@ -445,7 +424,7 @@ end
 function cart:on_step(dtime)
 	--Wenn nicht gefahren wird die Gravitation setzen
 	if not self.fahren then
-		self.object:setacceleration({x=0, y=self.vertikal, z=0})
+		self.object:setacceleration({x=0, y=-10, z=0})
 		return
 	end
 	local pos_tmp = self.object:getpos()
@@ -454,6 +433,74 @@ function cart:on_step(dtime)
 	pos_tmp.z = math.floor(0.5+pos_tmp.z)
 	if not pos_equals(pos_tmp, self.weiche) then
 		self.weiche = {x=nil, y=nil, z=nil}
+	end
+	
+	--Neue Richtung bestimmen
+	local newdir = self:get_new_direction()
+	--[[if newdir ~= nil then
+		minetest.debug("[carts] Neue Richtung ist "..newdir)
+	else
+		minetest.debug("[carts] Cart muss anhalten")
+	end]]
+	--Ende des Gleises erreicht
+	if newdir == nil and not self.fallen then
+		self:stop()
+		local pos = self.object:getpos()
+		pos.x = math.floor(0.5+pos.x)
+		pos.z = math.floor(0.5+pos.z)
+		self.object:setpos(pos)
+		return
+	elseif newdir == "y+" then
+		self.fallen = false
+		local vel = self.object:getvelocity()
+		vel.y = MAX_SPEED
+		self.object:setvelocity(vel)
+	elseif newdir == "y-" then
+		local vel = self.object:getvelocity()
+		vel.y = -2*MAX_SPEED
+		self.object:setvelocity(vel)
+		self.fallen = true
+	--Richtungsänderung
+	elseif newdir ~= self.dir then
+		self.fallen = false
+		local pos = self.object:getpos()
+		--Warten bis der Kurvenstein nahezu erreicht wird
+		if not equals(pos.x, math.floor(0.5+pos.x)) or not equals(pos.y, math.floor(0.5+pos.y)) or not equals(pos.z, math.floor(0.5+pos.z)) then
+			return
+		end
+		--Genau auf die Kurve springen
+		pos.x = math.floor(0.5+pos.x)
+		pos.z = math.floor(0.5+pos.z)
+		local speed = self:get_speed()
+		self.dir = newdir
+		self.old_dir = newdir
+		self:set_speed(speed)
+		self.object:setpos(pos)
+	end
+	
+	if self.bremsen then
+		if not equals(self:get_speed(), 0) then
+			self:set_acceleration(-10)
+		else
+			self:stop()
+		end
+	else
+		if self.fahren and self:get_speed() < MAX_SPEED then
+			self:set_acceleration(10)
+		else
+			self:set_acceleration(0)
+		end
+	end
+	
+	--Items bewegen
+	for i,item in ipairs(self.items) do
+		if item:is_player() then
+			local pos = self.object:getpos()
+			pos.y = pos.y-0.5
+			item:setpos(pos)
+		else
+			item:setpos(self.object:getpos())
+		end
 	end
 	
 	--Wenn neben dem Gleis eine Truhe steht werden die Items abgeladen
@@ -488,72 +535,6 @@ function cart:on_step(dtime)
 		end
 	end
 	
-	--Neue Richtung bestimmen
-	local newdir = self:get_new_direction()
-	--[[if newdir ~= nil then
-		minetest.debug("[carts] Neue Richtung ist "..newdir)
-	else
-		minetest.debug("[carts] Cart muss anhalten")
-	end]]
-	--Ende des Gleises erreicht
-	if newdir == nil and not self.fallen then
-		self:stop()
-		local pos = self.object:getpos()
-		pos.x = math.floor(0.5+pos.x)
-		pos.z = math.floor(0.5+pos.z)
-		self.object:setpos(pos)
-		return
-	elseif newdir == "y+" then
-		self.fallen = false
-		self.vertikal = 30
-	elseif newdir == "y-" then
-		self.vertikal = -500
-		self.fallen = true
-	--Richtungsänderung
-	elseif newdir ~= self.dir then
-		self.fallen = false
-		self.vertikal = -10
-		local pos = self.object:getpos()
-		--Warten bis der Kurvenstein nahezu erreicht wird
-		if not equals(pos.x, math.floor(0.5+pos.x)) or not equals(pos.y, math.floor(0.5+pos.y)) or not equals(pos.z, math.floor(0.5+pos.z)) then
-			return
-		end
-		--Genau auf die Kurve springen
-		pos.x = math.floor(0.5+pos.x)
-		pos.z = math.floor(0.5+pos.z)
-		local speed = self:get_speed()
-		self.dir = newdir
-		self:set_speed(speed)
-		self.object:setpos(pos)
-	else
-		self.vertikal = -10
-	end
-	
-	if self.bremsen then
-		if not equals(self:get_speed(), 0) then
-			self:set_acceleration(-10)
-		else
-			self:stop()
-		end
-	else
-		if self.fahren and self:get_speed() < MAX_SPEED then
-			self:set_acceleration(10)
-		else
-			self:set_acceleration(0)
-		end
-	end
-	
-	--Items bewegen
-	for i,item in ipairs(self.items) do
-		if item:is_player() then
-			local pos = self.object:getpos()
-			pos.y = pos.y-0.5
-			item:setpos(pos)
-		else
-			item:setpos(self.object:getpos())
-		end
-	end
-	
 	--Mesecons
 	if minetest.get_modpath("mesecons") ~= nil then
 		local pos = self.object:getpos()
@@ -563,7 +544,16 @@ function cart:on_step(dtime)
 		local name = minetest.env:get_node(pos).name
 		if name == "carts:meseconrail_off" then
 			minetest.env:set_node(pos, {name="carts:meseconrail_on"})
-			mesecon:receptor_on (pos)
+			mesecon:receptor_on(pos)
+		end
+		
+		if name == "carts:meseconrail_stop_on" then
+			self:stop()
+			local pos = self.object:getpos()
+			pos.x = math.floor(0.5+pos.x)
+			pos.z = math.floor(0.5+pos.z)
+			self.object:setpos(pos)
+		return
 		end
 	end
 end
@@ -580,14 +570,70 @@ function cart:on_rightclick(clicker)
 		if math.abs(res.x) > math.abs(res.z) then
 			if res.x < 0 then
 				self.dir = "x-"
+				self.old_dir = "x-"
+				if self:get_new_direction() ~= "x-" then
+					if res.z < 0 then
+						self.dir = "z-"
+						self.old_dir = "z-"
+					else
+						self.dir = "z+"
+						self.old_dir = "z+"
+					end
+					if self:get_new_direction() ~= self.dir then
+						self.dir = "x-"
+						self.old_dir = "x-"
+					end
+				end
 			else
 				self.dir = "x+"
+				self.old_dir = "x+"
+				if self:get_new_direction() ~= "x+" then
+					if res.z < 0 then
+						self.dir = "z-"
+						self.old_dir = "z-"
+					else
+						self.dir = "z+"
+						self.old_dir = "z+"
+					end
+					if self:get_new_direction() ~= self.dir then
+						self.dir = "x+"
+						self.old_dir = "x+"
+					end
+				end
 			end
 		else
 			if res.z < 0 then
 				self.dir = "z-"
+				self.old_dir = "z-"
+				if self:get_new_direction() ~= "z-" then
+					if res.x < 0 then
+						self.dir = "x-"
+						self.old_dir = "x-"
+					else
+						self.dir = "x+"
+						self.old_dir = "x+"
+					end
+					if self:get_new_direction() ~= self.dir then
+						self.dir = "z-"
+						self.old_dir = "z-"
+					end
+				end
 			else
 				self.dir = "z+"
+				self.old_dir = "z+"
+				if self:get_new_direction() ~= "z+" then
+					if res.x < 0 then
+						self.dir = "x-"
+						self.old_dir = "x-"
+					else
+						self.dir = "x+"
+						self.old_dir = "x+"
+					end
+					if self:get_new_direction() ~= self.dir then
+						self.dir = "z+"
+						self.old_dir = "z+"
+					end
+				end
 			end
 		end
 		--Items erfassen
@@ -601,7 +647,7 @@ function cart:on_rightclick(clicker)
 		end
 		
 		--Sound
-		self.handler = minetest.sound_play(SOUND_FILE, {
+		self.sound_handler = minetest.sound_play(SOUND_FILE, {
 			object = self.object,
 			loop = true,
 		})
@@ -612,27 +658,47 @@ end
 
 --Wenn das Cart geschlagen wird: Cart entfernen und im Inventar einfügen
 function cart:on_punch(hitter)
-	if self.handler ~= nil then
-		minetest.sound_stop(self.handler)
-		self.handler = nil
+	if self.sound_handler ~= nil then
+		minetest.sound_stop(self.sound_handler)
+		self.sound_handler = nil
 	end
 	self.object:remove()
 	hitter:get_inventory():add_item("main", "carts:cart")
 end
 
---Beim einfügen des Carts die Gravitation setzen
+function cart:get_staticdata()
+	local str = tostring(self.fahren)
+	str = str..","
+	if self.fahren then
+		str = str..self.dir
+	end
+	self.object:setvelocity({x=0, y=0, z=0})
+	return str
+end
+
+--Beim einfügen des Carts die Gravitation setzen oder weiterfahren, wenn nur neugeladen
 function cart:on_activate(staticdata)
-	self.object:setacceleration({x = 0, y = self.vertikal, z = 0})
+	self.object:setacceleration({x = 0, y = -10, z = 0})
 	self.items = {}
+	if staticdata ~= nil then
+		if string.find(staticdata, ",") ~= nil then
+			if string.sub(staticdata, 1, string.find(staticdata, ",")-1)=="true" then
+				self.dir = string.sub(staticdata, string.find(staticdata, ",")+1)
+				self.old_dir = dir
+				self.fahren = true
+			end
+		end
+	end
 end
 
 minetest.register_entity("carts:cart", cart)
 
 --Inventaritem erstellen
 minetest.register_craftitem("carts:cart", {
-	image = minetest.inventorycube("carts_cart_top.png", "carts_cart_side.png", "carts_cart_side.png"),
-	wield_image = "carts_cart_side.png",
 	description = "Cart",
+	image = minetest.inventorycube("carts_cart_top.png", "carts_cart_side.png", "carts_cart_side.png"),
+	wield_image = "carts_cart_top.png",
+	stack_max = 1,
 	--Beim platzieren durch entity ersetzen
 	on_place = function(itemstack, placer, pointed)
 		local pos = pointed.under
@@ -652,209 +718,6 @@ minetest.register_craftitem("carts:cart", {
 	end,
 })
 
-minetest.register_node("carts:chest", {
-	drawtype = "nodebox",
-	description = "Box",
-	paramtype = "light",
-	tiles = {"default_wood.png"},
-	groups = {snappy=1,choppy=2,oddly_breakable_by_hand=2,flammable=3},
-	node_box = {
-		type = "fixed",
-		fixed = {
-					--Außenseiten
-					{-0.5, -0.5, -0.5, -0.5, 0.5, 0.5},
-					{-0.5, -0.5, -0.5, 0.5, 0.5, -0.5},
-					{0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
-					{0.5, 0.5, 0.5, -0.5, -0.5, 0.5},
-					
-					--Innenseiten
-					{-0.4, -0.5, -0.4, -0.4, 0.5, 0.4},
-					{-0.4, -0.5, -0.4, 0.4, 0.5, -0.4},
-					{0.4, -0.5, -0.4, 0.4, 0.5, 0.4},
-					{0.4, 0.5, 0.4, -0.4, -0.5, 0.4},
-					
-					--Obere Ränder
-					{-0.5, 0.5, -0.5, 0.4, 0.5, -0.4},
-					{0.5, 0.5, -0.5, 0.4, 0.5, 0.4},
-					{0.5, 0.5, 0.5, -0.4, 0.5, 0.4},
-					{-0.5, 0.5, 0.5, -0.4, 0.5, -0.4},
-					
-					--Boden
-					{-0.5, -0.5, -0.5, 0.5, -0.5, 0.5},
-					{-0.5, -0.4, -0.5, 0.5, -0.4, 0.5},
-				}
-	},
-})
-
-minetest.register_node("carts:switch_left", {
-	description = "Switch",
-	paramtype2 = "facedir",
-	tiles = {"default_wood.png"},
-	groups = {bendy=2,snappy=1,dig_immediate=2},
-	on_punch = function(pos, node, puncher)
-		node.name = "carts:switch_right"
-		minetest.env:set_node(pos, node)
-				local par2 = minetest.env:get_node(pos).param2
-		if par2 == 0 then
-			pos.z = pos.z-1
-		elseif par2 == 1 then
-			pos.x = pos.x-1
-		elseif par2 == 2 then
-			pos.z = pos.z+1
-		elseif par2 == 3 then
-			pos.x = pos.x+1
-		end
-		
-		for i,rail in ipairs(RAILS) do
-			if minetest.env:get_node(pos).name == rail then
-				local meta = minetest.env:get_meta(pos)
-				meta:set_string("rail_direction", "right")
-			end
-		end
-	end,
-	on_construct = function(pos)
-		local par2 = minetest.env:get_node(pos).param2
-		if par2 == 0 then
-			pos.z = pos.z-1
-		elseif par2 == 1 then
-			pos.x = pos.x-1
-		elseif par2 == 2 then
-			pos.z = pos.z+1
-		elseif par2 == 3 then
-			pos.x = pos.x+1
-		end
-		
-		for i,rail in ipairs(RAILS) do
-			if minetest.env:get_node(pos).name == rail then
-				local meta = minetest.env:get_meta(pos)
-				meta:set_string("rail_direction", "left")
-			end
-		end
-	end,
-	on_destruct = function(pos)
-		local par2 = minetest.env:get_node(pos).param2
-		if par2 == 0 then
-			pos.z = pos.z-1
-		elseif par2 == 1 then
-			pos.x = pos.x-1
-		elseif par2 == 2 then
-			pos.z = pos.z+1
-		elseif par2 == 3 then
-			pos.x = pos.x+1
-		end
-		
-		for i,rail in ipairs(RAILS) do
-			if minetest.env:get_node(pos).name == rail then
-				local meta = minetest.env:get_meta(pos)
-				meta:set_string("rail_direction", "")
-			end
-		end
-	end,
-	
-	drawtype = "nodebox",
-	paramtype = "light",
-	node_box = {
-		type = "fixed",
-		fixed = {
-					--Stiel
-					{-0.05, -0.5, -0.45, 0.05, -0.4, -0.4},
-					{-0.1, -0.4, -0.45, 0, -0.3, -0.4},
-					{-0.15, -0.3, -0.45, -0.05, -0.2, -0.4},
-					{-0.2, -0.2, -0.45, -0.1, -0.1, -0.4},
-					{-0.25, -0.1, -0.45, -0.15, 0, -0.4},
-					{-0.3, 0, -0.45, -0.2, 0.1, -0.4},
-					--Kopf
-					{-0.45, 0.1, -0.5, -0.25, 0.3, -0.3},
-				},
-	},
-	selection_box = {
-		type = "fixed",
-		fixed = {
-			{-0.5, -0.5, -0.5, 0.5, 0.3, -0.3},
-		}
-	},
-	walkable = false,
-})
-
-minetest.register_node("carts:switch_right", {
-	paramtype2 = "facedir",
-	tiles = {"default_wood.png"},
-	groups = {bendy=2,snappy=1,dig_immediate=2},
-	drop = "carts:switch_left",
-	on_punch = function(pos, node, puncher)
-		node.name = "carts:switch_left"
-		minetest.env:set_node(pos, node)
-		local par2 = minetest.env:get_node(pos).param2
-		if par2 == 0 then
-			pos.z = pos.z-1
-		elseif par2 == 1 then
-			pos.x = pos.x-1
-		elseif par2 == 2 then
-			pos.z = pos.z+1
-		elseif par2 == 3 then
-			pos.x = pos.x+1
-		end
-		for i,rail in ipairs(RAILS) do
-			if minetest.env:get_node(pos).name == rail then
-				local meta = minetest.env:get_meta(pos)
-				meta:set_string("rail_direction", "left")
-			end
-		end
-	end,
-	on_destruct = function(pos)
-		local par2 = minetest.env:get_node(pos).param2
-		if par2 == 0 then
-			pos.z = pos.z-1
-		elseif par2 == 1 then
-			pos.x = pos.x-1
-		elseif par2 == 2 then
-			pos.z = pos.z+1
-		elseif par2 == 3 then
-			pos.x = pos.x+1
-		end
-		for i,rail in ipairs(RAILS) do
-			if minetest.env:get_node(pos).name == rail then
-				local meta = minetest.env:get_meta(pos)
-				meta:set_string("rail_direction", "")
-			end
-		end
-	end,
-	
-	drawtype = "nodebox",
-	paramtype = "light",
-	node_box = {
-		type = "fixed",
-		fixed = {
-					--Stiel
-					{-0.05, -0.5, -0.45, 0.05, -0.4, -0.4},
-					{0, -0.4, -0.45, 0.1, -0.3, -0.4},
-					{0.05, -0.3, -0.45, 0.15, -0.2, -0.4},
-					{0.1, -0.2, -0.45, 0.2, -0.1, -0.4},
-					{0.15, -0.1, -0.45, 0.25, 0, -0.4},
-					{0.2, 0, -0.45, 0.3, 0.1, -0.4},
-					--Kopf
-					{0.25, 0.1, -0.5, 0.45, 0.3, -0.3},
-				},
-	},
-	selection_box = {
-		type = "fixed",
-		fixed = {
-			{-0.5, -0.5, -0.5, 0.5, 0.3, -0.3},
-		}
-	},
-	walkable = false,
-})
-
-minetest.register_alias("carts:switch", "carts:switch_left")
-
-minetest.register_craft({
-	output = '"carts:chest" 1',
-	recipe = {
-		{'default:wood', '', 'default:wood'},
-		{'default:wood', 'default:wood', 'default:wood'}
-	}
-})
-
 minetest.register_craft({
 	output = '"carts:cart" 1',
 	recipe = {
@@ -863,116 +726,7 @@ minetest.register_craft({
 	}
 })
 
-minetest.register_craft({
-	output = '"carts:switch_left" 1',
-	recipe = {
-		{'', 'default:rail', ''},
-		{'default:rail', '', ''},
-		{'', 'default:rail', ''},
-	}
-})
-
---Mesecons
-if minetest.get_modpath("mesecons") ~= nil then
-	mesecon:register_on_signal_on(function(pos, node)
-		for i,rail in ipairs(RAILS) do
-			if node.name == rail then
-				local carts = minetest.env:get_objects_inside_radius(pos, 1)
-				for i,cart in ipairs(carts) do
-					if not cart:is_player() and cart:get_luaentity().name == "carts:cart" and not cart:get_luaentity().fahren then
-						local self = cart:get_luaentity()
-						--Fahrtrichtung bestimmen
-						for i,dir in ipairs({"x+", "x-", "z+", "z-"}) do
-							self.dir = dir
-							if self:get_new_direction() == self.dir then
-								break
-							end
-						end
-						--Items erfassen
-						local tmp = minetest.env:get_objects_inside_radius(self.object:getpos(), 1)
-						for i,item in ipairs(tmp) do
-							if not item:is_player() and item:get_luaentity().name ~= "carts:cart" then
-								table.insert(self.items, item)
-							elseif item:is_player() and TRANSPORT_PLAYER then
-								table.insert(self.items, item)
-							end
-						end
-						
-						--Sound
-						self.handler = minetest.sound_play(SOUND_FILE, {
-							object = self.object,
-							loop = true,
-						})
-						
-						self.fahren = true
-					end
-				end
-			end
-		end
-	end)
-	
-	minetest.register_node("carts:meseconrail_off", {
-		description = "Meseconrail",
-		drawtype = "raillike",
-		tiles = {"carts_meseconrail_off.png", "carts_meseconrail_curved_off.png", "carts_meseconrail_t_junction_off.png", "carts_meseconrail_crossing_off.png",},
-		inventory_image = "carts_meseconrail_off.png",
-		wield_image = "carts_meseconrail_off.png",
-		paramtype = "light",
-		is_ground_content = true,
-		walkable = false,
-		selection_box = {
-			type = "fixed",
-			fixed = {-1/2, -1/2, -1/2, 1/2, -1/2+1/16, 1/2},
-		},
-		groups = {bendy=2,snappy=1,dig_immediate=2},
-	})
-	
-	minetest.register_node("carts:meseconrail_on", {
-		description = "Meseconrail",
-		drawtype = "raillike",
-		tiles = {"carts_meseconrail_on.png", "carts_meseconrail_curved_on.png", "carts_meseconrail_t_junction_on.png", "carts_meseconrail_crossing_on.png",},
-		inventory_image = "carts_meseconrail_on.png",
-		wield_image = "carts_meseconrail_on.png",
-		paramtype = "light",
-		light_source = LIGHT_MAX-11,
-		is_ground_content = true,
-		walkable = false,
-		selection_box = {
-			type = "fixed",
-			fixed = {-1/2, -1/2, -1/2, 1/2, -1/2+1/16, 1/2},
-		},
-		groups = {bendy=2,snappy=1,dig_immediate=2},
-	})
-	
-	mesecon:add_receptor_node("carts:meseconrail_on")
-	mesecon:add_receptor_node_off("carts:meseconrail_off")
-	
-	minetest.register_abm({
-		nodenames = {"carts:meseconrail_on"},
-		interval = 1.0,
-		chance = 1,
-		action = function(pos, node)
-			local tmp =  minetest.env:get_objects_inside_radius(pos, 1)
-			local cart_is_there = false
-			for i,cart in ipairs(tmp) do
-				if not cart:is_player() and cart:get_luaentity().name == "carts:cart" then
-					cart_is_there = true
-				end
-			end
-			if not cart_is_there then
-				minetest.env:set_node(pos, {name="carts:meseconrail_off"})
-				mesecon:receptor_off (pos)
-			end
-		end
-	})
-	
-	minetest.register_craft({
-		output = '"carts:meseconrail_off" 1',
-		recipe = {
-			{'default:rail', 'mesecons:mesecon_off', 'default:rail'},
-			{'default:rail', 'mesecons:mesecon_off', 'default:rail'},
-			{'default:rail', 'mesecons:mesecon_off', 'default:rail'},
-		}
-	})
-	
-end
+dofile(minetest.get_modpath("carts").."/switches.lua")
+dofile(minetest.get_modpath("carts").."/mesecons.lua")
+dofile(minetest.get_modpath("carts").."/chest.lua")
+dofile(minetest.get_modpath("carts").."/functions.lua")
