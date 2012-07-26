@@ -1,0 +1,97 @@
+This is a simple modding template to help you create mods that rely on 
+unifieddyes.  It is meant to be as easy as possible to transform into whatever 
+mod you want to create that needs those dyes.
+
+The idea here is that you download this mod, rename the folder to whatever your 
+mod will be named as, and then edit the several variables near the start of the 
+file to customize it to whatever your mod needs to contain.  Then you need to 
+add your own code to this mod to define those little extras such as the craft 
+that would be used to generate your first, "neutral" block in the first place, 
+and any other crafts and nodes that you need.
+
+Included with this mod is a texture generator script, gentextures.sh, which 
+will, when given suitable input images, generate all 89 of the colored images 
+that would be needed for full support of unifieddyes.   See below for usage 
+information.
+
+Note: This mod also comes with a bunch of "dummy" textures which were generated 
+with the aforementioned script, so that if you plug this mod in unmodified, you 
+can at least see *something* when you use /give during your initial testing.  
+These textures should eventually be deleted and replaced with whatever your mod 
+actually needs (perhaps using the script).
+
+
+Semi-automatic generation of new textures
+=========================================
+
+Obviously, in order for this template to be useful, you'll need textures.  If 
+you plan to support the entire range of colors offered by Unified Dyes, there 
+is a BASH script included named gentextures.sh, which will, with an 
+appropriately- colored and appropriately-named source texture, and possibly an 
+overlay texture, generate a complete set of colored and greyscale textures 
+based on that first one.
+
+This script requires bc (the calculator program) to handle some basic math
+regarding the hue adjustments, and Imagemagick's "convert" program handles all
+of the actual conversions.
+
+First thing's first though - you need source textures.  Using your favorite image 
+editor, create a single version of your desired texture.  Draw it in the 
+brightest, deepest shade of RED you can muster without losing any detail, and 
+save it out.  Ideally, you will want the average color of the texture, when 
+taking into account all bright and dark areas, to be as close as possible to 
+the hex value #FF0000 (0 degrees, 100% saturation, pure red) without losing any 
+appreciable #detail.
+
+Save this source texture out with a filename of whatever_base.png, where 
+"whatever" is the one-word name of your mod - for example, mymod_base.png.
+
+If you want to add an image on top of the colored blocks, such as a frame, 
+which you want to be the same color throughout all of the textures, create it 
+now.  It should consist only of those parts of the textures that you want to 
+leave unchanged, with transparency everywhere else.  Save it out using any 
+filename you want.
+
+Now, run the script (make it executable first, if necessary).
+
+If you don't need the overlay, you just need to supply one command line 
+argument: the base name of your mod.  The script will use that parameter as the 
+basis of its texture filenames. For example:
+
+./gentextures.sh mymod
+
+The script will then look for mymod_base.png and copy and convert it into 
+things like mymod_red.png, mymod_dark_blue.png, and so on.
+
+If you want to use an overlay also, run the script with the base name as the 
+first parameter, and the complete filename of your overlay as the second.  For 
+example:
+
+./gentextures.sh mymod myoverlay.png
+
+The program will exit immediately if the image(s) you've supplied are invalid, 
+missing, etc.
+
+Otherwise, the program will iterate through all of the hues and shades that are 
+supported by unifieddyes (though this is done manually, not by reading anything 
+from the mod), compositing your overlay image in after the recolor step, if 
+you're using that option.
+
+All of the output files will be placed in a new folder, generated-textures/ in 
+the current directory.  Note that the script looks for the above files in the 
+current directory also.
+
+The script has a third mode as well:
+
+./gentextures.sh -t mymod myoverlay.png
+
+In this mode, the script will leave the base texture mymod_base.png unchanged, 
+and instead will rotate the colors of the overlay image and then composite that 
+onto the base texture.  The same color changes will happen with the overlay in 
+this mode, so it's a good idea to make the overlay some fairly saturated shade 
+of red.  Along with that, the base image should be some neutral color; any 
+color is fine as long as the result is what you wanted.
+
+Use your favorite image browser or file manager to review the results in 
+generated-textures/, and if they're right, copy them over to the textures/ 
+folder in your mod.

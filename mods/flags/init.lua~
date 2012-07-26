@@ -58,7 +58,6 @@ colored_block_groups = { snappy=3, flammable=2 }
 colored_block_sound = "default.node_sound_leaves_defaults()"
 
 
-
 -- ===========================================================================
 -- From here down is the actual code to do the work.  You can either edit what
 -- lies below to define which colors this mod should produce (be sure you sync
