@@ -1,0 +1,42 @@
+MoreChests
+---------------
+A mod for Minetest sandbox game
+Copyright (c) Maxim Litvinov <maxim.litvinow@gmail.com>
+
+
+Crafting recipes
+----------------
+
+Cobble stone chest (8x4)
+###
+#C#
+###
+# - cobble, C - chest
+
+Iron chest (10x6)
+III
+ICI
+III
+I - iron ingot, C - chest
+
+Mese chest (12x8)
+MMM
+MCM
+MMM
+M - mese block, C - chest
+
+
+License (for full text see "COPYING" file)
+-------
+MoreChests - Minetest mod
+Written in 2011 by Maxim Litvinov <maxim.litvinow@gmail.com>
+
+To the extent possible under law, the author(s) have dedicated all
+copyright and related and neighboring rights to this software to the
+public domain worldwide. This software is distributed without any
+warranty.
+
+You should have received a copy of the CC0 Public Domain Dedication
+along with this software.
+If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
+

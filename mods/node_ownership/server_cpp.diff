@@ -1,0 +1,19 @@
+diff --git a/src/server.cpp b/src/server.cpp
+index 87d43dc..dc1c2a2 100644
+--- a/src/server.cpp
++++ b/src/server.cpp
+@@ -3048,6 +3048,14 @@ void Server::ProcessData(u8 *data, u32 datasize, u16 peer_id)
+ 				}
+ 				if(n.getContent() != CONTENT_IGNORE)
+ 					scriptapi_node_on_dig(m_lua, p_under, n, srp);
++
++				if (m_env->getMap().getNode(p_under).getContent() != CONTENT_AIR)
++				{
++					// Re-send block to revert change on client-side
++					RemoteClient *client = getClient(peer_id);
++					v3s16 blockpos = getNodeBlockPos(floatToInt(pointed_pos_under, BS));
++					client->SetBlockNotSent(blockpos);
++				}
+ 			}
+ 		} // action == 2
+ 		

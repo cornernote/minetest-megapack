@@ -1,0 +1,19 @@
+-- |\    /| ____ ____  ____ _____   ____         _____
+-- | \  / | |    |     |    |      |    | |\   | |
+-- |  \/  | |___ ____  |___ |      |    | | \  | |____
+-- |      | |        | |    |      |    | |  \ |     |
+-- |      | |___ ____| |___ |____  |____| |   \| ____|
+-- by Jeija and contributors
+
+Credits:
+Jeija: main developer
+sfan5: coding, textures
+temperest: coding, textures
+Jordach: Sounds for the noteblock
+minerd247: Some textures
+...other contributors
+
+This is a mod for minetest-c55.
+Copy the mesecons_* directories into minetest/data/mods/ to install it.
+
+VERSION: 0.9 DEV

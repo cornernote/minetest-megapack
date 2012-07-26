@@ -1,0 +1,7 @@
+Patch created by kddekadenz (14th of April,2012) - licensed as CC0
+
+	-> changed digging groups to new ones
+	-> player will get the minecart, when he rightclick it a 2nd time
+	-> textures of the minecart are now textures of the moveblock node
+	-> changed minecart textures
+	-> changed booster & slider textures

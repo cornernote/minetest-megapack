@@ -1,0 +1,9 @@
+Version: 0.0.5
+License: DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+License URL: http://sam.zoy.org/wtfpl/COPYING
+
+NOTES: To remove dependency for secret_passage, just comment out everything between:
+-- white brick secret passage
+and
+-- end white brick secret passage
+Then remove secret_passage from the depends.txt file.

@@ -1,0 +1,209 @@
+--Ticket
+
+minetest.register_node("lotery:ticket", {
+description = "Put and wait.",
+tile_images = {"quest.png"},
+is_ground_content = true,
+groups = { choppy = 3, oddly_breakable_by_hand = 1.5},
+})
+
+minetest.register_craft({
+	output = 'lotery:ticket 1',
+	recipe = {
+		{'default:mese', 'default:wood'},
+	},
+})
+
+--Rewards
+--1 mese
+minetest.register_node("lotery:1mese", {
+description = "Craft to receive revard!",
+tile_images = {"reward.png"},
+is_ground_content = true,
+groups = { choppy = 3, oddly_breakable_by_hand = 1.5},
+})
+
+minetest.register_craft({
+	output = 'default:mese 1',
+	recipe = {
+		{'lotery:1mese'},
+	},
+})
+--5 mese
+minetest.register_node("lotery:5mese", {
+description = "Craft to receive revard!",
+tile_images = {"reward.png"},
+is_ground_content = true,
+groups = { choppy = 3, oddly_breakable_by_hand = 1.5},
+})
+
+minetest.register_craft({
+	output = 'default:mese 5',
+	recipe = {
+		{'lotery:5mese'},
+	},
+})
+--20 mese
+minetest.register_node("lotery:20mese", {
+description = "Craft to receive revard!",
+tile_images = {"reward.png"},
+is_ground_content = true,
+groups = { choppy = 3, oddly_breakable_by_hand = 1.5},
+})
+
+minetest.register_craft({
+	output = 'default:mese 20',
+	recipe = {
+		{'lotery:20mese'},
+	},
+})
+--50 mese
+minetest.register_node("lotery:50mese", {
+description = "Craft to receive revard!",
+tile_images = {"reward.png"},
+is_ground_content = true,
+groups = { choppy = 3, oddly_breakable_by_hand = 1.5},
+})
+
+minetest.register_craft({
+	output = 'default:mese 50',
+	recipe = {
+		{'lotery:50mese'},
+	},
+})
+--99 mese
+minetest.register_node("lotery:99mese", {
+description = "Craft to receive revard!",
+tile_images = {"reward.png"},
+is_ground_content = true,
+groups = { choppy = 3, oddly_breakable_by_hand = 1.5},
+})
+
+minetest.register_craft({
+	output = 'default:mese 99',
+	recipe = {
+		{'lotery:99mese'},
+	},
+})
+--99 coal
+minetest.register_node("lotery:99coal", {
+description = "Craft to receive revard!",
+tile_images = {"reward.png"},
+is_ground_content = true,
+groups = { choppy = 3, oddly_breakable_by_hand = 1.5},
+})
+
+minetest.register_craft({
+	output = 'default:coal_lump 99',
+	recipe = {
+		{'lotery:99coal'},
+	},
+})
+--99 wood
+minetest.register_node("lotery:99wood", {
+description = "Craft to receive revard!",
+tile_images = {"reward.png"},
+is_ground_content = true,
+groups = { choppy = 3, oddly_breakable_by_hand = 1.5},
+})
+
+minetest.register_craft({
+	output = 'default:wood 99',
+	recipe = {
+		{'lotery:99wood'},
+	},
+})
+--99 ingots
+minetest.register_node("lotery:99ingot", {
+description = "Craft to receive revard!",
+tile_images = {"reward.png"},
+is_ground_content = true,
+groups = { choppy = 3, oddly_breakable_by_hand = 1.5},
+})
+
+minetest.register_craft({
+	output = 'default:steel_ingot 99',
+	recipe = {
+		{'lotery:99ingot'},
+	},
+})
+--99 sapling
+minetest.register_node("lotery:99sapling", {
+description = "Craft to receive revard!",
+tile_images = {"reward.png"},
+is_ground_content = true,
+groups = { choppy = 3, oddly_breakable_by_hand = 1.5},
+})
+
+minetest.register_craft({
+	output = 'default:sapling 99',
+	recipe = {
+		{'lotery:99sapling'},
+	},
+})
+--1 apple
+minetest.register_node("lotery:apple", {
+description = "Craft to receive revard!",
+tile_images = {"reward.png"},
+is_ground_content = true,
+groups = { choppy = 3, oddly_breakable_by_hand = 1.5},
+})
+
+minetest.register_craft({
+	output = 'default:apple 1',
+	recipe = {
+		{'lotery:apple'},
+	},
+})
+
+--ABM
+
+minetest.register_abm(
+        {nodenames = {"lotery:ticket"},
+        interval = 0,
+        chance = 1,
+        action = function(pos)
+local i = math.random(1,999)
+        
+if i<500 then
+minetest.env:add_node(pos,{name="lotery:apple"})
+end
+
+if i>499 and i<750 then
+minetest.env:add_node(pos,{name="lotery:1mese"})
+end
+
+if i>749 and i<770 then
+minetest.env:add_node(pos,{name="lotery:5mese"})
+end
+
+if i>769 and i<777 then
+minetest.env:add_node(pos,{name="lotery:20mese"})
+end
+
+if i>776 and i<780 then
+minetest.env:add_node(pos,{name="lotery:50mese"})
+end
+
+if i==780 then
+minetest.env:add_node(pos,{name="lotery:99mese"})
+end
+
+if i>780 and i<841 then
+minetest.env:add_node(pos,{name="lotery:99coal"})
+end
+
+if i>840 and i<901 then
+minetest.env:add_node(pos,{name="lotery:99wood"})
+end
+
+if i>900 and i<951 then
+minetest.env:add_node(pos,{name="lotery:99ingot"})
+end
+
+if i>950 then
+minetest.env:add_node(pos,{name="lotery:99ingot"})
+end
+
+end
+})
