@@ -13,12 +13,29 @@ minetest.register_abm({
  interval = 1.0,
  chance = 1,
  action = function(pos, node)
+ print("[ed] drilling")
  local DIG_END_ABS = DIG_END + pos.y
  local currpos = {}
  for y=(pos.y-1),DIG_END_ABS, -1 do
  currpos = {x=pos.x, y=y, z=pos.z}
- minetest.env:set_node(currpos, {name="default:ladder"})
+ minetest.env:remove_node(currpos)
+-- minetest.env:set_node(currpos, {name="vines:rope"})
+ print('[ed] drilled narrow to '..y)
  end
+ for y=(pos.y-5),DIG_END_ABS, -1 do
+ currpos = {x=pos.x, y=y, z=pos.z}
+ minetest.env:remove_node({x=pos.x-1, y=y, z=pos.z-1})
+ minetest.env:remove_node({x=pos.x-1, y=y, z=pos.z})
+ minetest.env:remove_node({x=pos.x-1, y=y, z=pos.z+1})
+ minetest.env:remove_node({x=pos.x, y=y, z=pos.z-1})
+ minetest.env:remove_node({x=pos.x, y=y, z=pos.z+1})
+ minetest.env:remove_node({x=pos.x+1, y=y, z=pos.z-1})
+ minetest.env:remove_node({x=pos.x+1, y=y, z=pos.z})
+ minetest.env:remove_node({x=pos.x+1, y=y, z=pos.z+1})
+ print('[ed] drilled wide to '..y)
+ end
+ minetest.env:remove_node(pos)
+ --minetest.env:set_node(pos, {name="vines:rope_block"})
  end
 })
 -- Crafts
