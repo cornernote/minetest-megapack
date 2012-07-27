@@ -1,5 +1,20 @@
 Changelog:
 
+2012-07-26: Split off glass bottles into a separate mod, "Vessels".  This mod
+now depends on it.
+
+2012-07-25 (almost immediately after): Fixed a copy&paste error for black dye.
+
+2012-07-25: Replaced missing craftitem entries and got rid of some redundant 
+code left over from last update.  Added group settings for all dyes according 
+to recently-published standard.  Fixed a few typos in item descriptions, and 
+straightened up capitalization.
+
+2012-07-24: Added some extra steps to the dye-making process, added 
+recommendation that empty bottles be given back to the player on use.  Dyes
+are still easy to make, they just require a more realistic (and this, harder)
+process now.
+
 2012-07-16 (a bit later): fixed a minor error in generation of medium grey.
 
 2012-07-16: Added a new set of colors, "light" (brightness of 150% versus the 
