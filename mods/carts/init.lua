@@ -10,29 +10,31 @@ local TRANSPORT_PLAYER = true
 --=========
 -- The name of the Soundfile
 --=========
-local SOUND_FILE = ""
+local SOUND_FILE = "carts_cart_sound"
 
+--=========
+-- Raillike nodes
+--=========
 RAILS = {"default:rail", "carts:meseconrail_off", "carts:meseconrail_on", "carts:meseconrail_stop_off", "carts:meseconrail_stop_on"}
 
---Initialwerte
 local cart = {
 	physical = true,
 	collisionbox = {-0.425, -0.425, -0.425, 0.425, 0.425, 0.425},
 	visual = "cube",
 	textures = {"carts_cart_top.png", "carts_cart_bottom.png", "carts_cart_side.png", "carts_cart_side.png", "carts_cart_side.png", "carts_cart_side.png"},
 	visual_size = {x=.85, y=.85, z=0.85},
-	--Variablen
-	fahren = false, -- gibt an ob in irgeneiner weise gefahren wird
-	fallen = false, -- gibt an, ob das cart bergab fährt
-	bremsen = false, -- gibt an, ob das cart bremst/bremsen soll
-	dir = nil, -- gibt die Fahrtrichtung an
-	old_dir = nil, -- speichert Fahrtrichtung auch beim stehen
-	items = {}, -- Liste der zu transportierenden items
-	weiche = {x=nil, y=nil, z=nil}, -- wenn gerade über Weiche gefahren wird die Position hier gespeichert (um Dopplungen zu verhindern)
-	sound_handler = nil, -- Referenz auf den Sound-Hanlder vom cart
+	--Variables
+	fahren = false, -- true when the cart drives
+	fallen = false, -- true when the cart drives downhill
+	bremsen = false, -- true when the cart brakes
+	dir = nil, -- direction of the cart
+	old_dir = nil, -- saves the direction when the cart stops
+	items = {}, -- list with transported items
+	weiche = {x=nil, y=nil, z=nil}, -- saves the position of the railroad switch (to prevent double direction changes)
+	sound_handler = nil, -- soundhandler
 }
 
---Aktuelle Geschwindigkeit in Fahrtrichtung zurückgeben
+-- Returns the current speed of the cart
 function cart:get_speed()
 	if self.dir == "x+" then
 		return self.object:getvelocity().x
@@ -46,7 +48,7 @@ function cart:get_speed()
 	return 0
 end
 
---Geschwindigkeit abhängig von der Fahrtrichtung setzen
+-- Sets the current speed of the cart
 function cart:set_speed(speed)
 	local newsp = {x=0, y=0, z=0}
 	if self.dir == "x+" then
@@ -61,7 +63,7 @@ function cart:set_speed(speed)
 	self.object:setvelocity(newsp)
 end
 
---Beschleunigung abhängig von der Fahrtrichtung setzen
+-- Sets the acceleration of the cart
 function cart:set_acceleration(staerke)
 	if self.dir == "x+" then
 		self.object:setacceleration({x=staerke, y=-10, z=0})
@@ -74,7 +76,7 @@ function cart:set_acceleration(staerke)
 	end
 end
 
---Anhalten und Startzustand wiederherstellen
+-- Stops the cart
 function cart:stop()
 	self.fahren = false
 	self.bremsen = false
@@ -82,20 +84,14 @@ function cart:stop()
 	self.fallen = false
 	self.object:setacceleration({x = 0, y = -10, z = 0})
 	self:set_speed(0)
-	local pos = self.object:getpos()
-	self.object:setpos(pos)
+	-- stop sound
 	if self.sound_handler ~= nil then
 		minetest.sound_stop(self.sound_handler)
 		self.sound_handler = nil
 	end
 end
 
---Abhängig von der aktuellen Fahrtrichtung die neue Fahrtrichtung bestimmen
---Es werden von oben die Möglichkeiten geprüft und die oberste der Möglichen genommen
---1. Geradeaus
---2. Rechts
---3. Links
---4. Halt
+-- Returns the direction the cart has to drive
 function cart:get_new_direction()
 	local pos = self.object:getpos()
 	if self.dir == nil then
@@ -419,31 +415,17 @@ function cart:get_new_direction()
 	return nil
 end
 
---Beim fahren: Aktuelle Position auswerten und Geschwindigkeit und Beschleunigung anpassen
---Sonst: Gravitation setzen
+-- This method does several things.
 function cart:on_step(dtime)
-	--Wenn nicht gefahren wird die Gravitation setzen
+	-- if the cart dont drives set gravity and return
 	if not self.fahren then
 		self.object:setacceleration({x=0, y=-10, z=0})
 		return
 	end
-	local pos_tmp = self.object:getpos()
-	pos_tmp.x = math.floor(0.5+pos_tmp.x)
-	pos_tmp.y = math.floor(0.5+pos_tmp.y)
-	pos_tmp.z = math.floor(0.5+pos_tmp.z)
-	if not pos_equals(pos_tmp, self.weiche) then
-		self.weiche = {x=nil, y=nil, z=nil}
-	end
 	
-	--Neue Richtung bestimmen
 	local newdir = self:get_new_direction()
-	--[[if newdir ~= nil then
-		minetest.debug("[carts] Neue Richtung ist "..newdir)
-	else
-		minetest.debug("[carts] Cart muss anhalten")
-	end]]
-	--Ende des Gleises erreicht
 	if newdir == nil and not self.fallen then
+		-- end of rail
 		self:stop()
 		local pos = self.object:getpos()
 		pos.x = math.floor(0.5+pos.x)
@@ -451,50 +433,56 @@ function cart:on_step(dtime)
 		self.object:setpos(pos)
 		return
 	elseif newdir == "y+" then
+		-- uphill
 		self.fallen = false
 		local vel = self.object:getvelocity()
 		vel.y = MAX_SPEED
 		self.object:setvelocity(vel)
 	elseif newdir == "y-" then
+		-- downhill
 		local vel = self.object:getvelocity()
 		vel.y = -2*MAX_SPEED
 		self.object:setvelocity(vel)
 		self.fallen = true
-	--Richtungsänderung
 	elseif newdir ~= self.dir then
+		-- curve
 		self.fallen = false
 		local pos = self.object:getpos()
-		--Warten bis der Kurvenstein nahezu erreicht wird
-		if not equals(pos.x, math.floor(0.5+pos.x)) or not equals(pos.y, math.floor(0.5+pos.y)) or not equals(pos.z, math.floor(0.5+pos.z)) then
-			return
+		-- wait until the cart is nearly on the cornernode
+		if equals(pos.x, math.floor(0.5+pos.x)) and equals(pos.y, math.floor(0.5+pos.y)) and equals(pos.z, math.floor(0.5+pos.z)) then
+			-- "jump" exacly on the cornernode
+			pos.x = math.floor(0.5+pos.x)
+			pos.z = math.floor(0.5+pos.z)
+			self.object:setpos(pos)
+			-- change direction
+			local speed = self:get_speed()
+			self.dir = newdir
+			self.old_dir = newdir
+			self:set_speed(speed)
 		end
-		--Genau auf die Kurve springen
-		pos.x = math.floor(0.5+pos.x)
-		pos.z = math.floor(0.5+pos.z)
-		local speed = self:get_speed()
-		self.dir = newdir
-		self.old_dir = newdir
-		self:set_speed(speed)
-		self.object:setpos(pos)
 	end
 	
 	if self.bremsen then
 		if not equals(self:get_speed(), 0) then
+			-- if the cart is still driving -> brake
 			self:set_acceleration(-10)
 		else
+			-- if the cart stand still -> stop
 			self:stop()
 		end
 	else
 		if self.fahren and self:get_speed() < MAX_SPEED then
+			-- if the cart is too slow -> accelerate
 			self:set_acceleration(10)
 		else
 			self:set_acceleration(0)
 		end
 	end
 	
-	--Items bewegen
+	-- move items
 	for i,item in ipairs(self.items) do
 		if item:is_player() then
+			-- if the item is a player move him 0.5 blocks lowlier
 			local pos = self.object:getpos()
 			pos.y = pos.y-0.5
 			item:setpos(pos)
@@ -503,7 +491,16 @@ function cart:on_step(dtime)
 		end
 	end
 	
-	--Wenn neben dem Gleis eine Truhe steht werden die Items abgeladen
+	-- if the cart isnt on a railroad switch reset the variable
+	local pos_tmp = self.object:getpos()
+	pos_tmp.x = math.floor(0.5+pos_tmp.x)
+	pos_tmp.y = math.floor(0.5+pos_tmp.y)
+	pos_tmp.z = math.floor(0.5+pos_tmp.z)
+	if not pos_equals(pos_tmp, self.weiche) then
+		self.weiche = {x=nil, y=nil, z=nil}
+	end
+	
+	-- search for boxes and place all items (except players) in it
 	for x=-1,1 do
 		local pos = {x=self.object:getpos().x+x, y=self.object:getpos().y, z=self.object:getpos().z}
 		local name = minetest.env:get_node(pos).name
@@ -535,7 +532,7 @@ function cart:on_step(dtime)
 		end
 	end
 	
-	--Mesecons
+	-- mesecons functions
 	if minetest.get_modpath("mesecons") ~= nil then
 		local pos = self.object:getpos()
 		pos.x = math.floor(0.5+pos.x)
@@ -558,12 +555,12 @@ function cart:on_step(dtime)
 	end
 end
 
---Bei rechtskilck: Anfaren oder Bremsen
+-- rightclick starts/stops the cart
 function cart:on_rightclick(clicker)
 	if self.fahren then
 		self.bremsen = true
 	else
-		--Fahrtrichtung bestimmen
+		-- find out the direction
 		local pos_cart = self.object:getpos()
 		local pos_player = clicker:getpos()
 		local res = {x=pos_cart.x-pos_player.x, z=pos_cart.z-pos_player.z}
@@ -636,7 +633,8 @@ function cart:on_rightclick(clicker)
 				end
 			end
 		end
-		--Items erfassen
+		
+		-- detect items
 		local tmp = minetest.env:get_objects_inside_radius(self.object:getpos(), 1)
 		for i,item in ipairs(tmp) do
 			if not item:is_player() and item:get_luaentity().name ~= "carts:cart" then
@@ -646,7 +644,7 @@ function cart:on_rightclick(clicker)
 			end
 		end
 		
-		--Sound
+		-- start sound
 		self.sound_handler = minetest.sound_play(SOUND_FILE, {
 			object = self.object,
 			loop = true,
@@ -656,8 +654,9 @@ function cart:on_rightclick(clicker)
 	end
 end
 
---Wenn das Cart geschlagen wird: Cart entfernen und im Inventar einfügen
+-- remove the cart and place it in the inventory
 function cart:on_punch(hitter)
+	-- stop sound
 	if self.sound_handler ~= nil then
 		minetest.sound_stop(self.sound_handler)
 		self.sound_handler = nil
@@ -666,6 +665,7 @@ function cart:on_punch(hitter)
 	hitter:get_inventory():add_item("main", "carts:cart")
 end
 
+-- save the probprties of the cart if unloaded
 function cart:get_staticdata()
 	local str = tostring(self.fahren)
 	str = str..","
@@ -676,12 +676,14 @@ function cart:get_staticdata()
 	return str
 end
 
---Beim einfügen des Carts die Gravitation setzen oder weiterfahren, wenn nur neugeladen
+-- set gravity
 function cart:on_activate(staticdata)
 	self.object:setacceleration({x = 0, y = -10, z = 0})
 	self.items = {}
 	if staticdata ~= nil then
+		-- if the cart was unloaded
 		if string.find(staticdata, ",") ~= nil then
+			-- restore the probprties
 			if string.sub(staticdata, 1, string.find(staticdata, ",")-1)=="true" then
 				self.dir = string.sub(staticdata, string.find(staticdata, ",")+1)
 				self.old_dir = dir
@@ -693,13 +695,13 @@ end
 
 minetest.register_entity("carts:cart", cart)
 
---Inventaritem erstellen
+-- inventoryitem
 minetest.register_craftitem("carts:cart", {
 	description = "Cart",
 	image = minetest.inventorycube("carts_cart_top.png", "carts_cart_side.png", "carts_cart_side.png"),
 	wield_image = "carts_cart_top.png",
 	stack_max = 1,
-	--Beim platzieren durch entity ersetzen
+	-- replace it with the object
 	on_place = function(itemstack, placer, pointed)
 		local pos = pointed.under
 		local bool = false

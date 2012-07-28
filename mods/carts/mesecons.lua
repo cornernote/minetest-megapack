@@ -6,7 +6,7 @@ if minetest.get_modpath("mesecons") ~= nil then
 				for i,cart in ipairs(carts) do
 					if not cart:is_player() and cart:get_luaentity().name == "carts:cart" and not cart:get_luaentity().fahren then
 						local self = cart:get_luaentity()
-						--Fahrtrichtung bestimmen
+						-- find out the direction
 						local dir_table
 						if self.old_dir ~= nil then
 							dir_table = {self.old_dir, "x+", "x-", "z+", "z-"}
@@ -19,7 +19,7 @@ if minetest.get_modpath("mesecons") ~= nil then
 								break
 							end
 						end
-						--Items erfassen
+						-- detect items
 						local tmp = minetest.env:get_objects_inside_radius(self.object:getpos(), 1)
 						for i,item in ipairs(tmp) do
 							if not item:is_player() and item:get_luaentity().name ~= "carts:cart" then
@@ -29,7 +29,7 @@ if minetest.get_modpath("mesecons") ~= nil then
 							end
 						end
 						
-						--Sound
+						-- start sound
 						self.handler = minetest.sound_play(SOUND_FILE, {
 							object = self.object,
 							loop = true,
@@ -95,7 +95,7 @@ if minetest.get_modpath("mesecons") ~= nil then
 			for i,cart in ipairs(carts) do
 				if not cart:is_player() and cart:get_luaentity().name == "carts:cart" and not cart:get_luaentity().fahren then
 					local self = cart:get_luaentity()
-					--Fahrtrichtung bestimmen
+					-- find out the direction
 					if self.old_dir ~= nil then
 						self.dir = self.old_dir
 					else
@@ -106,7 +106,7 @@ if minetest.get_modpath("mesecons") ~= nil then
 							end
 						end
 					end
-					--Items erfassen
+					-- detect items
 					local tmp = minetest.env:get_objects_inside_radius(self.object:getpos(), 1)
 					for i,item in ipairs(tmp) do
 						if not item:is_player() and item:get_luaentity().name ~= "carts:cart" then
@@ -116,7 +116,7 @@ if minetest.get_modpath("mesecons") ~= nil then
 						end
 					end
 					
-					--Sound
+					-- start sound
 					self.handler = minetest.sound_play(SOUND_FILE, {
 						object = self.object,
 						loop = true,
