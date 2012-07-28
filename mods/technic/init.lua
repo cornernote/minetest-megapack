@@ -2,6 +2,7 @@
 
 minetest.register_alias("rebar", "technic:rebar")
 minetest.register_alias("concrete", "technic:concrete")
+minetest.register_alias("concrete_post", "technic:concrete_post")
 minetest.register_alias("iron_chest", "technic:iron_chest")
 minetest.register_alias("iron_locked_chest", "technic:iron_locked_chest")
 minetest.register_alias("copper_chest", "technic:copper_chest")
@@ -31,6 +32,17 @@ minetest.register_craft({
 		{'default:stone','technic:rebar','default:stone'},
 	}
 })
+
+minetest.register_craft({
+	output = 'technic:concrete_post 4',
+	recipe = {
+		{'default:stone','technic:rebar','default:stone'},
+		{'default:stone','technic:rebar','default:stone'},
+		{'default:stone','technic:rebar','default:stone'},
+}
+})
+
+
 minetest.register_craft({
 	output = 'technic:iron_chest 1',
 	recipe = {
@@ -162,6 +174,11 @@ minetest.register_craftitem("technic:concrete", {
 	inventory_image = "technic_concrete_block.png",
 	stack_max = 99,
 })
+minetest.register_craftitem("technic:concrete_post", {
+	description = "Concrete Post",
+	inventory_image = "technic_concrete_post.png",
+	stack_max = 99,
+})
 
 minetest.register_craftitem("technic:iron_chest", {
 	description = "Iron Chest",
@@ -177,7 +194,23 @@ minetest.register_node("technic:concrete", {
 	tile_images = {"technic_concrete_block.png"},
 	is_ground_content = true,
 	groups = {cracky=1},
-	sounds = default.node_sound_wood_defaults(),
+	sounds = default.node_sound_stone_defaults(),
+})
+
+minetest.register_node("technic:concrete_post", {
+	description = "Concrete Post",
+	drawtype = "fencelike",
+	tiles = {"technic_concrete_block.png"},
+	inventory_image = "default_fence.png",
+	wield_image = "default_fence.png",
+	paramtype = "light",
+	is_ground_content = true,
+	selection_box = {
+		type = "fixed",
+		fixed = {-1/7, -1/2, -1/7, 1/7, 1/2, 1/7},
+	},
+	groups = {cracky=1},
+	sounds = default.node_sound_stone_defaults(),
 })
 
 minetest.register_node("technic:copper_chest", {
@@ -216,13 +249,12 @@ minetest.register_node("technic:copper_chest", {
 		return minetest.node_metadata_inventory_offer_allow_all(
 				pos, listname, index, stack, player)
 	end,
-    on_metadata_inventory_take = function(pos, listname, index, count, player)
+    on_metadata_inventory_take = function(pos, listname, index, stack, player)
 		minetest.log("action", player:get_player_name()..
 				" takes stuff from chest at "..minetest.pos_to_string(pos))
-		return minetest.node_metadata_inventory_take_allow_all(
-				pos, listname, index, count, player)
 	end,
 })
+  
 
 local function has_locked_chest_privilege(meta, player)
 	if player:get_player_name() ~= meta:get_string("owner") then
@@ -242,16 +274,16 @@ minetest.register_node("technic:copper_locked_chest", {
 	after_place_node = function(pos, placer)
 		local meta = minetest.env:get_meta(pos)
 		meta:set_string("owner", placer:get_player_name() or "")
-		meta:set_string("infotext", "Locked Copper Chest (owned by "..
+		meta:set_string("infotext", "Copper Locked Chest (owned by "..
 				meta:get_string("owner")..")")
 	end,
-	on_construct = function(pos)
+on_construct = function(pos)
 		local meta = minetest.env:get_meta(pos)
 		meta:set_string("formspec",
 				"invsize[10,9;]"..
 				"list[current_name;main;0,0;10,4;]"..
 				"list[current_player;main;0,5;8,4;]")
-		meta:set_string("infotext", "Locked Copper Chest")
+		meta:set_string("infotext", "Copper Locked Chest")
 		meta:set_string("owner", "")
 		local inv = meta:get_inventory()
 		inv:set_size("main", 10*4)
@@ -261,48 +293,50 @@ minetest.register_node("technic:copper_locked_chest", {
 		local inv = meta:get_inventory()
 		return inv:is_empty("main")
 	end,
-    on_metadata_inventory_move = function(pos, from_list, from_index,
-			to_list, to_index, count, player)
+	allow_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
 		local meta = minetest.env:get_meta(pos)
 		if not has_locked_chest_privilege(meta, player) then
 			minetest.log("action", player:get_player_name()..
 					" tried to access a locked chest belonging to "..
 					meta:get_string("owner").." at "..
 					minetest.pos_to_string(pos))
-			return
+			return 0
 		end
+		return count
+	end,
+    allow_metadata_inventory_put = function(pos, listname, index, stack, player)
+		local meta = minetest.env:get_meta(pos)
+		if not has_locked_chest_privilege(meta, player) then
+			minetest.log("action", player:get_player_name()..
+					" tried to access a locked chest belonging to "..
+					meta:get_string("owner").." at "..
+					minetest.pos_to_string(pos))
+			return 0
+		end
+		return stack:get_count()
+	end,
+    allow_metadata_inventory_take = function(pos, listname, index, stack, player)
+		local meta = minetest.env:get_meta(pos)
+		if not has_locked_chest_privilege(meta, player) then
+			minetest.log("action", player:get_player_name()..
+					" tried to access a locked chest belonging to "..
+					meta:get_string("owner").." at "..
+					minetest.pos_to_string(pos))
+			return 0
+		end
+		return stack:get_count()
+	end,
+	on_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
 		minetest.log("action", player:get_player_name()..
 				" moves stuff in locked chest at "..minetest.pos_to_string(pos))
-		return minetest.node_metadata_inventory_move_allow_all(
-				pos, from_list, from_index, to_list, to_index, count, player)
 	end,
-    on_metadata_inventory_offer = function(pos, listname, index, stack, player)
-		local meta = minetest.env:get_meta(pos)
-		if not has_locked_chest_privilege(meta, player) then
-			minetest.log("action", player:get_player_name()..
-					" tried to access a locked chest belonging to "..
-					meta:get_string("owner").." at "..
-					minetest.pos_to_string(pos))
-			return stack
-		end
+    on_metadata_inventory_put = function(pos, listname, index, stack, player)
 		minetest.log("action", player:get_player_name()..
 				" moves stuff to locked chest at "..minetest.pos_to_string(pos))
-		return minetest.node_metadata_inventory_offer_allow_all(
-				pos, listname, index, stack, player)
 	end,
-    on_metadata_inventory_take = function(pos, listname, index, count, player)
-		local meta = minetest.env:get_meta(pos)
-		if not has_locked_chest_privilege(meta, player) then
-			minetest.log("action", player:get_player_name()..
-					" tried to access a locked chest belonging to "..
-					meta:get_string("owner").." at "..
-					minetest.pos_to_string(pos))
-			return
-		end
+    on_metadata_inventory_take = function(pos, listname, index, stack, player)
 		minetest.log("action", player:get_player_name()..
 				" takes stuff from locked chest at "..minetest.pos_to_string(pos))
-		return minetest.node_metadata_inventory_take_allow_all(
-				pos, listname, index, count, player)
 	end,
 })
 
@@ -342,11 +376,9 @@ minetest.register_node("technic:iron_chest", {
 		return minetest.node_metadata_inventory_offer_allow_all(
 				pos, listname, index, stack, player)
 	end,
-    on_metadata_inventory_take = function(pos, listname, index, count, player)
+      on_metadata_inventory_take = function(pos, listname, index, stack, player)
 		minetest.log("action", player:get_player_name()..
 				" takes stuff from chest at "..minetest.pos_to_string(pos))
-		return minetest.node_metadata_inventory_take_allow_all(
-				pos, listname, index, count, player)
 	end,
 })
 
@@ -371,12 +403,12 @@ minetest.register_node("technic:iron_locked_chest", {
 		meta:set_string("infotext", "Locked Iron Chest (owned by "..
 				meta:get_string("owner")..")")
 	end,
-	on_construct = function(pos)
+on_construct = function(pos)
 		local meta = minetest.env:get_meta(pos)
 		meta:set_string("formspec",
 				"invsize[9,9;]"..
 				"list[current_name;main;0,0;9,4;]"..
-				"list[current_player;main;0,5;9,4;]")
+				"list[current_player;main;0,5;8,4;]")
 		meta:set_string("infotext", "Iron Locked Chest")
 		meta:set_string("owner", "")
 		local inv = meta:get_inventory()
@@ -387,51 +419,52 @@ minetest.register_node("technic:iron_locked_chest", {
 		local inv = meta:get_inventory()
 		return inv:is_empty("main")
 	end,
-    on_metadata_inventory_move = function(pos, from_list, from_index,
-			to_list, to_index, count, player)
+	allow_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
 		local meta = minetest.env:get_meta(pos)
 		if not has_locked_chest_privilege(meta, player) then
 			minetest.log("action", player:get_player_name()..
 					" tried to access a locked chest belonging to "..
 					meta:get_string("owner").." at "..
 					minetest.pos_to_string(pos))
-			return
+			return 0
 		end
+		return count
+	end,
+    allow_metadata_inventory_put = function(pos, listname, index, stack, player)
+		local meta = minetest.env:get_meta(pos)
+		if not has_locked_chest_privilege(meta, player) then
+			minetest.log("action", player:get_player_name()..
+					" tried to access a locked chest belonging to "..
+					meta:get_string("owner").." at "..
+					minetest.pos_to_string(pos))
+			return 0
+		end
+		return stack:get_count()
+	end,
+    allow_metadata_inventory_take = function(pos, listname, index, stack, player)
+		local meta = minetest.env:get_meta(pos)
+		if not has_locked_chest_privilege(meta, player) then
+			minetest.log("action", player:get_player_name()..
+					" tried to access a locked chest belonging to "..
+					meta:get_string("owner").." at "..
+					minetest.pos_to_string(pos))
+			return 0
+		end
+		return stack:get_count()
+	end,
+	on_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
 		minetest.log("action", player:get_player_name()..
 				" moves stuff in locked chest at "..minetest.pos_to_string(pos))
-		return minetest.node_metadata_inventory_move_allow_all(
-				pos, from_list, from_index, to_list, to_index, count, player)
 	end,
-    on_metadata_inventory_offer = function(pos, listname, index, stack, player)
-		local meta = minetest.env:get_meta(pos)
-		if not has_locked_chest_privilege(meta, player) then
-			minetest.log("action", player:get_player_name()..
-					" tried to access a locked chest belonging to "..
-					meta:get_string("owner").." at "..
-					minetest.pos_to_string(pos))
-			return stack
-		end
+    on_metadata_inventory_put = function(pos, listname, index, stack, player)
 		minetest.log("action", player:get_player_name()..
 				" moves stuff to locked chest at "..minetest.pos_to_string(pos))
-		return minetest.node_metadata_inventory_offer_allow_all(
-				pos, listname, index, stack, player)
 	end,
-    on_metadata_inventory_take = function(pos, listname, index, count, player)
-		local meta = minetest.env:get_meta(pos)
-		if not has_locked_chest_privilege(meta, player) then
-			minetest.log("action", player:get_player_name()..
-					" tried to access a locked chest belonging to "..
-					meta:get_string("owner").." at "..
-					minetest.pos_to_string(pos))
-			return
-		end
+    on_metadata_inventory_take = function(pos, listname, index, stack, player)
 		minetest.log("action", player:get_player_name()..
 				" takes stuff from locked chest at "..minetest.pos_to_string(pos))
-		return minetest.node_metadata_inventory_take_allow_all(
-				pos, listname, index, count, player)
 	end,
 })
-
 
 minetest.register_node("technic:silver_chest", {
 	description = "Silver Chest",
@@ -469,11 +502,9 @@ minetest.register_node("technic:silver_chest", {
 		return minetest.node_metadata_inventory_offer_allow_all(
 				pos, listname, index, stack, player)
 	end,
-    on_metadata_inventory_take = function(pos, listname, index, count, player)
+    on_metadata_inventory_take = function(pos, listname, index, stack, player)
 		minetest.log("action", player:get_player_name()..
 				" takes stuff from chest at "..minetest.pos_to_string(pos))
-		return minetest.node_metadata_inventory_take_allow_all(
-				pos, listname, index, count, player)
 	end,
 })
 
@@ -495,16 +526,16 @@ minetest.register_node("technic:silver_locked_chest", {
 	after_place_node = function(pos, placer)
 		local meta = minetest.env:get_meta(pos)
 		meta:set_string("owner", placer:get_player_name() or "")
-		meta:set_string("infotext", "Locked Silver Chest (owned by "..
+		meta:set_string("infotext", "Silver Locked Chest (owned by "..
 				meta:get_string("owner")..")")
 	end,
-	on_construct = function(pos)
+on_construct = function(pos)
 		local meta = minetest.env:get_meta(pos)
 		meta:set_string("formspec",
 				"invsize[11,9;]"..
 				"list[current_name;main;0,0;11,4;]"..
 				"list[current_player;main;0,5;8,4;]")
-		meta:set_string("infotext", "Locked Silver Chest")
+		meta:set_string("infotext", "Silver Locked Chest")
 		meta:set_string("owner", "")
 		local inv = meta:get_inventory()
 		inv:set_size("main", 11*4)
@@ -514,48 +545,50 @@ minetest.register_node("technic:silver_locked_chest", {
 		local inv = meta:get_inventory()
 		return inv:is_empty("main")
 	end,
-    on_metadata_inventory_move = function(pos, from_list, from_index,
-			to_list, to_index, count, player)
+	allow_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
 		local meta = minetest.env:get_meta(pos)
 		if not has_locked_chest_privilege(meta, player) then
 			minetest.log("action", player:get_player_name()..
 					" tried to access a locked chest belonging to "..
 					meta:get_string("owner").." at "..
 					minetest.pos_to_string(pos))
-			return
+			return 0
 		end
+		return count
+	end,
+    allow_metadata_inventory_put = function(pos, listname, index, stack, player)
+		local meta = minetest.env:get_meta(pos)
+		if not has_locked_chest_privilege(meta, player) then
+			minetest.log("action", player:get_player_name()..
+					" tried to access a locked chest belonging to "..
+					meta:get_string("owner").." at "..
+					minetest.pos_to_string(pos))
+			return 0
+		end
+		return stack:get_count()
+	end,
+    allow_metadata_inventory_take = function(pos, listname, index, stack, player)
+		local meta = minetest.env:get_meta(pos)
+		if not has_locked_chest_privilege(meta, player) then
+			minetest.log("action", player:get_player_name()..
+					" tried to access a locked chest belonging to "..
+					meta:get_string("owner").." at "..
+					minetest.pos_to_string(pos))
+			return 0
+		end
+		return stack:get_count()
+	end,
+	on_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
 		minetest.log("action", player:get_player_name()..
 				" moves stuff in locked chest at "..minetest.pos_to_string(pos))
-		return minetest.node_metadata_inventory_move_allow_all(
-				pos, from_list, from_index, to_list, to_index, count, player)
 	end,
-    on_metadata_inventory_offer = function(pos, listname, index, stack, player)
-		local meta = minetest.env:get_meta(pos)
-		if not has_locked_chest_privilege(meta, player) then
-			minetest.log("action", player:get_player_name()..
-					" tried to access a locked chest belonging to "..
-					meta:get_string("owner").." at "..
-					minetest.pos_to_string(pos))
-			return stack
-		end
+    on_metadata_inventory_put = function(pos, listname, index, stack, player)
 		minetest.log("action", player:get_player_name()..
 				" moves stuff to locked chest at "..minetest.pos_to_string(pos))
-		return minetest.node_metadata_inventory_offer_allow_all(
-				pos, listname, index, stack, player)
 	end,
-    on_metadata_inventory_take = function(pos, listname, index, count, player)
-		local meta = minetest.env:get_meta(pos)
-		if not has_locked_chest_privilege(meta, player) then
-			minetest.log("action", player:get_player_name()..
-					" tried to access a locked chest belonging to "..
-					meta:get_string("owner").." at "..
-					minetest.pos_to_string(pos))
-			return
-		end
+    on_metadata_inventory_take = function(pos, listname, index, stack, player)
 		minetest.log("action", player:get_player_name()..
 				" takes stuff from locked chest at "..minetest.pos_to_string(pos))
-		return minetest.node_metadata_inventory_take_allow_all(
-				pos, listname, index, count, player)
 	end,
 })
 
@@ -595,11 +628,9 @@ minetest.register_node("technic:gold_chest", {
 		return minetest.node_metadata_inventory_offer_allow_all(
 				pos, listname, index, stack, player)
 	end,
-    on_metadata_inventory_take = function(pos, listname, index, count, player)
+    on_metadata_inventory_take = function(pos, listname, index, stack, player)
 		minetest.log("action", player:get_player_name()..
 				" takes stuff from chest at "..minetest.pos_to_string(pos))
-		return minetest.node_metadata_inventory_take_allow_all(
-				pos, listname, index, count, player)
 	end,
 })
 
@@ -621,16 +652,16 @@ minetest.register_node("technic:gold_locked_chest", {
 	after_place_node = function(pos, placer)
 		local meta = minetest.env:get_meta(pos)
 		meta:set_string("owner", placer:get_player_name() or "")
-		meta:set_string("infotext", "Locked Gold Chest (owned by "..
+		meta:set_string("infotext", "Gold Locked Chest (owned by "..
 				meta:get_string("owner")..")")
 	end,
-	on_construct = function(pos)
+on_construct = function(pos)
 		local meta = minetest.env:get_meta(pos)
 		meta:set_string("formspec",
 				"invsize[12,9;]"..
 				"list[current_name;main;0,0;12,4;]"..
 				"list[current_player;main;0,5;8,4;]")
-		meta:set_string("infotext", "Locked Silver Chest")
+		meta:set_string("infotext", "Gold Locked Chest")
 		meta:set_string("owner", "")
 		local inv = meta:get_inventory()
 		inv:set_size("main", 12*4)
@@ -640,48 +671,50 @@ minetest.register_node("technic:gold_locked_chest", {
 		local inv = meta:get_inventory()
 		return inv:is_empty("main")
 	end,
-    on_metadata_inventory_move = function(pos, from_list, from_index,
-			to_list, to_index, count, player)
+	allow_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
 		local meta = minetest.env:get_meta(pos)
 		if not has_locked_chest_privilege(meta, player) then
 			minetest.log("action", player:get_player_name()..
 					" tried to access a locked chest belonging to "..
 					meta:get_string("owner").." at "..
 					minetest.pos_to_string(pos))
-			return
+			return 0
 		end
+		return count
+	end,
+    allow_metadata_inventory_put = function(pos, listname, index, stack, player)
+		local meta = minetest.env:get_meta(pos)
+		if not has_locked_chest_privilege(meta, player) then
+			minetest.log("action", player:get_player_name()..
+					" tried to access a locked chest belonging to "..
+					meta:get_string("owner").." at "..
+					minetest.pos_to_string(pos))
+			return 0
+		end
+		return stack:get_count()
+	end,
+    allow_metadata_inventory_take = function(pos, listname, index, stack, player)
+		local meta = minetest.env:get_meta(pos)
+		if not has_locked_chest_privilege(meta, player) then
+			minetest.log("action", player:get_player_name()..
+					" tried to access a locked chest belonging to "..
+					meta:get_string("owner").." at "..
+					minetest.pos_to_string(pos))
+			return 0
+		end
+		return stack:get_count()
+	end,
+	on_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
 		minetest.log("action", player:get_player_name()..
 				" moves stuff in locked chest at "..minetest.pos_to_string(pos))
-		return minetest.node_metadata_inventory_move_allow_all(
-				pos, from_list, from_index, to_list, to_index, count, player)
 	end,
-    on_metadata_inventory_offer = function(pos, listname, index, stack, player)
-		local meta = minetest.env:get_meta(pos)
-		if not has_locked_chest_privilege(meta, player) then
-			minetest.log("action", player:get_player_name()..
-					" tried to access a locked chest belonging to "..
-					meta:get_string("owner").." at "..
-					minetest.pos_to_string(pos))
-			return stack
-		end
+    on_metadata_inventory_put = function(pos, listname, index, stack, player)
 		minetest.log("action", player:get_player_name()..
 				" moves stuff to locked chest at "..minetest.pos_to_string(pos))
-		return minetest.node_metadata_inventory_offer_allow_all(
-				pos, listname, index, stack, player)
 	end,
-    on_metadata_inventory_take = function(pos, listname, index, count, player)
-		local meta = minetest.env:get_meta(pos)
-		if not has_locked_chest_privilege(meta, player) then
-			minetest.log("action", player:get_player_name()..
-					" tried to access a locked chest belonging to "..
-					meta:get_string("owner").." at "..
-					minetest.pos_to_string(pos))
-			return
-		end
+    on_metadata_inventory_take = function(pos, listname, index, stack, player)
 		minetest.log("action", player:get_player_name()..
 				" takes stuff from locked chest at "..minetest.pos_to_string(pos))
-		return minetest.node_metadata_inventory_take_allow_all(
-				pos, listname, index, count, player)
 	end,
 })
 
@@ -721,11 +754,9 @@ minetest.register_node("technic:mithril_chest", {
 		return minetest.node_metadata_inventory_offer_allow_all(
 				pos, listname, index, stack, player)
 	end,
-    on_metadata_inventory_take = function(pos, listname, index, count, player)
+    on_metadata_inventory_take = function(pos, listname, index, stack, player)
 		minetest.log("action", player:get_player_name()..
 				" takes stuff from chest at "..minetest.pos_to_string(pos))
-		return minetest.node_metadata_inventory_take_allow_all(
-				pos, listname, index, count, player)
 	end,
 })
 
@@ -750,13 +781,13 @@ minetest.register_node("technic:mithril_locked_chest", {
 		meta:set_string("infotext", "Locked Mithril Chest (owned by "..
 				meta:get_string("owner")..")")
 	end,
-	on_construct = function(pos)
+on_construct = function(pos)
 		local meta = minetest.env:get_meta(pos)
 		meta:set_string("formspec",
 				"invsize[13,9;]"..
 				"list[current_name;main;0,0;13,4;]"..
 				"list[current_player;main;0,5;8,4;]")
-		meta:set_string("infotext", "Locked Mithril Chest")
+		meta:set_string("infotext", "Mithril Locked Chest")
 		meta:set_string("owner", "")
 		local inv = meta:get_inventory()
 		inv:set_size("main", 13*4)
@@ -766,47 +797,49 @@ minetest.register_node("technic:mithril_locked_chest", {
 		local inv = meta:get_inventory()
 		return inv:is_empty("main")
 	end,
-    on_metadata_inventory_move = function(pos, from_list, from_index,
-			to_list, to_index, count, player)
+	allow_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
 		local meta = minetest.env:get_meta(pos)
 		if not has_locked_chest_privilege(meta, player) then
 			minetest.log("action", player:get_player_name()..
 					" tried to access a locked chest belonging to "..
 					meta:get_string("owner").." at "..
 					minetest.pos_to_string(pos))
-			return
+			return 0
 		end
+		return count
+	end,
+    allow_metadata_inventory_put = function(pos, listname, index, stack, player)
+		local meta = minetest.env:get_meta(pos)
+		if not has_locked_chest_privilege(meta, player) then
+			minetest.log("action", player:get_player_name()..
+					" tried to access a locked chest belonging to "..
+					meta:get_string("owner").." at "..
+					minetest.pos_to_string(pos))
+			return 0
+		end
+		return stack:get_count()
+	end,
+    allow_metadata_inventory_take = function(pos, listname, index, stack, player)
+		local meta = minetest.env:get_meta(pos)
+		if not has_locked_chest_privilege(meta, player) then
+			minetest.log("action", player:get_player_name()..
+					" tried to access a locked chest belonging to "..
+					meta:get_string("owner").." at "..
+					minetest.pos_to_string(pos))
+			return 0
+		end
+		return stack:get_count()
+	end,
+	on_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
 		minetest.log("action", player:get_player_name()..
 				" moves stuff in locked chest at "..minetest.pos_to_string(pos))
-		return minetest.node_metadata_inventory_move_allow_all(
-				pos, from_list, from_index, to_list, to_index, count, player)
 	end,
-    on_metadata_inventory_offer = function(pos, listname, index, stack, player)
-		local meta = minetest.env:get_meta(pos)
-		if not has_locked_chest_privilege(meta, player) then
-			minetest.log("action", player:get_player_name()..
-					" tried to access a locked chest belonging to "..
-					meta:get_string("owner").." at "..
-					minetest.pos_to_string(pos))
-			return stack
-		end
+    on_metadata_inventory_put = function(pos, listname, index, stack, player)
 		minetest.log("action", player:get_player_name()..
 				" moves stuff to locked chest at "..minetest.pos_to_string(pos))
-		return minetest.node_metadata_inventory_offer_allow_all(
-				pos, listname, index, stack, player)
 	end,
-    on_metadata_inventory_take = function(pos, listname, index, count, player)
-		local meta = minetest.env:get_meta(pos)
-		if not has_locked_chest_privilege(meta, player) then
-			minetest.log("action", player:get_player_name()..
-					" tried to access a locked chest belonging to "..
-					meta:get_string("owner").." at "..
-					minetest.pos_to_string(pos))
-			return
-		end
+    on_metadata_inventory_take = function(pos, listname, index, stack, player)
 		minetest.log("action", player:get_player_name()..
 				" takes stuff from locked chest at "..minetest.pos_to_string(pos))
-		return minetest.node_metadata_inventory_take_allow_all(
-				pos, listname, index, count, player)
 	end,
 })
