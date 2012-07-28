@@ -42,8 +42,7 @@ bones.inventory_take = function(pos, listname, index, count, player)
 	end
 	minetest.log("action", player:get_player_name()..
 			" picks from "..meta:get_string("owner").."'s "..fresh.." bones at "..minetest.pos_to_string(pos))
-	return minetest.node_metadata_inventory_take_allow_all(
-			pos, listname, index, count, player)
+	--return minetest.node_metadata_inventory_take_allow_all(pos, listname, index, count, player)
 end
 
 bones.privilege=function(meta, player)
