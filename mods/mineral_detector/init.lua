@@ -6,7 +6,7 @@ min_search_distance = 4
 minetest.register_node("mineral_detector:detector", {
 	description = "Mineral Detector",
 	tiles = {"mineral_detector_none_none_none.png", "default_steel_block.png"},
-	inventory_image = "mineral_detector_inv.png",
+	--inventory_image = "mineral_detector_inv.png",
 	is_ground_content = true,
 	groups = {crumbly=3},
 	drop = 'mineral_detector:detector 1',
@@ -15,7 +15,7 @@ minetest.register_node("mineral_detector:detector", {
 
 minetest.register_node("mineral_detector:detector_none_none_none", {
 	tiles = {"mineral_detector_none_none_none.png", "default_steel_block.png"},
-	inventory_image = "mineral_detector_inv.png",
+	--inventory_image = "mineral_detector_inv.png",
 	is_ground_content = true,
 	groups = {crumbly=3},
 	drop = 'mineral_detector:detector 1',
@@ -24,7 +24,7 @@ minetest.register_node("mineral_detector:detector_none_none_none", {
 
 minetest.register_node("mineral_detector:detector_low_none_none", {
 	tiles = {"mineral_detector_low_none_none.png", "default_steel_block.png"},
-	inventory_image = "mineral_detector_inv.png",
+	--inventory_image = "mineral_detector_inv.png",
 	is_ground_content = true,
 	groups = {crumbly=3},
 	drop = 'mineral_detector:detector 1',
@@ -33,7 +33,7 @@ minetest.register_node("mineral_detector:detector_low_none_none", {
 
 minetest.register_node("mineral_detector:detector_low_low_none", {
 	tiles = {"mineral_detector_low_low_none.png", "default_steel_block.png"},
-	inventory_image = "mineral_detector_inv.png",
+	--inventory_image = "mineral_detector_inv.png",
 	is_ground_content = true,
 	groups = {crumbly=3},
 	drop = 'mineral_detector:detector 1',
@@ -42,7 +42,7 @@ minetest.register_node("mineral_detector:detector_low_low_none", {
 
 minetest.register_node("mineral_detector:detector_low_low_low", {
 	tiles = {"mineral_detector_low_low_low.png", "default_steel_block.png"},
-	inventory_image = "mineral_detector_inv.png",
+	--inventory_image = "mineral_detector_inv.png",
 	is_ground_content = true,
 	groups = {crumbly=3},
 	drop = 'mineral_detector:detector 1',
@@ -51,7 +51,7 @@ minetest.register_node("mineral_detector:detector_low_low_low", {
 
 minetest.register_node("mineral_detector:detector_low_none_low", {
 	tiles = {"mineral_detector_low_none_low.png", "default_steel_block.png"},
-	inventory_image = "mineral_detector_inv.png",
+	--inventory_image = "mineral_detector_inv.png",
 	is_ground_content = true,
 	groups = {crumbly=3},
 	drop = 'mineral_detector:detector 1',
@@ -60,7 +60,7 @@ minetest.register_node("mineral_detector:detector_low_none_low", {
 
 minetest.register_node("mineral_detector:detector_none_low_low", {
 	tiles = {"mineral_detector_none_low_low.png", "default_steel_block.png"},
-	inventory_image = "mineral_detector_inv.png",
+	--inventory_image = "mineral_detector_inv.png",
 	is_ground_content = true,
 	groups = {crumbly=3},
 	drop = 'mineral_detector:detector 1',
@@ -69,7 +69,7 @@ minetest.register_node("mineral_detector:detector_none_low_low", {
 
 minetest.register_node("mineral_detector:detector_none_none_low", {
 	tiles = {"mineral_detector_none_none_low.png", "default_steel_block.png"},
-	inventory_image = "mineral_detector_inv.png",
+	--inventory_image = "mineral_detector_inv.png",
 	is_ground_content = true,
 	groups = {crumbly=3},
 	drop = 'mineral_detector:detector 1',
@@ -78,7 +78,7 @@ minetest.register_node("mineral_detector:detector_none_none_low", {
 
 minetest.register_node("mineral_detector:detector_none_low_none", {
 	tiles = {"mineral_detector_none_low_none.png", "default_steel_block.png"},
-	inventory_image = "mineral_detector_inv.png",
+	--inventory_image = "mineral_detector_inv.png",
 	is_ground_content = true,
 	groups = {crumbly=3},
 	drop = 'mineral_detector:detector 1',
@@ -100,7 +100,7 @@ minetest.register_craft({
 minetest.register_node("mineral_detector:iron_detector", {
 	description = "Iron Detector",
 	tiles = {"mineral_detector_inv_iron.png", "default_wood.png"},
-	inventory_image = "mineral_detector_inv_iron.png",
+	--inventory_image = "mineral_detector_inv_iron.png",
 	is_ground_content = true,
 	groups = {crumbly=3},
 	drop = 'mineral_detector:iron_detector 1',
@@ -109,7 +109,7 @@ minetest.register_node("mineral_detector:iron_detector", {
 
 minetest.register_node("mineral_detector:iron_detector_0", {
 	tiles = {"mineral_detector_iron_0.png", "default_wood.png"},
-	inventory_image = "mineral_detector_iron_0.png",
+	--inventory_image = "mineral_detector_iron_0.png",
 	is_ground_content = true,
 	groups = {crumbly=3},
 	drop = 'mineral_detector:iron_detector 1',
@@ -118,7 +118,7 @@ minetest.register_node("mineral_detector:iron_detector_0", {
 
 minetest.register_node("mineral_detector:iron_detector_1", {
 	tiles = {"mineral_detector_iron_1.png", "default_wood.png"},
-	inventory_image = "mineral_detector_iron_1.png",
+	--inventory_image = "mineral_detector_iron_1.png",
 	is_ground_content = true,
 	groups = {crumbly=3},
 	drop = 'mineral_detector:iron_detector 1',
@@ -127,7 +127,7 @@ minetest.register_node("mineral_detector:iron_detector_1", {
 
 minetest.register_node("mineral_detector:iron_detector_2", {
 	tiles = {"mineral_detector_iron_2.png", "default_wood.png"},
-	inventory_image = "mineral_detector_iron_2.png",
+	--inventory_image = "mineral_detector_iron_2.png",
 	is_ground_content = true,
 	groups = {crumbly=3},
 	drop = 'mineral_detector:iron_detector 1',
@@ -136,7 +136,7 @@ minetest.register_node("mineral_detector:iron_detector_2", {
 
 minetest.register_node("mineral_detector:iron_detector_3", {
 	tiles = {"mineral_detector_iron_3.png", "default_wood.png"},
-	inventory_image = "mineral_detector_iron_3.png",
+	--inventory_image = "mineral_detector_iron_3.png",
 	is_ground_content = true,
 	groups = {crumbly=3},
 	drop = 'mineral_detector:iron_detector 1',
@@ -145,7 +145,7 @@ minetest.register_node("mineral_detector:iron_detector_3", {
 
 minetest.register_node("mineral_detector:iron_detector_4", {
 	tiles = {"mineral_detector_iron_4.png", "default_wood.png"},
-	inventory_image = "mineral_detector_iron_4.png",
+	--inventory_image = "mineral_detector_iron_4.png",
 	is_ground_content = true,
 	groups = {crumbly=3},
 	drop = 'mineral_detector:iron_detector 1',
@@ -166,7 +166,7 @@ minetest.register_craft({
 minetest.register_node("mineral_detector:coal_detector", {
 	description = "Coal Detector",
 	tiles = {"mineral_detector_inv_coal.png", "default_wood.png"},
-	inventory_image = "mineral_detector_inv_coal.png",
+	--inventory_image = "mineral_detector_inv_coal.png",
 	is_ground_content = true,
 	groups = {crumbly=3},
 	drop = 'mineral_detector:coal_detector 1',
@@ -175,7 +175,7 @@ minetest.register_node("mineral_detector:coal_detector", {
 
 minetest.register_node("mineral_detector:coal_detector_0", {
 	tiles = {"mineral_detector_coal_0.png", "default_wood.png"},
-	inventory_image = "mineral_detector_coal_0.png",
+	--inventory_image = "mineral_detector_coal_0.png",
 	is_ground_content = true,
 	groups = {crumbly=3},
 	drop = 'mineral_detector:coal_detector 1',
@@ -184,7 +184,7 @@ minetest.register_node("mineral_detector:coal_detector_0", {
 
 minetest.register_node("mineral_detector:coal_detector_1", {
 	tiles = {"mineral_detector_coal_1.png", "default_wood.png"},
-	inventory_image = "mineral_detector_coal_1.png",
+	--inventory_image = "mineral_detector_coal_1.png",
 	is_ground_content = true,
 	groups = {crumbly=3},
 	drop = 'mineral_detector:coal_detector 1',
@@ -193,7 +193,7 @@ minetest.register_node("mineral_detector:coal_detector_1", {
 
 minetest.register_node("mineral_detector:coal_detector_2", {
 	tiles = {"mineral_detector_coal_2.png", "default_wood.png"},
-	inventory_image = "mineral_detector_coal_2.png",
+	--inventory_image = "mineral_detector_coal_2.png",
 	is_ground_content = true,
 	groups = {crumbly=3},
 	drop = 'mineral_detector:coal_detector 1',
@@ -202,7 +202,7 @@ minetest.register_node("mineral_detector:coal_detector_2", {
 
 minetest.register_node("mineral_detector:coal_detector_3", {
 	tiles = {"mineral_detector_coal_3.png", "default_wood.png"},
-	inventory_image = "mineral_detector_coal_3.png",
+	--inventory_image = "mineral_detector_coal_3.png",
 	is_ground_content = true,
 	groups = {crumbly=3},
 	drop = 'mineral_detector:coal_detector 1',
@@ -211,7 +211,7 @@ minetest.register_node("mineral_detector:coal_detector_3", {
 
 minetest.register_node("mineral_detector:coal_detector_4", {
 	tiles = {"mineral_detector_coal_4.png", "default_wood.png"},
-	inventory_image = "mineral_detector_coal_4.png",
+	--inventory_image = "mineral_detector_coal_4.png",
 	is_ground_content = true,
 	groups = {crumbly=3},
 	drop = 'mineral_detector:coal_detector 1',
@@ -233,7 +233,7 @@ minetest.register_craft({
 minetest.register_node("mineral_detector:mese_detector", {
 	description = "Mese Detector",
 	tiles = {"mineral_detector_inv_mese.png", "default_steel_block.png"},
-	inventory_image = "mineral_detector_inv_mese.png",
+	--inventory_image = "mineral_detector_inv_mese.png",
 	is_ground_content = true,
 	groups = {crumbly=3},
 	drop = 'mineral_detector:mese_detector 1',
@@ -242,7 +242,7 @@ minetest.register_node("mineral_detector:mese_detector", {
 
 minetest.register_node("mineral_detector:mese_detector_0", {
 	tiles = {"mineral_detector_mese_0.png", "default_steel_block.png"},
-	inventory_image = "mineral_detector_mese_0.png",
+	--inventory_image = "mineral_detector_mese_0.png",
 	is_ground_content = true,
 	groups = {crumbly=3},
 	drop = 'mineral_detector:mese_detector 1',
@@ -251,7 +251,7 @@ minetest.register_node("mineral_detector:mese_detector_0", {
 
 minetest.register_node("mineral_detector:mese_detector_1", {
 	tiles = {"mineral_detector_mese_1.png", "default_steel_block.png"},
-	inventory_image = "mineral_detector_mese_1.png",
+	--inventory_image = "mineral_detector_mese_1.png",
 	is_ground_content = true,
 	groups = {crumbly=3},
 	drop = 'mineral_detector:mese_detector 1',
@@ -260,7 +260,7 @@ minetest.register_node("mineral_detector:mese_detector_1", {
 
 minetest.register_node("mineral_detector:mese_detector_2", {
 	tiles = {"mineral_detector_mese_2.png", "default_steel_block.png"},
-	inventory_image = "mineral_detector_mese_2.png",
+	--inventory_image = "mineral_detector_mese_2.png",
 	is_ground_content = true,
 	groups = {crumbly=3},
 	drop = 'mineral_detector:mese_detector 1',
@@ -269,7 +269,7 @@ minetest.register_node("mineral_detector:mese_detector_2", {
 
 minetest.register_node("mineral_detector:mese_detector_3", {
 	tiles = {"mineral_detector_mese_3.png", "default_steel_block.png"},
-	inventory_image = "mineral_detector_mese_3.png",
+	--inventory_image = "mineral_detector_mese_3.png",
 	is_ground_content = true,
 	groups = {crumbly=3},
 	drop = 'mineral_detector:mese_detector 1',
@@ -278,7 +278,7 @@ minetest.register_node("mineral_detector:mese_detector_3", {
 
 minetest.register_node("mineral_detector:mese_detector_4", {
 	tiles = {"mineral_detector_mese_4.png", "default_steel_block.png"},
-	inventory_image = "mineral_detector_mese_4.png",
+	--inventory_image = "mineral_detector_mese_4.png",
 	is_ground_content = true,
 	groups = {crumbly=3},
 	drop = 'mineral_detector:mese_detector 1',
@@ -356,7 +356,7 @@ function UpdateDetectorAll(pos, search_distance)
 
 	minetest.env:add_node(pos, {name = "mineral_detector:detector_" .. iron_level .. "_" .. coal_level .. "_" .. mese_level})
 	local newmeta = minetest.env:get_meta(pos)
-	newmeta:set_infotext(info_text)
+	newmeta:set_string("infotext", info_text)
 	newmeta:set_string("search_distance", tostring(search_distance))
 end
 
@@ -393,7 +393,7 @@ function UpdateDetectorIron(pos, search_distance)
 
 	minetest.env:add_node(pos, {name = "mineral_detector:iron_detector_" .. iron_level})
 	local newmeta = minetest.env:get_meta(pos)
-	newmeta:set_infotext(info_text)
+	newmeta:set_string("infotext", info_text)
 	newmeta:set_string("search_distance", tostring(search_distance))
 end
 
@@ -430,7 +430,7 @@ function UpdateDetectorCoal(pos, search_distance)
 
 	minetest.env:add_node(pos, {name = "mineral_detector:coal_detector_" .. coal_level})
 	local newmeta = minetest.env:get_meta(pos)
-	newmeta:set_infotext(info_text)
+	newmeta:set_string("infotext", info_text)
 	newmeta:set_string("search_distance", tostring(search_distance))
 end
 
@@ -467,7 +467,7 @@ function UpdateDetectorMese(pos, search_distance)
 
 	minetest.env:add_node(pos, {name = "mineral_detector:mese_detector_" .. mese_level})
 	local newmeta = minetest.env:get_meta(pos)
-	newmeta:set_infotext(info_text)
+	newmeta:set_string("infotext", info_text)
 	newmeta:set_string("search_distance", tostring(search_distance))
 end
 
@@ -501,8 +501,7 @@ minetest.register_on_placenode(
 function(pos, newnode, placer)
 	if string.match(newnode.name, "mineral_detector:") ~= nil then
 		local meta = minetest.env:get_meta(pos)
-		meta:set_infotext("")
-
+		meta:set_string("infotext", "")
 		if newnode.name == "mineral_detector:detector" then
 			UpdateDetectorAll(pos, min_search_distance)
 		elseif newnode.name == "mineral_detector:iron_detector" then
