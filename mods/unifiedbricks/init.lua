@@ -2,7 +2,7 @@
 --
 --License: WTFPL
 --
---Depends: default, unifieddyes
+--Depends: default, bucket, unifieddyes, vessels
 --
 --Obviously, offers the same colors in unifieddyes.
 --Thanks go to VanessaE for making unifieddyes, gentextures.sh, etc.
@@ -140,10 +140,11 @@ register_clay_craft_default = function(color)
 				"default:clay_lump",
 				"unifieddyes:" .. color,
 		},
+		replacements = { { "unifieddyes:"..color, "vessels:glass_bottle"} }
 	})
 end
 
-register_clay_craft = function(color_combo,color_one,color_two)
+register_clay_craft_bucketlast = function(color_combo,color_one,color_two)
 	minetest.register_craft( {
        type = "shapeless",
        output = "unifiedbricks:clay_" .. color_combo .. " 2",
@@ -159,6 +160,7 @@ register_clay_craft = function(color_combo,color_one,color_two)
                "unifieddyes:" .. color_one,
                "unifiedbricks:clay_" .. color_two,
 		},
+		replacements = { { "unifieddyes:" .. color_one, "vessels:glass_bottle"} }
 	})
 	minetest.register_craft( {
        type = "shapeless",
@@ -167,6 +169,35 @@ register_clay_craft = function(color_combo,color_one,color_two)
                "unifiedbricks:clay_" .. color_one,
                "unifieddyes:" .. color_two,
 		},
+		replacements = { { "unifieddyes:"..color_two, "bucket:bucket_empty"} }
+	})
+end
+register_clay_craft_vessellast = function(color_combo,color_one,color_two)
+	minetest.register_craft( {
+       type = "shapeless",
+       output = "unifiedbricks:clay_" .. color_combo .. " 2",
+       recipe = {
+               "unifiedbricks:clay_" .. color_one,
+               "unifiedbricks:clay_" .. color_two,
+		},
+	})
+	minetest.register_craft( {
+       type = "shapeless",
+       output = "unifiedbricks:clay_" .. color_combo .. " 1",
+       recipe = {
+               "unifieddyes:" .. color_one,
+               "unifiedbricks:clay_" .. color_two,
+		},
+		replacements = { { "unifieddyes:" .. color_one, "vessels:glass_bottle"} }
+	})
+	minetest.register_craft( {
+       type = "shapeless",
+       output = "unifiedbricks:clay_" .. color_combo .. " 1",
+       recipe = {
+               "unifiedbricks:clay_" .. color_one,
+               "unifieddyes:" .. color_two,
+		},
+		replacements = { { "unifieddyes:"..color_two, "vessels:glass_bottle"} }
 	})
 end
 register_clay_craft_three = function(color_combo,color_one,color_two,color_three)
@@ -187,6 +218,7 @@ register_clay_craft_three = function(color_combo,color_one,color_two,color_three
                "unifiedbricks:clay_" .. color_two,
                "unifieddyes:" .. color_three,
 		},
+		replacements = { { "unifieddyes:"..color_one, "vessels:glass_bottle"},{ "unifieddyes:"..color_two, "vessels:glass_bottle"},{ "unifieddyes:"..color_three, "bucket:bucket_empty"} }
 	})
 	minetest.register_craft( {
        type = "shapeless",
@@ -196,6 +228,7 @@ register_clay_craft_three = function(color_combo,color_one,color_two,color_three
                "unifieddyes:" .. color_two,
                "unifiedbricks:clay_" .. color_three,
 		},
+		replacements = { { "unifieddyes:"..color_one, "vessels:glass_bottle"},{ "unifieddyes:"..color_two, "vessels:glass_bottle"},{ "unifieddyes:"..color_three, "bucket:bucket_empty"} }
 	})
 	minetest.register_craft( {
        type = "shapeless",
@@ -205,6 +238,7 @@ register_clay_craft_three = function(color_combo,color_one,color_two,color_three
                "unifiedbricks:clay_" .. color_two,
                "unifiedbricks:clay_" .. color_three,
 		},
+		replacements = { { "unifieddyes:"..color_one, "vessels:glass_bottle"},{ "unifieddyes:"..color_two, "vessels:glass_bottle"},{ "unifieddyes:"..color_three, "bucket:bucket_empty"} }
 	})
 	minetest.register_craft( {
        type = "shapeless",
@@ -214,6 +248,7 @@ register_clay_craft_three = function(color_combo,color_one,color_two,color_three
                "unifiedbricks:clay_" .. color_two,
                "unifieddyes:" .. color_three,
 		},
+		replacements = { { "unifieddyes:"..color_one, "vessels:glass_bottle"},{ "unifieddyes:"..color_two, "vessels:glass_bottle"},{ "unifieddyes:"..color_three, "bucket:bucket_empty"} }
 	})
 	minetest.register_craft( {
        type = "shapeless",
@@ -223,6 +258,7 @@ register_clay_craft_three = function(color_combo,color_one,color_two,color_three
                "unifieddyes:" .. color_two,
                "unifiedbricks:clay_" .. color_three,
 		},
+		replacements = { { "unifieddyes:"..color_one, "vessels:glass_bottle"},{ "unifieddyes:"..color_two, "vessels:glass_bottle"},{ "unifieddyes:"..color_three, "bucket:bucket_empty"} }
 	})
 	minetest.register_craft( {
        type = "shapeless",
@@ -232,9 +268,10 @@ register_clay_craft_three = function(color_combo,color_one,color_two,color_three
                "unifieddyes:" .. color_two,
                "unifieddyes:" .. color_three,
 		},
+		replacements = { { "unifieddyes:"..color_one, "vessels:glass_bottle"},{ "unifieddyes:"..color_two, "vessels:glass_bottle"},{ "unifieddyes:"..color_three, "bucket:bucket_empty"} }
 	})
 end
-register_clay_craft_three_reducedfat = function(color_combo,color_one,color_two,color_three)
+register_clay_craft_three_reducedfat_blackfirst = function(color_combo,color_one,color_two,color_three)
 	minetest.register_craft( {
        type = "shapeless",
        output = "unifiedbricks:clay_" .. color_combo .. " 3",
@@ -252,6 +289,7 @@ register_clay_craft_three_reducedfat = function(color_combo,color_one,color_two,
                "unifiedbricks:clay_" .. color_two,
                "unifieddyes:" .. color_three,
 		},
+		replacements = { { "unifieddyes:"..color_one, "vessels:glass_bottle"},{ "unifieddyes:"..color_two, "vessels:glass_bottle"},{ "unifieddyes:"..color_three, "bucket:bucket_empty"} }
 	})
 	minetest.register_craft( {
        type = "shapeless",
@@ -261,6 +299,7 @@ register_clay_craft_three_reducedfat = function(color_combo,color_one,color_two,
                "unifieddyes:" .. color_two,
                "unifiedbricks:clay_" .. color_three,
 		},
+		replacements = { { "unifieddyes:"..color_one, "vessels:glass_bottle"},{ "unifieddyes:"..color_two, "vessels:glass_bottle"},{ "unifieddyes:"..color_three, "bucket:bucket_empty"} }
 	})
 	minetest.register_craft( {
        type = "shapeless",
@@ -270,6 +309,7 @@ register_clay_craft_three_reducedfat = function(color_combo,color_one,color_two,
                "unifiedbricks:clay_" .. color_two,
                "unifieddyes:" .. color_three,
 		},
+		replacements = { { "unifieddyes:"..color_one, "vessels:glass_bottle"},{ "unifieddyes:"..color_two, "vessels:glass_bottle"},{ "unifieddyes:"..color_three, "bucket:bucket_empty"} }
 	})
 	minetest.register_craft( {
        type = "shapeless",
@@ -279,9 +319,61 @@ register_clay_craft_three_reducedfat = function(color_combo,color_one,color_two,
                "unifieddyes:" .. color_two,
                "unifiedbricks:clay_" .. color_three,
 		},
+		replacements = { { "unifieddyes:"..color_one, "vessels:glass_bottle"},{ "unifieddyes:"..color_two, "vessels:glass_bottle"},{ "unifieddyes:"..color_three, "bucket:bucket_empty"} }
 	})
 end
-register_clay_craft_four_reducedfat = function(color_combo,color_one,color_two,color_three,color_four)
+register_clay_craft_three_reducedfat_whitefirst = function(color_combo,color_one,color_two,color_three)
+	minetest.register_craft( {
+       type = "shapeless",
+       output = "unifiedbricks:clay_" .. color_combo .. " 3",
+       recipe = {
+               "unifiedbricks:clay_" .. color_one,
+               "unifiedbricks:clay_" .. color_two,
+               "unifiedbricks:clay_" .. color_three,
+		},
+	})
+	minetest.register_craft( {
+       type = "shapeless",
+       output = "unifiedbricks:clay_" .. color_combo .. " 2",
+       recipe = {
+               "unifiedbricks:clay_" .. color_one,
+               "unifiedbricks:clay_" .. color_two,
+               "unifieddyes:" .. color_three,
+		},
+		replacements = { { "unifieddyes:"..color_one, "bucket:bucket_empty"},{ "unifieddyes:"..color_two, "bucket:bucket_empty"},{ "unifieddyes:"..color_three, "vessels:glass_bottle"} }
+	})
+	minetest.register_craft( {
+       type = "shapeless",
+       output = "unifiedbricks:clay_" .. color_combo .. " 2",
+       recipe = {
+               "unifiedbricks:clay_" .. color_one,
+               "unifieddyes:" .. color_two,
+               "unifiedbricks:clay_" .. color_three,
+		},
+		replacements = { { "unifieddyes:"..color_one, "bucket:bucket_empty"},{ "unifieddyes:"..color_two, "bucket:bucket_empty"},{ "unifieddyes:"..color_three, "vessels:glass_bottle"} }
+	})
+	minetest.register_craft( {
+       type = "shapeless",
+       output = "unifiedbricks:clay_" .. color_combo .. " 1",
+       recipe = {
+               "unifieddyes:" .. color_one,
+               "unifiedbricks:clay_" .. color_two,
+               "unifieddyes:" .. color_three,
+		},
+		replacements = { { "unifieddyes:"..color_one, "bucket:bucket_empty"},{ "unifieddyes:"..color_two, "bucket:bucket_empty"},{ "unifieddyes:"..color_three, "vessels:glass_bottle"} }
+	})
+	minetest.register_craft( {
+       type = "shapeless",
+       output = "unifiedbricks:clay_" .. color_combo .. " 1",
+       recipe = {
+               "unifieddyes:" .. color_one,
+               "unifieddyes:" .. color_two,
+               "unifiedbricks:clay_" .. color_three,
+		},
+		replacements = { { "unifieddyes:"..color_one, "bucket:bucket_empty"},{ "unifieddyes:"..color_two, "bucket:bucket_empty"},{ "unifieddyes:"..color_three, "vessels:glass_bottle"} }
+	})
+end
+register_clay_craft_four_reducedfat_blackfirst = function(color_combo,color_one,color_two,color_three,color_four)
 	minetest.register_craft( {
        type = "shapeless",
        output = "unifiedbricks:clay_" .. color_combo .. " 4",
@@ -301,6 +393,7 @@ register_clay_craft_four_reducedfat = function(color_combo,color_one,color_two,c
                "unifiedbricks:clay_" .. color_three,
 			   "unifieddyes:" .. color_four,
 		},
+		replacements = { { "unifieddyes:"..color_one, "vessels:glass_bottle"},{ "unifieddyes:"..color_two, "vessels:glass_bottle"},{ "unifieddyes:"..color_three, "bucket:bucket_empty"},{ "unifieddyes:"..color_four, "vessels:glass_bottle"} }
 	})
 	minetest.register_craft( {
        type = "shapeless",
@@ -311,6 +404,7 @@ register_clay_craft_four_reducedfat = function(color_combo,color_one,color_two,c
                "unifieddyes:" .. color_three,
 			   "unifiedbricks:clay_" .. color_four,
 		},
+		replacements = { { "unifieddyes:"..color_one, "vessels:glass_bottle"},{ "unifieddyes:"..color_two, "vessels:glass_bottle"},{ "unifieddyes:"..color_three, "bucket:bucket_empty"},{ "unifieddyes:"..color_four, "vessels:glass_bottle"} }
 	})
 	minetest.register_craft( {
        type = "shapeless",
@@ -321,6 +415,7 @@ register_clay_craft_four_reducedfat = function(color_combo,color_one,color_two,c
                "unifiedbricks:clay_" .. color_three,
 			   "unifiedbricks:clay_" .. color_four,
 		},
+		replacements = { { "unifieddyes:"..color_one, "vessels:glass_bottle"},{ "unifieddyes:"..color_two, "vessels:glass_bottle"},{ "unifieddyes:"..color_three, "bucket:bucket_empty"},{ "unifieddyes:"..color_four, "vessels:glass_bottle"} }
 	})
 	minetest.register_craft( {
        type = "shapeless",
@@ -331,6 +426,7 @@ register_clay_craft_four_reducedfat = function(color_combo,color_one,color_two,c
                "unifiedbricks:clay_" .. color_three,
 			   "unifieddyes:" .. color_four,
 		},
+		replacements = { { "unifieddyes:"..color_one, "vessels:glass_bottle"},{ "unifieddyes:"..color_two, "vessels:glass_bottle"},{ "unifieddyes:"..color_three, "bucket:bucket_empty"},{ "unifieddyes:"..color_four, "vessels:glass_bottle"} }
 	})
 	minetest.register_craft( {
        type = "shapeless",
@@ -341,6 +437,7 @@ register_clay_craft_four_reducedfat = function(color_combo,color_one,color_two,c
                "unifieddyes:" .. color_three,
 			   "unifiedbricks:clay_" .. color_four,
 		},
+		replacements = { { "unifieddyes:"..color_one, "vessels:glass_bottle"},{ "unifieddyes:"..color_two, "vessels:glass_bottle"},{ "unifieddyes:"..color_three, "bucket:bucket_empty"},{ "unifieddyes:"..color_four, "vessels:glass_bottle"} }
 	})
 	minetest.register_craft( {
        type = "shapeless",
@@ -351,6 +448,7 @@ register_clay_craft_four_reducedfat = function(color_combo,color_one,color_two,c
                "unifiedbricks:clay_" .. color_three,
 			   "unifiedbricks:clay_" .. color_four,
 		},
+		replacements = { { "unifieddyes:"..color_one, "vessels:glass_bottle"},{ "unifieddyes:"..color_two, "vessels:glass_bottle"},{ "unifieddyes:"..color_three, "bucket:bucket_empty"},{ "unifieddyes:"..color_four, "vessels:glass_bottle"} }
 	})
 	minetest.register_craft( {
        type = "shapeless",
@@ -361,6 +459,7 @@ register_clay_craft_four_reducedfat = function(color_combo,color_one,color_two,c
                "unifieddyes:" .. color_three,
 			   "unifieddyes:" .. color_four,
 		},
+		replacements = { { "unifieddyes:"..color_one, "vessels:glass_bottle"},{ "unifieddyes:"..color_two, "vessels:glass_bottle"},{ "unifieddyes:"..color_three, "bucket:bucket_empty"},{ "unifieddyes:"..color_four, "vessels:glass_bottle"} }
 	})
 	minetest.register_craft( {
        type = "shapeless",
@@ -371,6 +470,7 @@ register_clay_craft_four_reducedfat = function(color_combo,color_one,color_two,c
                "unifiedbricks:clay_" .. color_three,
 			   "unifieddyes:" .. color_four,
 		},
+		replacements = { { "unifieddyes:"..color_one, "vessels:glass_bottle"},{ "unifieddyes:"..color_two, "vessels:glass_bottle"},{ "unifieddyes:"..color_three, "bucket:bucket_empty"},{ "unifieddyes:"..color_four, "vessels:glass_bottle"} }
 	})
 	minetest.register_craft( {
        type = "shapeless",
@@ -381,6 +481,7 @@ register_clay_craft_four_reducedfat = function(color_combo,color_one,color_two,c
                "unifieddyes:" .. color_three,
 			   "unifieddyes:" .. color_four,
 		},
+		replacements = { { "unifieddyes:"..color_one, "vessels:glass_bottle"},{ "unifieddyes:"..color_two, "vessels:glass_bottle"},{ "unifieddyes:"..color_three, "bucket:bucket_empty"},{ "unifieddyes:"..color_four, "vessels:glass_bottle"} }
 	})
 	minetest.register_craft( {
        type = "shapeless",
@@ -391,6 +492,129 @@ register_clay_craft_four_reducedfat = function(color_combo,color_one,color_two,c
                "unifieddyes:" .. color_three,
 			   "unifiedbricks:clay_" .. color_four,
 		},
+		replacements = { { "unifieddyes:"..color_one, "vessels:glass_bottle"},{ "unifieddyes:"..color_two, "vessels:glass_bottle"},{ "unifieddyes:"..color_three, "bucket:bucket_empty"},{ "unifieddyes:"..color_four, "vessels:glass_bottle"} }
+	})
+end
+register_clay_craft_four_reducedfat_whitefirst = function(color_combo,color_one,color_two,color_three,color_four)
+	minetest.register_craft( {
+       type = "shapeless",
+       output = "unifiedbricks:clay_" .. color_combo .. " 4",
+       recipe = {
+               "unifiedbricks:clay_" .. color_one,
+               "unifiedbricks:clay_" .. color_two,
+               "unifiedbricks:clay_" .. color_three,
+			   "unifiedbricks:clay_" .. color_four,
+		},
+	})
+	minetest.register_craft( {
+       type = "shapeless",
+       output = "unifiedbricks:clay_" .. color_combo .. " 3",
+       recipe = {
+               "unifiedbricks:clay_" .. color_one,
+               "unifiedbricks:clay_" .. color_two,
+               "unifiedbricks:clay_" .. color_three,
+			   "unifieddyes:" .. color_four,
+		},
+		replacements = { { "unifieddyes:"..color_one, "bucket:bucket_empty"},{ "unifieddyes:"..color_two, "bucket:bucket_empty"},{ "unifieddyes:"..color_three, "vessels:glass_bottle"},{ "unifieddyes:"..color_four, "bucket:bucket_empty"} }
+	})
+	minetest.register_craft( {
+       type = "shapeless",
+       output = "unifiedbricks:clay_" .. color_combo .. " 3",
+       recipe = {
+               "unifiedbricks:clay_" .. color_one,
+               "unifiedbricks:clay_" .. color_two,
+               "unifieddyes:" .. color_three,
+			   "unifiedbricks:clay_" .. color_four,
+		},
+		replacements = { { "unifieddyes:"..color_one, "bucket:bucket_empty"},{ "unifieddyes:"..color_two, "bucket:bucket_empty"},{ "unifieddyes:"..color_three, "vessels:glass_bottle"},{ "unifieddyes:"..color_four, "bucket:bucket_empty"} }
+	})
+	minetest.register_craft( {
+       type = "shapeless",
+       output = "unifiedbricks:clay_" .. color_combo .. " 3",
+       recipe = {
+               "unifiedbricks:clay_" .. color_one,
+               "unifieddyes:" .. color_two,
+               "unifiedbricks:clay_" .. color_three,
+			   "unifiedbricks:clay_" .. color_four,
+		},
+		replacements = { { "unifieddyes:"..color_one, "bucket:bucket_empty"},{ "unifieddyes:"..color_two, "bucket:bucket_empty"},{ "unifieddyes:"..color_three, "vessels:glass_bottle"},{ "unifieddyes:"..color_four, "bucket:bucket_empty"} }
+	})
+	minetest.register_craft( {
+       type = "shapeless",
+       output = "unifiedbricks:clay_" .. color_combo .. " 2",
+       recipe = {
+               "unifieddyes:" .. color_one,
+               "unifiedbricks:clay_" .. color_two,
+               "unifiedbricks:clay_" .. color_three,
+			   "unifieddyes:" .. color_four,
+		},
+		replacements = { { "unifieddyes:"..color_one, "bucket:bucket_empty"},{ "unifieddyes:"..color_two, "bucket:bucket_empty"},{ "unifieddyes:"..color_three, "vessels:glass_bottle"},{ "unifieddyes:"..color_four, "bucket:bucket_empty"} }
+	})
+	minetest.register_craft( {
+       type = "shapeless",
+       output = "unifiedbricks:clay_" .. color_combo .. " 2",
+       recipe = {
+               "unifieddyes:" .. color_one,
+               "unifiedbricks:clay_" .. color_two,
+               "unifieddyes:" .. color_three,
+			   "unifiedbricks:clay_" .. color_four,
+		},
+		replacements = { { "unifieddyes:"..color_one, "bucket:bucket_empty"},{ "unifieddyes:"..color_two, "bucket:bucket_empty"},{ "unifieddyes:"..color_three, "vessels:glass_bottle"},{ "unifieddyes:"..color_four, "bucket:bucket_empty"} }
+	})
+	minetest.register_craft( {
+       type = "shapeless",
+       output = "unifiedbricks:clay_" .. color_combo .. " 2",
+       recipe = {
+               "unifieddyes:" .. color_one,
+               "unifieddyes:" .. color_two,
+               "unifiedbricks:clay_" .. color_three,
+			   "unifiedbricks:clay_" .. color_four,
+		},
+		replacements = { { "unifieddyes:"..color_one, "bucket:bucket_empty"},{ "unifieddyes:"..color_two, "bucket:bucket_empty"},{ "unifieddyes:"..color_three, "vessels:glass_bottle"},{ "unifieddyes:"..color_four, "bucket:bucket_empty"} }
+	})
+	minetest.register_craft( {
+       type = "shapeless",
+       output = "unifiedbricks:clay_" .. color_combo .. " 2",
+       recipe = {
+               "unifiedbricks:clay_" .. color_one,
+               "unifiedbricks:clay_" .. color_two,
+               "unifieddyes:" .. color_three,
+			   "unifieddyes:" .. color_four,
+		},
+		replacements = { { "unifieddyes:"..color_one, "bucket:bucket_empty"},{ "unifieddyes:"..color_two, "bucket:bucket_empty"},{ "unifieddyes:"..color_three, "vessels:glass_bottle"},{ "unifieddyes:"..color_four, "bucket:bucket_empty"} }
+	})
+	minetest.register_craft( {
+       type = "shapeless",
+       output = "unifiedbricks:clay_" .. color_combo .. " 1",
+       recipe = {
+               "unifieddyes:" .. color_one,
+               "unifieddyes:" .. color_two,
+               "unifiedbricks:clay_" .. color_three,
+			   "unifieddyes:" .. color_four,
+		},
+		replacements = { { "unifieddyes:"..color_one, "bucket:bucket_empty"},{ "unifieddyes:"..color_two, "bucket:bucket_empty"},{ "unifieddyes:"..color_three, "vessels:glass_bottle"},{ "unifieddyes:"..color_four, "bucket:bucket_empty"} }
+	})
+	minetest.register_craft( {
+       type = "shapeless",
+       output = "unifiedbricks:clay_" .. color_combo .. " 1",
+       recipe = {
+               "unifieddyes:" .. color_one,
+               "unifiedbricks:clay_" .. color_two,
+               "unifieddyes:" .. color_three,
+			   "unifieddyes:" .. color_four,
+		},
+		replacements = { { "unifieddyes:"..color_one, "bucket:bucket_empty"},{ "unifieddyes:"..color_two, "bucket:bucket_empty"},{ "unifieddyes:"..color_three, "vessels:glass_bottle"},{ "unifieddyes:"..color_four, "bucket:bucket_empty"} }
+	})
+	minetest.register_craft( {
+       type = "shapeless",
+       output = "unifiedbricks:clay_" .. color_combo .. " 1",
+       recipe = {
+               "unifieddyes:" .. color_one,
+               "unifieddyes:" .. color_two,
+               "unifieddyes:" .. color_three,
+			   "unifiedbricks:clay_" .. color_four,
+		},
+		replacements = { { "unifieddyes:"..color_one, "bucket:bucket_empty"},{ "unifieddyes:"..color_two, "bucket:bucket_empty"},{ "unifieddyes:"..color_three, "vessels:glass_bottle"},{ "unifieddyes:"..color_four, "bucket:bucket_empty"} }
 	})
 end
 
@@ -471,9 +695,13 @@ if SETTING_allow_types[1] + SETTING_allow_types[2] == 2 then
 			else
 				for k = 1,4 do
 					if SETTING_allow_darkness[k] == 1 then
-						for l = 1,2 do
-							if SETTING_allow_saturation[l] == 1 then
-								register_clay_block_craft(DARKNESS[k] .. HUES[i] .. SATURATION[l])
+						if k == 4 then
+							register_clay_block_craft(DARKNESS[k] .. HUES[i])
+						else
+							for l = 1,2 do
+								if SETTING_allow_saturation[l] == 1 then
+									register_clay_block_craft(DARKNESS[k] .. HUES[i] .. SATURATION[l])
+								end
 							end
 						end
 					end
@@ -486,19 +714,19 @@ end
 --REGISTERS ALL CLAY LUMP CRAFTING RECIPES
 if SETTING_allow_types[2] == 1 then
 	if SETTING_allow_saturation[2] + SETTING_allow_darkness[3] == 2 then
-		if SETTING_allow_hues[2] == 1 then register_clay_craft("orange","yellow","red") end
-		if SETTING_allow_hues[4] == 1 then register_clay_craft("lime","green","yellow") end
-		if SETTING_allow_hues[5] == 1 then register_clay_craft("green","blue","yellow") end
-		if SETTING_allow_hues[6] == 1 then register_clay_craft("aqua","green","cyan") end
-		if SETTING_allow_hues[7] == 1 then register_clay_craft("cyan","blue","green") end
-		if SETTING_allow_hues[8] == 1 then register_clay_craft("skyblue","cyan","blue") end
-		if SETTING_allow_hues[10] == 1 then register_clay_craft("violet","magenta","blue") end
-		if SETTING_allow_hues[11] == 1 then register_clay_craft("magenta","blue","red") end
-		if SETTING_allow_hues[12] == 1 then register_clay_craft("redviolet","magenta","red") end
+		if SETTING_allow_hues[2] == 1 then register_clay_craft_vessellast("orange","yellow","red") end
+		if SETTING_allow_hues[4] == 1 then register_clay_craft_vessellast("lime","green","yellow") end
+		if SETTING_allow_hues[5] == 1 then register_clay_craft_vessellast("green","blue","yellow") end
+		if SETTING_allow_hues[6] == 1 then register_clay_craft_vessellast("aqua","green","cyan") end
+		if SETTING_allow_hues[7] == 1 then register_clay_craft_vessellast("cyan","blue","green") end
+		if SETTING_allow_hues[8] == 1 then register_clay_craft_vessellast("skyblue","cyan","blue") end
+		if SETTING_allow_hues[10] == 1 then register_clay_craft_vessellast("violet","magenta","blue") end
+		if SETTING_allow_hues[11] == 1 then register_clay_craft_vessellast("magenta","blue","red") end
+		if SETTING_allow_hues[12] == 1 then register_clay_craft_vessellast("redviolet","magenta","red") end
 
-		if SETTING_allow_hues[14] == 1 then register_clay_craft_three_reducedfat("darkgrey","black","black","white") end
-		if SETTING_allow_hues[15] == 1 then register_clay_craft("grey","white","black") end
-		if SETTING_allow_hues[16] == 1 then register_clay_craft_three_reducedfat("lightgrey","white","white","black") end
+		if SETTING_allow_hues[14] == 1 then register_clay_craft_three_reducedfat_blackfirst("darkgrey","black","black","white") end
+		if SETTING_allow_hues[15] == 1 then register_clay_craft_bucketlast("grey","black","white") end
+		if SETTING_allow_hues[16] == 1 then register_clay_craft_three_reducedfat_whitefirst("lightgrey","white","white","black") end
 		
 		if SETTING_allow_default_coloring == 1 then
 			for i = 13,17 do
@@ -510,27 +738,27 @@ if SETTING_allow_types[2] == 1 then
 	for i = 1,12 do
 		if SETTING_allow_hues[i] == 1 then
 			if SETTING_allow_darkness[1] + SETTING_allow_saturation[1] == 2 then --dark s50
-				register_clay_craft(DARKNESS[1] .. HUES[i] .. SATURATION[1],HUES[i],"darkgrey")
-				register_clay_craft_four_reducedfat(DARKNESS[1] .. HUES[i] .. SATURATION[1],"black","black","white",HUES[i])
+				register_clay_craft_bucketlast(DARKNESS[1] .. HUES[i] .. SATURATION[1],HUES[i],"darkgrey")
+				register_clay_craft_four_reducedfat_blackfirst(DARKNESS[1] .. HUES[i] .. SATURATION[1],"black","black","white",HUES[i])
 				if SETTING_allow_default_coloring == 1 then register_clay_craft_default(DARKNESS[1] .. HUES[i] .. SATURATION[1]) end end
 			if SETTING_allow_darkness[1] + SETTING_allow_saturation[2] == 2 then --dark
-				register_clay_craft_three_reducedfat(DARKNESS[1] .. HUES[i] .. SATURATION[2],"black","black",HUES[i])
+				register_clay_craft_three_reducedfat_blackfirst(DARKNESS[1] .. HUES[i] .. SATURATION[2],"black","black",HUES[i])
 				if SETTING_allow_default_coloring == 1 then register_clay_craft_default(DARKNESS[1] .. HUES[i] .. SATURATION[2]) end end
 			if SETTING_allow_darkness[2] + SETTING_allow_saturation[1] == 2 then --medium s50
-				register_clay_craft(DARKNESS[2] .. HUES[i] .. SATURATION[1],HUES[i],"grey")
+				register_clay_craft_bucketlast(DARKNESS[2] .. HUES[i] .. SATURATION[1],HUES[i],"grey")
 				register_clay_craft_three(DARKNESS[2] .. HUES[i] .. SATURATION[1],HUES[i],"black","white")
 				if SETTING_allow_default_coloring == 1 then register_clay_craft_default(DARKNESS[2] .. HUES[i] .. SATURATION[1]) end end
 			if SETTING_allow_darkness[2] + SETTING_allow_saturation[2] == 2 then --medium
-				register_clay_craft(DARKNESS[2] .. HUES[i] .. SATURATION[2],HUES[i],"black")
+				register_clay_craft_vessellast(DARKNESS[2] .. HUES[i] .. SATURATION[2],HUES[i],"black")
 				if SETTING_allow_default_coloring == 1 then register_clay_craft_default(DARKNESS[2] .. HUES[i] .. SATURATION[2]) end end
 			if SETTING_allow_darkness[3] + SETTING_allow_saturation[1] == 2 then --bright s50
-				register_clay_craft(DARKNESS[3] .. HUES[i] .. SATURATION[1],HUES[i],"lightgrey")
-				register_clay_craft_four_reducedfat(DARKNESS[3] .. HUES[i] .. SATURATION[1],"white","white","black",HUES[i])
+				register_clay_craft_bucketlast(DARKNESS[3] .. HUES[i] .. SATURATION[1],HUES[i],"lightgrey")
+				register_clay_craft_four_reducedfat_whitefirst(DARKNESS[3] .. HUES[i] .. SATURATION[1],"white","white","black",HUES[i])
 				if SETTING_allow_default_coloring == 1 then register_clay_craft_default(DARKNESS[3] .. HUES[i] .. SATURATION[1]) end end
 			if SETTING_allow_darkness[3] + SETTING_allow_saturation[2] == 2 then --bright
 				if SETTING_allow_default_coloring == 1 then register_clay_craft_default(DARKNESS[3] .. HUES[i] .. SATURATION[2]) end end
-			if SETTING_allow_darkness[4] + SETTING_allow_saturation[1] == 2 then --light
-				register_clay_craft(DARKNESS[4] .. HUES[i] .. SATURATION[1],HUES[i],"white")
+			if SETTING_allow_darkness[4] + SETTING_allow_saturation[2] == 2 then --light
+				register_clay_craft_bucketlast(DARKNESS[4] .. HUES[i] .. SATURATION[2],HUES[i],"white")
 				if SETTING_allow_default_coloring == 1 then register_clay_craft_default(DARKNESS[4] .. HUES[i] .. SATURATION[2]) end end
 		end
 	end
@@ -545,9 +773,13 @@ if SETTING_allow_types[2] + SETTING_allow_types[3] == 2 then
 			else
 				for k = 1,4 do
 					if SETTING_allow_darkness[k] == 1 then
-						for l = 1,2 do
-							if SETTING_allow_saturation[l] == 1 then
-								register_brick_cooking(DARKNESS[k] .. HUES[i] .. SATURATION[l])
+						if k == 4 then
+							register_brick_cooking(DARKNESS[k] .. HUES[i])
+						else
+							for l = 1,2 do
+								if SETTING_allow_saturation[l] == 1 then
+									register_brick_cooking(DARKNESS[k] .. HUES[i] .. SATURATION[l])
+								end
 							end
 						end
 					end
@@ -566,9 +798,13 @@ if SETTING_allow_types[3] + SETTING_allow_types[4] == 2 then
 			else
 				for k = 1,4 do
 					if SETTING_allow_darkness[k] == 1 then
-						for l = 1,2 do
-							if SETTING_allow_saturation[l] == 1 then
-								register_brick_block_craft(DARKNESS[k] .. HUES[i] .. SATURATION[l])
+						if k == 4 then
+							register_brick_block_craft(DARKNESS[k] .. HUES[i])
+						else
+							for l = 1,2 do
+								if SETTING_allow_saturation[l] == 1 then
+									register_brick_block_craft(DARKNESS[k] .. HUES[i] .. SATURATION[l])
+								end
 							end
 						end
 					end

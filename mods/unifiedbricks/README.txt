@@ -9,6 +9,8 @@ Adds configurable clay blocks, clay lumps, bricks, and brick blocks. Includes
 all of the colors that unifieddyes offers (which amounts to 89 clayblocks, clay
 lumps, bricks, brick blocks, leaving 356 total).
 
+Now returns glass bottles and empty buckets when appropriate.
+
 Settings at the top of init.lua:
 	SETTING_allow_default_coloring = 1
 		When set to 1, default clay + unifieddyes dye = unifiedbricks clay lump
