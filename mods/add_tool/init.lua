@@ -21,9 +21,9 @@
 -- Updated by Calinou on 2011-01-23
 -- For More Ores mod
 
-register_tool_type = function(modname, labelname, typename, crafttype, basetime, basedurability, extra_rules)
+register_tool_type = function(modname, typename, crafttype, basetime, basedurability, extra_rules)
    minetest.register_craft({
-      description = labelname,
+      description = typename.." pick",
       output = 'tool "'..modname..':'..typename..'_pick'..'"',
       recipe = {
          { crafttype, crafttype, crafttype },
@@ -33,7 +33,7 @@ register_tool_type = function(modname, labelname, typename, crafttype, basetime,
    })
 
    minetest.register_craft({
-      description = labelname,
+      description = typename.." shovel",
       output = 'tool "'..modname..':'..typename..'_shovel'..'"',
       recipe = {
          { '', crafttype, '' },
@@ -43,7 +43,7 @@ register_tool_type = function(modname, labelname, typename, crafttype, basetime,
    })
 
    minetest.register_craft({
-      description = labelname,
+      description = typename.." axe",
       output = 'tool "'..modname..':'..typename..'_axe'..'"',
       recipe = {
          { crafttype, crafttype },
@@ -53,7 +53,7 @@ register_tool_type = function(modname, labelname, typename, crafttype, basetime,
    })
 
    minetest.register_craft({
-      description = labelname,
+      description = typename.." sword",
       output = 'tool "'..modname..':'..typename..'_sword'..'"',
       recipe = {
          { crafttype },
@@ -62,8 +62,8 @@ register_tool_type = function(modname, labelname, typename, crafttype, basetime,
       }
    })
 
-   local ft = basetime + (extra_rules.pick_speed or 0)
-   local fd = basedurability + (extra_rules.pick_durability or 0)
+   local ft = basetime -- + (extra_rules.pick_speed or 0)
+   local fd = basedurability -- + (extra_rules.pick_durability or 0)
    minetest.register_tool(modname..":"..typename.."_pick", {
       inventory_image = modname.."_tool_"..typename.."pick.png",
       basetime = ft,
@@ -78,8 +78,8 @@ register_tool_type = function(modname, labelname, typename, crafttype, basetime,
    	dd_cuttability = 0,
    })
 
-   ft = basetime + (extra_rules.shovel_speed or 0)
-   fd = basedurability + (extra_rules.shovel_durability or 0)
+   ft = basetime -- + (extra_rules.shovel_speed or 0)
+   fd = basedurability -- + (extra_rules.shovel_durability or 0)
    minetest.register_tool(modname..":"..typename.."_shovel", {
       inventory_image = modname.."_tool_"..typename.."shovel.png",
       basetime = ft,
@@ -94,8 +94,8 @@ register_tool_type = function(modname, labelname, typename, crafttype, basetime,
    	dd_cuttability = 0,
    })
 
-   ft = basetime + (extra_rules.axe_speed or 0)
-   fd = basedurability + (extra_rules.axe_durability or 0)
+   ft = basetime -- + (extra_rules.axe_speed or 0)
+   fd = basedurability -- + (extra_rules.axe_durability or 0)
    minetest.register_tool(modname..":"..typename.."_axe", {
       inventory_image = modname.."_tool_"..typename.."axe.png",
       basetime = ft,
@@ -110,8 +110,8 @@ register_tool_type = function(modname, labelname, typename, crafttype, basetime,
    	dd_cuttability = 0,
    })
 
-   ft = basetime + (extra_rules.sword_speed or 0)
-   fd = basedurability + (extra_rules.sword_durability or 0)
+   ft = basetime -- + (extra_rules.sword_speed or 0)
+   fd = basedurability -- + (extra_rules.sword_durability or 0)
    minetest.register_tool(modname..":"..typename.."_sword", {
       inventory_image = modname.."_tool_"..typename.."sword.png",
       basetime = ft,
