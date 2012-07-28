@@ -11,15 +11,15 @@ WITH = {}
 ACTIONNODE = function(nodeid, nodename,onplace,ondig)
 	local params = {
 		description = nodename,
-		tile_images = {"madblocks_"..nodeid..".png"},
-		inventory_image = minetest.inventorycube("madblocks_"..nodeid..".png"),
+		tile_images = {"multinode_"..nodeid..".png"},
+		inventory_image = minetest.inventorycube("multinode_"..nodeid..".png"),
 		is_ground_content = true,
 		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2,flammable=3},
 		sounds = default.node_sound_wood_defaults(),
 	}
 	if onplace ~= nil then params.after_place_node = onplace end
 	if ondig ~= nil then params.after_dig_node = ondig end
-	minetest.register_node("madblocks:"..nodeid, params)
+	minetest.register_node("multinode:"..nodeid, params)
 end
 ACTIONNODE('m1','Multinode Marker 1', function(pos,placer)
 	local player = placer:get_player_name()-- or ""
@@ -362,7 +362,7 @@ minetest.register_chatcommand("saveas", {
 		if COPY[name] == nil then  minetest.chat_send_player(name, "a klingon that kills without showing his face, has no honor") return end
 
 		local output = ''						--	WRITE CHANGES TO FILE
-		local f = io.open(minetest.get_modpath('madblocks')..'/buildings/'..param..'.bld', "w")
+		local f = io.open(minetest.get_modpath('multinode')..'/buildings/'..param..'.bld', "w")
 		if f == nil then  minetest.chat_send_player(name, "a klingon that kills without showing his face, has no honor") return end
 		for a = 1,table.getn(COPY[name]),1 do
 			local x = COPY[name][a].pos.x -COPYREF[name].x
@@ -382,7 +382,7 @@ minetest.register_chatcommand("load", {
 	description = "paste",
 	privs = {server=true},
 	func = function(name, param)
-	local bldfile = io.open(minetest.get_modpath('madblocks')..'/buildings/'..param..'.bld', "r")  
+	local bldfile = io.open(minetest.get_modpath('multinode')..'/buildings/'..param..'.bld', "r")  
 		if bldfile then
 			COPY[name] = {}
 			COPYREF[name] = {x=0,y=0,z=0}

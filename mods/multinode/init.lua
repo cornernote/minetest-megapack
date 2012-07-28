@@ -11,7 +11,7 @@ WITH = {}
 ACTIONNODE = function(nodeid, nodename,onplace,ondig)
 	local params = {
 		description = nodename,
-		tiles = {"multinode_"..nodeid..".png"},
+		tile_images = {"multinode_"..nodeid..".png"},
 		inventory_image = minetest.inventorycube("multinode_"..nodeid..".png"),
 		is_ground_content = true,
 		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2,flammable=3},
@@ -402,3 +402,75 @@ minetest.register_chatcommand("load", {
 		end
 	end,
 })
+	-------------------------------------------------------
+--------------		SPHERES & HOLLOW SPHERES		---------------------------
+		---------------------------------------------------------------
+local SPHERE_SIZE = 12
+local POINT_ZERO = nil
+local HOLLOW_THICKNESS = 1
+
+function sphere(pos,nodename,hollow)
+     pos.x = math.floor(pos.x+0.5)
+     pos.y = math.floor(pos.y+0.5)
+     pos.z = math.floor(pos.z+0.5)
+     for x=-SPHERE_SIZE,SPHERE_SIZE do
+     for y=-SPHERE_SIZE,SPHERE_SIZE do
+--     for y=-(SPHERE_SIZE*4),(SPHERE_SIZE*4) do
+     for z=-SPHERE_SIZE,SPHERE_SIZE do
+         if not hollow and x*x+y*y+z*z <= SPHERE_SIZE * SPHERE_SIZE + SPHERE_SIZE then
+				local np={x=pos.x+x,y=pos.y+y,z=pos.z+z}
+				local n = minetest.env:get_node(np)
+				minetest.env:add_node(np,{type="node",name=nodename})
+			elseif hollow and x*x+y*y+z*z >= (SPHERE_SIZE-hollow) * (SPHERE_SIZE-hollow) + (SPHERE_SIZE-hollow) and x*x+y*y+z*z <= SPHERE_SIZE * SPHERE_SIZE + SPHERE_SIZE then
+				local np={x=pos.x+x,y=pos.y+y,z=pos.z+z}
+				local n = minetest.env:get_node(np)
+				minetest.env:add_node(np,{type="node",name=nodename})
+         end
+     end
+     end
+     end
+end
+
+minetest.register_chatcommand("p0", {
+	params = "<none>",
+	description = "spawn a sphere",
+	privs = {server=true},
+	func = function(name, param)
+		POINT_ZERO = minetest.env:get_player_by_name(name):getpos()
+		minetest.chat_send_player(name, "p0 set")
+	end,		})
+minetest.register_chatcommand("radius", {
+	params = "<radius>",
+	description = "set radius of sphere, default 12",
+	privs = {server=true},
+	func = function(name, param)
+		SPHERE_SIZE = param
+		minetest.chat_send_player(name, "radius set")
+	end,		})
+minetest.register_chatcommand("sphere", {
+	params = "<nodename>",
+	description = "spawn a sphere",
+	privs = {server=true},
+	func = function(name, param)
+		if POINT_ZERO == nil then minetest.chat_send_player(name, "there is no p0 only zuul") return end
+		minetest.chat_send_player(name, "spawning...larger spheres = more time, may need to retry if partial spawn")
+		sphere(POINT_ZERO, param)
+	end,		})
+minetest.register_chatcommand("thickness", {
+	params = "<hollow sphere thickness>",
+	description = "set thickness of hollow spheres, default 1",
+	privs = {server=true},
+	func = function(name, param)
+		HOLLOW_THICKNESS = param
+		minetest.chat_send_player(name, "thickness set")
+	end,		})
+minetest.register_chatcommand("hollowsphere", {
+	params = "<nodename>",
+	description = "spawn a hollow sphere",
+	privs = {server=true},
+	func = function(name, param)
+		if POINT_ZERO == nil then minetest.chat_send_player(name, "there is no p0 only zuul") return end
+		minetest.chat_send_player(name, "spawning...larger spheres = more time, may need to retry if partial spawn")
+		sphere(POINT_ZERO, param, HOLLOW_THICKNESS)
+	end,		})
+
