@@ -9,9 +9,17 @@
 -- Register nodes and tools
 
 -- Infinity Block (used to make tools)
+minetest.register_node("infinitytools:compressed_mese", {
+	description = "Compressed mese",
+	tile_images = {"infinitytools_compressed_mese.png"},
+	is_ground_content = true,
+	groups = {cracky=1},
+})
+
+-- Infinity Block (used to make tools)
 minetest.register_node("infinitytools:infinityblock", {
 	description = "Infinity Block",
-	tile_images = {"infinityblock.png"},
+	tile_images = {"infinitytools_infinity_block.png"},
 	is_ground_content = true,
 	groups = {snappy=1,choppy=2,cracky=2},
 })
@@ -19,7 +27,7 @@ minetest.register_node("infinitytools:infinityblock", {
 -- Pickaxe
 minetest.register_tool("infinitytools:pickaxe", {
 	description = "Infinity Pickaxe",
-	inventory_image = "infinity_pick.png",
+	inventory_image = "infinitytools_pick.png",
 	tool_capabilities = {
 		max_drop_level=3,
 		groupcaps={
@@ -32,7 +40,7 @@ minetest.register_tool("infinitytools:pickaxe", {
 -- Shovel
 minetest.register_tool("infinitytools:shovel", {
 	description = "Infinity Shovel",
-	inventory_image = "infinity_shovel.png",
+	inventory_image = "infinitytools_shovel.png",
 	tool_capabilities = {
 		max_drop_level=3,
 		groupcaps={
@@ -45,7 +53,7 @@ minetest.register_tool("infinitytools:shovel", {
 -- Axe
 minetest.register_tool("infinitytools:axe", {
 	description = "Infinity Axe",
-	inventory_image = "infinity_axe.png",
+	inventory_image = "infinitytools_axe.png",
 	tool_capabilities = {
 		max_drop_level=3,
 		groupcaps={
@@ -59,7 +67,7 @@ minetest.register_tool("infinitytools:axe", {
 -- Sword
 minetest.register_tool("infinitytools:sword", {
 	description = "Infinity Sword",
-	inventory_image = "infinity_sword.png",
+	inventory_image = "infinitytools_sword.png",
 	tool_capabilities = {
 		max_drop_level=3,
 		groupcaps={
@@ -74,11 +82,21 @@ minetest.register_tool("infinitytools:sword", {
 
 -- Register crafting recipies
 
+-- Compressed Mese
+minetest.register_craft({
+	output = 'infinitytools:compressed_mese',
+	recipe = {
+		{'default:mese', 'default:mese', 'default:mese'},
+		{'default:mese', 'default:mese', 'default:mese'},
+		{'default:mese', 'default:mese', 'default:mese'},
+	}
+})
+
 -- Infinity Block
 minetest.register_craft({
 	output = 'infinitytools:infinityblock',
 	recipe = {
-		{'default:mese', 'default:steel_ingot', ''},
+		{'infinitytools:compressed_mese', 'default:steel_ingot', 'infinitytools:compressed_mese'},
 	}
 })
 -- Infinity Pickaxe
