@@ -443,7 +443,7 @@ function UpdateDetectorMese(pos, search_distance)
 		for p_y=(pos.y-search_distance), (pos.y+search_distance) do
 			for p_z=(pos.z-search_distance), (pos.z+search_distance) do
 				local search_n = minetest.env:get_node({x=p_x, y=p_y, z=p_z})
-
+				--print("found "..search_n.name.." at "..dump({x=p_x, y=p_y, z=p_z}))
 				if search_n.name == "default:mese" then
 					mese_found = mese_found + 1
 				end
@@ -473,9 +473,9 @@ end
 
 minetest.register_on_punchnode(function(pos, node, puncher)
 	if string.match(node.name, "mineral_detector:") ~= nil then
-		if puncher:get_wielded_item():get_tool_capabilities().groupcaps[oddly_breakable_by_hand] == nil then
-			return
-		end
+		--if puncher:get_wielded_item():get_tool_capabilities().groupcaps[oddly_breakable_by_hand] == nil then
+		--	return
+		--end
 
 		local meta = minetest.env:get_meta(pos)
 		local search_distance = tonumber(meta:get_string("search_distance"))
