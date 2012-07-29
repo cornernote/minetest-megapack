@@ -2,8 +2,6 @@
 -- Flowers mod by ironzorg
 --]]
 
-math.randomseed(os.time())
-
 local DEBUG = 0
 
 local FLOWERS = {
@@ -24,8 +22,8 @@ local FLOWERS_DESCRIPTION = {
     "Cotton",
 }
 
-local MAX_RATIO = 2000
-local GROWING_DELAY = 2
+local MAX_RATIO = 30
+local GROWING_DELAY = 1200
 
 -- Local Functions
 local dbg = function(s)
@@ -46,16 +44,16 @@ end
 
 local is_node_in_cube = function(nodenames, node_pos, radius)
     for x = node_pos.x - radius, node_pos.x + radius do
-	for y = node_pos.y - radius, node_pos.y + radius do
-	    for z = node_pos.z - radius, node_pos.z + radius do
-		n = minetest.env:get_node_or_nil({x = x, y = y, z = z})
-		if (n == nil)
-		    or (n.name == 'ignore')
-		    or (table_contains(nodenames, n.name) == true) then
-		    return true
-		end
-	    end
+    for y = node_pos.y - radius, node_pos.y + radius do
+    for z = node_pos.z - radius, node_pos.z + radius do
+	n = minetest.env:get_node_or_nil({x = x, y = y, z = z})
+	if (n == nil)
+	    or (n.name == 'ignore')
+	    or (table_contains(nodenames, n.name) == true) then
+	    return true
 	end
+    end
+    end
     end
 
     return false
@@ -66,7 +64,7 @@ grow_blocks_on_surfaces = function(growdelay, grownames, surfaces)
 	minetest.register_abm({
 	    nodenames = { surface.name },
 	    interval = growdelay,
-	    chance = 30,
+	    chance = 10,
 	    action = function(pos, node, active_object_count, active_object_count_wider)
 		local p_top = {
 		    x = pos.x,
@@ -98,7 +96,7 @@ function flowers_add_sprite_flower(modname, name, growdelay, surfaces)
 	minetest.register_node(modname..':'..name, {
 		drawtype = 'plantlike',
 		visual_scale = 1.0,
-		tile_images = { modname.."_"..name .. '.png' },
+		tiles = { modname.."_"..name .. '.png' },
 		inventory_image = modname.."_"..name .. '.png',
 		sunlight_propagates = true,
 		paramtype = 'light',
@@ -119,7 +117,7 @@ for i, color in ipairs(FLOWERS) do
 	    description = FLOWERS_DESCRIPTION[i],
 	    drawtype = 'plantlike',
 	    visual_scale = 1.0,
-	    tile_images = { fname .. '.png' },
+	    tiles = { fname .. '.png' },
 	    inventory_image = fname .. '.png',
 	    sunlight_propagates = true,
 	    paramtype = 'light',
@@ -133,7 +131,7 @@ end
 minetest.register_node('flowers:flower_waterlily', {
     description = "Waterlily",
     drawtype = 'raillike',
-    tile_images = { 'flower_waterlily.png', },
+    tiles = { 'flower_waterlily.png', },
     inventory_image = 'flower_waterlily.png',
     sunlight_propagates = true,
     paramtype = 'light',
@@ -160,7 +158,7 @@ for i, color in ipairs(FLOWERS) do
     minetest.register_node('flowers:' .. pname, {
 	description = FLOWERS_DESCRIPTION[i] .. " in the pot",
 	drawtype = 'plantlike',
-	tile_images = { pname .. '.png' },
+	tiles = { pname .. '.png' },
 	inventory_image = pname .. '.png',
 	stack_max = 1,
 	visual_scale = 1.2,
@@ -199,7 +197,7 @@ grow_blocks_on_surfaces(GROWING_DELAY * 2, {
 	"flowers:flower_dandelion_white",
 	"flowers:flower_viola",
 	}, {
-	{name = "default:dirt_with_grass", chance = 15, spacing = 15},
+	{name = "default:dirt_with_grass", chance = 4, spacing = 15},
 })
 
 grow_blocks_on_surfaces(GROWING_DELAY, {
@@ -207,13 +205,13 @@ grow_blocks_on_surfaces(GROWING_DELAY, {
 	"flowers:flower_tulip",
 	"flowers:flower_cotton",
 	}, {
-	{name = "default:dirt_with_grass", chance = 15, spacing = 10},
+	{name = "default:dirt_with_grass", chance = 2, spacing = 10},
 })
 
 grow_blocks_on_surfaces(GROWING_DELAY / 2, {
 	"flowers:flower_waterlily",
 	}, {
-	{name = "default:water_source", chance = 15, spacing = 15},
+	{name = "default:water_source", chance = 1, spacing = 15},
 })
 
 dofile(minetest.get_modpath("flowers") .. "/cotton.lua")

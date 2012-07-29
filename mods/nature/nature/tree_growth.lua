@@ -2,13 +2,12 @@
 
 dofile(minetest.get_modpath("nature") .. "/trees.lua")
 
-local ABM_DELAY = 9600
+local ABM_DELAY = 7200
+local ABM_CHANCE = 20
 
 local TREE_GROW_DELAY = ABM_DELAY
 local DENSITY = 3 -- allow <number> trunks in the radius
 local MINIMUM_LIGHT = 8 -- light needed for the trees to grow
-
-local ABM_CHANCE = 40
 
 minetest.register_abm({
     nodenames = { "default:leaves" },

@@ -1,6 +1,6 @@
 -- Turning cobblestone into mossy stone
 
-local MOSS_CHANCE = 30
+local MOSS_CHANCE = 15
 
 minetest.register_abm({
     nodenames = { "default:cobble" },

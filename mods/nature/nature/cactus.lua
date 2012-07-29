@@ -1,12 +1,12 @@
 -- Cactus growing
 
-local CACTUS_GROW_CHANCE = 30
-local CACTUS_GROW_INDIV_CHANCE = 5
+local CACTUS_GROW_CHANCE = 15
+local CACTUS_GROW_INDIV_CHANCE = 4
 local CACTUS_MAX_DENSITY = 3
 
 minetest.register_abm({
     nodenames = { "default:cactus" },
-    interval = 7200,
+    interval = 3600,
     chance = CACTUS_GROW_CHANCE,
     
     action = function(pos, node, active_object_count, active_object_count_wider)

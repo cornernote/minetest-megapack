@@ -1,8 +1,8 @@
 -- Blossom
 
-local BLOSSOM_CHANCE = 40
-local BLOSSOM_DELAY = 7200
-local APPLE_SPAWN_CHANCE = 1
+local BLOSSOM_CHANCE = 5
+local BLOSSOM_DELAY = 3600
+local APPLE_SPAWN_CHANCE = 5
 
 minetest.register_node("nature:blossom", {
     description = "Blossom",
