@@ -1,4 +1,10 @@
--- Flowers mod by VanessaE, rewritten from Ironzorg"s original
+-- Flowers mod by VanessaE, rewritten from Ironzorg's original
+--
+-- 2012-07-30, using the version that was last included in Neko259's Nature 
+-- Pack.
+--
+-- License:  WTFPL
+--
 
 math.randomseed(os.time())
 
