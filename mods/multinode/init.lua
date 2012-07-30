@@ -402,34 +402,113 @@ minetest.register_chatcommand("load", {
 		end
 	end,
 })
+
 	-------------------------------------------------------
---------------		SPHERES & HOLLOW SPHERES		---------------------------
+--------------		SPHERES & etc					---------------------------
 		---------------------------------------------------------------
+	  -----------------------------------------------------------
+	-------------------------------------------------------
+--------------		shape functions					---------------------------
+		---------------------------------------------------------------
+
 local SPHERE_SIZE = 12
 local POINT_ZERO = nil
 local HOLLOW_THICKNESS = 1
 
-function sphere(pos,nodename,hollow)
+local function sphere(pos,nodename)
      pos.x = math.floor(pos.x+0.5)
      pos.y = math.floor(pos.y+0.5)
      pos.z = math.floor(pos.z+0.5)
+
      for x=-SPHERE_SIZE,SPHERE_SIZE do
      for y=-SPHERE_SIZE,SPHERE_SIZE do
---     for y=-(SPHERE_SIZE*4),(SPHERE_SIZE*4) do
      for z=-SPHERE_SIZE,SPHERE_SIZE do
-         if not hollow and x*x+y*y+z*z <= SPHERE_SIZE * SPHERE_SIZE + SPHERE_SIZE then
-				local np={x=pos.x+x,y=pos.y+y,z=pos.z+z}
-				local n = minetest.env:get_node(np)
-				minetest.env:add_node(np,{type="node",name=nodename})
-			elseif hollow and x*x+y*y+z*z >= (SPHERE_SIZE-hollow) * (SPHERE_SIZE-hollow) + (SPHERE_SIZE-hollow) and x*x+y*y+z*z <= SPHERE_SIZE * SPHERE_SIZE + SPHERE_SIZE then
-				local np={x=pos.x+x,y=pos.y+y,z=pos.z+z}
-				local n = minetest.env:get_node(np)
-				minetest.env:add_node(np,{type="node",name=nodename})
+         if x*x+y*y+z*z <= SPHERE_SIZE * SPHERE_SIZE + SPHERE_SIZE then
+				minetest.env:add_node({x=pos.x+x,y=pos.y+y,z=pos.z+z},{type="node",name=nodename})
          end
      end
      end
      end
 end
+local function hsphere(pos,nodename,hollow)
+     pos.x = math.floor(pos.x+0.5)
+     pos.y = math.floor(pos.y+0.5)
+     pos.z = math.floor(pos.z+0.5)
+
+     for x=-SPHERE_SIZE,SPHERE_SIZE do
+     for y=-SPHERE_SIZE,SPHERE_SIZE do
+     for z=-SPHERE_SIZE,SPHERE_SIZE do
+			if x*x+y*y+z*z >= (SPHERE_SIZE-hollow) * (SPHERE_SIZE-hollow) + (SPHERE_SIZE-hollow) and x*x+y*y+z*z <= SPHERE_SIZE * SPHERE_SIZE + SPHERE_SIZE then
+				minetest.env:add_node({x=pos.x+x,y=pos.y+y,z=pos.z+z},{type="node",name=nodename})
+         end
+     end
+     end
+     end
+end
+--[[
+local function roundframe(pos,nodename,hollow)
+     pos.x = math.floor(pos.x+0.5)
+     pos.y = math.floor(pos.y+0.5)
+     pos.z = math.floor(pos.z+0.5)
+
+     for x=-SPHERE_SIZE,SPHERE_SIZE do
+     for y=-SPHERE_SIZE,SPHERE_SIZE do
+     for z=-SPHERE_SIZE,SPHERE_SIZE do
+			if x*x+y*y+z*z >= (SPHERE_SIZE-hollow) * (SPHERE_SIZE-hollow) + (SPHERE_SIZE-hollow) and x*x+y*y+z*z <= SPHERE_SIZE * SPHERE_SIZE + SPHERE_SIZE then
+				minetest.env:add_node({x=pos.x+x,y=(pos.y+y)*4,z=pos.z+z},{type="node",name=nodename})
+--				count = count + 1
+--				print(math.floor(((count/operations)*100)+0.5)..'% complete')
+         end
+     end
+     end
+     end
+end
+]]--
+local function hsaucer(pos,nodename,hollow)
+     pos.x = math.floor(pos.x+0.5)
+     pos.y = math.floor(pos.y+0.5)
+     pos.z = math.floor(pos.z+0.5)
+
+     for x=-SPHERE_SIZE,SPHERE_SIZE do
+     for y=-(SPHERE_SIZE*4),(SPHERE_SIZE*4) do
+     for z=-SPHERE_SIZE,SPHERE_SIZE do
+			if x*x+(y*y)*4+z*z >= (SPHERE_SIZE-hollow) * (SPHERE_SIZE-hollow) + (SPHERE_SIZE-hollow) and x*x+(y*y)*4+z*z <= SPHERE_SIZE * SPHERE_SIZE + SPHERE_SIZE then
+				minetest.env:add_node({x=pos.x+x,y=pos.y+y,z=pos.z+z},{type="node",name=nodename})
+         end
+     end
+     end
+     end
+end
+local hspheremap = function(pos,thickness,sphere_size)
+	local hpshere_map = {}
+		if not thickness then thickness = 1 end
+		if not sphere_size then sphere_size = SPHERE_SIZE end
+     pos.x = math.floor(pos.x+0.5)
+     pos.y = math.floor(pos.y+0.5)
+     pos.z = math.floor(pos.z+0.5)
+     for y=-sphere_size,sphere_size do
+     for z=-sphere_size,sphere_size do
+     for x=-sphere_size,sphere_size do
+--		fix thickness
+
+			if x*x+y*y+z*z >= (sphere_size-thickness) * (sphere_size-thickness) + (sphere_size-thickness) and x*x+y*y+z*z <= sphere_size * sphere_size + sphere_size then
+				table.insert(hpshere_map,{x=pos.x+x,y=pos.y+y,z=pos.z+z})
+         end
+     end
+     end
+     end
+     return hpshere_map
+end
+local hspherespawn = function(nodename,hsphere_map)
+	for a = 1,table.getn(hsphere_map),1 do
+		minetest.env:add_node(hsphere_map[a],{type="node",name=nodename})
+		if a == table.getn(hsphere_map) then return true end
+	end
+end
+
+	-------------------------------------------------------
+--------------		chat commands					---------------------------
+		---------------------------------------------------------------
 
 minetest.register_chatcommand("p0", {
 	params = "<none>",
@@ -447,6 +526,14 @@ minetest.register_chatcommand("radius", {
 		SPHERE_SIZE = param
 		minetest.chat_send_player(name, "radius set")
 	end,		})
+minetest.register_chatcommand("thickness", {
+	params = "<hollow sphere thickness>",
+	description = "set thickness of hollow spheres, default 1",
+	privs = {server=true},
+	func = function(name, param)
+		HOLLOW_THICKNESS = param
+		minetest.chat_send_player(name, "thickness set")
+	end,		})
 minetest.register_chatcommand("sphere", {
 	params = "<nodename>",
 	description = "spawn a sphere",
@@ -456,14 +543,6 @@ minetest.register_chatcommand("sphere", {
 		minetest.chat_send_player(name, "spawning...larger spheres = more time, may need to retry if partial spawn")
 		sphere(POINT_ZERO, param)
 	end,		})
-minetest.register_chatcommand("thickness", {
-	params = "<hollow sphere thickness>",
-	description = "set thickness of hollow spheres, default 1",
-	privs = {server=true},
-	func = function(name, param)
-		HOLLOW_THICKNESS = param
-		minetest.chat_send_player(name, "thickness set")
-	end,		})
 minetest.register_chatcommand("hollowsphere", {
 	params = "<nodename>",
 	description = "spawn a hollow sphere",
@@ -471,6 +550,173 @@ minetest.register_chatcommand("hollowsphere", {
 	func = function(name, param)
 		if POINT_ZERO == nil then minetest.chat_send_player(name, "there is no p0 only zuul") return end
 		minetest.chat_send_player(name, "spawning...larger spheres = more time, may need to retry if partial spawn")
-		sphere(POINT_ZERO, param, HOLLOW_THICKNESS)
+		hsphere(POINT_ZERO, param, HOLLOW_THICKNESS)
 	end,		})
+minetest.register_chatcommand("hsaucer", {
+	params = "<nodename>",
+	description = "spawn a hollow sphere",
+	privs = {server=true},
+	func = function(name, param)
+		if POINT_ZERO == nil then minetest.chat_send_player(name, "there is no p0 only zuul") return end
+		minetest.chat_send_player(name, "spawning...larger spheres = more time, may need to retry if partial spawn")
+		hsaucer(POINT_ZERO, param, HOLLOW_THICKNESS)
+	end,		})
+minetest.register_chatcommand("hsmap", {
+	params = "<nodename>",
+	description = "map a hollow sphere",
+	privs = {server=true},
+	func = function(name, param)
+		if POINT_ZERO == nil then minetest.chat_send_player(name, "there is no p0 only zuul") return end
+		minetest.chat_send_player(name, "mapping...")
+		local map = hspheremap(POINT_ZERO, HOLLOW_THICKNESS)
+		minetest.chat_send_player(name, "done. rendering...")
+		while hspherespawn(param,map) ~= true do
+		minetest.chat_send_player(name, "rendering...")
+		end
+		minetest.chat_send_player(name, "supposed to be finished")
+	end,		})
+minetest.register_chatcommand("hsnode", {
+	params = "<none>",
+	description = "spawn a sphere",
+	privs = {server=true},
+	func = function(name, param)
+		local pos = minetest.env:get_player_by_name(name):getpos()
+		minetest.env:add_node(pos,{type="node",name="multinode:hsmap"})
 
+	end,		})
+	
+	-------------------------------------------------------
+--------------		node sphere gen					---------------------------
+		---------------------------------------------------------------
+--[[
+local function has_linkingbook_privilege(meta, player)
+	if meta:get_string("owner") == '' then
+		meta:set_string("owner", player:get_player_name())
+	elseif meta:get_string("owner") ~= player:get_player_name() then
+		return false
+	end
+	return true
+end
+]]--
+
+minetest.register_node("multinode:hsmap", {
+	description = "sphere gen",
+	tile_images = {"default_mese.png"},
+	inventory_image = "default_mese.png",
+	wield_image = "default_mese.png",
+	paramtype = "light",
+	groups = {choppy=2,dig_immediate=2},
+	sounds = default.node_sound_defaults(),
+	on_punch = function(pos,node,puncher)
+		local player = puncher:get_player_name()-- or ""
+		local meta = minetest.env:get_meta(pos)
+		local stringpos = meta:get_string("location")
+		local p = {}
+		p.x, p.y, p.z = string.match(stringpos, "^([%d.-]+)[, ] *([%d.-]+)[, ] *([%d.-]+)$")
+		if p.x and p.y and p.z then
+
+			telepomultinodee = minetest.env:get_player_by_name(player)
+			linkingbook_sound(pos)
+			telepomultinodee:setpos(p)
+			linkingbook_sound(p)
+		end
+	end,
+	on_construct = function(pos)
+		local meta = minetest.env:get_meta(pos)
+		meta:set_string("formspec", "size[5,4;]"..
+			"field[0.256,0.5;5,1;radius;Radius:;]"..
+			"field[0.256,1.5;5,1;thickness;Thickness:;]"..
+			"field[0.256,2.5;5,1;nodename;mod:modename:;]"..
+			"button_exit[3.3,3.5;2,1;button;Set]")
+--		meta:set_string("infotext", "Linking Book")
+--		meta:set_string("owner", "")
+		meta:set_string("form", "yes")
+	end,	
+	on_receive_fields = function(pos, formname, fields, sender)
+		local meta = minetest.env:get_meta(pos)
+		local sender_name = sender:get_player_name()
+
+--		if not has_linkingbook_privilege(meta, sender) then
+--			minetest.chat_send_player(sender_name, "You cannot edit other people's books")
+--		return end
+
+		meta:set_string("radius", fields.radius)
+		meta:set_string("thickness", fields.thickness)
+		meta:set_string("nodename", fields.nodename)
+	end,	
+	
+--	after_place_node = function(pos, placer)
+--		local meta = minetest.env:get_meta(pos)
+--		meta:set_string("owner", placer:get_player_name() or "")
+--	end,
+	
+--	can_dig = function(pos,player)
+--		meta = minetest.env:get_meta(pos)
+--		return has_linkingbook_privilege(meta, player)
+--	end,
+	
+})
+minetest.register_abm({
+	nodenames = {"multinode:hsmap"},
+--	neighbors = {"group:igniter"},
+	interval = 180,
+	chance = 1,
+	action = function(pos, node, _, _)
+		local meta = minetest.env:get_meta(pos)
+		local radius = tonumber(meta:get_string("radius"))
+		local thickness = tonumber(meta:get_string("thickness"))
+		local nodename = meta:get_string("nodename")
+		
+		if not radius or not thickness or not nodename then return end
+		local map = hspheremap(pos, thickness, radius)
+		hspherespawn(nodename,map)
+	end,
+})
+--[[
+	-------------------------------------------------------
+--------------		water levelling					---------------------------
+		---------------------------------------------------------------
+
+minetest.register_abm({
+	nodenames = {"multinode:pump"},
+	interval = 20,
+	chance = 1,
+	action = function(pos, node, _, _)
+		local nodes = {{x=pos.x,y=pos.y+1,z=pos.z}, {x=pos.x+1,y=pos.y,z=pos.z}, {x=pos.x-1,y=pos.y,z=pos.z}, {x=pos.x,y=pos.y,z=pos.z+1}, {x=pos.x,y=pos.y,z=pos.z+1}}
+
+		for i,po in pairs(nodes) do
+			local node = minetest.env:get_node(po)
+			if node.name == 'riventest:water_source' or node.name == 'riventest:water_flowing' or node.name == 'default:water_source' or node.name == 'default:water_flowing' then
+				minetest.env:add_node(po,{type="node",name='multinode:pump'})
+			end
+		
+		end
+
+	end,
+})
+
+minetest.register_abm({
+	nodenames = {"multinode:pump"},
+	interval = 45,
+	chance = 1,
+	action = function(pos, node, _, _)
+		local nodes = {{x=pos.x,y=pos.y+1,z=pos.z}, {x=pos.x+1,y=pos.y,z=pos.z}, {x=pos.x-1,y=pos.y,z=pos.z}, {x=pos.x,y=pos.y,z=pos.z+1}, {x=pos.x,y=pos.y,z=pos.z+1}}
+		local found_something = false
+		for i,po in pairs(nodes) do
+			local node = minetest.env:get_node(po)
+			if node.name == 'riventest:water_source' or node.name == 'riventest:water_flowing' or node.name == 'default:water_source' or node.name == 'default:water_flowing' then
+				found_something = true end
+		end
+		if found_something == false then minetest.env:remove_node(pos) end
+	end,
+})
+minetest.register_node("multinode:pump", {
+	description = "pump",
+
+	tile_images = {"default_cobble.png"},
+	inventory_image = "default_cobble.png",
+	wield_image = "default_cobble.png",
+	paramtype = "light",
+	groups = {choppy=2,dig_immediate=2},
+	sounds = default.node_sound_defaults(),
+})]]--

@@ -1,4 +1,9 @@
-Changelog:
+Changelog
+---------
+
+2012-07-26: Better bottle textures.  Note that these are blended against the 
+50% grey field they normally appear on in the inventory display, so they will 
+show artifacts if you try to wield them.  Don't do that. :-)
 
 2012-07-26: Split off glass bottles into a separate mod, "Vessels".  This mod
 now depends on it.
