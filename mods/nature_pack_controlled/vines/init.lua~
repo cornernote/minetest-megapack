@@ -1,0 +1,317 @@
+-- print("[Vines] v1.0")
+
+local VINE_GROW_CHANCE = 5
+local VINE_GROW_DELAY = 1200
+local vine_height = 4
+local Rot_chance = 5
+
+-- Nodes
+minetest.register_node("vines:rope_block", {
+    description = "Rope",
+    sunlight_propagates = true,
+    paramtype = "light",
+    drops = "",
+    tile_images = {
+		"vines_rope_block.png", 
+		"vines_rope_block.png",
+		"default_wood.png", 
+		"default_wood.png", 
+		"vines_rope_block.png", 
+		"vines_rope_block.png" 
+	},
+    drawtype = "cube",
+    groups = { snappy = 3},
+    sounds =  default.node_sound_leaves_defaults(),
+    after_place_node = function(pos)
+
+        local p = {x=pos.x, y=pos.y-1, z=pos.z}
+        local n = minetest.env:get_node(p)
+        if n.name == "air" then
+		    minetest.env:add_node(p, {name="vines:rope_end"})
+		end
+	end,
+})
+
+minetest.register_node("vines:rope", {
+    description = "Rope",
+    walkable = false,
+    climbable = true,
+    sunlight_propagates = true,
+    paramtype = "light",
+    tile_images = { "vines_rope.png" },
+    drawtype = "plantlike",
+    groups = {},
+    sounds =  default.node_sound_leaves_defaults(),
+	selection_box = {
+		type = "fixed",
+		fixed = {-1/7, -1/2, -1/7, 1/7, 1/2, 1/7},
+	},
+    
+})
+
+minetest.register_node("vines:rope_end", {
+    description = "Rope",
+    walkable = false,
+    climbable = true,
+    sunlight_propagates = true,
+    paramtype = "light",
+    drops = "",
+    tile_images = { "vines_rope.png" },
+    drawtype = "plantlike",
+    groups = {},
+    sounds =  default.node_sound_leaves_defaults(),
+    after_place_node = function(pos)
+        yesh  = {x = pos.x, y= pos.y-1, z=pos.z}
+		minetest.env:add_node(yesh, "vines:rope")
+	end,
+	selection_box = {
+		type = "fixed",
+		fixed = {-1/7, -1/2, -1/7, 1/7, 1/2, 1/7},
+	},
+})
+
+
+minetest.register_node("vines:vine", {
+    description = "Vine",
+    walkable = false,
+    climbable = true,
+    drop = 'vines:vines',
+    sunlight_propagates = true,
+    paramtype = "light",
+    tile_images = { "vines_vine.png" },
+    drawtype = "plantlike",
+    inventory_image = "vines_vine.png",
+    groups = { snappy = 3 },
+    sounds =  default.node_sound_leaves_defaults(),
+})
+
+minetest.register_node("vines:vine_rotten", {
+    description = "Rotten vine",
+    walkable = false,
+    climbable = true,
+    drop = 'vines:vines',
+    sunlight_propagates = true,
+    paramtype = "light",
+    tile_images = { "vines_vine_rotten.png" },
+    drawtype = "plantlike",
+    inventory_image = "vines_vine_rotten.png",
+    groups = { snappy = 3 },
+    sounds =  default.node_sound_leaves_defaults(),
+})
+
+--ABM
+minetest.register_abm({
+    nodenames = {"default:leaves", "growing_trees:leaves", "default:dirt_with_grass", },
+    interval = 180,
+    chance = 200,
+    action = function(pos, node)
+        
+        local p = {x=pos.x, y=pos.y-1, z=pos.z}
+        local n = minetest.env:get_node(p)
+        
+        if n.name =="air" then
+            minetest.env:add_node(p, {name="vines:vine"})
+        end
+    end
+})
+
+
+-- grows rom vines
+minetest.register_abm({
+    nodenames = {"vines:vine"},
+    interval = VINE_GROW_DELAY,
+    chance = VINE_GROW_CHANCE,
+    action = function(pos, node, _, _)
+	local under = {
+	    x = pos.x,
+	    y = pos.y - 1,
+	    z = pos.z,
+	}
+	local above = {
+		x = pos.x,
+		y = pos.y + 1,
+		z = pos.z,
+	}
+
+	local jungle_trunk_count = 0
+        
+        -- Check for jungle trunks in area
+        for i = -1, 1 do
+        for j = -1, -1 do
+        for k = -1, 1 do
+            local current_node = {
+                x = pos.x + i,
+                y = pos.y + j,
+                z = pos.z + k
+            }
+            if(minetest.env:get_node(current_node).name == "default:jungletree") then
+                    jungle_trunk_count = jungle_trunk_count + 1
+            end
+        end
+        end
+        end
+
+	local under_name = minetest.env:get_node(under).name
+
+	if under_name ~= "vines:vine"
+	and under_name ~= "default:dirt"
+	and under_name ~= "default:dirt_with_grass"
+	and minetest.env:get_node(above).name ~= "air"
+	and minetest.env:get_node(above).name ~= "deault:leaves" then
+	    minetest.env:remove_node(pos)
+	    minetest.env:add_node(pos, { name = "vines:vine_rotten" })
+	else
+
+	    if(minetest.env:get_node_light(pos, nil) < 4) then
+		return
+	    end
+ 
+
+-- maximum hieght for growth, checks whats under the current node
+	   local belowMax = {   
+		x = pos.x,	
+		y = pos.y - vine_height,	
+		z = pos.z,	
+	    }
+	   local aboveMax = {   
+		x = pos.x,	
+		y = pos.y + vine_height,	
+		z = pos.z,	
+	    }
+	if jungle_trunk_count == 0 then -- grows above ground
+	    if minetest.env:get_node(above).name == "air"
+	    and minetest.env:get_node(pose).name == "vines:vine"
+	    and minetest.env:get_node(belowMax).name ~= "vines:vine" then	
+		minetest.env:add_node(above, { name = "vines:vine" })
+	    end
+	else -- Grows below leaves
+	    if minetest.env:get_node(above).name == "deault:leaves"
+	    and (minetest.env:get_node(pose).name == "vines:vine" or minetest.env:get_node(pose).name == "air")
+	    and minetest.env:get_node(aboveMax).name ~= "vines:vine" then
+		minetest.env:add_node(under, { name = "vines:vine" })
+	    end
+	end
+    end
+
+
+})
+
+-- deteriorate vines_rotten
+minetest.register_abm({
+    nodenames = {"vines:vine_rotten"},
+    interval = 60,
+    chance = Rot_chance,
+    action = function(pos, node, active_object_count, active_object_count_wider)
+        
+        local p = {x=pos.x, y=pos.y-1, z=pos.z}
+        local n = minetest.env:get_node(p)
+        
+        -- only remove if there is no vine or dirt under the node
+        if n.name ~= "vines:vine"
+	or n.name ~= "default:dirt"
+	or n.name ~= "default:dirt_with_grass" then
+            minetest.env:remove_node(pos)
+        end
+        
+	-- if the node is a vine_rotten then it will be removed
+ 	if minetest.env:get_node(pos).name == "vines:vine_rotten" then
+	-- and math.random(0,100) > Rot_chance then
+		minetest.env:remove_node(pos)
+	end
+	
+        
+    end
+})
+
+-- Grows from dirt
+minetest.register_abm({
+    nodenames = {"default:dirt", "default:dirt_with_grass"},
+    interval = 36000,
+    chance = 2,
+    action = function(pos, node, active_object_count, active_object_count_wider)
+        
+        local p = {x=pos.x, y=pos.y, z=pos.z}
+        local n = minetest.env:get_node(p)
+	local under = minetest.env:get_node({x=pos.x, y=pos.y-1, z=pos.z})
+        
+        --remove if top node is removed
+        if  n.name == "air" and (under.name == "default:dirt" or under.name == "default:dirt_with_grass") then
+            minetest.env:add_node(p, {name="vines:vine"})
+        end 
+    end
+})
+
+minetest.register_abm({
+    nodenames = {"vines:rope_end"},
+    interval = 1,
+    chance = 1,
+    action = function(pos, node, active_object_count, active_object_count_wider)
+        
+        local p = {x=pos.x, y=pos.y-1, z=pos.z}
+        local n = minetest.env:get_node(p)
+        
+        --remove if top node is removed
+        if  n.name == "air" then
+            minetest.env:remove_node(pos)
+            minetest.env:add_node(pos, {name="vines:rope"})
+            minetest.env:add_node(p, {name="vines:rope_end"})
+        end 
+    end
+})
+
+is_node_in_cube = function(nodenames, node_pos, radius)
+    for x = node_pos.x - radius, node_pos.x + radius do
+	for y = node_pos.y - radius, node_pos.y + radius do
+	    for z = node_pos.z - radius, node_pos.z + radius do
+		n = minetest.env:get_node_or_nil({x = x, y = y, z = z})
+		if (n == nil)
+		    or (n.name == 'ignore')
+		    or (table_contains(nodenames, n.name) == true) then
+		    return true
+		end
+	    end
+	end
+    end
+
+    return false
+end
+
+table_contains = function(t, v)
+    for _, i in ipairs(t) do
+	if (i == v) then
+	    return true
+	end
+    end
+
+    return false
+end
+
+-- craft rope
+minetest.register_craft({
+	output = 'vines:rope_block',
+	recipe = {
+		{'', 'default:wood', ''},
+		{'', 'vines:vines', ''},
+		{'', 'vines:vines', ''},
+	}
+})
+
+minetest.register_craftitem("vines:vines", {
+	description = "Vines",
+	inventory_image = "vines_vine.png",
+})
+
+minetest.register_on_dignode(function (pos, node, player)
+    if node.name == 'vines:rope_block' then
+        local p = {x=pos.x, y=pos.y-1, z=pos.z}
+        local n = minetest.env:get_node(p)
+        while n.name == 'vines:rope' do
+            minetest.env:remove_node(p)
+            p = {x=p.x, y=p.y-1, z=p.z}
+            n = minetest.env:get_node(p)
+        end 
+        if n.name == 'vines:rope_end' then
+            minetest.env:remove_node(p)
+        end
+    end
+end)

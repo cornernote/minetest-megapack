@@ -102,7 +102,8 @@ function flowers_add_sprite_flower(modname, name, growdelay, surfaces)
 		paramtype = 'light',
 		walkable = false,
 		furnace_burntime = 1,
-		groups = { snappy = 3 },
+		-- groups = { snappy = 3 }, 
+		groups = {snappy=3,choppy=2,oddly_breakable_by_hand=2,flammable=3}, -- fix from Neuromancer
 	})
 
 	grow_blocks_on_surfaces(growdelay,{modname..':'..name,},surfaces)
@@ -148,7 +149,8 @@ minetest.register_craftitem('flowers:flower_pot', {
     sunlight_propagates = true,
     paramtype = 'light',
     walkable = true,
-    groups = { snappy = 3},
+    -- groups = { snappy = 3},
+	groups = {snappy=3,choppy=2,oddly_breakable_by_hand=2,flammable=3}, -- fix from Neuromancer
 })
 
 for i, color in ipairs(FLOWERS) do
