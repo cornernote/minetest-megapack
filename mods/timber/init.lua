@@ -1,4 +1,5 @@
 timber_nodenames={"default:jungletree", "default:papyrus", "default:cactus", "default:tree"}
+leaf_nodenames = {"default:leaves"}
 
 minetest.register_on_dignode(function(pos, node)
 	local i=1
@@ -13,4 +14,16 @@ minetest.register_on_dignode(function(pos, node)
 		end
 		i=i+1
 	end
+
+	if np ~= nil then
+		np={x=np.x, y=np.y-1, z=np.z}
+		local leafpos = minetest.env:find_node_near(np,3,leaf_nodenames)
+		while leafpos ~=nil do
+			local name = minetest.env:get_node(leafpos).name
+			minetest.env:remove_node(leafpos)
+			minetest.env:add_item(leafpos,name)
+			leafpos = minetest.env:find_node_near(np,3,leaf_nodenames)
+		end
+	end
+
 end)
