@@ -1,6 +1,9 @@
 -- xDoors mod by xyz
 
-models = {
+-- remove default doors (or left/right version) and drop new doors
+local REMOVE_DEFAULT_DOORS = false
+
+local models = {
     {
         -- bottom part
         {-0.5, -0.5, -0.5, -0.4, 0.5, 0.5},
@@ -51,14 +54,14 @@ models = {
     }
 }
 
-selections = {
+local selections = {
     {-0.5, -0.5, -0.5, -0.4, 1.5, 0.5},
     {0.5, -0.5, -0.5, 0.4, 1.5, 0.5},
     {-0.5, -0.5, -0.5, 0.5, 1.5, -0.4},
     {-0.5, -0.5, 0.4, 0.5, 1.5, 0.5}
 }
 
-transforms = {
+local transforms = {
     door_1_1 = "door_4_2",
     door_4_2 = "door_1_1",
     door_2_1 = "door_3_2",
@@ -69,21 +72,17 @@ transforms = {
     door_2_2 = "door_4_1"
 }
 
-function xdoors_transform(pos, node, puncher)
+local function xdoors_transform(pos, node, puncher)
     local x, y = node.name:find(":")
     local n = node.name:sub(x + 1)
-    if transforms[n] ~= nil then
-        minetest.env:add_node(pos, {name = "xdoors:"..transforms[n]})
-    else
-        print("not implemented")
-    end
+    minetest.env:add_node(pos, {name = "xdoors:"..transforms[n]})
 end
 
 for i = 1, 4 do
     for j = 1, 2 do
         minetest.register_node("xdoors:door_"..i.."_"..j, {
             drawtype = "nodebox",
-            tiles = {"default_wood.png"},
+            tile_images = {"default_wood.png"},
             paramtype = "light",
             is_ground_content = true,
             groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
@@ -104,7 +103,7 @@ for i = 1, 4 do
 end
 
 minetest.register_node("xdoors:door", {
-    description = "Wooden door",
+    description = "Wooden Door",
     node_placement_prediction = "",
 	inventory_image     = 'door_wood.png',
 	wield_image         = 'door_wood.png',
@@ -143,3 +142,22 @@ minetest.register_craft({
 		{ 'default:wood', 'default:wood', '' },
 	},
 })
+
+if REMOVE_DEFAULT_DOORS then
+    minetest.register_abm({
+        nodenames = {"doors:door_wood_a_c", "doors:door_wood_b_c", "doors:door_wood_a_o", "doors:door_wood_b_o",
+                     "doors:door_wood_right_a_c", "doors:door_wood_right_b_c", "doors:door_wood_right_a_o", "doors:door_wood_right_b_o",
+                     "doors:door_wood_left_a_c", "doors:door_wood_left_b_c", "doors:door_wood_left_a_o", "doors:door_wood_left_b_o"},
+        interval = 0.1,
+        chance = 1,
+        action = function(pos, node)
+            minetest.env:remove_node(pos)
+            if node.name:find("_b") ~= nil then
+                minetest.env:add_item(pos, "xdoors:door")
+            end
+        end
+    })
+    minetest.register_alias("doors:door_wood_right", "xdoors:door")
+    minetest.register_alias("doors:door_wood_left", "xdoors:door")
+    minetest.register_alias("doors:door_wood", "xdoors:door")
+end
