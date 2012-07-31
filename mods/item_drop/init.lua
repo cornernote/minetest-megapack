@@ -14,7 +14,12 @@ minetest.register_on_joinplayer(function(player)
 end)
 
 minetest.register_on_leaveplayer(function(player)
-	table.remove(players, player)
+	for key,value in ipairs(players) do 
+		if player:get_player_name() == value:get_player_name() then
+			table.remove(players, key)
+		end
+	end
+	--table.remove(players, player)
 end)
 
 minetest.register_globalstep(function(dtime)
