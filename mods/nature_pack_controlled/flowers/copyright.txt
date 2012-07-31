@@ -1,3 +1,4 @@
-Original textures: erlehmann.
-Original mod: ironzorg.
-Cotton update: Hackeridze.
+Flowers mod by Vanessa Ezekowitz - mostly complete rewrite of Flowers by 
+Ironzorg.
+
+Textures included herein are ironzorg's original 16px ones.

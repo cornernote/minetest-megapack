@@ -5,7 +5,7 @@ math.randomseed(os.time())
 local DEBUG = 1
 
 local MAX_RATIO = 500
-local GROWING_DELAY = 50
+local GROWING_DELAY = 500
 local RADIUS = 10
 
 local GRASSES = {
@@ -31,7 +31,7 @@ local is_node_loaded = function(nodenames, node_pos)
 	return true
 end
 
-spawn_on_surfaces = function(growdelay, grownames, surfaces)
+junglegrass_spawn_on_surfaces = function(growdelay, grownames, surfaces)
 	for _, surface in ipairs(surfaces) do
 		minetest.register_abm({
 			nodenames = { surface.name },
@@ -126,7 +126,7 @@ end
 
 -- On regular fertile ground, any size can spawn
 
-spawn_on_surfaces(GROWING_DELAY, {
+junglegrass_spawn_on_surfaces(GROWING_DELAY, {
 	"junglegrass:shortest",
 	"junglegrass:short",
 	"junglegrass:medium",
@@ -139,7 +139,7 @@ spawn_on_surfaces(GROWING_DELAY, {
 
 -- On cactus, papyrus, and desert sand, only the two smallest sizes can spawn
 
-spawn_on_surfaces(GROWING_DELAY, {
+junglegrass_spawn_on_surfaces(GROWING_DELAY, {
 	"junglegrass:shortest",
 	"junglegrass:short",
 	}, {

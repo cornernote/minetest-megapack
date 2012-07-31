@@ -1,0 +1,6 @@
+This is a mostly-rewrite of Ironzorg's flowers mod, using more recent features 
+in the game, to make the code perform better.
+
+Dependencies: none (just the game's default stuff)
+
+License:  cc-by-sa 3.0 for the textures, WTFPL for everything else.

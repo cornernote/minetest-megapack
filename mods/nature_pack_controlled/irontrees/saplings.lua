@@ -14,11 +14,15 @@ minetest.register_node("irontrees:iron_sapling", {
 })
 
 -- Grow irontrees on the ground
-grow_blocks_on_surfaces(3600, {
+
+spawn_on_surfaces(
+    3600,
     "irontrees:iron_sapling",
-}, {
-    { name = "default:dirt_with_grass", chance = 3, spacing = 30 },
-})
+    30,
+    3,
+    "default:dirt_with_grass",
+    "irontrees:iron_sapling"
+)
 
 -- Growing ABM
 minetest.register_abm({

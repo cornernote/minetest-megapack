@@ -1,219 +1,152 @@
---[[
--- Flowers mod by ironzorg
---]]
+-- Flowers mod by VanessaE, rewritten from Ironzorg's original
+--
+-- 2012-07-30, using the version that was last included in Neko259's Nature 
+-- Pack.
+--
+-- License:  WTFPL
+--
 
-local DEBUG = 0
+math.randomseed(os.time())
+
+local DEBUG = 1
+
+local MAX_RATIO = 225
+local GROWING_DELAY = 1000
 
 local FLOWERS = {
-    "rose",
-    "dandelion_yellow",
-    "dandelion_white",
-    "tulip",
-    "viola",
-    "cotton",
+	{ "Rose",		"rose", 		GROWING_DELAY*2, "15", "4" },
+	{ "Tulip",		"tulip",		GROWING_DELAY,   "10", "2" },
+	{ "Yellow Dandelion",	"dandelion_yellow",	GROWING_DELAY,   "10", "2" },
+	{ "White Dandelion",	"dandelion_white",	GROWING_DELAY*2, "15", "4" },
+	{ "Viola",		"viola",		GROWING_DELAY*2, "15", "4" },
+	{ "Cotton Plant",	"cotton",		GROWING_DELAY,   "10", "2" }
 }
+	
 
-local FLOWERS_DESCRIPTION = {
-    "Rose",
-    "Dandelion yellow",
-    "Dandelion white",
-    "Tulip",
-    "Viola",
-    "Cotton",
-}
-
-local MAX_RATIO = 30
-local GROWING_DELAY = 1200
-
--- Local Functions
 local dbg = function(s)
-    if DEBUG == 1 then
-	print('[FLOWERS] ' .. s)
-    end
-end
-
-local table_contains = function(t, v)
-    for _, i in ipairs(t) do
-	if (i == v) then
-	    return true
+	if DEBUG == 1 then
+		print("[FLOWERS] " .. s)
 	end
-    end
-
-    return false
 end
 
-local is_node_in_cube = function(nodenames, node_pos, radius)
-    for x = node_pos.x - radius, node_pos.x + radius do
-    for y = node_pos.y - radius, node_pos.y + radius do
-    for z = node_pos.z - radius, node_pos.z + radius do
-	n = minetest.env:get_node_or_nil({x = x, y = y, z = z})
-	if (n == nil)
-	    or (n.name == 'ignore')
-	    or (table_contains(nodenames, n.name) == true) then
-	    return true
+local is_node_loaded = function(node_pos)
+	n = minetest.env:get_node_or_nil(node_pos)
+	if (n == nil) or (n.name == "ignore") then
+		return false
 	end
-    end
-    end
-    end
-
-    return false
+	return true
 end
 
-grow_blocks_on_surfaces = function(growdelay, grownames, surfaces)
-    for _, surface in ipairs(surfaces) do
+spawn_on_surfaces = function(spawndelay, spawnflower, spawnradius, spawnchance, spawnsurface, spawnavoid)
 	minetest.register_abm({
-	    nodenames = { surface.name },
-	    interval = growdelay,
-	    chance = 10,
-	    action = function(pos, node, active_object_count, active_object_count_wider)
-		local p_top = {
-		    x = pos.x,
-		    y = pos.y + 1,
-		    z = pos.z
-		}
-		local n_top = minetest.env:get_node(p_top)
-		local rnd = math.random(1, MAX_RATIO)
+		nodenames = { spawnsurface },
+		interval = spawndelay,
+		chance = 30,
 
-		if (MAX_RATIO - surface.chance < rnd) then
-		    local flower_in_range = is_node_in_cube(grownames, p_top, surface.spacing)
-		    if (n_top.name == "air") and (flower_in_range == false) then
-			local nnode = grownames[math.random(1, #grownames)]
-			dbg('Adding node ' .. nnode .. ' ('
-			.. pos.x .. ', '
-			.. pos.y .. ', '
-			.. pos.z .. ')')
-			minetest.env:add_node(p_top, { name = nnode })
-		    end
+		action = function(pos, node, active_object_count, active_object_count_wider)
+			local p_top = { x = pos.x, y = pos.y + 1, z = pos.z }	
+			local n_top = minetest.env:get_node(p_top)
+			local rnd = math.random(1, MAX_RATIO)
+			if (MAX_RATIO - spawnchance < rnd) and (n_top.name == "air") and is_node_loaded(p_top) then
+				if (minetest.env:find_node_near(p_top, spawnradius, spawnavoid) == nil )
+				   and (minetest.env:get_node_light(p_top, nil) > 4) then
+					dbg("Spawning "..spawnflower.." at ("..p_top.x..", "..p_top.y..", "..p_top.z..") on "..spawnsurface)
+					minetest.env:add_node(p_top, { name = spawnflower })
+				end
+			end
 		end
-	    end
 	})
-    end
 end
 
+-- On regular fertile ground, any flower except waterlilies can spawn
 
-function flowers_add_sprite_flower(modname, name, growdelay, surfaces)
+for i in ipairs(FLOWERS) do
+	local flowerdesc = FLOWERS[i][1]
+	local flower     = FLOWERS[i][2]
+	local delay      = FLOWERS[i][3]
+	local radius     = FLOWERS[i][4]
+	local chance     = FLOWERS[i][5]
 
-	minetest.register_node(modname..':'..name, {
-		drawtype = 'plantlike',
-		visual_scale = 1.0,
-		tiles = { modname.."_"..name .. '.png' },
-		inventory_image = modname.."_"..name .. '.png',
+	minetest.register_node("flowers:flower_"..flower, {
+		description = flowerdesc,
+		drawtype = "plantlike",
+		tiles = { "flower_"..flower..".png" },
+		inventory_image = "flower_"..flower..".png",
+		wield_image = "flower_"..flower..".png",
 		sunlight_propagates = true,
-		paramtype = 'light',
+		paramtype = "light",
 		walkable = false,
-		furnace_burntime = 1,
-		-- groups = { snappy = 3 }, 
-		groups = {snappy=3,choppy=2,oddly_breakable_by_hand=2,flammable=3}, -- fix from Neuromancer
+		groups = { snappy = 3,flammable=2, flower=1 },
+		sounds = default.node_sound_leaves_defaults()
 	})
 
-	grow_blocks_on_surfaces(growdelay,{modname..':'..name,},surfaces)
-end
-
-
--- Nodes
-for i, color in ipairs(FLOWERS) do
-	local fname = 'flower_' .. color
-
-	minetest.register_node('flowers:' .. fname, {
-	    description = FLOWERS_DESCRIPTION[i],
-	    drawtype = 'plantlike',
-	    visual_scale = 1.0,
-	    tiles = { fname .. '.png' },
-	    inventory_image = fname .. '.png',
-	    sunlight_propagates = true,
-	    paramtype = 'light',
-	    walkable = false,
-	    furnace_burntime = 1,
-	    groups = { snappy = 3 },
-	    sounds = default.node_sound_leaves_defaults(),
+	minetest.register_node("flowers:flower_"..flower.."_pot", {
+		description = flowerdesc.." in a pot",
+		drawtype = "plantlike",
+		tiles = { "flower_"..flower.."_pot.png" },
+		inventory_image = "flower_"..flower.."_pot.png",
+		wield_image = "flower_"..flower.."_pot.png",
+		sunlight_propagates = true,
+		paramtype = "light",
+		walkable = false,
+		groups = { snappy = 3,flammable=2 },
+		sounds = default.node_sound_leaves_defaults(),
 	})
-end
 
-minetest.register_node('flowers:flower_waterlily', {
-    description = "Waterlily",
-    drawtype = 'raillike',
-    tiles = { 'flower_waterlily.png', },
-    inventory_image = 'flower_waterlily.png',
-    sunlight_propagates = true,
-    paramtype = 'light',
-    walkable = false,
-    groups = { snappy = 3 },
-})
-
-minetest.register_craftitem('flowers:flower_pot', {
-    description = "Flower pot",
-    drawtype = 'plantlike',
-    image = 'flower_pot.png',
-    stack_max = 1,
-    visual_scale = 1.0,
-    sunlight_propagates = true,
-    paramtype = 'light',
-    walkable = true,
-    -- groups = { snappy = 3},
-	groups = {snappy=3,choppy=2,oddly_breakable_by_hand=2,flammable=3}, -- fix from Neuromancer
-})
-
-for i, color in ipairs(FLOWERS) do
-    local fname = 'flower_' .. color
-    local pname = fname .. '_pot'
-
-    minetest.register_node('flowers:' .. pname, {
-	description = FLOWERS_DESCRIPTION[i] .. " in the pot",
-	drawtype = 'plantlike',
-	tiles = { pname .. '.png' },
-	inventory_image = pname .. '.png',
-	stack_max = 1,
-	visual_scale = 1.2,
-	sunlight_propagates = true,
-	paramtype = 'light',
-	walkable = true,
-	material = minetest.digprop_constanttime(1.0),
-    })
-end
-
--- Crafts
-minetest.register_craft({
-	output = 'flowers:flower_pot 1',
-	recipe = {
-		{'default:clay_brick 1', '', 'default:clay_brick 1'},
-		{'', 'default:clay_brick 1', ''},
-	}
-})
-
-for _, color in ipairs(FLOWERS) do
-	local fname = 'flowers:flower_' .. color
-	local pname = fname .. '_pot'
-
-	minetest.register_craft({
-		output = pname .. ' 1',
+	minetest.register_craft( {
+		type = "shapeless",
+		output = "flowers:flower_"..flower.."_pot",
 		recipe = {
-			{fname .. ' 1'},
-			{'flowers:flower_pot 1'},
+			"flowers:flower_pot",
+			"flowers:flower_"..flower
 		}
 	})
+
+	spawn_on_surfaces(delay, "flowers:flower_"..flower, radius, chance, "default:dirt_with_grass", "group:flower")
+	spawn_on_surfaces(delay, "flowers:flower_"..flower, radius, chance, "default:dirt", "group:flower")
 end
 
--- Make it grow !
-grow_blocks_on_surfaces(GROWING_DELAY * 2, {
-	"flowers:flower_rose",
-	"flowers:flower_dandelion_white",
-	"flowers:flower_viola",
-	}, {
-	{name = "default:dirt_with_grass", chance = 4, spacing = 15},
+-- These few have to be defined separately because of some special
+-- condition.  Waterlilies only spawn on top of water for example.
+
+minetest.register_node("flowers:flower_waterlily", {
+	description = "Waterlily",
+	drawtype = "raillike",
+	tiles = { "flower_waterlily.png" },
+	inventory_image = "flower_waterlily.png",
+	wield_image  = "flower_waterlily.png",
+	sunlight_propagates = true,
+	paramtype = "light",
+	walkable = false,
+	groups = { snappy = 3,flammable=2,flower=1 },
+	sounds = default.node_sound_leaves_defaults(),
 })
 
-grow_blocks_on_surfaces(GROWING_DELAY, {
-	"flowers:flower_dandelion_yellow",
-	"flowers:flower_tulip",
-	"flowers:flower_cotton",
-	}, {
-	{name = "default:dirt_with_grass", chance = 2, spacing = 10},
+spawn_on_surfaces(GROWING_DELAY/2, "flowers:flower_waterlily", 15, 1, "default:water_source", "group:flower")
+
+minetest.register_craftitem("flowers:flower_pot", {
+        description = "Flower Pot",
+        inventory_image = "flower_pot.png",
 })
 
-grow_blocks_on_surfaces(GROWING_DELAY / 2, {
-	"flowers:flower_waterlily",
-	}, {
-	{name = "default:water_source", chance = 1, spacing = 15},
+minetest.register_craft( {
+        output = "flowers:flower_pot",
+        recipe = {
+                { "default:clay_brick", "", "default:clay_brick" },
+                { "", "default:clay_brick", "" }
+        },
 })
 
-dofile(minetest.get_modpath("flowers") .. "/cotton.lua")
+minetest.register_craftitem("flowers:cotton", {
+    description = "Cotton",
+    image = "cotton.png",
+})
+
+minetest.register_craft({
+    output = "flowers:cotton 3",
+    recipe ={
+        {"flowers:flower_cotton"},
+    }
+})
+
+print("[Flowers] Loaded!")

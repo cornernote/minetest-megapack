@@ -6,13 +6,6 @@ local BUSHES_DESCRIPTIONS = {
     "Strawberry",
 }
 
--- Grow junglegrass
-grow_blocks_on_surfaces(3600, {
-    "default:junglegrass",
-}, {
-    { name = "default:dirt_with_grass", chance = 3, spacing = 10 },
-})
-
 for i, bush_name in ipairs(BUSHES) do
     minetest.register_node("bushes:" .. bush_name .. "_bush", {
 	description = BUSHES_DESCRIPTIONS[i] .. " bush",
@@ -24,7 +17,7 @@ for i, bush_name in ipairs(BUSHES) do
 	sunlight_propagates = true,
 	walkable = false,
 	drop = 'bushes:' .. bush_name .. ' 4',
-	groups = { snappy = 3 },
+	groups = { snappy = 3, bush=1},
 	sounds = default.node_sound_leaves_defaults(),
     })
 
@@ -43,11 +36,15 @@ for i, bush_name in ipairs(BUSHES) do
 	}
     })
 
-    grow_blocks_on_surfaces(3600, {
-	"bushes:" .. bush_name .. "_bush",
-    }, {
-	{ name = "default:dirt_with_grass", chance = 2, spacing = 15 },
-    })
+    spawn_on_surfaces(
+	3600,
+	"bushes:"..bush_name.."_bush",
+	15,
+	2,
+	"default:dirt_with_grass",
+	"group:bush"
+    )
+
 end
 
 dofile(minetest.get_modpath('bushes') .. '/cooking.lua')
