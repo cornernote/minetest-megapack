@@ -1,5 +1,5 @@
 timber_nodenames={"default:jungletree", "default:papyrus", "default:cactus", "default:tree", "conifers:trunk"}
-leaf_nodenames = {"default:leaves", "conifers:leaves"}
+leaf_nodenames = {"default:leaves", "default:apple", "conifers:leaves"}
 
 minetest.register_on_dignode(function(pos, node)
 	local i=1

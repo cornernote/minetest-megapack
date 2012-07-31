@@ -532,6 +532,42 @@ function cart:on_step(dtime)
 		end
 	end
 	
+	--search for pickup plates and take items
+	for x=-1,1 do
+		local pos = {x=self.object:getpos().x+x, y=self.object:getpos().y, z=self.object:getpos().z}
+		local name = minetest.env:get_node(pos).name
+		if name == "carts:pickup_plate" then
+			pos.x = math.floor(0.5+pos.x)
+			pos.y = math.floor(0.5+pos.y)
+			pos.z = math.floor(0.5+pos.z)
+			local items = minetest.env:get_objects_inside_radius(pos, 1)
+			for i,item in ipairs(items) do
+				if not item:is_player() then
+					table.insert(self.items, item)
+				elseif TRANSPORT_PLAYER then
+					table.insert(self.items, item)
+				end
+			end
+		end
+	end
+	for z=-1,1 do
+		local pos = {x=self.object:getpos().x, y=self.object:getpos().y, z=self.object:getpos().z+z}
+		local name = minetest.env:get_node(pos).name
+		if name == "carts:pickup_plate" then
+			pos.x = math.floor(0.5+pos.x)
+			pos.y = math.floor(0.5+pos.y)
+			pos.z = math.floor(0.5+pos.z)
+			local items = minetest.env:get_objects_inside_radius(pos, 1)
+			for i,item in ipairs(items) do
+				if not item:is_player() then
+					table.insert(self.items, item)
+				elseif TRANSPORT_PLAYER then
+					table.insert(self.items, item)
+				end
+			end
+		end
+	end
+	
 	-- mesecons functions
 	if minetest.get_modpath("mesecons") ~= nil then
 		local pos = self.object:getpos()
@@ -541,7 +577,9 @@ function cart:on_step(dtime)
 		local name = minetest.env:get_node(pos).name
 		if name == "carts:meseconrail_off" then
 			minetest.env:set_node(pos, {name="carts:meseconrail_on"})
-			mesecon:receptor_on(pos)
+			if mesecon ~= nil then
+				mesecon:receptor_on(pos)
+			end
 		end
 		
 		if name == "carts:meseconrail_stop_on" then
@@ -647,6 +685,7 @@ function cart:on_rightclick(clicker)
 		-- start sound
 		self.sound_handler = minetest.sound_play(SOUND_FILE, {
 			object = self.object,
+			gain = 0.4,
 			loop = true,
 		})
 		
