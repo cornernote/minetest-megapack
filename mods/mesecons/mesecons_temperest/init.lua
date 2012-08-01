@@ -3,7 +3,7 @@
 local set_node_on
 local set_node_off
 
-if ENABLE_TEMPEREST==1 then
+if ENABLE_TEMPEREST then
 	set_node_on = function(pos)
 		local node = minetest.env:get_node(pos)
 		if node.name=="mesecons_temperest:mesecon_socket_off" then
@@ -102,7 +102,7 @@ minetest.register_node("mesecons_temperest:mesecon_plug", {
 	drawtype = "nodebox",
 	paramtype = "light",
 	is_ground_content = true,
-	tiles = {"jeija_mesecon_plug.png"},
+	tile_images = {"jeija_mesecon_plug.png"},
 	inventory_image = "jeija_mesecon_plug.png",
 	wield_image = "jeija_mesecon_plug.png",
 	groups = {dig_immediate=2},
@@ -136,7 +136,7 @@ minetest.register_node("mesecons_temperest:mesecon_socket_off", {
 	drawtype = "nodebox",
 	paramtype = "light",
 	is_ground_content = true,
-	tiles = {"jeija_mesecon_socket_off.png"},
+	tile_images = {"jeija_mesecon_socket_off.png"},
 	inventory_image = "jeija_mesecon_socket_off.png",
 	wield_image = "jeija_mesecon_socket_off.png",
 	groups = {dig_immediate=2},
@@ -155,7 +155,7 @@ minetest.register_node("mesecons_temperest:mesecon_socket_on", {
 	drawtype = "nodebox",
 	paramtype = "light",
 	is_ground_content = true,
-	tiles = {"jeija_mesecon_socket_on.png"},
+	tile_images = {"jeija_mesecon_socket_on.png"},
 	groups = {dig_immediate=2},
 	walkable = false,
 	selection_box = {
@@ -185,12 +185,12 @@ minetest.register_craft({
 })
 
 --TEMPEREST-INVERTER
-if ENABLE_TEMPEREST==1 then
+if ENABLE_TEMPEREST then
 	minetest.register_node("mesecons_temperest:mesecon_inverter_off", {
 		drawtype = "nodebox",
 		paramtype = "light",
 		is_ground_content = true,
-		tiles = {"jeija_mesecon_inverter_off.png"},
+		tile_images = {"jeija_mesecon_inverter_off.png"},
 		groups = {dig_immediate=2},
 		walkable = false,
 		selection_box = {
@@ -209,7 +209,7 @@ if ENABLE_TEMPEREST==1 then
 		drawtype = "nodebox",
 		paramtype = "light",
 		is_ground_content = true,
-		tiles = {"jeija_mesecon_inverter_on.png"},
+		tile_images = {"jeija_mesecon_inverter_on.png"},
 		inventory_image = "jeija_mesecon_inverter_on.png",
 		wield_image = "jeija_mesecon_inverter_on.png",
 		groups = {dig_immediate=2},
@@ -242,5 +242,3 @@ if ENABLE_TEMPEREST==1 then
 		}
 	})
 end
-
-

@@ -1,7 +1,7 @@
 -- WALL BUTTON
 minetest.register_node("mesecons_button:button_off", {
     drawtype = "nodebox",
-    tiles = {"jeija_wall_button_off.png"},
+    tile_images = {"jeija_wall_button_off.png"},
     paramtype = "light",
     paramtype2 = "facedir",
     legacy_wallmounted = true,
@@ -19,7 +19,7 @@ minetest.register_node("mesecons_button:button_off", {
 })
 minetest.register_node("mesecons_button:button_on", {
 	drawtype = "nodebox",
-	tiles = {"jeija_wall_button_on.png"},
+	tile_images = {"jeija_wall_button_on.png"},
 	paramtype = "light",
 	paramtype2 = "facedir",
 	legacy_wallmounted = true,

@@ -1,14 +1,14 @@
 -- MESECON_SWITCH
 
 minetest.register_node("mesecons_switch:mesecon_switch_off", {
-	tiles = {"jeija_mesecon_switch_side.png", "jeija_mesecon_switch_side.png", "jeija_mesecon_switch_side.png", "jeija_mesecon_switch_side.png", "jeija_mesecon_switch_side.png", "jeija_mesecon_switch_off.png"},
+	tile_images = {"jeija_mesecon_switch_side.png", "jeija_mesecon_switch_side.png", "jeija_mesecon_switch_side.png", "jeija_mesecon_switch_side.png", "jeija_mesecon_switch_side.png", "jeija_mesecon_switch_off.png"},
 	paramtype2="facedir",
 	groups = {dig_immediate=2},
     	description="Switch",
 })
 
 minetest.register_node("mesecons_switch:mesecon_switch_on", {
-	tiles = {"jeija_mesecon_switch_side.png", "jeija_mesecon_switch_side.png", "jeija_mesecon_switch_side.png", "jeija_mesecon_switch_side.png", "jeija_mesecon_switch_side.png", "jeija_mesecon_switch_on.png"},
+	tile_images = {"jeija_mesecon_switch_side.png", "jeija_mesecon_switch_side.png", "jeija_mesecon_switch_side.png", "jeija_mesecon_switch_side.png", "jeija_mesecon_switch_side.png", "jeija_mesecon_switch_on.png"},
 	paramtype2="facedir",
 	groups = {dig_immediate=2},
 	drop='"mesecons_switch:mesecon_switch_off" 1',

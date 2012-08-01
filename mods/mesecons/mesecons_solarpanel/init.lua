@@ -1,7 +1,7 @@
 -- Solar Panel
 minetest.register_node("mesecons_solarpanel:solar_panel", {
 	drawtype = "raillike",
-	tiles = {"jeija_solar_panel.png"},
+	tile_images = {"jeija_solar_panel.png"},
 	inventory_image = "jeija_solar_panel.png",
 	wield_image = "jeija_solar_panel.png",
 	paramtype = "light",
@@ -9,9 +9,10 @@ minetest.register_node("mesecons_solarpanel:solar_panel", {
 	is_ground_content = true,
 	selection_box = {
 		type = "fixed",
+		fixed = {-0.5, -0.5, -0.5, 0.5, -0.45, 0.5},
 	},
 	furnace_burntime = 5,
-	groups = {snappy=2},
+	groups = {dig_immediate=3},
     	description="Solar Panel",
 })
 

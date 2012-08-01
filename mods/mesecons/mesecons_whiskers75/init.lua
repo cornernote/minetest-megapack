@@ -6,7 +6,7 @@
 minetest.register_node("mesecons_whiskers75:andblock", {
 	description = "AND block",
 	drawtype = "raillike",
-	tiles = {"whiskers75andblock.png"},
+	tile_images = {"whiskers75andblock.png"},
 	inventory_image = {"whiskers75andblock.png"},
 	sunlight_propagates = true,
 	paramtype = 'light',

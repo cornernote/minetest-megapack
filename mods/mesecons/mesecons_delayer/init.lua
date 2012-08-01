@@ -1,7 +1,7 @@
 minetest.register_node("mesecons_delayer:delayer_off_1", {
 	description = "Delayer",
 	drawtype = "nodebox",
-	tiles = {"mesecons_delayer_off_1.png"},
+	tile_images = {"mesecons_delayer_off_1.png"},
 	inventory_image = "mesecons_delayer_off_1.png",
 	wield_image = "mesecons_delayer_off_1.png",
 	walkable = false,
@@ -24,7 +24,7 @@ minetest.register_node("mesecons_delayer:delayer_off_1", {
 minetest.register_node("mesecons_delayer:delayer_off_2", {
 	description = "Delayer",
 	drawtype = "nodebox",
-	tiles = {"mesecons_delayer_off_2.png"},
+	tile_images = {"mesecons_delayer_off_2.png"},
 	inventory_image = "mesecons_delayer_off_2.png",
 	walkable = false,
 	selection_box = {
@@ -46,7 +46,7 @@ minetest.register_node("mesecons_delayer:delayer_off_2", {
 minetest.register_node("mesecons_delayer:delayer_off_3", {
 	description = "Delayer",
 	drawtype = "nodebox",
-	tiles = {"mesecons_delayer_off_3.png"},
+	tile_images = {"mesecons_delayer_off_3.png"},
 	inventory_image = "mesecons_delayer_off_3.png",
 	walkable = false,
 	selection_box = {
@@ -68,7 +68,7 @@ minetest.register_node("mesecons_delayer:delayer_off_3", {
 minetest.register_node("mesecons_delayer:delayer_off_4", {
 	description = "Delayer",
 	drawtype = "nodebox",
-	tiles = {"mesecons_delayer_off_4.png"},
+	tile_images = {"mesecons_delayer_off_4.png"},
 	inventory_image = "mesecons_delayer_off_4.png",
 	walkable = false,
 	selection_box = {
@@ -94,7 +94,7 @@ minetest.register_node("mesecons_delayer:delayer_off_4", {
 minetest.register_node("mesecons_delayer:delayer_on_1", {
 	description = "Delayer",
 	drawtype = "nodebox",
-	tiles = {"mesecons_delayer_on_1.png"},
+	tile_images = {"mesecons_delayer_on_1.png"},
 	inventory_image = "mesecons_delayer_on_1.png",
 	walkable = false,
 	selection_box = {
@@ -116,7 +116,7 @@ minetest.register_node("mesecons_delayer:delayer_on_1", {
 minetest.register_node("mesecons_delayer:delayer_on_2", {
 	description = "Delayer",
 	drawtype = "nodebox",
-	tiles = {"mesecons_delayer_on_2.png"},
+	tile_images = {"mesecons_delayer_on_2.png"},
 	inventory_image = "mesecons_delayer_on_2.png",
 	walkable = false,
 	selection_box = {
@@ -138,7 +138,7 @@ minetest.register_node("mesecons_delayer:delayer_on_2", {
 minetest.register_node("mesecons_delayer:delayer_on_3", {
 	description = "Delayer",
 	drawtype = "nodebox",
-	tiles = {"mesecons_delayer_on_3.png"},
+	tile_images = {"mesecons_delayer_on_3.png"},
 	inventory_image = "mesecons_delayer_on_3.png",
 	walkable = false,
 	selection_box = {
@@ -160,7 +160,7 @@ minetest.register_node("mesecons_delayer:delayer_on_3", {
 minetest.register_node("mesecons_delayer:delayer_on_4", {
 	description = "Delayer",
 	drawtype = "nodebox",
-	tiles = {"mesecons_delayer_on_4.png"},
+	tile_images = {"mesecons_delayer_on_4.png"},
 	inventory_image = "mesecons_delayer_on_4.png",
 	walkable = false,
 	selection_box = {

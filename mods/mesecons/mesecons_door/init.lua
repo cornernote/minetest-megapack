@@ -83,7 +83,7 @@ for i = 1, 4 do
     for j = 1, 2 do
         minetest.register_node("mesecons_door:door_"..i.."_"..j, {
             drawtype = "nodebox",
-            tiles = {"default_wood.png"},
+            tile_images = {"default_wood.png"},
             paramtype = "light",
             is_ground_content = true,
             groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},

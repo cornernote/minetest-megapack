@@ -1,7 +1,7 @@
 -- WALL LEVER
 minetest.register_node("mesecons_walllever:wall_lever_off", {
 	drawtype = "signlike",
-	tiles = {"jeija_wall_lever_off.png"},
+	tile_images = {"jeija_wall_lever_off.png"},
 	inventory_image = "jeija_wall_lever_off.png",
 	wield_image = "jeija_wall_lever_off.png",
 	paramtype = "light",
@@ -16,7 +16,7 @@ minetest.register_node("mesecons_walllever:wall_lever_off", {
 })
 minetest.register_node("mesecons_walllever:wall_lever_on", {
 	drawtype = "signlike",
-	tiles = {"jeija_wall_lever_on.png"},
+	tile_images = {"jeija_wall_lever_on.png"},
 	inventory_image = "jeija_wall_lever_on.png",
 	paramtype = "light",
 	paramtype2 = "wallmounted",

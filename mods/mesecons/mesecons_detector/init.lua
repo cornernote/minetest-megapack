@@ -1,6 +1,6 @@
 --SHORT RANGE DETECTORS
 minetest.register_node("mesecons_detector:object_detector_off", {
-	tiles = {"default_steel_block.png", "default_steel_block.png", "jeija_object_detector_off.png", "jeija_object_detector_off.png", "jeija_object_detector_off.png", "jeija_object_detector_off.png"},
+	tile_images = {"default_steel_block.png", "default_steel_block.png", "jeija_object_detector_off.png", "jeija_object_detector_off.png", "jeija_object_detector_off.png", "jeija_object_detector_off.png"},
 	paramtype = "light",
 	walkable = true,
 	groups = {cracky=3},
@@ -8,7 +8,7 @@ minetest.register_node("mesecons_detector:object_detector_off", {
 })
 
 minetest.register_node("mesecons_detector:object_detector_on", {
-	tiles = {"default_steel_block.png", "default_steel_block.png", "jeija_object_detector_on.png", "jeija_object_detector_on.png", "jeija_object_detector_on.png", "jeija_object_detector_on.png"},
+	tile_images = {"default_steel_block.png", "default_steel_block.png", "jeija_object_detector_on.png", "jeija_object_detector_on.png", "jeija_object_detector_on.png", "jeija_object_detector_on.png"},
 	paramtype = "light",
 	walkable = true,
 	groups = {cracky=3},

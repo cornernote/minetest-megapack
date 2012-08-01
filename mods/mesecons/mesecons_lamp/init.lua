@@ -1,7 +1,7 @@
 -- MESELAMPS
 minetest.register_node("mesecons_lamp:lamp_on", {
 	drawtype = "torchlike",
-	tiles = {"jeija_meselamp_on_ceiling_on.png", "jeija_meselamp_on_floor_on.png", "jeija_meselamp_on.png"},
+	tile_images = {"jeija_meselamp_on_ceiling_on.png", "jeija_meselamp_on_floor_on.png", "jeija_meselamp_on.png"},
 	inventory_image = "jeija_meselamp_on_floor_on.png",
 	paramtype = "light",
 	sunlight_propagates = true,
@@ -20,7 +20,7 @@ minetest.register_node("mesecons_lamp:lamp_on", {
 
 minetest.register_node("mesecons_lamp:lamp_off", {
 	drawtype = "torchlike",
-	tiles = {"jeija_meselamp_on_ceiling_off.png", "jeija_meselamp_on_floor_off.png", "jeija_meselamp_off.png"},
+	tile_images = {"jeija_meselamp_on_ceiling_off.png", "jeija_meselamp_on_floor_off.png", "jeija_meselamp_off.png"},
 	inventory_image = "jeija_meselamp_on_floor_off.png",
 	wield_image = "jeija_meselamp_on_ceiling_off.png",
 	paramtype = "light",

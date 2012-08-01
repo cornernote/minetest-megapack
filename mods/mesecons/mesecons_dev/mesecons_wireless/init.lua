@@ -146,7 +146,7 @@ minetest.register_abm(
 --WIRELESS RECEIVER
 
 minetest.register_node("mesecons_wireless:wireless_receiver_off", {
-	tiles = {"jeija_wireless_receiver_tb_off.png", "jeija_wireless_receiver_tb_off.png", "jeija_wireless_receiver_off.png", "jeija_wireless_receiver_off.png", "jeija_wireless_receiver_off.png", "jeija_wireless_receiver_off.png"},
+	tile_images = {"jeija_wireless_receiver_tb_off.png", "jeija_wireless_receiver_tb_off.png", "jeija_wireless_receiver_off.png", "jeija_wireless_receiver_off.png", "jeija_wireless_receiver_off.png", "jeija_wireless_receiver_off.png"},
 	inventory_image = minetest.inventorycube("jeija_wireless_receiver_off.png"),
 	groups = {choppy=2},
 	description="Wireless Receiver",
@@ -160,7 +160,7 @@ minetest.register_node("mesecons_wireless:wireless_receiver_off", {
 })
 
 minetest.register_node("mesecons_wireless:wireless_receiver_on", {
-	tiles = {"jeija_wireless_receiver_tb_on.png", "jeija_wireless_receiver_tb_on.png", "jeija_wireless_receiver_on.png", "jeija_wireless_receiver_on.png", "jeija_wireless_receiver_on.png", "jeija_wireless_receiver_on.png"},
+	tile_images = {"jeija_wireless_receiver_tb_on.png", "jeija_wireless_receiver_tb_on.png", "jeija_wireless_receiver_on.png", "jeija_wireless_receiver_on.png", "jeija_wireless_receiver_on.png", "jeija_wireless_receiver_on.png"},
 	inventory_image = minetest.inventorycube("jeija_wireless_receiver_on.png"),
 	groups = {choppy=2},
 	drop = 'mesecons_wireless:wireless_receiver_off',
@@ -209,7 +209,7 @@ mesecon:add_receptor_node_off("mesecons_wireless:wireless_receiver_off")
 -- WIRELESS INVERTER OFF/ON BELONGS TO THE OUTPUT STATE (ON=INPUT OFF)
 
 minetest.register_node("mesecons_wireless:wireless_inverter_off", {
-	tiles = {"jeija_wireless_inverter_tb.png", "jeija_wireless_inverter_tb.png", "jeija_wireless_inverter_off.png", "jeija_wireless_inverter_off.png", "jeija_wireless_inverter_off.png", "jeija_wireless_inverter_off.png"},
+	tile_images = {"jeija_wireless_inverter_tb.png", "jeija_wireless_inverter_tb.png", "jeija_wireless_inverter_off.png", "jeija_wireless_inverter_off.png", "jeija_wireless_inverter_off.png", "jeija_wireless_inverter_off.png"},
 	inventory_image = minetest.inventorycube("jeija_wireless_inverter_off.png"),
 	groups = {choppy=2},
 	drop = 'mesecons_wireless:wireless_inverter_on',
@@ -224,7 +224,7 @@ minetest.register_node("mesecons_wireless:wireless_inverter_off", {
 })
 
 minetest.register_node("mesecons_wireless:wireless_inverter_on", {
-	tiles = {"jeija_wireless_inverter_tb.png", "jeija_wireless_inverter_tb.png", "jeija_wireless_inverter_on.png", "jeija_wireless_inverter_on.png", "jeija_wireless_inverter_on.png", "jeija_wireless_inverter_on.png"},
+	tile_images = {"jeija_wireless_inverter_tb.png", "jeija_wireless_inverter_tb.png", "jeija_wireless_inverter_on.png", "jeija_wireless_inverter_on.png", "jeija_wireless_inverter_on.png", "jeija_wireless_inverter_on.png"},
 	inventory_image = minetest.inventorycube("jeija_wireless_inverter_on.png"),
 	groups = {choppy=2},
 	description = "Wireless Inverter",
@@ -267,7 +267,7 @@ function mesecon:wireless_transmit(channel, senderstate)
 end
 
 minetest.register_node("mesecons_wireless:wireless_transmitter_on", {
-	tiles = {"jeija_wireless_transmitter_tb.png", "jeija_wireless_transmitter_tb.png", "jeija_wireless_transmitter_on.png", "jeija_wireless_transmitter_on.png", "jeija_wireless_transmitter_on.png", "jeija_wireless_transmitter_on.png"},
+	tile_images = {"jeija_wireless_transmitter_tb.png", "jeija_wireless_transmitter_tb.png", "jeija_wireless_transmitter_on.png", "jeija_wireless_transmitter_on.png", "jeija_wireless_transmitter_on.png", "jeija_wireless_transmitter_on.png"},
 	inventory_image = minetest.inventorycube("jeija_wireless_transmitter_on.png"),
 	groups = {choppy=2},
 	drop = {'"mesecons_wireless:wireless_transmitter_off" 1'},
@@ -275,7 +275,7 @@ minetest.register_node("mesecons_wireless:wireless_transmitter_on", {
 })
 
 minetest.register_node("mesecons_wireless:wireless_transmitter_off", {
-	tiles = {"jeija_wireless_transmitter_tb.png", "jeija_wireless_transmitter_tb.png", "jeija_wireless_transmitter_off.png", "jeija_wireless_transmitter_off.png", "jeija_wireless_transmitter_off.png", "jeija_wireless_transmitter_off.png"},
+	tile_images = {"jeija_wireless_transmitter_tb.png", "jeija_wireless_transmitter_tb.png", "jeija_wireless_transmitter_off.png", "jeija_wireless_transmitter_off.png", "jeija_wireless_transmitter_off.png", "jeija_wireless_transmitter_off.png"},
 	inventory_image = minetest.inventorycube("jeija_wireless_transmitter_off.png"),
 	groups = {choppy=2},
 	description="Wireless Transmitter",
