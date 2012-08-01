@@ -195,7 +195,7 @@ mesecon:register_on_signal_off(function(pos, node)
 		and checknode.name ~= "default:lava_flowing"
 		and not mesecon:is_mvps_stopper(checknode.name) then
 			minetest.env:add_node(pos, checknode)
-			minetest.env:dig_node(checkpos)
+			minetest.env:remove_node(checkpos)
 		end
 	end
 end)
