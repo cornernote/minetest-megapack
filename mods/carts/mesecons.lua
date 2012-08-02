@@ -31,11 +31,7 @@ if minetest.get_modpath("mesecons") ~= nil then
 							end
 							
 							-- start sound
-							self.handler = minetest.sound_play(SOUND_FILE, {
-								object = self.object,
-								gain = 0.4,
-								loop = true,
-							})
+							self:sound("start")
 							
 							self.fahren = true
 						end
@@ -119,11 +115,7 @@ if minetest.get_modpath("mesecons") ~= nil then
 						end
 						
 						-- start sound
-						self.handler = minetest.sound_play(SOUND_FILE, {
-							object = self.object,
-							gain = 0.4,
-							loop = true,
-						})
+						self:sound("start")
 						
 						self.fahren = true
 					end

@@ -6,11 +6,20 @@ local MAX_SPEED = 4.5
 -- Transport the player like a normal item
 -- Note: This is extremly laggy <- FIXME
 --=========
-local TRANSPORT_PLAYER = true
+TRANSPORT_PLAYER = true
 --=========
 -- The name of the Soundfile
 --=========
-local SOUND_FILE = "carts_cart_sound"
+SOUND_FILES = {
+				{"carts_curved_rails", 2},
+				{"carts_railway_crossover", 2},
+				{"carts_straight_rails", 1},
+			  }
+
+--=========
+-- The sound gain
+SOUND_GAIN = 0.8
+--=========
 
 --=========
 -- Raillike nodes
@@ -85,15 +94,45 @@ function cart:stop()
 	self.object:setacceleration({x = 0, y = -10, z = 0})
 	self:set_speed(0)
 	-- stop sound
-	if self.sound_handler ~= nil then
+	self:sound("stop")
+end
+
+function cart:sound(arg)
+	if arg == "stop" then
+		if self.sound_handler ~= nil then
+			minetest.sound_stop(self.sound_handler)
+			self.sound_handler = nil
+		end
+	elseif arg == "continue" then
+		if self.sound_handler == nil then
+			return
+		end
 		minetest.sound_stop(self.sound_handler)
-		self.sound_handler = nil
+		local sound = SOUND_FILES[math.random(1, #SOUND_FILES)]
+		self.sound_handler = minetest.sound_play(sound[1], {
+			object = self.object,
+			gain = SOUND_GAIN,
+		})
+		minetest.after(sound[2], function()
+			self:sound("continue")
+		end)
+	elseif arg == "start" then
+		local sound = SOUND_FILES[math.random(1, #SOUND_FILES)]
+		self.sound_handler = minetest.sound_play(sound[1], {
+			object = self.object,
+			gain = SOUND_GAIN,
+		})
+		minetest.after(sound[2], function()
+			self:sound("continue")
+		end)
 	end
 end
 
 -- Returns the direction the cart has to drive
-function cart:get_new_direction()
-	local pos = self.object:getpos()
+function cart:get_new_direction(pos)
+	if pos == nil then
+		pos = self.object:getpos()
+	end
 	if self.dir == nil then
 		return nil
 	end
@@ -426,12 +465,33 @@ function cart:on_step(dtime)
 	local newdir = self:get_new_direction()
 	if newdir == nil and not self.fallen then
 		-- end of rail
-		self:stop()
+		-- chek if the cart derailed
 		local pos = self.object:getpos()
-		pos.x = math.floor(0.5+pos.x)
-		pos.z = math.floor(0.5+pos.z)
-		self.object:setpos(pos)
-		return
+		if self.dir == "x+" then
+			pos.x = pos.x-1
+		elseif self.dir == "x-" then
+			pos.x = pos.x+1
+		elseif self.dir == "z+" then
+			pos.z = pos.z-1
+		elseif self.dir == "z-" then
+			pos.z = pos.z+1
+		end
+		local checkdir = self:get_new_direction(pos)
+		if checkdir ~= self.dir and checkdir ~= nil then
+			self.object:setpos(pos)
+			self.dir = checkdir
+			self.old_dir = checkdir
+			-- change direction
+			local speed = self:get_speed()
+			self:set_speed(speed)
+		else
+			-- stop
+			self:stop()
+			local pos = self.object:getpos()
+			pos.x = math.floor(0.5+pos.x)
+			pos.z = math.floor(0.5+pos.z)
+			self.object:setpos(pos)
+		end
 	elseif newdir == "y+" then
 		-- uphill
 		self.fallen = false
@@ -462,6 +522,7 @@ function cart:on_step(dtime)
 		end
 	end
 	
+	-- control speed and acceleration
 	if self.bremsen then
 		if not equals(self:get_speed(), 0) then
 			-- if the cart is still driving -> brake
@@ -501,25 +562,22 @@ function cart:on_step(dtime)
 	end
 	
 	-- search for boxes and place all items (except players) in it
-	for x=-1,1 do
-		local pos = {x=self.object:getpos().x+x, y=self.object:getpos().y, z=self.object:getpos().z}
-		local name = minetest.env:get_node(pos).name
-		if name == "carts:chest" and self.items ~= {} then
-			local items_tmp = {}
-			for i,item in ipairs(self.items) do
-				if not item:is_player() then
-					item:setpos({x=math.floor(0.5+pos.x), y=math.floor(0.5+pos.y)+0.2, z=math.floor(0.5+pos.z)})
-				else
-					table.insert(items_tmp, item)
-				end
-			end
-			self.items = items_tmp
+	for d=-1,1 do
+		if #self.items == 0 then
+			break
 		end
-	end
-	for z=-1,1 do
-		local pos = {x=self.object:getpos().x, y=self.object:getpos().y, z=self.object:getpos().z+z}
-		local name = minetest.env:get_node(pos).name
-		if name == "carts:chest" and self.items ~= {} then
+		local pos = {x=self.object:getpos().x+d, y=self.object:getpos().y, z=self.object:getpos().z}
+		local name1 = minetest.env:get_node(pos).name
+		pos = {x=self.object:getpos().x, y=self.object:getpos().y, z=self.object:getpos().z+d}
+		local name2 = minetest.env:get_node(pos).name
+		if name1 == "carts:chest" then
+			pos = {x=self.object:getpos().x+d, y=self.object:getpos().y, z=self.object:getpos().z}
+		elseif name2 == "carts:chest" then
+			pos = {x=self.object:getpos().x, y=self.object:getpos().y, z=self.object:getpos().z+d}
+		else
+			name1 = nil
+		end
+		if name1 ~= nil then
 			local items_tmp = {}
 			for i,item in ipairs(self.items) do
 				if not item:is_player() then
@@ -533,27 +591,19 @@ function cart:on_step(dtime)
 	end
 	
 	--search for pickup plates and take items
-	for x=-1,1 do
-		local pos = {x=self.object:getpos().x+x, y=self.object:getpos().y, z=self.object:getpos().z}
-		local name = minetest.env:get_node(pos).name
-		if name == "carts:pickup_plate" then
-			pos.x = math.floor(0.5+pos.x)
-			pos.y = math.floor(0.5+pos.y)
-			pos.z = math.floor(0.5+pos.z)
-			local items = minetest.env:get_objects_inside_radius(pos, 1)
-			for i,item in ipairs(items) do
-				if not item:is_player() then
-					table.insert(self.items, item)
-				elseif TRANSPORT_PLAYER then
-					table.insert(self.items, item)
-				end
-			end
+	for d=-1,1 do
+		local pos = {x=self.object:getpos().x+d, y=self.object:getpos().y, z=self.object:getpos().z}
+		local name1 = minetest.env:get_node(pos).name
+		pos = {x=self.object:getpos().x, y=self.object:getpos().y, z=self.object:getpos().z+d}
+		local name2 = minetest.env:get_node(pos).name
+		if name1 == "carts:pickup_plate" then
+			pos = {x=self.object:getpos().x+d, y=self.object:getpos().y, z=self.object:getpos().z}
+		elseif name2 == "carts:pickup_plate" then
+			pos = {x=self.object:getpos().x, y=self.object:getpos().y, z=self.object:getpos().z+d}
+		else
+			name1 = nil
 		end
-	end
-	for z=-1,1 do
-		local pos = {x=self.object:getpos().x, y=self.object:getpos().y, z=self.object:getpos().z+z}
-		local name = minetest.env:get_node(pos).name
-		if name == "carts:pickup_plate" then
+		if name1 ~= nil then
 			pos.x = math.floor(0.5+pos.x)
 			pos.y = math.floor(0.5+pos.y)
 			pos.z = math.floor(0.5+pos.z)
@@ -588,7 +638,6 @@ function cart:on_step(dtime)
 			pos.x = math.floor(0.5+pos.x)
 			pos.z = math.floor(0.5+pos.z)
 			self.object:setpos(pos)
-		return
 		end
 	end
 end
@@ -683,11 +732,7 @@ function cart:on_rightclick(clicker)
 		end
 		
 		-- start sound
-		self.sound_handler = minetest.sound_play(SOUND_FILE, {
-			object = self.object,
-			gain = 0.4,
-			loop = true,
-		})
+		self:sound("start")
 		
 		self.fahren = true
 	end
@@ -696,10 +741,7 @@ end
 -- remove the cart and place it in the inventory
 function cart:on_punch(hitter)
 	-- stop sound
-	if self.sound_handler ~= nil then
-		minetest.sound_stop(self.sound_handler)
-		self.sound_handler = nil
-	end
+	self:sound("stop")
 	self.object:remove()
 	hitter:get_inventory():add_item("main", "carts:cart")
 end

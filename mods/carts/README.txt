@@ -1,7 +1,7 @@
 ===CARTS MOD for MINETEST-C55===
 by PilzAdam
 
-Version 25
+Version 28
 
 Introduction:
 This mod adds carts to minetest. There were rails for so long in minetest
@@ -21,17 +21,20 @@ How to use the mod:
 Read the first post at http://minetest.net/forum/viewtopic.php?id=2451
 
 Configuration:
-(If there is no file specified it is in init.lua)
-line 1 in functions.lua: APPROXIMATION => see the topic in the forum
+(all variables are in init.lua)
 line 4: MAX_SPEED => the maximum speed of the cart
 line 9: TRANSPORT_PLAYER => transport the player like a normal item 
 		 (this is very laggy NOT RECOMMENDED)
-line 13: SOUND_FILE => name of a soundfile that is played when the cart 
-		 drives. To use your own sound put the soundfile (only .ogg) in
-		 carts/sounds/ and set the variable to the name (e.g. "test.ogg").
+line 13: SOUND_FILES => a table with all soundfiles and there length. To
+		 add your own files copy them into carts/sounds (only .ogg files
+		 are supported) and add there name (without ".ogg") and there
+		 lenght (in seconds) to the table.
+line 21: SOUND_GAIN => the gain of the sound.
+line 27: RAILS => blocks that are treated as rails.
 
 License:
 Sourcecode: WTFPL (see below)
+Sound: WTFPL (provided from Ragnarok)
 Graphics: CC0 (provided from kddekadenz)
 
 See also:
