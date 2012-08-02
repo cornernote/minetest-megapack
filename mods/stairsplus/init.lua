@@ -1,6 +1,6 @@
 --[[
 ****
-Stairs+
+Stairss+
 by Calinou
 Version 12.06.18
 Licensed under WTFPL.
@@ -328,48 +328,48 @@ end
 stairsplus.register_stair_and_slab_and_panel("wood", "default:wood",
 		{snappy=1,choppy=2,oddly_breakable_by_hand=2,flammable=3},
 		{"default_wood.png"},
-		"Wooden Stair",
+		"Wooden Stairs",
 		"Wooden Slab",
 		"Wooden Panel")
 
 stairsplus.register_stair_and_slab_and_panel("stone", "default:stone",
 		{cracky=3},
 		{"default_stone.png"},
-		"Stone Stair",
+		"Stone Stairs",
 		"Stone Slab",
 		"Stone Panel")
 
 stairsplus.register_stair_and_slab_and_panel("cobble", "default:cobble",
 		{cracky=3},
 		{"default_cobble.png"},
-		"Cobblestone Stair",
+		"Cobblestone Stairs",
 		"Cobblestone Slab",
 		"Cobblestone Panel")
 		
 stairsplus.register_stair_and_slab_and_panel("mossycobble", "default:mossycobble",
 		{cracky=3},
 		{"default_mossycobble.png"},
-		"Mossy Cobblestone Stair",
+		"Mossy Cobblestone Stairs",
 		"Mossy Cobblestone Slab",
 		"Mossy Cobblestone Panel")
 
 stairsplus.register_stair_and_slab_and_panel("brick", "default:brick",
 		{cracky=3},
 		{"default_brick.png"},
-		"Brick Stair",
+		"Brick Stairs",
 		"Brick Slab",
 		"Brick Panel")
 
 stairsplus.register_stair_and_slab_and_panel("sandstone", "default:sandstone",
 		{crumbly=2,cracky=2},
 		{"default_sandstone.png"},
-		"Sandstone Stair",
+		"Sandstone Stairs",
 		"Sandstone Slab",
 		"Sandstone Panel")
 		
 stairsplus.register_stair_and_slab_and_panel("steelblock", "default:steelblock",
 		{snappy=1,bendy=2,cracky=1,melty=2,level=2},
 		{"default_steel_block.png"},
-		"Steel Block Stair",
+		"Steel Block Stairs",
 		"Steel Block Slab",
 		"Steel Block Panel")
