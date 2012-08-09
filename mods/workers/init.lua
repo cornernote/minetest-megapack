@@ -2,27 +2,28 @@
 Workers Mod
 By LocaL_ALchemisT (prof_awang@yahoo.com)
 License: WTFPL
-Version: 1.0
+Version: 2.0
 --]]
 
+dofile(minetest.get_modpath("workers").."/abm.lua")
 dofile(minetest.get_modpath("workers").."/fungsi.lua")
 dofile(minetest.get_modpath("workers").."/craft.lua")
-local STAT_LIM = 5
 
 -- HARVEY THE HARVESTER
 
 minetest.register_node("workers:harvester", {
 	description = "Harvey The Harvester",
 	tile_images = worker_images("harvey"),
+	stack_max = 1,
 	paramtype2 = "facedir",
-	groups = {oddly_breakable_by_hand=2,flammable=1},
+	groups = {oddly_breakable_by_hand=2,flammable=1,worker=1},
 	legacy_facedir_simple = true,
 	after_place_node = function(pos,player)
 		local meta = minetest.env:get_meta(pos)
 		meta:set_string("formspec", "hack:sign_text_input")
 		meta:set_string("infotext", "What should I harvest, Master?")
 		meta:set_string("text","mod:node")
-		meta:set_string("master",player:get_player_name() or "")
+		meta:set_string("master",player:get_player_name())
 		meta:set_string("material","")
 		meta:set_int("quantity",0)
 		meta:set_int("status",0)
@@ -41,10 +42,11 @@ minetest.register_node("workers:harvester", {
 		end
 		fields.text = fields.text or ""
 		local itemstack = ItemStack(fields.text)
-		print(itemstack:to_string())
 		local nodename = itemstack:get_name()
 		if itemstack:is_empty() then minetest.chat_send_player(name, "Harvey: What do you want me to harvest, Master?")
 		elseif not itemstack:is_known() then minetest.chat_send_player(name, "Harvey: What is that, Master?")
+		elseif nodename == "default:lava_flowing" or nodename == "default:lava_source" or nodename == "default:water_flowing" or nodename == "default:water_source" or nodename == "air" then minetest.chat_send_player(name, "Harvey: That is forbidden, Master.")
+		elseif nodename == "workers:assassin" or nodename == "workers:thief" then minetest.chat_send_player(name, "Harvey: No, Master.")
 		else
 			minetest.chat_send_player(name, "Harvey: "..nodename..", as you wish, Master.")
 			meta:set_string("infotext", "I will harvest "..nodename..", Master.")
@@ -79,65 +81,16 @@ minetest.register_node("workers:harvester", {
 	end,
 })
 
-minetest.register_abm({
-	nodenames = {"workers:harvester"},
-	interval = 2,
-	chance = 1,
-	action = function(p, node, _, _)
-		local meta = minetest.env:get_meta(p)
-		local hasMaterial = false
-		if meta:get_int("start_work") == 1 then
-			for x = -1,1 do
-				for y = 0,1 do
-					for z = -1,1 do
-						local pp = {x=p.x+x,y=p.y+y,z=p.z+z}
-						if peek(pp,meta:get_string("material")) then
-							minetest.env:remove_node(pp)
-							meta:set_int("quantity",meta:get_int("quantity")+1)
-							if hasMaterial == false then hasMaterial = true end
-							if meta:get_int("status") == 1 then
-								speak(meta:get_string("master"), "Harvey: I am at "..minetest.pos_to_string(p)..", Master")
-								meta:set_int("status",2)
-							end
-						end
-					end
-				end
-			end
-			
-			if hasMaterial == false then
-				local where = faceTo(p,meta:get_int("previousdir"),0)
-				if where ~= nil then
-					local np = shouldFall(where.pos)
-					meta:set_int("previousdir",where.face)
-					minetest.env:add_node(np,{name="workers:harvester",param2=where.face})
-					local meta2 = minetest.env:get_meta(np)
-					meta2:from_table(meta:to_table())
-					minetest.env:remove_node(p)
-					if meta2:get_int("status") == STAT_LIM then
-						speak(meta:get_string("master"), "Harvey: I am at "..minetest.pos_to_string(p)..", Master")
-					end
-				else
-					if meta:get_int("status") == STAT_LIM then
-						speak(meta:get_string("master"), "Harvey: Sorry Master, I cannot move. I am at "..minetest.pos_to_string(p))
-					end
-				end
-			else print(meta:get_int("quantity").." "..meta:get_string("material").." gathered.") end
-			
-			if meta:get_int("status") == STAT_LIM then meta:set_int("status",1)
-			else meta:set_int("status",meta:get_int("status")+1) end
-		end
-	end,
-})
-
 -- MORDEC THE MINER
 
 minetest.register_node("workers:miner", {
 	description = "Mordec The Miner",
 	tile_images = worker_images("mordec"),
+	stack_max = 1,
 	paramtype = "light",
 	light_source = 13,
 	paramtype2 = "facedir",
-	groups = {oddly_breakable_by_hand=2,flammable=1},
+	groups = {oddly_breakable_by_hand=2,flammable=1,worker=1},
 	legacy_facedir_simple = true,
 	
 	after_place_node = function(pos,player)
@@ -152,7 +105,7 @@ minetest.register_node("workers:miner", {
 		inv:set_size("wood", 1)
 		inv:set_size("ores", 12)
 		meta:set_string("infotext", "Give me wood and i'll start digging, Master")
-		meta:set_string("master",player:get_player_name() or "my Master")
+		meta:set_string("master",player:get_player_name())
 		meta:set_int("status",0)
 		meta:set_int("start_work",0)
 		minetest.chat_send_player(player:get_player_name(), "Mordec: *bzzt* Hello, Master.")
@@ -192,74 +145,14 @@ minetest.register_node("workers:miner", {
 	end,
 })
 
-minetest.register_abm({
-	nodenames = {"workers:miner"},
-	interval = 2,
-	chance = 1,
-	action = function(p, node, _, _)
-		local meta = minetest.env:get_meta(p)
-		local inv = meta:get_inventory()
-		if meta:get_int("start_work") == 0 then return end
-		
-		if inv:get_stack("wood",1):to_table() == nil then
-			meta:set_int("status",0)
-			meta:set_int("start_work",0)
-			speak(meta:get_string("master"), "Mordec: I am at "..minetest.pos_to_string(p)..", Master. I am out of wood.")
-			return
-		end
-		local isFull = true
-		for i = 1,12 do
-			local orestack = inv:get_stack("ores",i)
-			if orestack:get_free_space() > 0 then isFull = false end
-		end
-		if isFull == true then
-			meta:set_int("start_work",0)
-			speak(meta:get_string("master"), "Mordec: I am at "..minetest.pos_to_string(p)..", Master. My inventory is full.")
-			return
-		end
-		
-		local orelist = inv:get_list("ores")
-		for x = -1,1 do
-			for y = -1,0 do
-				for z = -1,1 do
-					local pp = {x=p.x+x,y=p.y+y,z=p.z+z}
-					if minetest.env:get_node(pp).name ~= "workers:miner"
-					and minetest.env:get_node(pp).name ~= "default:ladder"
-					and minetest.env:get_node(pp).name ~= "air"
-					and minetest.env:get_node(pp).name ~= "default:water_source"
-					and minetest.env:get_node(pp).name ~= "default:water_flowing"
-					and minetest.env:get_node(pp).name ~= "default:lava_source"
-					and minetest.env:get_node(pp).name ~= "default:lava_flowing" then
-						local ore = get_ore(minetest.env:get_node(pp).name)
-						if ore ~= nil and ore ~= "air" then inv:add_item("ores",ore) end
-						minetest.env:remove_node(pp)
-					end
-				end
-			end
-		end
-		local np = shouldFall_miner(p)
-		minetest.env:add_node(np,{name="workers:miner",param2=minetest.env:get_node(p).param2})
-		local meta2 = minetest.env:get_meta(np)
-		meta2:from_table(meta:to_table())
-		meta2:get_inventory():remove_item("wood",'"default:wood" 1')
-		minetest.env:remove_node(p)
-		if meta2:get_int("status") == 0 then minetest.env:add_node(p,{name="default:torch"}) end
-		if meta2:get_int("status") == STAT_LIM then
-			speak(meta2:get_string("master"), "Mordec: I am at "..minetest.pos_to_string(p)..", Master")
-		end
-		
-		if meta2:get_int("status") == STAT_LIM then meta2:set_int("status",0)
-		else meta2:set_int("status",meta2:get_int("status")+1) end
-	end,
-})
-
 -- GARREN THE GARDENER
 
 minetest.register_node("workers:gardener", {
 	description = "Garren The Gardener",
 	tile_images = worker_images("garren"),
+	stack_max = 1,
 	paramtype2 = "facedir",
-	groups = {oddly_breakable_by_hand=2,flammable=1},
+	groups = {oddly_breakable_by_hand=2,flammable=1,worker=1},
 	legacy_facedir_simple = true,
 	
 	after_place_node = function(pos,player)
@@ -274,7 +167,7 @@ minetest.register_node("workers:gardener", {
 		inv:set_size("plant", 1)
 		inv:set_size("sapling", 1)
 		meta:set_string("infotext", "Can I have a plant sample and some saplings, Master?")
-		meta:set_string("master",player:get_player_name() or "my Master")
+		meta:set_string("master",player:get_player_name())
 		meta:set_int("status",0)
 		meta:set_int("start_work",0)
 		if minetest.env:get_node(pos).param2 < 2 then meta:set_int("previousdir",(minetest.env:get_node(pos).param2+2))
@@ -317,85 +210,344 @@ minetest.register_node("workers:gardener", {
 	end,
 })
 
-minetest.register_abm({
-	nodenames = {"workers:gardener"},
-	interval = 2,
-	chance = 1,
-	action = function(p, node, _, _)
-		local meta = minetest.env:get_meta(p)
+-- BENJO THE BUILDER
+
+minetest.register_node("workers:builder", {
+	description = "Benjo The Builder",
+	tile_images = worker_images("benjo"),
+	stack_max = 1,
+	paramtype2 = "facedir",
+	groups = {oddly_breakable_by_hand=2,flammable=1,worker=1},
+	legacy_facedir_simple = true,
+	
+	after_place_node = function(pos,player)
+		local meta = minetest.env:get_meta(pos)
+		meta:set_string("formspec",
+						"invsize[8,6;]"..
+						"list[current_player;main;0,2;8,4;]"..
+						"list[current_name;plan;2,0;1,1;]"..
+						"list[current_name;material;5,0;1,1;]"..
+						"image[6,0;1,1;default_brick.png]")
 		local inv = meta:get_inventory()
-		local plant = inv:get_stack("plant",1):to_table()
-		local sapling = inv:get_stack("sapling",1):to_table()
-		
-		if meta:get_int("start_work") == 0 then return end
-		
-		if sapling == nil then
-			meta:set_int("status",0)
-			meta:set_int("start_work",0)
-			speak(meta:get_string("master"), "Garren: I am at "..minetest.pos_to_string(p)..", Master. I am out of sapling.")
+		inv:set_size("plan", 1)
+		inv:set_size("material", 1)
+		meta:set_string("infotext", "I can build simple structures, Master")
+		meta:set_string("master",player:get_player_name())
+		meta:set_int("start_work",0)
+		minetest.chat_send_player(player:get_player_name(), "Benjo: Hello, Master.")
+	end,
+	
+	on_punch = function(pos, node, player)
+		local meta = minetest.env:get_meta(pos)
+		local inv = meta:get_inventory()
+		local master = meta:get_string("master")
+		if player:get_player_name() ~= master then
+			defend(player,master,"Benjo")
 			return
 		end
 		
-		local where = nil
-		if meta:get_int("clockwise") == 0 then
-			where = anticlockwise(p,meta:get_int("previousdir"))
-			if where == nil then
-				where = clockwise(p,meta:get_int("previousdir"))
-				meta:set_int("clockwise",1)
-			end
-		elseif meta:get_int("clockwise") == 1 then
-			where = clockwise(p,meta:get_int("previousdir"))
-			if where == nil then
-				where = clockwise(p,meta:get_int("previousdir"))
-				meta:set_int("clockwise",0)
-			end
-		end
-		if where == nil then where = faceTo(p,meta:get_int("previousdir"),0) end
+		if inv:is_empty("plan") or inv:is_empty("material") then return end
 		
-		if where ~= nil then
-			local np = shouldFall(where.pos)
-			meta:set_int("previousdir",where.face)
-			minetest.env:add_node(np,{name="workers:gardener",param2=where.face})
-			local meta2 = minetest.env:get_meta(np)
-			meta2:from_table(meta:to_table())
-			minetest.env:remove_node(p)
-			
-			local inv2 = meta2:get_inventory()
-			if plant.name == "default:jungletree" and sapling.count >= 9 then
-				for h = 0,3 do minetest.env:add_node({x = p.x,y = p.y+h,z = p.z},{name=plant.name}) end
-				for x = -1,1 do
-					for y = 2,4 do
-						for z = -1,1 do
-							if minetest.env:get_node({x = p.x+x,y = p.y+y,z = p.z+z}).name == "air" then
-								minetest.env:add_node({x = p.x+x,y = p.y+y,z = p.z+z},{name="default:leaves"})
-							end
-						end
-					end
-				end
-				inv2:remove_item("sapling",'"default:sapling" 9')
-			elseif (plant.name == "default:cactus" or plant.name == "default:papyrus") and sapling.count >= 3 then
-				for h = 0,2 do minetest.env:add_node({x = p.x,y = p.y+h,z = p.z},{name=plant.name}) end
-				inv2:remove_item("sapling",'"default:sapling" 3')
-			elseif (plant.name == "default:junglegrass" or plant.name == "default:dry_shrub") then
-				minetest.env:add_node(p,{name=plant.name})
-				inv2:remove_item("sapling","default:sapling")
-			else
-				minetest.env:add_node(p,{name="default:sapling"})
-				inv2:remove_item("sapling","default:sapling")
-			end
-			
-			if meta2:get_int("status") == STAT_LIM then
-				speak(meta:get_string("master"), "Garren: I am at "..minetest.pos_to_string(p)..", Master")
-			end
-		else
-			if meta:get_int("status") == STAT_LIM then
-				speak(meta:get_string("master"), "Garren: Sorry Master, I cannot move. I am at "..minetest.pos_to_string(p))
-			end
+		if meta:get_int("start_work") == 0 then --if Benjo hasn't moved yet
+			meta:set_int("start_work",1)
+			minetest.chat_send_player(master, "Benjo: Right away, Master.")
 		end
-		
-		if meta:get_int("status") == STAT_LIM then meta:set_int("status",0)
-		else meta:set_int("status",meta:get_int("status")+1) end
 	end,
+	
+	can_dig = function(pos,player)
+		local meta = minetest.env:get_meta(pos)
+		local master = meta:get_string("master")
+		local inv = meta:get_inventory()
+		if not (inv:is_empty("plan")) and not (inv:is_empty("material")) then
+			minetest.chat_send_player(master, "Benjo: I cannot leave yet, Master. There are items in my inventory.")
+			return false
+		end
+		minetest.chat_send_player(master, "Benjo: Pleasure to work for you, Master.")
+		return true
+	end,
+})
+
+-- GREDO THE GUARD
+
+minetest.register_node("workers:guard", {
+	description = "Gredo The Guard",
+	tile_images = worker_images("gredo"),
+	stack_max = 1,
+	paramtype2 = "facedir",
+	groups = {oddly_breakable_by_hand=2,flammable=1},
+	legacy_facedir_simple = true,
+	
+	after_place_node = function(pos,player)
+		local meta = minetest.env:get_meta(pos)
+		meta:set_string("formspec",
+						"invsize[8,6;]"..
+						"list[current_name;catch;0,0;8,1;]"..
+						"list[current_player;main;0,2;8,4;]")
+		local inv = meta:get_inventory()
+		inv:set_size("catch", 8)
+		meta:set_string("infotext", "I catch'em when I see'em, Boss.")
+		meta:set_string("master",player:get_player_name())
+		meta:set_int("status",0)
+		minetest.chat_send_player(player:get_player_name(), "Gredo: Hello, Boss.")
+	end,
+	
+	on_punch = function(pos, node, player)
+		local meta = minetest.env:get_meta(pos)
+		local inv = meta:get_inventory()
+		local master = meta:get_string("master")
+		if player:get_player_name() ~= master then
+			minetest.chat_send_player(player:get_player_name(), "Gredo: Hands off!")
+			minetest.chat_send_player(master, "Gredo: "..player:get_player_name().."'s picking up a fight, Boss.")
+			player:set_hp(player:get_hp()-8)
+		end
+	end,
+	
+	on_metadata_inventory_take = function(pos, listname, index, count, player)
+		local meta = minetest.env:get_meta(pos)
+		local master = meta:get_string("master")
+		if player:get_player_name() ~= master then
+			player:set_hp(player:get_hp()-8)
+			minetest.chat_send_player(master, "Gredo: Hands off!")
+			return
+		end
+		return minetest.node_metadata_inventory_take_allow_all(pos, listname, index, count, player)
+	end,
+	
+	can_dig = function(pos,player)
+		local meta = minetest.env:get_meta(pos)
+		local master = meta:get_string("master")
+		local inv = meta:get_inventory()
+		if not (inv:is_empty("catch")) then
+			minetest.chat_send_player(master, "Gredo: Better take these intruders first, Boss.")
+			return false
+		end
+		minetest.chat_send_player(master, "Gredo: Pleasure to work for you, Boss.")
+		return true
+	end,
+})
+
+-- ASVARD THE ASSASSIN
+
+minetest.register_node("workers:assassin", {
+	description = "Asvard The Assassin",
+	tile_images = worker_images("asvard"),
+	stack_max = 1,
+	paramtype2 = "facedir",
+	groups = {oddly_breakable_by_hand=2,flammable=1,badguy=1},
+	legacy_facedir_simple = true,
+	after_place_node = function(pos,player)
+		local meta = minetest.env:get_meta(pos)
+		meta:set_string("formspec", "hack:sign_text_input")
+		meta:set_string("infotext", "Give me name, Master")
+		meta:set_string("text","")
+		meta:set_string("master",player:get_player_name())
+		meta:set_string("target","")
+		meta:set_int("status",0)
+		meta:set_int("start_work",0)
+		minetest.chat_send_player(player:get_player_name(), "Asvard: ...Master.")
+		minetest.sound_play("asvard_00", {pos = pos, gain = 1.0, max_hear_distance = 10,})
+	end,
+	on_receive_fields = function(pos, formname, fields, player)
+		local meta = minetest.env:get_meta(pos)
+		local master = meta:get_string("master")
+		local name = player:get_player_name()
+		if name ~= master then
+			player:set_hp(0)
+			return
+		end
+		fields.text = fields.text or ""
+		meta:set_string("target",fields.text)
+		if meta:get_string("target") == "" then minetest.chat_send_player(name, "Asvard: Name your target, Master.")
+		else
+			if meta:get_string("target") == name then minetest.chat_send_player(name, "Asvard: Are you sure, Master?")
+			else minetest.chat_send_player(name, "Asvard: "..meta:get_string("target")..", as you wish, Master.") end
+			
+			meta:set_string("infotext", "..."..meta:get_string("target"))
+			meta:set_string("text",meta:get_string("target"))
+			meta:set_int("status",1)
+		end
+	end,
+	on_punch = function(pos, node, player)
+		local meta = minetest.env:get_meta(pos)
+		local master = meta:get_string("master")
+		if player:get_player_name() ~= master then
+			player:set_hp(0)
+			return
+		end
+		if meta:get_int("status") == 0 then return end
+		
+		if meta:get_int("start_work") == 0 then
+			meta:set_int("start_work",1)
+		else
+			minetest.sound_play("asvard_00", {pos = pos, gain = 1.0, max_hear_distance = 10,})
+			minetest.env:remove_node(pos)
+			minetest.env:add_item(pos,"default:sword_steel")
+		end
+	end,
+})
+
+-- TOCO THE THIEF
+
+minetest.register_node("workers:thief", {
+	description = "Toco The Thief",
+	--drawtype = "glasslike",
+	tile_images = worker_images("toco"),
+	stack_max = 1,
+	paramtype2 = "facedir",
+	groups = {oddly_breakable_by_hand=2,flammable=1,badguy=1},
+	legacy_facedir_simple = true,
+	
+	after_place_node = function(pos,player)
+		local meta = minetest.env:get_meta(pos)
+		meta:set_string("formspec",
+						"invsize[8,9;]"..
+						"list[current_name;loot;0,0;8,4;]"..
+						"list[current_player;main;0,5;8,4;]")
+		local inv = meta:get_inventory()
+		inv:set_size("loot", 32)
+		meta:set_string("master",player:get_player_name())
+		meta:set_int("status",0)
+		minetest.chat_send_player(player:get_player_name(), "Toco: Hey, Boss.")
+	end,
+	
+	on_punch = function(pos, node, player)
+		local meta = minetest.env:get_meta(pos)
+		local inv = meta:get_inventory()
+		local master = meta:get_string("master")
+		if player:get_player_name() ~= master then
+			minetest.chat_send_player(player:get_player_name(), "Toco: Ouch!")
+			for i = 1,32 do
+				if not inv:get_stack("loot",i):is_empty() then
+					print("not nil")
+					minetest.env:add_item({x = pos.x + (math.random(1,5)-3), y = pos.y, z = pos.z + (math.random(1,5)-3)},inv:get_stack("loot", i))
+					inv:set_stack("loot", i, inv:remove_item("loot", i))
+					return
+				end
+			end
+		end
+	end,
+	
+	on_metadata_inventory_take = function(pos, listname, index, count, player)
+		local meta = minetest.env:get_meta(pos)
+		local master = meta:get_string("master")
+		if player:get_player_name() ~= master then
+			player:set_hp(player:get_hp()-3)
+			minetest.chat_send_player(master, "Toco: Hands off!")
+			return
+		end
+		return minetest.node_metadata_inventory_take_allow_all(pos, listname, index, count, player)
+	end,
+	
+	can_dig = function(pos,player)
+		local meta = minetest.env:get_meta(pos)
+		local master = meta:get_string("master")
+		local inv = meta:get_inventory()
+		if not (inv:is_empty("loot")) then
+			minetest.chat_send_player(master, "Toco: You sure you don't wanna have these loots, Boss?")
+			return false
+		end
+		if player:get_player_name() ~= master then
+			minetest.chat_send_player(player:get_player_name(), "Toco: You're not gonna take me anywhere!")
+			minetest.env:remove_node(pos)
+			return false
+		end
+		minetest.chat_send_player(master, "Toco: Pleasure to work for you, Boss.")
+		return true
+	end,
+})
+
+-- CARDON THE COP
+
+minetest.register_node("workers:cop", {
+	description = "Cardon The Cop",
+	tile_images = worker_images("cardon"),
+	stack_max = 1,
+	paramtype2 = "facedir",
+	groups = {oddly_breakable_by_hand=2,flammable=1,goodguy=1},
+	legacy_facedir_simple = true,
+	
+	after_place_node = function(pos,player)
+		local meta = minetest.env:get_meta(pos)
+		meta:set_string("infotext", "I won't let them get away, Boss")
+		meta:set_string("master",player:get_player_name())
+		meta:set_string("criminal","")
+		meta:set_int("status",0)
+		minetest.chat_send_player(player:get_player_name(), "Cardon: Officer Cardon at your service.")
+	end,
+	
+	on_punch = function(pos, node, player)
+		local meta = minetest.env:get_meta(pos)
+		local inv = meta:get_inventory()
+		local master = meta:get_string("master")
+		if player:get_player_name() ~= master then
+			defend(player,master,"Cardon")
+			return
+		end
+	end,
+	
+	can_dig = function(pos,player)
+		local meta = minetest.env:get_meta(pos)
+		local master = meta:get_string("master")
+		local inv = meta:get_inventory()
+		minetest.chat_send_player(master, "Cardon: Pleasure to work for you, Boss.")
+		return true
+	end,
+})
+
+-- BENJO'S PLANS
+
+minetest.register_craftitem("workers:plan_house", {
+	description = "House Plan",
+	inventory_image = "plan_house.png",
+	stack_max = 1,
+})
+
+minetest.register_craftitem("workers:plan_hut", {
+	description = "Hut Plan",
+	inventory_image = "plan_hut.png",
+	stack_max = 1,
+})
+
+minetest.register_craftitem("workers:plan_pool", {
+	description = "Pool Plan",
+	inventory_image = "plan_pool.png",
+	stack_max = 1,
+})
+
+minetest.register_craftitem("workers:plan_moat", {
+	description = "Moat Plan",
+	inventory_image = "plan_moat.png",
+	stack_max = 1,
+})
+
+minetest.register_craftitem("workers:plan_tower", {
+	description = "Tower Plan",
+	inventory_image = "plan_tower.png",
+	stack_max = 1,
+})
+
+minetest.register_craftitem("workers:plan_ubunker", {
+	description = "Underground Bunker Plan",
+	inventory_image = "plan_ubunker.png",
+	stack_max = 1,
+})
+
+minetest.register_craftitem("workers:plan_wall", {
+	description = "9x9 Wall Plan",
+	inventory_image = "plan_wall.png",
+	stack_max = 1,
+})
+
+minetest.register_craftitem("workers:plan_lavapool", {
+	description = "Lava Pool Plan",
+	inventory_image = "plan_lavapool.png",
+	stack_max = 1,
+})
+
+minetest.register_craftitem("workers:plan_lavamoat", {
+	description = "Lava Moat Plan",
+	inventory_image = "plan_lavamoat.png",
+	stack_max = 1,
 })
 
 -- ALIASES
@@ -408,3 +560,18 @@ minetest.register_alias("gardener","workers:gardener")
 
 minetest.register_alias("mordec","workers:miner")
 minetest.register_alias("miner","workers:miner")
+
+minetest.register_alias("benjo","workers:builder")
+minetest.register_alias("builder","workers:builder")
+
+minetest.register_alias("gredo","workers:guard")
+minetest.register_alias("guard","workers:guard")
+
+minetest.register_alias("asvard","workers:assassin")
+minetest.register_alias("assassin","workers:assassin")
+
+minetest.register_alias("toco","workers:thief")
+minetest.register_alias("thief","workers:thief")
+
+minetest.register_alias("cardon","workers:cop")
+minetest.register_alias("cop","workers:cop")

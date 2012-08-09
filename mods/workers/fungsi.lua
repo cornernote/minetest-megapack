@@ -2,7 +2,7 @@
 Workers Mod
 By LocaL_ALchemisT (prof_awang@yahoo.com)
 License: WTFPL
-Version: 1.0
+Version: 2.0
 --]]
 
 worker_images = function(name)
@@ -17,7 +17,8 @@ dir = {
 }
 
 peek = function(p,name)
-	if minetest.env:get_node(p).name == name then return true end
+	if minetest.env:get_node(p).name == name then return true
+	else return false end
 end
 
 faceTo = function(p,n,lim)
@@ -65,6 +66,12 @@ shouldFall_miner = function(p)
 	else return p end
 end
 
+shouldRise = function(p)
+	local np = {x=p.x,y=p.y+1,z=p.z}
+	if peek(np,"air") or peek(np,"default:water_source") or peek(np,"default:water_flowing") then return np
+	else return shouldRise(np) end
+end
+
 get_ore = function(node)
 	local drops = minetest.get_node_drops(node,"default:pick_mese")
 	local _, dropped_item
@@ -75,8 +82,8 @@ end
 
 defend = function(player,master,worker)
 	minetest.chat_send_player(player:get_player_name(), worker..": You are not "..master.."!")
-	player:set_hp(player:get_hp()-6)
 	minetest.chat_send_player(master, worker..": Master, "..player:get_player_name().." punched me!")
+	player:set_hp(player:get_hp()-6)
 end
 
 speak = function(player,text)
