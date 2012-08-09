@@ -26,27 +26,31 @@ minetest.register_abm({
 	end,
 })
 
-if minetest.get_modpath("jeija") ~= nil then -- Mesecons is installed
+if minetest.get_modpath("mesecons") ~= nil then -- Mesecons is installed
     MESECONDUST = {
         physical = true,
         collisionbox = {-0.1,-0.1,-0.1,0,0,0},
         visual = "sprite",
         textures = {"mesecondust.png"},
+        timer = 0,
+        lifetime = math.random(3,5),
         on_step = function(self, dtime)
             self.timer = self.timer + dtime
-            if self.timer > 2.5 then
+            if self.timer > self.lifetime then
                 self.object:remove()
             end
         end,
-        timer = 0,
+		on_activate = function(self, staticdata)
+			self.object:setacceleration({x=0, y=0.05, z=0})
+		end,
     }
     minetest.register_entity("particles:mesecondust", MESECONDUST)
     minetest.register_abm({
-        nodenames = {"jeija:mesecon_on","jeija:wall_lever_on","jeija:mesecon_torch_on"},
+        nodenames = {"mesecons:mesecon_on","mesecons:wall_lever_on","mesecons:mesecon_torch_on"},
         interval = 1,
         chance = 5,
         action = function(pos)
-            --minetest.env:add_entity({x=pos.x+math.random()*0.5,y=pos.y,z=pos.z+math.random()*0.5}, "particles:mesecondust")
+            minetest.env:add_entity({x=pos.x,y=pos.y-0.5,z=pos.z}, "particles:mesecondust")
         end,
     })
 end

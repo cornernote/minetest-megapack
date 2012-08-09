@@ -1,5 +1,3 @@
-[Mod] 3D Furniture [1.0] [3dforniture]
-
 Homepage: unknown
 License: unknown
 
