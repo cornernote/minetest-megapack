@@ -76,18 +76,18 @@ function direction_control.changeaccel(pos,prediction_time,entity,current_veloci
 	local state = environment.pos_is_ok(pos_predicted,entity)
 
 	while  state ~= "ok" do
-		dbg_animals.movement_lvl1("ANIMALS: predicted pos " .. printpos(pos_predicted) .. " isn't ok " .. maxtries .. " tries left, state: " .. state)
+		dbg_animals.pmovement_lvl1("ANIMALS: predicted pos " .. printpos(pos_predicted) .. " isn't ok " .. maxtries .. " tries left, state: " .. state)
 		local done = false
 
 		--don't loop forever get to save mode and try next time
 		if maxtries <= 0 then
-			dbg_animals.movement_lvl1("ANIMALS: Aborting acceleration finding for this cycle due to max retries")
+			dbg_animals.pmovement_lvl1("ANIMALS: Aborting acceleration finding for this cycle due to max retries")
 			if 	state == "collision_jumpable" then
 				dbg_animals.movement_lvl1("Returning "..printpos(new_accel).." as new accel as animal may jump")
 				return new_accel
 			end
 		
-			dbg_animals.movement_lvl1("ANIMALS: Didn't find a suitable acceleration: " .. entity.data.name .. printpos(pos))
+			dbg_animals.pmovement_lvl1("ANIMALS: Didn't find a suitable acceleration: " .. entity.data.name .. printpos(pos))
 			--don't slow down animal
 			return  {  x=current_velocity.x/-2,
 						y=nil,
@@ -213,8 +213,11 @@ function direction_control.precheck_movement(entity,movement_state,pos_predicted
 		local invalid_pos_handled = false
 
 		-- animal would walk onto water
-		if movement_state.changed == false and pos_predicted_state == "above_water" then
-			dbg_animals.movement_lvl1("animal is going to walk on water")
+		if movement_state.changed == false and 
+			( pos_predicted_state == "above_water" or
+			  pos_predicted_state == "drop")
+			then
+			dbg_animals.pmovement_lvl1("animal is going to walk on water or drop")
 			local new_pos = movement_generic.get_suitable_pos_same_level(movement_state.basepos,1,entity)
 
 			if new_pos ~= nil then
@@ -223,7 +226,7 @@ function direction_control.precheck_movement(entity,movement_state,pos_predicted
 				movement_state.changed = true	
 			else
 				minetest.log(LOGLEVEL_ERROR,"ANIMALS: BUG!!! didn't find a way to stop animal at"..printpos(movement_state.basepos)..
-								"from running into water")
+								"from running into water or dropping")
 				--TODO delete animal??
 			end			
 		end
@@ -233,9 +236,9 @@ function direction_control.precheck_movement(entity,movement_state,pos_predicted
 			if environment.pos_is_ok({x=pos_predicted.x,y=pos_predicted.y+1,z=pos_predicted.z},entity) == "ok" then
 				if math.random() < entity.animals_mpattern.jump_up then
 					local node_at_predicted_pos = minetest.env:get_node(pos_predicted)
-					dbg_animals.movement_lvl2("ANIMALS: velocity is:" .. printpos(movement_state.current_velocity) .. " position is: "..printpos(pos) ) 
-					dbg_animals.movement_lvl2("ANIMALS: estimated position was: "..printpos(pos_predicted))
-					dbg_animals.movement_lvl2("ANIMALS: predicted node state is: " .. environment.pos_is_ok(pos_predicted,entity))
+					dbg_animals.pmovement_lvl2("ANIMALS: velocity is:" .. printpos(movement_state.current_velocity) .. " position is: "..printpos(pos) ) 
+					dbg_animals.pmovement_lvl2("ANIMALS: estimated position was: "..printpos(pos_predicted))
+					dbg_animals.pmovement_lvl2("ANIMALS: predicted node state is: " .. environment.pos_is_ok(pos_predicted,entity))
 					--if node_at_predicted_pos ~= nil then
 						--dbg_animals.movement_lvl1("ANIMALS: jumping onto: " .. node_at_predicted_pos.name)
 					--end
@@ -245,8 +248,8 @@ function direction_control.precheck_movement(entity,movement_state,pos_predicted
 					--todo check if y pos is ok?!
 					local jumppos = {x=pos_predicted.x,y=movement_state.centerpos.y+1,z=pos_predicted.z}
 					
-					dbg_animals.movement_lvl2("ANIMALS: animal " ..entity.data.name .. " is jumping, moving to:" .. printpos(jumppos))
-					dbg_animals.movement_lvl2("ANIMALS: target pos node state is: " .. environment.pos_is_ok(jumppos,entity))
+					dbg_animals.pmovement_lvl2("ANIMALS: animal " ..entity.data.name .. " is jumping, moving to:" .. printpos(jumppos))
+					dbg_animals.pmovement_lvl2("ANIMALS: target pos node state is: " .. environment.pos_is_ok(jumppos,entity))
 					
 					entity.object:moveto(jumppos)
 					--TODO set movement state positions
@@ -259,7 +262,7 @@ function direction_control.precheck_movement(entity,movement_state,pos_predicted
 		--redirect animal to block thats not above its current level
 		--or jump if possible
 		if movement_state.changed == false and pos_predicted_state == "collision" then			
-			dbg_animals.movement_lvl1("ANIMALS: animal is about to collide")
+			dbg_animals.pmovement_lvl1("ANIMALS: animal is about to collide")
 
 			local new_pos = movement_generic.get_suitable_pos_same_level(movement_state.basepos,1,entity)
 		
@@ -292,7 +295,7 @@ function direction_control.precheck_movement(entity,movement_state,pos_predicted
 				
 				
 				if jumppos ~= nil then
-					dbg_animals.movement_lvl2("ANIMALS: animal " ..entity.data.name .. " seems to be locked in, moving to:" .. printpos(jumppos))
+					dbg_animals.pmovement_lvl2("ANIMALS: animal " ..entity.data.name .. " seems to be locked in, moving to:" .. printpos(jumppos))
 					entity.object:moveto(jumppos)
 					
 					movement_state.accel_to_set = { x=0,y=nil,z=0 }
@@ -305,7 +308,7 @@ function direction_control.precheck_movement(entity,movement_state,pos_predicted
 		--generic try to solve situation eg wrong surface
 		if movement_state.changed == false and
 			invalid_pos_handled == false then
-			dbg_animals.movement_lvl1("ANIMALS: generic try to resolve state " .. pos_predicted_state .. " for animal " .. entity.data.name .. " "..printpos(movement_state.basepos))
+			dbg_animals.pmovement_lvl1("ANIMALS: generic try to resolve state " .. pos_predicted_state .. " for animal " .. entity.data.name .. " "..printpos(movement_state.basepos))
 			movement_state.accel_to_set = direction_control.changeaccel(movement_state.basepos,prediction_time,
 										entity,movement_state.current_velocity)
 			if movement_state.accel_to_set ~= nil then
@@ -324,7 +327,8 @@ end
 -- param2: movement_state
 -- retval: is a modification to accel done by random jump code?
 -------------------------------------------------------------------------------
-function direction_control.random_movement_handler(entity,movement_state)	
+function direction_control.random_movement_handler(entity,movement_state)
+	dbg_animals.pmovement_lvl1("ANIMALS: random movement handler called")
 	if movement_state.changed == false and
 		(math.random() < entity.animals_mpattern.random_acceleration_change or 
 		movement_state.force_change) then		
@@ -336,6 +340,6 @@ function direction_control.random_movement_handler(entity,movement_state)
 			movement_state.accel_to_set.y = movement_state.current_acceleration.y
 			movement_state.changed = true	
 		end
-		dbg_animals.movement_lvl1("ANIMALS: randomly changing speed from "..printpos(movement_state.current_acceleration).." to "..printpos(movement_state.accel_to_set))
+		dbg_animals.pmovement_lvl1("ANIMALS: randomly changing speed from "..printpos(movement_state.current_acceleration).." to "..printpos(movement_state.accel_to_set))
 	end
 end

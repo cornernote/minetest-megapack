@@ -77,7 +77,7 @@ function movement_gen.generator(entity)
 	--                                                                       --
 	---------------------------------------------------------------------------
 	---------------------------------------------------------------------------
-	dbg_animals.movement_lvl1("ANIMALS: position check for animal ".. entity.data.name .. " "..printpos(movement_state.basepos))
+	dbg_animals.pmovement_lvl1("ANIMALS: position check for animal ".. entity.data.name .. " "..printpos(movement_state.basepos))
 	movement_state.default_y_accel = environment.get_default_gravity(movement_state.basepos,
 								entity.animals_mpattern.environment.media,
 								entity.animals_mpattern.movement_canfly)
@@ -108,7 +108,7 @@ function movement_gen.generator(entity)
 	--                                                                       --
 	---------------------------------------------------------------------------
 	---------------------------------------------------------------------------
-	dbg_animals.movement_lvl1("ANIMALS: movement hard limits check for animal ".. entity.data.name .. " "..printpos(movement_state.basepos))
+	dbg_animals.pmovement_lvl1("ANIMALS: movement hard limits check for animal ".. entity.data.name .. " "..printpos(movement_state.basepos))
 	
 	movement_gen.fix_runaway(entity,movement_state)
 	movement_gen.fix_to_slow(entity,movement_state)
@@ -121,7 +121,7 @@ function movement_gen.generator(entity)
 	--                                                                       --
 	---------------------------------------------------------------------------
 	---------------------------------------------------------------------------
-	dbg_animals.movement_lvl1("ANIMALS: movement check for animal ".. entity.data.name .. " "..printpos(movement_state.basepos))
+	dbg_animals.pmovement_lvl1("ANIMALS: movement check for animal ".. entity.data.name .. " "..printpos(movement_state.basepos))
 	
 	--skip if movement already got changed
 	if movement_state.changed == false then
@@ -153,13 +153,12 @@ function movement_gen.generator(entity)
 	--                                                                       --
 	---------------------------------------------------------------------------
 	---------------------------------------------------------------------------	
-	dbg_animals.movement_lvl1("ANIMALS: randomized movement for animal ".. entity.data.name .. " "..printpos(movement_state.basepos))
+	dbg_animals.pmovement_lvl1("ANIMALS: randomized movement for animal ".. entity.data.name .. " "..printpos(movement_state.basepos))
 	
 	--do randomized changes if not fighting
-	if entity.dynamic_data.combat.target == "" then		
-		height_level_control.random_movement_handler(entity,movement_state)
-		direction_control.random_movement_handler(entity,movement_state)
-	end
+	height_level_control.random_movement_handler(entity,movement_state)
+	direction_control.random_movement_handler(entity,movement_state)
+
 	
 	
 	---------------------------------------------------------------------------
@@ -212,10 +211,10 @@ function movement_gen.apply_movement_changes(entity,movement_state)
 
 
 		--if math.abs (accel_to_set.y - y_default_accel) > 0.001 then
-			--dbg_animals.movement_lvl1("Setting y-acceleration to: ".. accel_to_set.y .. " default:".. y_default_accel .. " name " .. entity.animals_name .. " at: " .. printpos(entity.object:getpos()))
+			--dbg_animals.pmovement_lvl1("Setting y-acceleration to: ".. accel_to_set.y .. " default:".. y_default_accel .. " name " .. entity.animals_name .. " at: " .. printpos(entity.object:getpos()))
 		--end
 
-		dbg_animals.movement_lvl1("ANIMALS: setting acceleration to " ..printpos(movement_state.accel_to_set) )
+		dbg_animals.pmovement_lvl1("ANIMALS: setting acceleration to " ..printpos(movement_state.accel_to_set) )
 		entity.dynamic_data.movement.acceleration = movement_state.accel_to_set
 		entity.object:setacceleration(movement_state.accel_to_set)
 	end
@@ -245,7 +244,7 @@ function movement_gen.callback(entity,now)
 										)
 
 			if math.random() < start_chance then
-				dbg_animals.movement_lvl2("ANIMALS: animal starts to move, chance was:" .. start_chance .. 
+				dbg_animals.pmovement_lvl2("ANIMALS: animal starts to move, chance was:" .. start_chance .. 
 											" deltatime was: " .. delta_t .. 
 											" entity:", entity)
 				
@@ -263,7 +262,7 @@ function movement_gen.callback(entity,now)
 
 			--random chance of stopping
 			if math.random() < stop_chance then
-				dbg_animals.movement_lvl2("ANIMALS: animal stops to move, chance was:" .. stop_chance .. 
+				dbg_animals.pmovement_lvl2("ANIMALS: animal stops to move, chance was:" .. stop_chance .. 
 											" deltatime was: " .. delta_t .. 
 											" entity:", entity)
 											
@@ -277,6 +276,7 @@ function movement_gen.callback(entity,now)
 				entity.dynamic_data.movement.moving = false
 				entity.dynamic_data.movement.ts_state_changed = now
 			else
+				dbg_animals.pmovement_lvl2("ANIMALS: " .. entity.data.name .. " calling movement callback")
 				movement_gen.generator(entity)
 			end
 		end
@@ -336,6 +336,7 @@ function movement_gen.fix_runaway(entity,movement_state)
 	                          math.exp(movement_state.current_velocity.z,2))
 
 	if xzspeed > entity.data.movement.max_speed then
+		dbg_animals.pmovement_lvl3("ANIMALS: too fast! vxz=" .. xzspeed)
 		local newaccel = {x=0,y=movement_state.current_acceleration.y,z=0}
 		
 		--calculate sign of acceleration
@@ -378,11 +379,19 @@ end
 -- retval: -
 -------------------------------------------------------------------------------
 function movement_gen.fix_to_slow(entity,movement_state)
+	local xzspeed = math.sqrt(math.pow(movement_state.current_velocity.x,2) + 
+								math.pow(movement_state.current_velocity.z,2) )
+	                          
+	dbg_animals.pmovement_lvl3("ANIMALS: x=" .. movement_state.current_velocity.x .. 
+										" z=" ..movement_state.current_velocity.z ..
+										" xz=" .. xzspeed)
+	
 	--this ain't perfect to avoid flying animals standing in air 
 	--but it's a quick solution to fix most of the problems
 	if entity.data.movement.min_speed ~= nil and
 		xzspeed < entity.data.movement.min_speed then
 		
+		dbg_animals.pmovement_lvl3("ANIMALS: too slow! vxz=" .. xzspeed)
 		--use normal speed change handling
 		movement_state.force_change = true
 	end

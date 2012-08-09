@@ -1,4 +1,16 @@
-local version = "0.0.4"
+local version = "0.0.5"
+
+
+local cow_groups = {
+						not_in_creative_inventory=1
+					}
+
+local selectionbox_cow = {-1.5, -1.5, -0.75, 1.5, 0.6, 0.75}		
+
+local modpath = minetest.get_modpath("animal_cow")
+
+--include debug trace functions
+dofile (modpath .. "/model.lua")
 
 cow_prototype = {   
 		name="cow",
@@ -10,13 +22,15 @@ cow_prototype = {
 					kill_result="animalmaterials:meat_raw 5",
 					armor_groups= {
 						fleshy=2,
-					}
+					},
+					groups = cow_groups
 				},				
 		movement =  {
 					default_gen=movement_gen,
 					min_accel=0.1,
 					max_accel=0.3,
 					max_speed=1.2,
+					min_speed=0.2,
 					pattern="stop_and_go_meadow"
 					},		
 		harvest = {	
@@ -33,9 +47,10 @@ cow_prototype = {
 		random_drop    = nil,		
 		auto_transform = nil,					
 		graphics = {
-					sprite_scale={x=4,y=4},
-					sprite_div = {x=6,y=1},
-					visible_height = 2,
+					visual = "wielditem",
+					textures = {"animal_cow:box_cow"},
+					collisionbox = selectionbox_cow,
+					visual_size= {x=2,y=2,z=2},
 					},		
 		combat         = nil,
 	

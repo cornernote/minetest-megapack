@@ -80,7 +80,7 @@ minetest.register_node("trap:cought_vombie", {
 		description = "Trap containing vombie",
 		tile_images = {"trap_cought_vombie.png"},
 		drawtype = "normal",
-		material = minetest.digprop_constanttime(5),
+		groups = { snappy=3 },
 		drop = "animal_vombie:vombie",
 		light_source = 2,
 	})

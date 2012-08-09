@@ -1,4 +1,4 @@
-local version = "0.0.7"
+local version = "0.0.8"
 --+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 --+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 -- Node definitions
@@ -13,22 +13,22 @@ local version = "0.0.7"
 -------------------------------------------------------------------------------
 minetest.register_node("animalmaterials:wool_white", {
 	description = "Wool (white)",
-	tile_images = {"animalmaterials_wool_white.png"},
+	tiles = {"animalmaterials_wool_white.png"},
 	groups = { snappy=3,wool=1 }
 })
 minetest.register_node("animalmaterials:wool_grey", {
 	description = "Wool (grey)",
-	tile_images = {"animalmaterials_wool_grey.png"},
+	tiles = {"animalmaterials_wool_grey.png"},
 	groups = { snappy=3, wool=1 }
 })
 minetest.register_node("animalmaterials:wool_brown", {
 	description = "Wool (grey)",
-	tile_images = {"animalmaterials_wool_grey.png"},
+	tiles = {"animalmaterials_wool_grey.png"},
 	groups = { snappy=3, wool=1 }
 })
 minetest.register_node("animalmaterials:wool_black", {
 	description = "Wool (grey)",
-	tile_images = {"animalmaterials_wool_black.png"},
+	tiles = {"animalmaterials_wool_black.png"},
 	groups = { snappy=3, wool=1 }
 })
 

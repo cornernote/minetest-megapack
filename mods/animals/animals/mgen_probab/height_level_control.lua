@@ -57,13 +57,13 @@ function height_level_control.precheck_movement(entity,movement_state,pos_predic
 
 		local time_completed = entity.dynamic_data.movement.ts_random_jump + level_change_time
 
-		dbg_animals.movement_lvl1("ANIMALS: ".. movement_state.now .. " " .. entity.data.name .. 
+		dbg_animals.pmovement_lvl1("ANIMALS: ".. movement_state.now .. " " .. entity.data.name .. 
 			" check complete level change " .. time_completed)
 
 		if entity.dynamic_data.movement.changing_levels and
 			time_completed  < movement_state.now then
 
-			dbg_animals.movement_lvl2("ANIMALS: ".. movement_state.now .. " " .. entity.data.name .. 
+			dbg_animals.pmovement_lvl2("ANIMALS: ".. movement_state.now .. " " .. entity.data.name .. 
 			" level change complete reestablishing default y acceleration " .. movement_state.default_y_accel)
 			entity.dynamic_data.movement.changing_levels = false
 		
@@ -144,7 +144,7 @@ function height_level_control.random_jump_fly(entity,movement_state)
 
 			local target_state = environment.pos_is_ok(targetpos,entity);
 
-			dbg_animals.movement_lvl2("ANIMALS: " .. entity.data.name .." flying change y accel dir="..ydirection.." ypos="..movement_state.basepos.y..
+			dbg_animals.pmovement_lvl2("ANIMALS: " .. entity.data.name .." flying change y accel dir="..ydirection.." ypos="..movement_state.basepos.y..
 					" min="..entity.animals_mpattern.environment.min_height_above_ground..
 					" max="..entity.animals_mpattern.environment.max_height_above_ground..
 					" below="..target_state)
@@ -153,7 +153,7 @@ function height_level_control.random_jump_fly(entity,movement_state)
 			
 				local min_y, max_y = environment.get_absolute_min_max_pos(entity.animals_mpattern.environment,movement_state.basepos)
 			
-				dbg_animals.movement_lvl2("ANIMALS: check level borders current=".. movement_state.basepos.y .. 
+				dbg_animals.pmovement_lvl2("ANIMALS: check level borders current=".. movement_state.basepos.y .. 
 											" min=" .. min_y ..
 											" max=" .. max_y)
 				if (movement_state.basepos.y > min_y and
@@ -164,7 +164,7 @@ function height_level_control.random_jump_fly(entity,movement_state)
 						movement_state.accel_to_set.y = ydirection * entity.data.movement.min_accel
 						entity.dynamic_data.movement.ts_random_jump = movement_state.now
 						entity.dynamic_data.movement.changing_levels = true
-						dbg_animals.movement_lvl2("ANIMALS: " .. entity.data.name .. " " .. movement_state.now .. " " .. 
+						dbg_animals.pmovement_lvl2("ANIMALS: " .. entity.data.name .. " " .. movement_state.now .. " " .. 
 											" changing level within borders: " .. movement_state.accel_to_set.y)	
 						movement_state.changed = true
 					end
@@ -214,7 +214,7 @@ function height_level_control.random_jump_ground(entity,movement_state)
 		
 			local current_speed = entity.object:getvelocity();
 	
-			dbg_animals.movement_lvl2("ANIMALS: " .. entity.data.name .." doing random jump ".. 
+			dbg_animals.pmovement_lvl2("ANIMALS: " .. entity.data.name .." doing random jump ".. 
 								"speed: " .. entity.animals_mpattern.random_jump_initial_speed ..
 								": ",entity)
 	
@@ -224,7 +224,7 @@ function height_level_control.random_jump_ground(entity,movement_state)
 	
 			entity.dynamic_data.movement.ts_random_jump = movement_state.now
 		else
-			dbg_animals.movement_lvl2("ANIMALS: " .. entity.data.name .. " Random jump but ground distance was:" .. ground_distance .. 
+			dbg_animals.pmovement_lvl2("ANIMALS: " .. entity.data.name .. " Random jump but ground distance was:" .. ground_distance .. 
 							" " ..movement_state.current_acceleration.y ..
 							" " ..movement_state.default_y_accel)
 							
@@ -255,7 +255,7 @@ function height_level_control.random_movement_handler(entity,movement_state)
 		(math.random() < entity.animals_mpattern.random_jump_chance or
 		 math.random() < movement_state.override_height_change_chance) then
 
-		dbg_animals.movement_lvl1("ANIMALS: Random jump chance for animal " .. entity.data.name .. " "..
+		dbg_animals.pmovement_lvl1("ANIMALS: Random jump chance for animal " .. entity.data.name .. " "..
 						entity.dynamic_data.movement.ts_random_jump .. " "..
 						entity.animals_mpattern.random_jump_delay .. " " .. movement_state.now
 			)

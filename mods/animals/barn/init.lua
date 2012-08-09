@@ -1,10 +1,13 @@
-local version = "0.0.2"
+local version = "0.0.3"
 
+local modpath = minetest.get_modpath("barn")
 
+--include debug trace functions
+dofile (modpath .. "/model.lua")
 
 minetest.register_craftitem("barn:barn_empty", {
 			description = "Barn to breed animals",
-			image = minetest.inventorycube("barn_empty_top.png","barn_empty_side.png","barn_empty_side.png"),
+			image = minetest.inventorycube("barn_3d_empty_top.png","barn_3d_empty_side.png","barn_3d_empty_side.png"),
 			on_place = function(item, placer, pointed_thing)
 				if pointed_thing.type == "node" then
 					local pos = pointed_thing.above
@@ -44,9 +47,9 @@ minetest.register_entity(":barn:barn_ent",
 	{
 		physical 		= true,
 		collisionbox 	= {-0.5,-0.5,-0.5, 0.5,0.5,0.5},
-		visual 			= "cube",
-		textures 		= {"barn_top.png","barn_bottom.png",
-			"barn_side.png","barn_side.png","barn_side.png","barn_side.png"},
+		visual 			= "wielditem",
+		textures 		= { "barn:box_filled"},
+		visual_size     = { x=0.666,y=0.666,z=0.666},
 
 		on_step = function(self,dtime)
 
@@ -146,9 +149,9 @@ minetest.register_entity(":barn:barn_empty_ent",
 	{
 		physical 		= true,
 		collisionbox 	= {-0.5,-0.5,-0.5, 0.5,0.5,0.5},
-		visual 			= "cube",
-		textures 		= {"barn_empty_top.png","barn_empty_bottom.png",
-			"barn_empty_side.png","barn_empty_side.png","barn_empty_side.png","barn_empty_side.png"},
+		visual 			= "wielditem",
+		textures 		= { "barn:box_empty"},
+		visual_size     = { x=0.666,y=0.666,z=0.666},
 		
 		
 		on_punch = function(self,player)

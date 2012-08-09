@@ -1,4 +1,18 @@
-local version = "0.0.5"
+local version = "0.0.8"
+
+local sheep_groups = {
+						sheerable=1,
+						wool=1,
+						not_in_creative_inventory=1
+					}
+
+local selectionbox_sheep = {-0.65, -0.8, -0.65, 0.65, 0.45, 0.65}
+local selectionbox_lamb = {-0.65*0.6, -0.8*0.6, -0.65*0.6, 0.65*0.6, 0.45*0.6, 0.65*0.65}		
+
+local modpath = minetest.get_modpath("animal_sheep")
+
+--include debug trace functions
+dofile (modpath .. "/model.lua")
 
 sheep_prototype = {   
 		name="sheep",
@@ -11,16 +25,14 @@ sheep_prototype = {
 					armor_groups= {
 						fleshy=3,
 					},
-					groups = {
-						sheerable=1,
-						wool=1,
-					}
+					groups = sheep_groups
 				},				
 		movement =  {
 					default_gen=movement_gen,
 					min_accel=0.2,
 					max_accel=0.4,
 					max_speed=1.5,
+					min_speed=0.2,
 					pattern="stop_and_go_meadow"
 					},		
 		harvest = {	
@@ -38,9 +50,10 @@ sheep_prototype = {
 		random_drop    = nil,		
 		auto_transform = nil,					
 		graphics = { 
-					sprite_scale={x=4,y=4},
-					sprite_div = {x=6,y=1},
-					visible_height = 1.5,
+					visual = "wielditem",
+					textures = {"animal_sheep:box_wool"},
+					collisionbox = selectionbox_sheep,
+					visual_size= {x=1,y=1,z=1},
 					},		
 		combat         = nil,
 		
@@ -68,7 +81,7 @@ sheep_prototype = {
 					},
 		}
 		
-lamp_prototype = {   
+lamb_prototype = {   
 		name="lamb",
 		modname="animal_sheep", 
 	
@@ -81,6 +94,7 @@ lamp_prototype = {
 					}
 				},				
 		movement =  { 
+					default_gen=movement_gen,
 					min_accel=0.1,
 					max_accel=0.2,
 					max_speed=1,
@@ -97,8 +111,10 @@ lamp_prototype = {
 					delay=1800
 					},					
 		graphics = { 
-					sprite_scale={x=4,y=4},
-					sprite_div = {x=6,y=1},
+					visual = "wielditem",
+					textures = {"animal_sheep:box_wool"},
+					collisionbox = selectionbox_lamb,
+					visual_size= {x=0.6,y=1,z=0.6},
 					visible_height = 1,
 					},		
 		combat      = nil,
@@ -133,10 +149,12 @@ sheep_naked_prototype = {
 						fleshy=3,
 					},
 				},				
-		movement =  { 
+		movement =  {
+					default_gen=movement_gen,
 					min_accel=0.2,
 					max_accel=0.4,
 					max_speed=1.5,
+					min_speed=0.2,
 					pattern="stop_and_go"
 					},		
 		harvest     = nil,
@@ -150,10 +168,12 @@ sheep_naked_prototype = {
 					delay=300
 					},					
 		graphics = { 
-					sprite_scale={x=4,y=4},
-					sprite_div = {x=6,y=1},
-					visible_height = 1.5,
-					},		
+					visual = "wielditem",
+					textures = {"animal_sheep:box_naked"},
+					collisionbox = selectionbox_sheep,
+					visual_size= {x=1,y=1,z=1},
+					visible_height = 1,
+					},	
 		combat      = nil,
 		
 		spawning = {		
@@ -189,6 +209,6 @@ print ("Adding animal "..sheep_prototype.name)
 animals_add_animal(sheep_prototype)
 print ("Adding animal "..sheep_naked_prototype.name)
 animals_add_animal(sheep_naked_prototype)
-print ("Adding animal "..lamp_prototype.name)
-animals_add_animal(lamp_prototype)
+print ("Adding animal "..lamb_prototype.name)
+animals_add_animal(lamb_prototype)
 print ("animal_sheep mod version " .. version .. " loaded")

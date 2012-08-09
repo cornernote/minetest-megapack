@@ -107,6 +107,24 @@ wood       wood     wood
 
 Changelog:
 -------------------------------------------------------------------------------
+Changes 1.2.93:
+-added 3d barn
+-fixed bug animals have wrong orientation
+-fixed bug sheep get stuc in corner
+-fixed cow model
+
+Changes 1.2.92:
+-added support for 3d animals
+-fix bug in probabilistic movement gen when handling min speed
+-fixed movement of stop_and_go animals
+-made Sheep 3D
+-made Cow 3D
+
+
+Changes 1.2.91:
+-fixed bugs in animals sheep
+-updated animalmaterials to new syntax
+
 Changes 1.2.90:
 -added support for surface differentiation in good/ok/bad
 -added support for different movement generators

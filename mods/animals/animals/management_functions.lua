@@ -66,20 +66,28 @@ function animals_add_animal(animal)
 	if animal.random_drop ~= nil then
 		random_drop.register(animal)
 	end
-
-	--register animal entity
-	minetest.register_entity(":".. animal.modname .. ":"..animal.name,
-			 {
-				physical 		= true,
-				collisionbox 	= {-0.5,
+	
+	--2D legacy support
+	if (animal.graphics.visual == nil) then		
+		animal.graphics.collisionbox = {-0.5,
 									-0.5 * animal.graphics.visible_height,
 									-0.5,
 									0.5,
 									0.5 * animal.graphics.visible_height,
-									0.5},
-				visual 			= "sprite",
-				visual_size 	= animal.graphics.sprite_scale,
-				textures 		= {animal.modname.."_"..animal.name..".png^[makealpha:128,0,0^[makealpha:128,128,0"},
+									0.5}
+		animal.graphics.visual = "sprite"
+		animal.graphics.textures = {animal.modname.."_"..animal.name..".png^[makealpha:128,0,0^[makealpha:128,128,0"}
+		animal.graphics.visual_size = animal.graphics.sprite_scale
+	end
+	
+	--register animal entity
+	minetest.register_entity(":".. animal.modname .. ":"..animal.name,
+			 {
+				physical 		= true,
+				collisionbox 	= animal.graphics.collisionbox,
+				visual 			= animal.graphics.visual,
+				visual_size 	= animal.graphics.visual_size,
+				textures 		= animal.graphics.textures,
 				spritediv 		= animal.graphics.sprite_div,
 				initial_sprite_basepos 	= {x=0, y=0},
 				makes_footstep_sound = true,
@@ -120,7 +128,7 @@ function animals_add_animal(animal)
 				sound.play_random(self,now)
 
 				--visual change hook
-				update_orientation(self,now)	
+				update_orientation(self,now)
 				end,
 
 		--player <-> animal interaction
@@ -202,21 +210,42 @@ function animals_add_animal(animal)
 				end
 
 				--initialize height level
-				if self.data.graphics.visible_height > 1 then
-					local pos_to_check = {x=pos.x,y=pos.y-0.51,z=pos.z}
-					
-					local node_pos = minetest.env:get_node(pos)
-					local node_pos_check = minetest.env:get_node(pos_to_check)				
-
-					
-					if node_pos ~= nil and
-						node_pos_check ~= nil then
-						--print("ANIMALS: fixing spawn position required? " .. node_pos.name .. " " .. node_pos_check.name)
-						if node_pos.name ~= node_pos_check.name then 
-							pos.y = pos.y + ((self.data.graphics.visible_height -1)/2)
-							--print("ANIMALS: fixing spawn position moving to " ..printpos(pos))
-							self.object:moveto(pos)
+				--legacy 2D mode
+				if self.data.graphics.visual == "sprite" or
+					self.data.graphics.visual == nil then
+					if self.data.graphics.visible_height > 1 then
+						local pos_to_check = {x=pos.x,y=pos.y-0.51,z=pos.z}
+						
+						local node_pos = minetest.env:get_node(pos)
+						local node_pos_check = minetest.env:get_node(pos_to_check)				
+						
+						if node_pos ~= nil and
+							node_pos_check ~= nil then
+							--print("ANIMALS: fixing spawn position required? " .. node_pos.name .. " " .. node_pos_check.name)
+							if node_pos.name ~= node_pos_check.name then 
+								pos.y = pos.y + ((self.data.graphics.visible_height -1)/2)
+								--print("ANIMALS: fixing spawn position moving to " ..printpos(pos))
+								self.object:moveto(pos)
+							end
 						end
+					end
+				else
+					if self.data.graphics.collisionbox[1] < -0.5 then
+						local pos_to_check = {x=pos.x,y=pos.y+self.data.graphics.collisionbox[1],z=pos.z}
+						
+						local node_pos = minetest.env:get_node(pos)
+						local node_pos_check = minetest.env:get_node(pos_to_check)
+						
+						if node_pos ~= nil and
+							node_pos_check ~= nil then
+							dbg_animals.generic_lvl2("ANIMALS: fixing spawn position required? " .. node_pos.name .. " " .. node_pos_check.name)
+							if node_pos.name ~= node_pos_check.name then 
+								pos.y = pos.y + ((0.5 + self.data.graphics.collisionbox[1]) * -1)
+								dbg_animals.generic_lvl2("ANIMALS: fixing spawn position moving to " ..printpos(pos))
+								self.object:moveto(pos)
+							end
+						end
+						
 					end
 				end
 
@@ -247,12 +276,26 @@ function animals_add_animal(animal)
 
 	       	getbasepos = function(entity)
         			local pos = entity.object:getpos()
+        			
+        			dbg_animals.generic_lvl2("ANIMALS: Center Position: " .. printpos(pos))
 
 					-- if visual height is more than one block the center of base block is 
 					-- below the entities center
-					if (entity.data.graphics.visible_height > 1) then
-						pos.y = pos.y - (entity.data.graphics.visible_height/2) + 0.5
+					-- legacy 2D mode
+					if (entity.data.graphics.visual == "sprite" ) or
+						(entity.data.graphics.visual == nil )then
+						if (entity.data.graphics.visible_height > 1) then
+							pos.y = pos.y - (entity.data.graphics.visible_height/2) + 0.5
+						end
+					else
+						if (entity.data.graphics.collisionbox[1] < -0.5) then
+							pos.y = pos.y + (entity.data.graphics.collisionbox[1] + 0.5)
+							dbg_animals.generic_lvl2("ANIMALS: collision box lower end: " .. entity.data.graphics.collisionbox[1])
+							
+						end
 					end
+					
+					dbg_animals.generic_lvl2("ANIMALS: Base Position: " .. printpos(pos))					
  	
         			return pos
         		end				
@@ -267,7 +310,7 @@ function animals_add_animal(animal)
 	
 	--check if a movement pattern was specified
 	if animals_movement_patterns[animal.movement.pattern] == nil then
-		print("ANIMALS Warning: no movement pattern specified!")
+		minetest.log(LOGLEVEL_WARNING,"ANIMALS Warning: no movement pattern specified!")
 	end
 
 	--register spawn callback to world
@@ -277,7 +320,7 @@ function animals_add_animal(animal)
 			secondary_name = animal.harvest.transforms_to
 		end
 		
-		print("Pattern:" , animal.movement.pattern)
+		dbg_animals.generic_lvl3("Pattern:" , animal.movement.pattern)
 		local dummy6  = animals_movement_patterns[animal.movement.pattern].environment
 		
 		animals_spawn_algorithms[animal.spawning.algorithm](animal.modname..":"..animal.name,

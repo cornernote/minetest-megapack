@@ -11,7 +11,7 @@ PLANTS = {
 PLANTLIKE = function(nodeid, nodename,type,option)
 	if option == nil then option = false end
 
-	local params ={ description = nodename, drawtype = "plantlike", tiles = {"hydro_"..nodeid..'.png'}, 
+	local params ={ description = nodename, drawtype = "plantlike", tile_images = {"hydro_"..nodeid..'.png'}, 
 	inventory_image = "hydro_"..nodeid..'.png',	wield_image = "hydro_"..nodeid..'.png', paramtype = "light",	}
 		
 	if type == 'veg' then
@@ -43,7 +43,7 @@ GLOWLIKE = function(nodeid,nodename,drawtype)
 	minetest.register_node("hydro:"..nodeid, {
 		description = nodename,
 		drawtype = drawtype,
-		tiles = {"hydro_"..nodeid..".png"},
+		tile_images = {"hydro_"..nodeid..".png"},
 		inventory_image = inv_image,
 		light_propagates = true,
 		paramtype = "light",
@@ -60,14 +60,14 @@ PLANTLIKE('coffeecup','Coffee Cup','eat',2)
 GLOWLIKE('growlamp','Growlamp','plantlike')
 minetest.register_node("hydro:promix", {
 	description = "Promix",
-	tiles = {"hydro_promix.png"},
+	tile_images = {"hydro_promix.png"},
 	is_ground_content = true,
 	groups = {crumbly=3},
 	sounds = default.node_sound_dirt_defaults(),
 })
 minetest.register_node("hydro:roastedcoffee", {
 	description = "Roasted Coffee",
-	tiles = {"hydro_roastedcoffee.png"},
+	tile_images = {"hydro_roastedcoffee.png"},
 	inventory_image = minetest.inventorycube("hydro_roastedcoffee.png"),
 	is_ground_content = true,
 	groups = {snappy=2,cracky=3,oddly_breakable_by_hand=3},
@@ -77,7 +77,7 @@ minetest.register_node("hydro:rosebush", {
 	description = "Rose Bush",
 	drawtype = "allfaces_optional",
 	visual_scale = 1.3,
-	tiles = {"hydro_rosebush.png"},
+	tile_images = {"hydro_rosebush.png"},
 	paramtype = "light",
 	groups = {snappy=3,  flammable=2},
 	sounds = default.node_sound_leaves_defaults(),
@@ -99,7 +99,7 @@ for index,plant in pairs(PLANTS) do
 		description = "Wild Plant",
 		drawtype = "plantlike",
 		visual_scale = 1.0,
-		tiles = {"hydro_wildplant.png"},
+		tile_images = {"hydro_wildplant.png"},
 		paramtype = "light",
 		walkable = false,
 		groups = {snappy=3,flammable=3},
@@ -113,7 +113,7 @@ for index,plant in pairs(PLANTS) do
 	minetest.register_node("hydro:seeds_"..plant.name, {
 		description = plant.name.." Seeds",
 		drawtype = "signlike",
-		tiles = {"hydro_seeds.png"},
+		tile_images = {"hydro_seeds.png"},
 		inventory_image = "hydro_seeds.png",
 		wield_image = "hydro_seeds.png",
 		paramtype = "light",
@@ -134,7 +134,7 @@ for index,plant in pairs(PLANTS) do
 	minetest.register_node('hydro:seedlings_'..plant.name, {
 		drawtype = 'plantlike',
 		visual_scale = 1.0,
-		tiles = { 'hydro_seedlings.png' },
+		tile_images = { 'hydro_seedlings.png' },
 		inventory_image = 'hydro_seedlings.png',
 		sunlight_propagates = true,
 		paramtype = 'light',
@@ -147,7 +147,7 @@ for index,plant in pairs(PLANTS) do
 	minetest.register_node('hydro:sproutlings_' .. plant.name, {
 		drawtype = 'plantlike',
 		visual_scale = 1.0,
-		tiles = { 'hydro_sproutlings.png' },
+		tile_images = { 'hydro_sproutlings.png' },
 		inventory_image = 'hydro_sproutlings.png',
 		sunlight_propagates = true,
 		paramtype = 'light',
@@ -161,7 +161,7 @@ for index,plant in pairs(PLANTS) do
 		description = 'Tomato Plant (Young)',
 		drawtype = 'plantlike',
 		visual_scale = 1.0,
-		tiles = { 'hydro_'..plant.name..'1.png' },
+		tile_images = { 'hydro_'..plant.name..'1.png' },
 		inventory_image = 'hydro_'..plant.name..'1.png',
 		sunlight_propagates = true,
 		paramtype = 'light',
@@ -171,18 +171,20 @@ for index,plant in pairs(PLANTS) do
 		sounds = default.node_sound_leaves_defaults(),
 		drop = '',
 	})
-	local ondig = nil
+
+	local after_dig_node = nil
 	if plant.growtype == 'permaculture' then
 		plant.growtype = 'growshort'
-		ondig = function(pos,node)
+		after_dig_node = function(pos,node)
 			minetest.env:add_node(pos,{type='node',name='hydro:'..plant.name..'1'})
 		end
+
 	end
 	minetest.register_node('hydro:'..plant.name..'2', {
 		description = 'Tomato Plant (Youngish)',
 		drawtype = 'plantlike',
 		visual_scale = 1.0,
-		tiles = { 'hydro_'..plant.name..'2.png' },
+		tile_images = { 'hydro_'..plant.name..'2.png' },
 		inventory_image = 'hydro_'..plant.name..'2.png',
 		sunlight_propagates = true,
 		paramtype = 'light',
@@ -190,14 +192,13 @@ for index,plant in pairs(PLANTS) do
 		furnace_burntime = 1,
 		groups = { snappy = 3 },
 		sounds = default.node_sound_leaves_defaults(),
-		on_dig = ondig,
 		drop = '',
 	})
 	minetest.register_node('hydro:'..plant.name..'3', {
 		description = 'Tomato Plant (Fruitings)',
 		drawtype = 'plantlike',
 		visual_scale = 1.0,
-		tiles = { 'hydro_'..plant.name..'3.png' },
+		tile_images = { 'hydro_'..plant.name..'3.png' },
 		inventory_image = 'hydro_'..plant.name..'3.png',
 		sunlight_propagates = true,
 		paramtype = 'light',
@@ -205,17 +206,18 @@ for index,plant in pairs(PLANTS) do
 		furnace_burntime = 1,
 		groups = { snappy = 3 },
 		sounds = default.node_sound_leaves_defaults(),
-		on_dig = ondig,
 		drop = '',
 	})
+	
+
 	local harvest = 'hydro:'..plant.name
-	if plant.give_on_harvest ~= nil then harvest = plant.give_on_harvest end
+	if plant.give_on_harvest then harvest = plant.give_on_harvest end
 	
 	minetest.register_node('hydro:'..plant.name..'4', {
 		description = 'Tomato Plant (Ripe)',
 		drawtype = 'plantlike',
 		visual_scale = 1.0,
-		tiles = { 'hydro_'..plant.name..'4.png' },
+		tile_images = { 'hydro_'..plant.name..'4.png' },
 		inventory_image = 'hydro_'..plant.name..'4.png',
 		sunlight_propagates = true,
 		paramtype = 'light',
@@ -223,14 +225,14 @@ for index,plant in pairs(PLANTS) do
 		furnace_burntime = 1,
 		groups = { snappy = 3 },
 		sounds = default.node_sound_leaves_defaults(),
-		on_dig = ondig,
+		after_dig_node = after_dig_node,
 		drop = { 
 				items = {
 					{	items = {'hydro:seeds_'..plant.name..' 4'},
-						rarity = 6,
+						rarity = 4,
 					},
 					{
-						items = {harvest..' 4'},
+						items = {harvest..' 2'},
 					}
 				}
 		},
@@ -241,7 +243,7 @@ for index,plant in pairs(PLANTS) do
 			description = plant.name,
 			drawtype = "plantlike",
 			visual_scale = 1.0,
-			tiles = {"hydro_"..plant.name..".png"},
+			tile_images = {"hydro_"..plant.name..".png"},
 			inventory_image = "hydro_"..plant.name..".png",
 			paramtype = "light",
 			sunlight_propagates = true,
@@ -440,9 +442,9 @@ minetest.register_craft({	output = 'hydro:promix 6',	recipe = {
 		{'default:dirt', 'default:dirt', 'default:dirt'},
 }})
 minetest.register_craft({	output = 'hydro:wine 1',	recipe = {
-		{'default:glass', 'hydro:hydroponics_grapes','default:glass'},
-		{'default:glass', 'hydro:hydroponics_grapes','default:glass'},
-		{'default:glass', 'hydro:hydroponics_grapes','default:glass'},
+		{'default:glass', 'hydro:grapes','default:glass'},
+		{'default:glass', 'hydro:grapes','default:glass'},
+		{'default:glass', 'hydro:grapes','default:glass'},
 	}})
 minetest.register_craft({	output = 'node "hydro:coffeecup" 1',	recipe = {
 		{'','',''},

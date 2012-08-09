@@ -67,8 +67,8 @@ minetest.register_node("hydro:promix", {
 })
 minetest.register_node("hydro:roastedcoffee", {
 	description = "Roasted Coffee",
-	tile_images = {"hydro_coffee.png"},
-	inventory_image = minetest.inventorycube("hydro_coffee.png"),
+	tile_images = {"hydro_roastedcoffee.png"},
+	inventory_image = minetest.inventorycube("hydro_roastedcoffee.png"),
 	is_ground_content = true,
 	groups = {snappy=2,cracky=3,oddly_breakable_by_hand=3},
 	sounds = default.node_sound_stone_defaults(),
@@ -171,12 +171,14 @@ for index,plant in pairs(PLANTS) do
 		sounds = default.node_sound_leaves_defaults(),
 		drop = '',
 	})
-	local ondig = nil
+
+	local after_dig_node = nil
 	if plant.growtype == 'permaculture' then
 		plant.growtype = 'growshort'
-		ondig = function(pos,node)
+		after_dig_node = function(pos,node)
 			minetest.env:add_node(pos,{type='node',name='hydro:'..plant.name..'1'})
 		end
+
 	end
 	minetest.register_node('hydro:'..plant.name..'2', {
 		description = 'Tomato Plant (Youngish)',
@@ -190,7 +192,6 @@ for index,plant in pairs(PLANTS) do
 		furnace_burntime = 1,
 		groups = { snappy = 3 },
 		sounds = default.node_sound_leaves_defaults(),
-		on_dig = ondig,
 		drop = '',
 	})
 	minetest.register_node('hydro:'..plant.name..'3', {
@@ -205,11 +206,12 @@ for index,plant in pairs(PLANTS) do
 		furnace_burntime = 1,
 		groups = { snappy = 3 },
 		sounds = default.node_sound_leaves_defaults(),
-		on_dig = ondig,
 		drop = '',
 	})
+	
+
 	local harvest = 'hydro:'..plant.name
-	if plant.give_on_harvest ~= nil then harvest = plant.give_on_harvest end
+	if plant.give_on_harvest then harvest = plant.give_on_harvest end
 	
 	minetest.register_node('hydro:'..plant.name..'4', {
 		description = 'Tomato Plant (Ripe)',
@@ -223,14 +225,14 @@ for index,plant in pairs(PLANTS) do
 		furnace_burntime = 1,
 		groups = { snappy = 3 },
 		sounds = default.node_sound_leaves_defaults(),
-		on_dig = ondig,
+		after_dig_node = after_dig_node,
 		drop = { 
 				items = {
 					{	items = {'hydro:seeds_'..plant.name..' 4'},
-						rarity = 6,
+						rarity = 4,
 					},
 					{
-						items = {harvest..' 4'},
+						items = {harvest..' 2'},
 					}
 				}
 		},

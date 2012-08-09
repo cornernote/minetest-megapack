@@ -290,6 +290,28 @@ function movement_generic.fix_current_pos(entity,movement_state)
 	return {	abort_processing=abort_processing,	 }
 end
 
+function update_orientation_simple(entity,current_velocity)
+	local x_abs = math.abs(current_velocity.x)
+	local z_abs = math.abs(current_velocity.z)
+	if x_abs > z_abs then
+		if current_velocity.x > 0 then
+			set_yaw(entity,0)
+			--entity.object:setyaw(0)
+		else
+			set_yaw(entity,3.14)
+			--entity.object:setyaw(3.14)
+		end
+	else
+		if current_velocity.z >0 then
+			set_yaw(entity,1.57)
+			--entity.object:setyaw(1.57)
+		else
+			set_yaw(entity,4.71)
+			--entity.object:setyaw(4.71)
+		end
+	end
+end
+
 -------------------------------------------------------------------------------
 -- name: update_orientation(entity)
 --
@@ -302,32 +324,52 @@ function update_orientation(entity,now)
 
 	local new_orientation = 0
 
-	if entity.dynamic_data.movement.ts_orientation_upd + 1 < now and
-		entity.dynamic_data.movement.moving then
+--	if entity.dynamic_data.movement.ts_orientation_upd + 1 < now and
+	if	entity.dynamic_data.movement.moving then
 
-		entity.dynamic_data.movement.ts_orientation_upd = now
+		dbg_animals.movement_lvl3("ANIMALS: Updating orientation")
+		--entity.dynamic_data.movement.ts_orientation_upd = now
 
-		current_velocity = get_velocity(entity)
-		--current_velocity = entity.object:getvelocity()
+		local current_velocity = get_velocity(entity)
+		local acceleration = entity.object:getacceleration()
+		local pos = entity.getbasepos(entity)
+		
+		--predict position animal will be in 0.25 seconds
+		local predicted_pos = {x=pos.x,y=pos.y,z=pos.z}
 
-		local x_abs = math.abs(current_velocity.x)
-		local z_abs = math.abs(current_velocity.z)
+		predicted_pos.x = predicted_pos.x + current_velocity.x * 0.25 + (acceleration.x/2)*math.exp(0.25,2)
+		predicted_pos.z = predicted_pos.z + current_velocity.z * 0.25 + (acceleration.z/2)*math.exp(0.25,2)
+			
+		local delta_x = predicted_pos.x - pos.x
+		local delta_z = predicted_pos.z - pos.z
 
-		if x_abs > z_abs then
-			if current_velocity.x > 0 then
-				set_yaw(entity,0)
-				--entity.object:setyaw(0)
-			else
-				set_yaw(entity,3.14)
-				--entity.object:setyaw(3.14)
-			end
+		--legacy 2d mode
+		if (entity.data.graphics.visual == "sprite") then
+			update_orientation_simple(entity,{x=delta_x, z=delta_z})
+		-- 3d mode
 		else
-			if current_velocity.z >0 then
-				set_yaw(entity,1.57)
-				--entity.object:setyaw(1.57)
+			--predict position animal will be in 0.5 seconds		
+			
+			if (delta_x ~= 0 ) and
+				(delta_z ~= 0) then
+				
+				local direction = 0
+				
+				if ( delta_x > 0 and delta_z > 0 ) or
+					(delta_x < 0 and delta_z < 0) then
+				 	direction = math.atan2(delta_x,delta_z)
+				else
+					direction = math.atan2(delta_x * -1,delta_z * -1)
+				end
+				set_yaw (entity,direction)
+				
+				dbg_animals.movement_lvl2("ANIMALS: x-delta: " .. delta_x .. " z-delta: " .. delta_z .. " direction: " .. direction)
+			elseif (delta_x ~= 0) or
+					(delta_z ~= 0) then
+					dbg_animals.movement_lvl2("ANIMALS: at least speed for one direction is 0")
+					update_orientation_simple(entity,{x=delta_x,z=delta_z})
 			else
-				set_yaw(entity,4.71)
-				--entity.object:setyaw(4.71)
+				dbg_animals.movement_lvl3("ANIMALS: not moving")
 			end
 		end
 	end

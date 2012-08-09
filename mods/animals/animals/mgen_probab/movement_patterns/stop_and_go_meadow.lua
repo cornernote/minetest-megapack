@@ -18,7 +18,7 @@ local stop_and_go_meadow_prototype = 	{
 		random_jump_chance              =0,
 		random_jump_initial_speed       =0,
 		random_jump_delay               =0,
-		random_acceleration_change      =0.05,
+		random_acceleration_change      =0.1,
 
 		movement_canfly				    =false,
 

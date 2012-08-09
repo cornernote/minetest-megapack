@@ -38,7 +38,7 @@ dofile (animals_modpath .. "/debug.lua")
 --include spawning support
 dofile (animals_modpath .. "/spawning.lua")
 
-local version = "1.2.90"
+local version = "1.2.93"
 
 LOGLEVEL_INFO     = "verbose"
 LOGLEVEL_NOTICE   = "info"

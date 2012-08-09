@@ -1,3 +1,7 @@
+#cleanup via find
+#
+#
+# find . -name .svn -exec rm -r {} \;
 rm -rf animal_big_red/.svn
 rm -rf animal_big_red/textures/.svn
 rm -rf animal_chicken/.svn
