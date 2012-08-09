@@ -6,7 +6,7 @@
 -- License: GPL
 --
 
-local DEBUG = 1
+local DEBUG = 0
 
 local WALLMX = 3
 local WALLMZ = 5
@@ -414,7 +414,7 @@ minetest.register_craft({
 })
 
 
--- You only need flowers to get the red dye necessary to actually
+-- You only need flowers and coal to get the dark orange necessary to actually
 -- craft a mahogany door (either one), but not to /give or use one.
 
 if ( minetest.get_modpath("flowers") ) ~= nil then
@@ -424,9 +424,9 @@ if ( minetest.get_modpath("flowers") ) ~= nil then
                 output = 'homedecor:folding_door_mahogany',
                 recipe = {
                         'homedecor:folding_door_oak',
-                        'unifieddyes:black',
-                        'unifieddyes:red',
+                        'unifieddyes:dark_orange',
                 },
+		replacements = { {'unifieddyes:dark_orange', 'unifieddyes:empty_bottle'}, },
         })
 
         minetest.register_craft( {
@@ -434,9 +434,9 @@ if ( minetest.get_modpath("flowers") ) ~= nil then
                 output = 'homedecor:folding_door_mahogany_right',
                 recipe = {
                         'homedecor:folding_door_oak_right',
-                        'unifieddyes:black',
-                        'unifieddyes:red',
+                        'unifieddyes:dark_orange',
                 },
+		replacements = { {'unifieddyes:dark_orange', 'unifieddyes:empty_bottle'}, },
         })
 
 end

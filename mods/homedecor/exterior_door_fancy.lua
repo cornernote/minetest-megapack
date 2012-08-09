@@ -10,7 +10,7 @@
 -- License: GPL
 --
 
-local DEBUG = 1
+local DEBUG = 0
 
 local WALLMX = 3
 local WALLMZ = 5

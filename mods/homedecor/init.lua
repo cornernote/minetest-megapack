@@ -18,7 +18,7 @@ dofile(minetest.get_modpath("homedecor").."/foldingdoors_mahogany.lua")
 dofile(minetest.get_modpath("homedecor").."/exterior_door_fancy.lua")
 dofile(minetest.get_modpath("homedecor").."/crafts.lua")
 
-local DEBUG = 1
+local DEBUG = 0
 
 -- Local Functions
 
@@ -277,8 +277,8 @@ minetest.register_node('homedecor:television', {
 	description = "Small CRT Television",
 	tiles = { 'homedecor_television_top.png',
 			'homedecor_television_bottom.png',
-			'homedecor_television_left.png',
 			'homedecor_television_right.png',
+			'homedecor_television_left.png',
 			'homedecor_television_back.png',
 			'homedecor_television_front.png'},
 	sunlight_propagates = false,
@@ -295,8 +295,8 @@ minetest.register_node('homedecor:stereo', {
 	description = "Stereo Receiver",
 	tiles = { 'homedecor_stereo_top.png',
 			'homedecor_stereo_bottom.png',
-			'homedecor_stereo_left.png',
 			'homedecor_stereo_right.png',
+			'homedecor_stereo_left.png',
 			'homedecor_stereo_back.png',
 			'homedecor_stereo_front.png'},
 	sunlight_propagates = false,
@@ -944,8 +944,8 @@ minetest.register_node('homedecor:speaker', {
 	description = "Large Stereo Speaker",
 	tiles = { 'homedecor_speaker_top.png',
 			'homedecor_speaker_bottom.png',
-			'homedecor_speaker_left.png',
 			'homedecor_speaker_right.png',
+			'homedecor_speaker_left.png',
 			'homedecor_speaker_back.png',
 			'homedecor_speaker_front.png'},
 	sunlight_propagates = false,
@@ -961,8 +961,8 @@ minetest.register_node('homedecor:speaker_small', {
 	drawtype = "nodebox",
 	tiles = { 'homedecor_speaker_top.png',
 			'homedecor_speaker_bottom.png',
-			'homedecor_speaker_left.png',
 			'homedecor_speaker_right.png',
+			'homedecor_speaker_left.png',
 			'homedecor_speaker_back.png',
 			'homedecor_speaker_front.png'},
         selection_box = {

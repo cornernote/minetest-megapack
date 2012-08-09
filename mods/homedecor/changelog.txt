@@ -1,0 +1,85 @@
+Changelog
+---------
+
+2012-08-01: Added optional recipes for items that use wool to also use cotton
+instead.  Choose one or the other in any given recipe (you can't mix the two).
+No, it isn't a Kosher thing. ;-)
+
+2012-07-28: Noticed I technically had left/right textures swapped on a few 
+blocks.  The textures were drawn to counteract this, without my realizing I was 
+doing just that. :-) Fixed.  Also replaced all "tile_images" references with 
+"tiles", since the former is deprecated in favor of the latter.
+
+2012-07-26:  Updated to use the Vessels mod to give back empty dye bottles.
+
+2012-07-24: Made all objects that use a dye require a more appropriate color, 
+made all objects that use a dye give back empty bottles on craft, made grey 
+shutters use the various grey paints directly.  Moved this changelog out of the 
+forum post and into this separate file.
+
+2012-07-12: Moved project to github.
+
+2012-07-02: Deleted a few redundant files from the unified dyes mod.
+
+2012-06-30: Added a fancy wood-and-glass door.  Textures used here were 
+formerly used for (and have been replaced by new textures for) the default wood 
+door in my realistic texture packs.
+
+2012-06-27: Relaxed dependency on UnifiedDyes to prevent depending on Flowers.  
+The mod will still use them if available; if not, you just can't craft the 
+various colored objects.
+
+2012-06-26: Separated dyes into their own mod ("unifieddyes").  Added a copy of 
+flowers and made this mod depend on it and unified dyes.  Updated all crafting 
+recipes to fit, got rid of the conditional code for flowers (since it is a 
+dependency now), removed a bunch of redundant register_craftitem code, fixed 
+some copy&paste errors on the window shutters.  As a consequence of these 
+changes, white paint, titanium dioxide, and all colors of dyes will have to be 
+removed and replaced (but the things that depend on them are fine).
+
+2012-06-25: Removed all of the old legacy_wallmounted references - I didn't 
+realize they were deprecated (and they were causing out-of-nodes issues also).
+
+2012-06-23: Added small speaker, round brass pole, square wrought iron pole 
+(without connecting rungs).  Fairly recent version of Minetest required for 
+these to work (uses nodeboxes).  Note that if you've placed brass or wrought 
+iron poles in your world already, they will be drawn using these newer styles; 
+if you need the square poles and/or connecting rungs, you'll need to remove 
+them and craft brass/wrought iron fences instead.
+
+2012-06-16: Tweaked terracotta roof tiles/shingles to give the 4 pieces back on 
+digging a 'shingle'.
+
+2012-06-15 (a bit later): Did the same for the stereo and television and 
+improved them in the process.
+
+2012-06-15: Tweaked the speaker textures, added separate images for all 6 
+sides.
+
+2012-06-14: Added right-opening versions of oak and mahogany "folding" doors - 
+allows one to create double doors.  Split the two colors into separate files.  
+Inspired by Calinou's update to the default doors mod - works the same way too. 
+:-)
+
+2012-06-13 (a lot later): Changed the crafting recipe slightly for nightstands 
+- they're designated as 'oak' now.  Added crafting recipe for mahogany 
+variants.  If you've already placed nightstands into your world, you should 
+remove them before updating - sorry, you'll have to rebuild them due my having 
+had to change the node names.  Added initial crafting recipes for oak and 
+mahogany drawers and complete dressers (dresser components are not yet useful, 
+work in progress.  See crafts.lua for more details).
+
+2012-06-13: Changed buckets of white paint so that the empty bucket is returned 
+when the bucket of paint is crafted into something else (rather than when the 
+bucket of paint is first created).  * Fixed copy&paste error from the previous 
+bucket change.  * Moved smelting and crafting of white paint from crafts.lua 
+over to dyes.lua.
+
+2012-06-12: Multiple post-release updates over the course of the day. * Fixed 
+recipe collision with glass panes.  * Implemented a full set of dyes derived 
+from flowers, updated all related crafting recipes and screenshots to match. * 
+Collected all dyes into one file.  Changed recipes for blue and purple dyes to 
+something that makes a bit more sense. :-) * Tweaked oak shutters to give two 
+pieces on crafting. * Added alternate recipes for orange and green dyes.
+
+2012-06-12: Initial release.
