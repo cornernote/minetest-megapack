@@ -1,0 +1,20 @@
+Readme file for Lava mod [lava] v0.1
+details:
+Version: v0.1
+License (code): LGPL
+Code derived from Minetest defaults, and VanessaE's Flower mod (spawning lava above lava)
+Information:
+This mod adds some ABM's and stuff that makes lava rise/spread. Currently, for lava to rise, 
+it must be in the center of a 3x3 region of lava sources, with 4 air blocks above the center (spawns 
+one lava source above the center of that 3x3 area). Also, to keep the lava rising, some random 
+flowing lava nodes will turn into lava sources. Without this, the number of lava sources per next 
+''level'' will decline slowly until there aren't enough left to make the lava keep rising.
+It is recommended that you do not install this mod in servers (yet) as I plan to add special 
+types of lava that are the only ones that ''rise'' (also the viscosity will be changed for 
+dferent types of lava)
+----------------
+it is best to also install Rath's Cooling Lava mod (http://minetest.net/forum/viewtopic.php?id=2709), 
+if you want real-ish volcanoes (currently only shield-type volcanoes are created, in the future there 
+will be ''thicker'' lava that will help make more types of volcanoes/rifts) and this is why Rath's 
+cooling lava mod is in depends.txt.
+----------------
