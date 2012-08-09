@@ -1,27 +1,26 @@
--- Flowers mod by VanessaE, rewritten from Ironzorg's original
+-- Flowers mod by VanessaE, 2012-08-01
+-- Rewritten from Ironzorg's last update, 
+-- as included in Nature Pack Controlled
 --
--- 2012-07-30, using the version that was last included in Neko259's Nature 
--- Pack.
---
--- License:  WTFPL
+-- License:  WTFPL (applies to all parts and textures)
 --
 
 math.randomseed(os.time())
 
 local DEBUG = 1
 
-local MAX_RATIO = 200
-local GROWING_DELAY = 1000
+local GROWING_DELAY = 500 -- larger numbers = ABM runs less often
+local GROWCHANCE = 50 -- larger = less chance to grow
 
 local FLOWERS = {
-	{ "Rose",		"rose", 		GROWING_DELAY*2, "15", "4" },
-	{ "Tulip",		"tulip",		GROWING_DELAY,   "10", "2" },
-	{ "Yellow Dandelion",	"dandelion_yellow",	GROWING_DELAY,   "10", "2" },
-	{ "White Dandelion",	"dandelion_white",	GROWING_DELAY*2, "15", "4" },
-	{ "Viola",		"viola",		GROWING_DELAY*2, "15", "4" },
-	{ "Cotton Plant",	"cotton",		GROWING_DELAY,   "10", "2" }
+	{ "Rose",		"rose", 		GROWING_DELAY*2,	15,	GROWCHANCE*2	},
+	{ "Tulip",		"tulip",		GROWING_DELAY,		10,	GROWCHANCE	},
+	{ "Yellow Dandelion",	"dandelion_yellow",	GROWING_DELAY,		10,	GROWCHANCE	},
+	{ "White Dandelion",	"dandelion_white",	GROWING_DELAY*2,	15,	GROWCHANCE*2	},
+	{ "Blue Geranium",	"geranium",		GROWING_DELAY,		10,	GROWCHANCE*2	},
+	{ "Viola",		"viola",		GROWING_DELAY*2,	15,	GROWCHANCE*2	},
+	{ "Cotton Plant",	"cotton",		GROWING_DELAY,		10,	GROWCHANCE	},
 }
-	
 
 local dbg = function(s)
 	if DEBUG == 1 then
@@ -37,18 +36,18 @@ local is_node_loaded = function(node_pos)
 	return true
 end
 
-spawn_on_surfaces = function(spawndelay, spawnflower, spawnradius, spawnchance, spawnsurface)
+spawn_on_surfaces = function(spawndelay, spawnflower, spawnradius, spawnchance, spawnsurface, spawnavoid)
 	minetest.register_abm({
 		nodenames = { spawnsurface },
 		interval = spawndelay,
-		chance = 30,
+		chance = spawnchance,
 
 		action = function(pos, node, active_object_count, active_object_count_wider)
 			local p_top = { x = pos.x, y = pos.y + 1, z = pos.z }	
 			local n_top = minetest.env:get_node(p_top)
-			local rnd = math.random(1, MAX_RATIO)
-			if (MAX_RATIO - spawnchance < rnd) and (n_top.name == "air") and is_node_loaded(p_top) then
-				if (minetest.env:find_node_near(p_top, spawnradius, "group:flower") == nil ) and (minetest.env:get_node_light(p_top, nil) > 4) then
+			if (n_top.name == "air") and is_node_loaded(p_top) then
+				if (minetest.env:find_node_near(p_top, spawnradius, spawnavoid) == nil )
+				   and (minetest.env:get_node_light(p_top, nil) > 4) then
 					dbg("Spawning "..spawnflower.." at ("..p_top.x..", "..p_top.y..", "..p_top.z..") on "..spawnsurface)
 					minetest.env:add_node(p_top, { name = spawnflower })
 				end
@@ -70,22 +69,34 @@ for i in ipairs(FLOWERS) do
 		description = flowerdesc,
 		drawtype = "plantlike",
 		tiles = { "flower_"..flower..".png" },
+		inventory_image = "flower_"..flower..".png",
+		wield_image = "flower_"..flower..".png",
 		sunlight_propagates = true,
 		paramtype = "light",
 		walkable = false,
 		groups = { snappy = 3,flammable=2, flower=1 },
-		sounds = default.node_sound_leaves_defaults()
+		sounds = default.node_sound_leaves_defaults(),
+		selection_box = {
+			type = "fixed",
+			fixed = { -0.15, -0.5, -0.15, 0.15, 0.2, 0.15 },
+		},	
 	})
 
 	minetest.register_node("flowers:flower_"..flower.."_pot", {
 		description = flowerdesc.." in a pot",
 		drawtype = "plantlike",
 		tiles = { "flower_"..flower.."_pot.png" },
+		inventory_image = "flower_"..flower.."_pot.png",
+		wield_image = "flower_"..flower.."_pot.png",
 		sunlight_propagates = true,
 		paramtype = "light",
 		walkable = false,
 		groups = { snappy = 3,flammable=2 },
 		sounds = default.node_sound_leaves_defaults(),
+		selection_box = {
+			type = "fixed",
+			fixed = { -0.25, -0.5, -0.25, 0.25, 0.5, 0.25 },
+		},	
 	})
 
 	minetest.register_craft( {
@@ -97,8 +108,8 @@ for i in ipairs(FLOWERS) do
 		}
 	})
 
-	spawn_on_surfaces(delay, "flowers:flower_"..flower, radius, chance, "default:dirt_with_grass")
-	spawn_on_surfaces(delay, "flowers:flower_"..flower, radius, chance, "default:dirt")
+	spawn_on_surfaces(delay, "flowers:flower_"..flower, radius, chance, "default:dirt_with_grass", "group:flower")
+	spawn_on_surfaces(delay, "flowers:flower_"..flower, radius, chance, "default:dirt", "group:flower")
 end
 
 -- These few have to be defined separately because of some special
@@ -108,14 +119,79 @@ minetest.register_node("flowers:flower_waterlily", {
 	description = "Waterlily",
 	drawtype = "raillike",
 	tiles = { "flower_waterlily.png" },
+	inventory_image = "flower_waterlily.png",
+	wield_image  = "flower_waterlily.png",
 	sunlight_propagates = true,
 	paramtype = "light",
+	paramtype2 = "wallmounted",
 	walkable = false,
 	groups = { snappy = 3,flammable=2,flower=1 },
 	sounds = default.node_sound_leaves_defaults(),
+	selection_box = {
+		type = "fixed",
+		fixed = { -0.4, -0.5, -0.4, 0.4, -0.45, 0.4 },
+	},	
 })
 
-spawn_on_surfaces(GROWING_DELAY/2, "flowers:flower_waterlily", 15, 1, "default:water_source")
+spawn_on_surfaces(GROWING_DELAY/2, "flowers:flower_waterlily", 15, GROWCHANCE*3, "default:water_source", "group:flower")
+
+-- Seaweed requires specific circumstances under which it will spawn
+
+minetest.register_node("flowers:flower_seaweed", {
+	description = "Seaweed",
+	drawtype = "signlike",
+	tiles = { "flower_seaweed.png" },
+	inventory_image = "flower_seaweed.png",
+	wield_image  = "flower_seaweed.png",
+	sunlight_propagates = true,
+	paramtype = "light",
+	paramtype2 = "wallmounted",
+	walkable = false,
+	groups = { snappy = 3,flammable=2,flower=1 },
+	sounds = default.node_sound_leaves_defaults(),
+	selection_box = {
+		type = "fixed",
+		fixed = { -0.5, -0.5, -0.5, 0.5, -0.4, 0.5 },
+	},	
+})
+
+minetest.register_abm({
+	nodenames = { "default:water_source" },
+	interval = GROWING_DELAY*2,
+	chance = GROWCHANCE*2,
+	action = function(pos, node, active_object_count, active_object_count_wider)
+		local p_top = { x = pos.x, y = pos.y + 1, z = pos.z }	
+		local n_top = minetest.env:get_node(p_top)
+		local n_light = minetest.env:get_node_light(p_top, nil) 
+		if (n_top.name == "air")
+			and is_node_loaded(p_top)
+			and (n_light < 10) and (n_light > 4)
+			and (minetest.env:find_node_near(p_top, 1, {"default:dirt", "default:dirt_with_grass", "default:stone"}) ~= nil ) then
+				dbg("Spawning flowers:flower_seaweed at ("..p_top.x..", "..p_top.y..", "..p_top.z..") on default:water_source")
+				minetest.env:add_node(p_top, { name = "flowers:flower_seaweed", param2 = 1 })
+		end
+	end
+})
+
+minetest.register_abm({
+	nodenames = { "default:dirt", "default:dirt_with_grass", "default:stone" },
+	interval = GROWING_DELAY*2,
+	chance = GROWCHANCE*2,
+	action = function(pos, node, active_object_count, active_object_count_wider)
+		local p_top = { x = pos.x, y = pos.y + 1, z = pos.z }	
+		local n_top = minetest.env:get_node(p_top)
+		local n_light = minetest.env:get_node_light(p_top, nil) 
+		if (n_top.name == "air")
+			and is_node_loaded(p_top)
+			and (n_light < 10) and (n_light > 4)
+			and (minetest.env:find_node_near(p_top, 2, "default:water_source" ) ~= nil ) then
+				dbg("Spawning flowers:flower_seaweed at ("..p_top.x..", "..p_top.y..", "..p_top.z..") on default:water_source")
+				minetest.env:add_node(p_top, { name = "flowers:flower_seaweed", param2 = 1 })
+		end
+	end
+})
+
+-- Additional crafts, etc.
 
 minetest.register_craftitem("flowers:flower_pot", {
         description = "Flower Pot",
