@@ -26,12 +26,14 @@ SOUND_GAIN = 0.8
 --=========
 RAILS = {"default:rail", "carts:meseconrail_off", "carts:meseconrail_on", "carts:meseconrail_stop_off", "carts:meseconrail_stop_on"}
 
+dofile(minetest.get_modpath("carts").."/box.lua")
+
 local cart = {
 	physical = true,
 	collisionbox = {-0.425, -0.425, -0.425, 0.425, 0.425, 0.425},
-	visual = "cube",
-	textures = {"carts_cart_top.png", "carts_cart_bottom.png", "carts_cart_side.png", "carts_cart_side.png", "carts_cart_side.png", "carts_cart_side.png"},
-	visual_size = {x=.85, y=.85, z=0.85},
+	visual = "wielditem",
+	textures = {"carts:cart_box"},
+	visual_size = {x=0.85*2/3, y=0.85*2/3},
 	--Variables
 	fahren = false, -- true when the cart drives
 	fallen = false, -- true when the cart drives downhill
@@ -463,6 +465,15 @@ function cart:on_step(dtime)
 	end
 	
 	local newdir = self:get_new_direction()
+	if newdir == "x+" then
+		self.object:setyaw(0)
+	elseif newdir == "x-" then
+		self.object:setyaw(math.pi)
+	elseif newdir == "z+" then
+		self.object:setyaw(math.pi/2)
+	elseif newdir == "z-" then
+		self.object:setyaw(math.pi*3/2)
+	end
 	if newdir == nil and not self.fallen then
 		-- end of rail
 		-- chek if the cart derailed
@@ -549,6 +560,9 @@ function cart:on_step(dtime)
 			item:setpos(pos)
 		else
 			item:setpos(self.object:getpos())
+			if item:get_luaentity() ~= nil then
+				item:setvelocity(self.object:getvelocity())
+			end
 		end
 	end
 	
@@ -561,11 +575,8 @@ function cart:on_step(dtime)
 		self.weiche = {x=nil, y=nil, z=nil}
 	end
 	
-	-- search for boxes and place all items (except players) in it
+	-- search for chests
 	for d=-1,1 do
-		if #self.items == 0 then
-			break
-		end
 		local pos = {x=self.object:getpos().x+d, y=self.object:getpos().y, z=self.object:getpos().z}
 		local name1 = minetest.env:get_node(pos).name
 		pos = {x=self.object:getpos().x, y=self.object:getpos().y, z=self.object:getpos().z+d}
@@ -578,41 +589,36 @@ function cart:on_step(dtime)
 			name1 = nil
 		end
 		if name1 ~= nil then
+			pos.x = math.floor(0.5+pos.x)
+			pos.y = math.floor(0.5+pos.y)
+			pos.z = math.floor(0.5+pos.z)
+			local inv = minetest.env:get_meta(pos):get_inventory()
+			-- drop items
 			local items_tmp = {}
+			local inv = minetest.env:get_meta(pos):get_inventory()
 			for i,item in ipairs(self.items) do
-				if not item:is_player() then
-					item:setpos({x=math.floor(0.5+pos.x), y=math.floor(0.5+pos.y)+0.2, z=math.floor(0.5+pos.z)})
+				if not item:is_player() and item:get_luaentity().itemstring ~= nil and item:get_luaentity().itemstring ~= "" and inv:room_for_item("in", ItemStack(item:get_luaentity().itemstring)) then
+					if item:get_luaentity().pickup == nil or not pos_equals(pos, item:get_luaentity().pickup) then
+						inv:add_item("in", ItemStack(item:get_luaentity().itemstring))
+					item:remove()
+					else
+						table.insert(items_tmp, item)
+					end
 				else
 					table.insert(items_tmp, item)
 				end
 			end
 			self.items = items_tmp
-		end
-	end
-	
-	--search for pickup plates and take items
-	for d=-1,1 do
-		local pos = {x=self.object:getpos().x+d, y=self.object:getpos().y, z=self.object:getpos().z}
-		local name1 = minetest.env:get_node(pos).name
-		pos = {x=self.object:getpos().x, y=self.object:getpos().y, z=self.object:getpos().z+d}
-		local name2 = minetest.env:get_node(pos).name
-		if name1 == "carts:pickup_plate" then
-			pos = {x=self.object:getpos().x+d, y=self.object:getpos().y, z=self.object:getpos().z}
-		elseif name2 == "carts:pickup_plate" then
-			pos = {x=self.object:getpos().x, y=self.object:getpos().y, z=self.object:getpos().z+d}
-		else
-			name1 = nil
-		end
-		if name1 ~= nil then
-			pos.x = math.floor(0.5+pos.x)
-			pos.y = math.floor(0.5+pos.y)
-			pos.z = math.floor(0.5+pos.z)
-			local items = minetest.env:get_objects_inside_radius(pos, 1)
-			for i,item in ipairs(items) do
-				if not item:is_player() then
+			
+			--pick up items
+			for i=1,inv:get_size("out") do
+				local stack = inv:get_stack("out", i)
+				if not stack:is_empty() then
+					local item =  minetest.env:add_entity(self.object:getpos(), "__builtin:item")
+					item:get_luaentity():set_item(stack:get_name().." "..stack:get_count())
+					item:get_luaentity().pickup = pos
 					table.insert(self.items, item)
-				elseif TRANSPORT_PLAYER then
-					table.insert(self.items, item)
+					inv:remove_item("out", stack)
 				end
 			end
 		end
