@@ -1,7 +1,10 @@
 minetest.register_node("mesecons_delayer:delayer_off_1", {
 	description = "Delayer",
 	drawtype = "nodebox",
-	tile_images = {"mesecons_delayer_off_1.png"},
+	tiles = {
+		"mesecons_delayer_off_1.png",
+		"mesecons_delayer_sides.png"
+		},
 	inventory_image = "mesecons_delayer_off_1.png",
 	wield_image = "mesecons_delayer_off_1.png",
 	walkable = false,
@@ -24,7 +27,10 @@ minetest.register_node("mesecons_delayer:delayer_off_1", {
 minetest.register_node("mesecons_delayer:delayer_off_2", {
 	description = "Delayer",
 	drawtype = "nodebox",
-	tile_images = {"mesecons_delayer_off_2.png"},
+	tiles = {
+		"mesecons_delayer_off_2.png",
+		"mesecons_delayer_sides.png"
+		},
 	inventory_image = "mesecons_delayer_off_2.png",
 	walkable = false,
 	selection_box = {
@@ -35,7 +41,7 @@ minetest.register_node("mesecons_delayer:delayer_off_2", {
 		type = "fixed",
 		fixed = {-0.5, -0.5, -0.5, 0.5, -0.35, 0.5},
 	},
-	groups = {bendy=2,snappy=1,dig_immediate=2},
+	groups = {bendy=2,snappy=1,dig_immediate=2,not_in_creative_inventory=1},
 	paramtype = "light",
 	paramtype2 = "facedir",
 	sunlight_propagates = true,
@@ -46,7 +52,10 @@ minetest.register_node("mesecons_delayer:delayer_off_2", {
 minetest.register_node("mesecons_delayer:delayer_off_3", {
 	description = "Delayer",
 	drawtype = "nodebox",
-	tile_images = {"mesecons_delayer_off_3.png"},
+	tiles = {
+		"mesecons_delayer_off_3.png",
+		"mesecons_delayer_sides.png"
+		},
 	inventory_image = "mesecons_delayer_off_3.png",
 	walkable = false,
 	selection_box = {
@@ -57,7 +66,7 @@ minetest.register_node("mesecons_delayer:delayer_off_3", {
 		type = "fixed",
 		fixed = {-0.5, -0.5, -0.5, 0.5, -0.35, 0.5},
 	},
-	groups = {bendy=2,snappy=1,dig_immediate=2},
+	groups = {bendy=2,snappy=1,dig_immediate=2,not_in_creative_inventory=1},
 	paramtype = "light",
 	paramtype2 = "facedir",
 	sunlight_propagates = true,
@@ -68,7 +77,10 @@ minetest.register_node("mesecons_delayer:delayer_off_3", {
 minetest.register_node("mesecons_delayer:delayer_off_4", {
 	description = "Delayer",
 	drawtype = "nodebox",
-	tile_images = {"mesecons_delayer_off_4.png"},
+	tiles = {
+		"mesecons_delayer_off_4.png",
+		"mesecons_delayer_sides.png"
+		},
 	inventory_image = "mesecons_delayer_off_4.png",
 	walkable = false,
 	selection_box = {
@@ -79,7 +91,7 @@ minetest.register_node("mesecons_delayer:delayer_off_4", {
 		type = "fixed",
 		fixed = {-0.5, -0.5, -0.5, 0.5, -0.35, 0.5},
 	},
-	groups = {bendy=2,snappy=1,dig_immediate=2},
+	groups = {bendy=2,snappy=1,dig_immediate=2,not_in_creative_inventory=1},
 	paramtype = "light",
 	paramtype2 = "facedir",
 	sunlight_propagates = true,
@@ -87,14 +99,13 @@ minetest.register_node("mesecons_delayer:delayer_off_4", {
 	drop = 'mesecons_delayer:delayer_off_1',
 })
 
-
-
-
-
 minetest.register_node("mesecons_delayer:delayer_on_1", {
 	description = "Delayer",
 	drawtype = "nodebox",
-	tile_images = {"mesecons_delayer_on_1.png"},
+	tiles = {
+		"mesecons_delayer_on_1.png",
+		"mesecons_delayer_sides.png"
+		},
 	inventory_image = "mesecons_delayer_on_1.png",
 	walkable = false,
 	selection_box = {
@@ -105,7 +116,7 @@ minetest.register_node("mesecons_delayer:delayer_on_1", {
 		type = "fixed",
 		fixed = {-0.5, -0.5, -0.5, 0.5, -0.35, 0.5},
 	},
-	groups = {bendy=2,snappy=1,dig_immediate=2},
+	groups = {bendy=2,snappy=1,dig_immediate=2,not_in_creative_inventory=1},
 	paramtype = "light",
 	paramtype2 = "facedir",
 	sunlight_propagates = true,
@@ -116,7 +127,10 @@ minetest.register_node("mesecons_delayer:delayer_on_1", {
 minetest.register_node("mesecons_delayer:delayer_on_2", {
 	description = "Delayer",
 	drawtype = "nodebox",
-	tile_images = {"mesecons_delayer_on_2.png"},
+	tiles = {
+		"mesecons_delayer_on_2.png",
+		"mesecons_delayer_sides.png"
+		},
 	inventory_image = "mesecons_delayer_on_2.png",
 	walkable = false,
 	selection_box = {
@@ -127,7 +141,7 @@ minetest.register_node("mesecons_delayer:delayer_on_2", {
 		type = "fixed",
 		fixed = {-0.5, -0.5, -0.5, 0.5, -0.35, 0.5},
 	},
-	groups = {bendy=2,snappy=1,dig_immediate=2},
+	groups = {bendy=2,snappy=1,dig_immediate=2,not_in_creative_inventory=1},
 	paramtype = "light",
 	paramtype2 = "facedir",
 	sunlight_propagates = true,
@@ -138,7 +152,10 @@ minetest.register_node("mesecons_delayer:delayer_on_2", {
 minetest.register_node("mesecons_delayer:delayer_on_3", {
 	description = "Delayer",
 	drawtype = "nodebox",
-	tile_images = {"mesecons_delayer_on_3.png"},
+	tiles = {
+		"mesecons_delayer_on_3.png",
+		"mesecons_delayer_sides.png"
+		},
 	inventory_image = "mesecons_delayer_on_3.png",
 	walkable = false,
 	selection_box = {
@@ -149,7 +166,7 @@ minetest.register_node("mesecons_delayer:delayer_on_3", {
 		type = "fixed",
 		fixed = {-0.5, -0.5, -0.5, 0.5, -0.35, 0.5},
 	},
-	groups = {bendy=2,snappy=1,dig_immediate=2},
+	groups = {bendy=2,snappy=1,dig_immediate=2,not_in_creative_inventory=1},
 	paramtype = "light",
 	paramtype2 = "facedir",
 	sunlight_propagates = true,
@@ -160,7 +177,10 @@ minetest.register_node("mesecons_delayer:delayer_on_3", {
 minetest.register_node("mesecons_delayer:delayer_on_4", {
 	description = "Delayer",
 	drawtype = "nodebox",
-	tile_images = {"mesecons_delayer_on_4.png"},
+	tiles = {
+		"mesecons_delayer_on_4.png",
+		"mesecons_delayer_sides.png"
+		},
 	inventory_image = "mesecons_delayer_on_4.png",
 	walkable = false,
 	selection_box = {
@@ -171,7 +191,7 @@ minetest.register_node("mesecons_delayer:delayer_on_4", {
 		type = "fixed",
 		fixed = {-0.5, -0.5, -0.5, 0.5, -0.35, 0.5},
 	},
-	groups = {bendy=2,snappy=1,dig_immediate=2},
+	groups = {bendy=2,snappy=1,dig_immediate=2,not_in_creative_inventory=1},
 	paramtype = "light",
 	paramtype2 = "facedir",
 	sunlight_propagates = true,

@@ -227,7 +227,7 @@ end
 
 function mesecon:is_power_on(pos)
 	local node = minetest.env:get_node(pos)
-	if node.name == "mesecons:mesecon_on" or mesecon:is_receptor_node(node.name) then
+	if mesecon:is_conductor_on(node.name) or mesecon:is_receptor_node(node.name) then
 		return true
 	end
 	return false
@@ -382,6 +382,14 @@ function mesecon:check_if_turnon(pos)
 		i=i+1
 	end
 	return false
+end
+
+function mesecon:updatenode(pos)
+    if mesecon:connected_to_pw_src(pos, 0, 0, 0, {}) then
+        mesecon:turnon(pos, 0, 0, 0)
+    else
+        mesecon:turnoff(pos, 0, 0, 0)
+    end
 end
 
 minetest.register_on_placenode(function(pos, newnode, placer)

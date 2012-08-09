@@ -9,9 +9,9 @@ for i = 1, 5 do
 			type = "fixed",
 			fixed = {
 				{-0.499, -0.499, -0.499, -0.4,   0.499,       0.499},
-				{ 0.499, -0.499, -0.499,  0.4,   0.499,       0.499},
+				{ 0.4, -0.499, -0.499,  0.499,   0.499,       0.499},
 				{-0.499, -0.499, -0.499,  0.499, 0.499,      -0.4  },
-				{-0.499, -0.499,  0.499,  0.499, 0.499,       0.4  },
+				{-0.499, -0.499,  0.4,  0.499, 0.499,       0.499  },
 				{-0.4  , -0.5  , -0.4  ,  0.4  , 1*(i/5)-0.5, 0.4}}
 		},
 
@@ -36,9 +36,9 @@ for i = 1, 5 do
 			type = "fixed",
 			fixed = {
 				{-0.499, -0.499, -0.499, -0.4,   0.499,       0.499},
-				{ 0.499, -0.499, -0.499,  0.4,   0.499,       0.499},
+				{ 0.4, -0.499, -0.499,  0.499,   0.499,       0.499},
 				{-0.499, -0.499, -0.499,  0.499, 0.499,      -0.4  },
-				{-0.499, -0.499,  0.499,  0.499, 0.499,       0.4  },
+				{-0.499, -0.499,  0.4,  0.499, 0.499,       0.499  },
 				{-0.4  , -0.5  , -0.4  ,  0.4  , 1*(i/5)-0.5, 0.4}}
 		},
 
@@ -46,7 +46,7 @@ for i = 1, 5 do
 			type = "fixed",
 			fixed = {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
 		},
-		groups = {dig_immediate=2},
+		groups = {dig_immediate=2,not_in_creative_inventory=1},
 	    	description="Battery",
 	})
 	mesecon:add_receptor_node("mesecons_battery:battery_discharging_"..i)
@@ -97,6 +97,7 @@ nodenames = {"mesecons_battery:battery_charging_1", "mesecons_battery:battery_ch
 				batterystate = batterystate + 1
 			else
 				node.name=string.gsub(node.name, "charging", "discharging")
+				mesecon:receptor_on(pos)
 			end
 
 			if string.find(node.name, tostring(math.ceil(batterystate/20))) == nil then
@@ -122,6 +123,7 @@ nodenames = {"mesecons_battery:battery_discharging_1", "mesecons_battery:battery
 			batterystate = batterystate - 1
 		else
 			node.name=string.gsub(node.name, "discharging", "charging")
+			mesecon:receptor_off(pos)
 		end
 
 		if string.find(node.name, tostring(math.ceil(batterystate/20))) == nil then
