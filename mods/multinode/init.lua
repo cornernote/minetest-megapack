@@ -412,6 +412,7 @@ minetest.register_chatcommand("load", {
 		---------------------------------------------------------------
 
 local SPHERE_SIZE = 12
+local LENGTH = 12
 local POINT_ZERO = nil
 local HOLLOW_THICKNESS = 1
 
@@ -505,6 +506,107 @@ local hspherespawn = function(nodename,hsphere_map)
 		if a == table.getn(hsphere_map) then return true end
 	end
 end
+function ycylinder(pos,nodename,hollow)
+     pos.x = math.floor(pos.x+0.5)
+     pos.y = math.floor(pos.y+0.5)
+     pos.z = math.floor(pos.z+0.5)
+     for yy=-(LENGTH/2),(LENGTH/2) do
+		y=0
+     for x=-SPHERE_SIZE,SPHERE_SIZE do
+     for z=-SPHERE_SIZE,SPHERE_SIZE do
+         if not hollow and x*x+y*y+z*z <= SPHERE_SIZE * SPHERE_SIZE + SPHERE_SIZE then
+				local np={x=pos.x+x,y=pos.y+yy,z=pos.z+z}
+				local n = minetest.env:get_node(np)
+				minetest.env:add_node(np,{type="node",name=nodename})
+			elseif hollow and x*x+y*y+z*z >= (SPHERE_SIZE-hollow) * (SPHERE_SIZE-hollow) + (SPHERE_SIZE-hollow) and x*x+y*y+z*z <= SPHERE_SIZE * SPHERE_SIZE + SPHERE_SIZE then
+				local np={x=pos.x+x,y=pos.y+yy,z=pos.z+z}
+				local n = minetest.env:get_node(np)
+				minetest.env:add_node(np,{type="node",name=nodename})
+         end
+     end
+--     end
+     end
+     end --yy
+end
+function xcylinder(pos,nodename,hollow)
+     pos.x = math.floor(pos.x+0.5)
+     pos.y = math.floor(pos.y+0.5)
+     pos.z = math.floor(pos.z+0.5)
+     for xx=-(LENGTH/2),(LENGTH/2) do
+		x=0
+     for y=-SPHERE_SIZE,SPHERE_SIZE do
+     for z=-SPHERE_SIZE,SPHERE_SIZE do
+         if not hollow and x*x+y*y+z*z <= SPHERE_SIZE * SPHERE_SIZE + SPHERE_SIZE then
+				local np={x=pos.x+xx,y=pos.y+y,z=pos.z+z}
+				local n = minetest.env:get_node(np)
+				minetest.env:add_node(np,{type="node",name=nodename})
+			elseif hollow and x*x+y*y+z*z >= (SPHERE_SIZE-hollow) * (SPHERE_SIZE-hollow) + (SPHERE_SIZE-hollow) and x*x+y*y+z*z <= SPHERE_SIZE * SPHERE_SIZE + SPHERE_SIZE then
+				local np={x=pos.x+xx,y=pos.y+y,z=pos.z+z}
+				local n = minetest.env:get_node(np)
+				minetest.env:add_node(np,{type="node",name=nodename})
+         end
+     end
+--     end
+     end
+     end --yy
+end
+function zcylinder(pos,nodename,hollow)
+     pos.x = math.floor(pos.x+0.5)
+     pos.y = math.floor(pos.y+0.5)
+     pos.z = math.floor(pos.z+0.5)
+     for x=-SPHERE_SIZE,SPHERE_SIZE do
+     for y=-SPHERE_SIZE,SPHERE_SIZE do
+     for zz=-(LENGTH/2),(LENGTH/2) do
+		z=0
+         if not hollow and x*x+y*y+z*z <= SPHERE_SIZE * SPHERE_SIZE + SPHERE_SIZE then
+				local np={x=pos.x+x,y=pos.y+y,z=pos.z+zz}
+				local n = minetest.env:get_node(np)
+				minetest.env:add_node(np,{type="node",name=nodename})
+			elseif hollow and x*x+y*y+z*z >= (SPHERE_SIZE-hollow) * (SPHERE_SIZE-hollow) + (SPHERE_SIZE-hollow) and x*x+y*y+z*z <= SPHERE_SIZE * SPHERE_SIZE + SPHERE_SIZE then
+				local np={x=pos.x+x,y=pos.y+y,z=pos.z+zz}
+				local n = minetest.env:get_node(np)
+				minetest.env:add_node(np,{type="node",name=nodename})
+         end
+     end
+--     end
+     end
+     end --yy
+end
+minetest.register_chatcommand("length", {
+	params = "<length>",
+	description = "set length of cylinder, default 12",
+	privs = {server=true},
+	func = function(name, param)
+		LENGTH = param
+		minetest.chat_send_player(name, "length set")
+	end,		})
+minetest.register_chatcommand("ycylinder", {
+	params = "<nodename>",
+	description = "spawn a hollow sphere",
+	privs = {server=true},
+	func = function(name, param)
+		if POINT_ZERO == nil then minetest.chat_send_player(name, "there is no p0 only zuul") return end
+		minetest.chat_send_player(name, "spawning...larger spheres = more time, may need to retry if partial spawn")
+		ycylinder(POINT_ZERO, param, HOLLOW_THICKNESS)
+	end,		})
+minetest.register_chatcommand("xcylinder", {
+	params = "<nodename>",
+	description = "spawn a hollow sphere",
+	privs = {server=true},
+	func = function(name, param)
+		if POINT_ZERO == nil then minetest.chat_send_player(name, "there is no p0 only zuul") return end
+		minetest.chat_send_player(name, "spawning...larger spheres = more time, may need to retry if partial spawn")
+		xcylinder(POINT_ZERO, param, HOLLOW_THICKNESS)
+	end,		})
+minetest.register_chatcommand("zcylinder", {
+	params = "<nodename>",
+	description = "spawn a hollow sphere",
+	privs = {server=true},
+	func = function(name, param)
+		if POINT_ZERO == nil then minetest.chat_send_player(name, "there is no p0 only zuul") return end
+		minetest.chat_send_player(name, "spawning...larger spheres = more time, may need to retry if partial spawn")
+		zcylinder(POINT_ZERO, param, HOLLOW_THICKNESS)
+	end,		})
 
 	-------------------------------------------------------
 --------------		chat commands					---------------------------
