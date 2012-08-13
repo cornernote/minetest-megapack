@@ -105,15 +105,15 @@ minetest.register_node("mesecons_temperest:mesecon_plug", {
 	tile_images = {"jeija_mesecon_plug.png"},
 	inventory_image = "jeija_mesecon_plug.png",
 	wield_image = "jeija_mesecon_plug.png",
-	groups = {dig_immediate=2},
+	groups = {dig_immediate=2, mesecon_effector_on = 1, mesecon_effector_off = 1, mesecon = 2},
 	walkable = false,
 	selection_box = {
 		type = "fixed",
-		fixed = {-0.5, -0.5, -0.5, 0.5, -0.45, 0.5},
+		fixed = { -8/16, -8/16, -8/16, 8/16, -7/16, 8/16 },
 	},
 	node_box = {
 		type = "fixed",
-		fixed = {-0.5, -0.5, -0.5, 0.5, -0.45, 0.5},
+		fixed = { -8/16, -8/16, -8/16, 8/16, -7/16, 8/16 },
 	},
 	description = "Plug",
 	after_place_node = plug_off,
@@ -123,9 +123,9 @@ minetest.register_node("mesecons_temperest:mesecon_plug", {
 minetest.register_craft({
 	output = '"mesecons_temperest:mesecon_plug" 2',
 	recipe = {
-		{'', '"mesecons:mesecon_off"', ''},
-		{'"mesecons:mesecon_off"', '"default:steel_ingot"', '"mesecons:mesecon_off"'},
-		{'', '"mesecons:mesecon_off"', ''},
+		{'', '"group:mesecon_conductor_craftable"', ''},
+		{'"group:mesecon_conductor_craftable"', '"default:steel_ingot"', '"group:mesecon_conductor_craftable"'},
+		{'', '"group:mesecon_conductor_craftable"', ''},
 	}
 })
 
@@ -139,15 +139,15 @@ minetest.register_node("mesecons_temperest:mesecon_socket_off", {
 	tile_images = {"jeija_mesecon_socket_off.png"},
 	inventory_image = "jeija_mesecon_socket_off.png",
 	wield_image = "jeija_mesecon_socket_off.png",
-	groups = {dig_immediate=2},
+	groups = {dig_immediate=2, mesecon_effector_on = 1, mesecon_effector_off = 1, mesecon = 2},
 	walkable = false,
 	selection_box = {
 		type = "fixed",
-		fixed = {-0.5, -0.5, -0.5, 0.5, -0.45, 0.5},
+		fixed = { -8/16, -8/16, -8/16, 8/16, -7/16, 8/16 },
 	},
 	node_box = {
 		type = "fixed",
-		fixed = {-0.5, -0.5, -0.5, 0.5, -0.45, 0.5},
+		fixed = { -8/16, -8/16, -8/16, 8/16, -7/16, 8/16 },
 	},
 })
 
@@ -156,15 +156,15 @@ minetest.register_node("mesecons_temperest:mesecon_socket_on", {
 	paramtype = "light",
 	is_ground_content = true,
 	tile_images = {"jeija_mesecon_socket_on.png"},
-	groups = {dig_immediate=2,not_in_creative_inventory=1},
+	groups = {dig_immediate=2,not_in_creative_inventory=1, mesecon_effector_on = 1, mesecon_effector_off = 1, mesecon = 2},
 	walkable = false,
 	selection_box = {
 		type = "fixed",
-		fixed = {-0.5, -0.5, -0.5, 0.5, -0.45, 0.5},
+		fixed = { -8/16, -8/16, -8/16, 8/16, -7/16, 8/16 },
 	},
 	node_box = {
 		type = "fixed",
-		fixed = {-0.5, -0.5, -0.5, 0.5, -0.45, 0.5},
+		fixed = { -8/16, -8/16, -8/16, 8/16, -7/16, 8/16 },
 	},
 	drop='"mesecons_temperest:mesecon_socket_off" 1',
 	after_dig_node = function(pos)
@@ -191,15 +191,15 @@ if ENABLE_TEMPEREST then
 		paramtype = "light",
 		is_ground_content = true,
 		tile_images = {"jeija_mesecon_inverter_off.png"},
-		groups = {dig_immediate=2,not_in_creative_inventory=1},
+		groups = {dig_immediate=2,not_in_creative_inventory=1, mesecon_effector_on = 1, mesecon_effector_off = 1, mesecon = 2},
 		walkable = false,
 		selection_box = {
 			type = "fixed",
-			fixed = {-0.5, -0.5, -0.5, 0.5, -0.45, 0.5},
+		fixed = { -8/16, -8/16, -8/16, 8/16, -7/16, 8/16 },
 		},
 		node_box = {
 			type = "fixed",
-			fixed = {-0.5, -0.5, -0.5, 0.5, -0.45, 0.5},
+		fixed = { -8/16, -8/16, -8/16, 8/16, -7/16, 8/16 },
 		},
 		drop='"mesecons_temperest:mesecon_inverter_on" 1',
 	})
@@ -212,15 +212,15 @@ if ENABLE_TEMPEREST then
 		tile_images = {"jeija_mesecon_inverter_on.png"},
 		inventory_image = "jeija_mesecon_inverter_on.png",
 		wield_image = "jeija_mesecon_inverter_on.png",
-		groups = {dig_immediate=2},
+		groups = {dig_immediate=2, mesecon_effector_on = 1, mesecon_effector_off = 1, mesecon = 2},
 		walkable = false,
 		selection_box = {
 			type = "fixed",
-			fixed = {-0.5, -0.5, -0.5, 0.5, -0.45, 0.5},
+		fixed = { -8/16, -8/16, -8/16, 8/16, -7/16, 8/16 },
 		},
 		node_box = {
 			type = "fixed",
-			fixed = {-0.5, -0.5, -0.5, 0.5, -0.45, 0.5},
+		fixed = { -8/16, -8/16, -8/16, 8/16, -7/16, 8/16 },
 		},
 		after_place_node = function(pos)
 			mesecon:receptor_on(pos)
@@ -236,9 +236,9 @@ if ENABLE_TEMPEREST then
 	minetest.register_craft({
 		output = '"mesecons_temperest:mesecon_inverter_on" 2',
 		recipe = {
-			{'"mesecons_temperest:mesecon_off"', '"default:steel_ingot"', '"mesecons:mesecon_off"'},
+			{'"mesecons_temperest:mesecon_off"', '"default:steel_ingot"', '"group:mesecon_conductor_craftable"'},
 			{'"default:steel_ingot"', '', '"default:steel_ingot"'},
-			{'"mesecons:mesecon_off"', '"default:steel_ingot"', '"mesecons:mesecon_off"'},
+			{'"group:mesecon_conductor_craftable"', '"default:steel_ingot"', '"group:mesecon_conductor_craftable"'},
 		}
 	})
 end

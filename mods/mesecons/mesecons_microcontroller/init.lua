@@ -1,62 +1,120 @@
 EEPROM_SIZE = 255
 
-minetest.register_node("mesecons_microcontroller:microcontroller", {
+for a = 0, 1 do
+for b = 0, 1 do
+for c = 0, 1 do
+for d = 0, 1 do
+local nodename = "mesecons_microcontroller:microcontroller"..tostring(d)..tostring(c)..tostring(b)..tostring(a)
+if tostring(d)..tostring(c)..tostring(b)..tostring(a) ~= "0000" then
+	groups = {dig_immediate=2, not_in_creative_inventory=1, mesecon_effector_on = 1, mesecon_effector_off = 0, mesecon = 2}
+else
+	groups = {dig_immediate=2, mesecon_effector_on = 1, mesecon_effector_off = 0, mesecon = 2}
+end
+minetest.register_node(nodename, {
 	description = "Microcontroller",
 	drawtype = "nodebox",
-	tiles = {"jeija_ic.png"},
-	inventory_image = {"jeija_ic.png"},
+	tiles = {
+		"jeija_microcontroller_top_"..tostring(d)..tostring(c)..tostring(b)..tostring(a)..".png",
+		"jeija_microcontroller_sides.png",
+		},
+	--inventory_image = "jeija_microcontroller_top_0000.png",
+
 	sunlight_propagates = true,
 	paramtype = "light",
 	walkable = true,
-	groups = {dig_immediate=2},
+	groups = groups,
 	material = minetest.digprop_constanttime(1.0),
+	drop = '"mesecons_microcontroller:microcontroller0000" 1',
 	selection_box = {
 		type = "fixed",
-		fixed = {-0.5, -0.5, -0.5, 0.5, -0.35, 0.5},
+		fixed = { -8/16, -8/16, -8/16, 8/16, -5/16, 8/16 },
 	},
 	node_box = {
 		type = "fixed",
-		fixed = {-0.5, -0.5, -0.5, 0.5, -0.35, 0.5},
+		fixed = {
+			{ -8/16, -8/16, -8/16, 8/16, -7/16, 8/16 }, -- bottom slab
+			{ -5/16, -7/16, -5/16, 5/16, -6/16, 5/16 }, -- circuit board
+			{ -3/16, -6/16, -3/16, 3/16, -5/16, 3/16 }, -- IC
+		}
 	},
 	on_construct = function(pos)
 		local meta = minetest.env:get_meta(pos)
 		meta:set_string("code", "")
-		meta:set_string("formspec", "size[8,2]"..
-			"field[0.256,0.5;8,1;code;Code:;]"..
-			"button_exit[3,0.5;2,2;program;Program]")
+		meta:set_string("formspec", "size[9,2.5]"..
+			"field[0.256,-0.2;9,2;code;Code:;]"..
+			"button[0  ,0.2;1.5,3;band;AND]"..
+			"button[1.5,0.2;1.5,3;bxor;XOR]"..
+			"button[3  ,0.2;1.5,3;bnot;NOT]"..
+			"button[4.5,0.2;1.5,3;bnand;NAND]"..
+			"button[6  ,0.2;1.5,3;btflop;T-Flop]"..
+			"button[7.5,0.2;1.5,3;brsflop;RS-Flop]"..
+			"button_exit[3.5,1;2,3;program;Program]")
 		meta:set_string("infotext", "Unprogrammed Microcontroller")
+		meta:set_int("heat", 0)
 		local r = ""
 		for i=1, EEPROM_SIZE+1 do r=r.."0" end --Generate a string with EEPROM_SIZE*"0"
 		meta:set_string("eeprom", r)
 	end,
 	on_receive_fields = function(pos, formanme, fields, sender)
-		if fields.program then
-			local meta = minetest.env:get_meta(pos)
-			meta:set_string("infotext", "Programmed Microcontroller")
-			meta:set_string("code", fields.code)
-			meta:set_string("formspec", "size[8,2]"..
-			"field[0.256,0.5;8,1;code;Code:;"..fields.code.."]"..
-			"button_exit[3,0.5;2,2;program;Program]")
-			reset_yc (pos)
-			update_yc(pos)
-		end
-	end
+		local meta = minetest.env:get_meta(pos)
+		if fields.band then
+			fields.code = "sbi(C, A&B) :A and B are inputs, C is output"
+		elseif fields.bxor then
+			fields.code = "sbi(C, A~B) :A and B are inputs, C is output"
+		elseif fields.bnot then
+			fields.code = "sbi(B, !A) :A is input, B is output"
+		elseif fields.bnand then
+			fields.code = "sbi(C, !A|!B) :A and B are inputs, C is output"
+		elseif fields.btflop then
+			fields.code = "if(A)sbi(1,1); if(!A&#1&B)off(B)sbi(1,0); if(!A&#1&!B)on(B)sbi(1,0); :A is input, B is output (Q), toggles with falling edge"
+		elseif fields.brsflop then
+			fields.code = "if(A)on(C);if(B)off(C); :A is S (Set), B is R (Reset), C is output (R dominates)"
+		elseif fields.program then --nothing
+		else return nil end
+
+		meta:set_string("code", fields.code)
+		meta:set_string("formspec", "size[9,2.5]"..
+		"field[0.256,-0.2;9,2;code;Code:;"..fields.code.."]"..
+		"button[0  ,0.2;1.5,3;band;AND]"..
+		"button[1.5,0.2;1.5,3;bxor;XOR]"..
+		"button[3  ,0.2;1.5,3;bnot;NOT]"..
+		"button[4.5,0.2;1.5,3;bnand;NAND]"..
+		"button[6  ,0.2;1.5,3;btflop;T-Flop]"..
+		"button[7.5,0.2;1.5,3;brsflop;RS-Flop]"..
+		"button_exit[3.5,1;2,3;program;Program]")
+		meta:set_string("infotext", "Programmed Microcontroller")
+		meta:set_int("heat", 0)
+		yc_reset (pos)
+		update_yc(pos)
+	end,
 })
+local rules={}
+if (a == 1) then table.insert(rules, {x = -1, y = 0, z =  0}) end
+if (b == 1) then table.insert(rules, {x =  0, y = 0, z =  1}) end
+if (c == 1) then table.insert(rules, {x =  1, y = 0, z =  0}) end
+if (d == 1) then table.insert(rules, {x =  0, y = 0, z = -1}) end
+mesecon:add_rules(nodename, rules)
+if nodename ~= "mesecons_microcontroller:microcontroller0000" then
+	mesecon:add_receptor_node(nodename, rules)
+else
+	mesecon:add_receptor_node_off(nodename)
+end
+end
+end
+end
+end
 
 minetest.register_craft({
-	output = 'craft "mesecons_microcontroller:microcontroller" 2',
+	output = 'craft "mesecons_microcontroller:microcontroller0000" 2',
 	recipe = {
-		{'mesecons_materials:silicon', 'mesecons_materials:silicon', 'mesecons:mesecon_off'},
-		{'mesecons_materials:silicon', 'mesecons_materials:silicon', 'mesecons:mesecon_off'},
-		{'mesecons:mesecon_off', 'mesecons:mesecon_off', ''},
+		{'mesecons_materials:silicon', 'mesecons_materials:silicon', 'group:mesecon_conductor_craftable'},
+		{'mesecons_materials:silicon', 'mesecons_materials:silicon', 'group:mesecon_conductor_craftable'},
+		{'group:mesecon_conductor_craftable', 'group:mesecon_conductor_craftable', ''},
 	}
 })
 
-function reset_yc(pos)
-	mesecon:receptor_off(pos, mesecon:get_rules("microcontrollerA"))
-	mesecon:receptor_off(pos, mesecon:get_rules("microcontrollerB"))
-	mesecon:receptor_off(pos, mesecon:get_rules("microcontrollerC"))
-	mesecon:receptor_off(pos, mesecon:get_rules("microcontrollerD"))
+function yc_reset(pos)
+	yc_action(pos, {a=false, b=false, c=false, d=false})
 	local meta = minetest.env:get_meta(pos)
 	local r = ""
 	for i=1, EEPROM_SIZE+1 do r=r.."0" end --Generate a string with EEPROM_SIZE*"0"
@@ -65,31 +123,62 @@ end
 
 function update_yc(pos)
 	local meta = minetest.env:get_meta(pos)
+	yc_heat(meta)
+	minetest.after(0.5, yc_cool, meta)
+	if (yc_overheat(meta)) then
+		minetest.env:remove_node(pos)
+		minetest.after(0.2, yc_overheat_off, pos) --wait for pending parsings
+		minetest.env:add_item(pos, "mesecons_microcontroller:microcontroller0000")
+	end
+
 	local code = meta:get_string("code")
+	code = yc_code_remove_commentary(code)
 	code = string.gsub(code, " ", "")	--Remove all spaces
 	code = string.gsub(code, "	", "")	--Remove all tabs
 	if parse_yccode(code, pos) == nil then
 		meta:set_string("infotext", "Code not valid!")
 	else
-		meta:set_string("infotext", "Programmed Microcontroller")
+		meta:set_string("infotext", "Working Microcontroller")
 	end
+end
+
+
+--Code Parsing
+function yc_code_remove_commentary(code)
+	is_string = false
+	for i = 1, #code do
+		if code:sub(i, i) == '"' then
+			is_string = (is_string==false) --toggle is_string
+		end
+		if code:sub(i, i) == ":" and is_string==false then
+			return code:sub(1, i-1)
+		end
+	end
+	return code
 end
 
 function parse_yccode(code, pos)
 	local endi = 1
-	local L = yc_get_portstates(pos)
+	local Lreal = yc_get_real_portstates(pos)
+	local Lvirtual = yc_get_virtual_portstates(pos)
+	if Lvirtual == nil then return nil end
 	local c
 	local eeprom = minetest.env:get_meta(pos):get_string("eeprom")
 	while true do
 		command, endi = parse_get_command(code, endi)
 		if command == nil then return nil end
-		if command == true then break end
+		if command == true then break end --end of code
 		if command == "if" then
-			r, endi = yc_command_if(code, endi, L, eeprom)
+			r, endi = yc_command_if(code, endi, yc_merge_portstates(Lreal, Lvirtual), eeprom)
 			if r == nil then return nil end
-			if r == true then -- nothing
+			if r == true then  -- nothing
 			elseif r == false then
-				endi = yc_skip_to_endif(code, endi)
+				endi_new = yc_skip_to_else (code, endi)
+				if endi_new == nil then --else > not found
+					endi = yc_skip_to_endif(code, endi)
+				else
+					endi = endi_new
+				end
 				if endi == nil then return nil end
 			end
 		else
@@ -97,20 +186,25 @@ function parse_yccode(code, pos)
 			if params  == nil then return nil end
 		end
 		if command == "on" then
-			L = yc_command_on (params, L)
+			L = yc_command_on (params, Lvirtual)
 		elseif command == "off" then
-			L = yc_command_off(params, L)
+			L = yc_command_off(params, Lvirtual)
+		elseif command == "print" then
+			su = yc_command_print(params, eeprom, yc_merge_portstates(Lreal, Lvirtual))
+			if su ~= true then return nil end
 		elseif command == "sbi" then
-			eeprom = yc_command_sbi (params, eeprom)
+			new_eeprom, Lvirtual = yc_command_sbi (params, eeprom, yc_merge_portstates(Lreal, Lvirtual), Lvirtual)
+			if new_eeprom == nil then return nil
+			else eeprom = new_eeprom end
 		elseif command == "if" then --nothing
 		else
 			return nil
 		end
-		if L == nil then return nil end
+		if Lvirtual == nil then return nil end
 		if eeprom == nil then return nil else
 		minetest.env:get_meta(pos):set_string("eeprom", eeprom) end
 	end
-	yc_action(pos, L)
+	yc_action(pos, Lvirtual)
 	return true
 end
 
@@ -119,16 +213,21 @@ function parse_get_command(code, starti)
 	s = nil
 	while s ~= "" do
 		s = string.sub(code, i, i)
-		if s == ";" and starti == i then 
-			starti = starti + 1
-			i = starti
-			s = string.sub(code, i, i)
-		end
 		if s == "(" then
 			return string.sub(code, starti, i-1), i + 1 -- i: ( i+1 after (
 		end
-		i = i + 1
+		if s == ";" and starti == i then 
+			starti = starti + 1
+			i = starti
+		elseif s == ">" then
+			starti = yc_skip_to_endif(code, starti)
+			if starti == nil then return nil end
+			i = starti
+		else
+			i = i + 1
+		end
 	end
+
 	if starti == i-1 then
 		return true, true
 	end
@@ -139,13 +238,17 @@ function parse_get_params(code, starti)
 	i = starti
 	s = nil
 	local params = {}
+	local is_string = false
 	while s ~= "" do
 		s = string.sub(code, i, i)
-		if s == ")" then
+		if code:sub(i, i) == '"' then
+			is_string = (is_string==false) --toggle is_string
+		end
+		if s == ")" and is_string == false then
 			table.insert(params, string.sub(code, starti, i-1)) -- i: ) i+1 after )
 			return params, i + 1
 		end
-		if s == "," then
+		if s == "," and is_string == false then
 			table.insert(params, string.sub(code, starti, i-1)) -- i: ) i+1 after )
 			starti = i + 1
 		end
@@ -154,15 +257,15 @@ function parse_get_params(code, starti)
 	return nil, nil
 end
 
-function yc_parse_get_eeprom_params(code, starti)
+function yc_parse_get_eeprom_param(cond, starti)
 	i = starti
 	s = nil
-	local params = {}
+	local addr
 	while s ~= "" do
-		s = string.sub(code, i, i)
-		if s == ">" then
-			table.insert(params, string.sub(code, starti, i-1)) -- i: ) i+1 after )
-			return params, i + 1
+		s = string.sub(cond, i, i)
+		if string.find("0123456789", s) == nil or s == "" then
+			addr = string.sub(cond, starti, i-1) -- i: last number i+1 after last number
+			return addr, i
 		end
 		if s == "," then return nil, nil end
 		i = i + 1
@@ -170,6 +273,47 @@ function yc_parse_get_eeprom_params(code, starti)
 	return nil, nil
 end
 
+function yc_skip_to_endif(code, starti)
+	local i = starti
+	local s = false
+	local open_ifs = 1
+	while s ~= nil and s~= "" do
+		s = code:sub(i, i)
+		if s == "i" and code:sub(i+1, i+1) == "f" then --if in µCScript
+			open_ifs = open_ifs + 1
+		end
+		if s == ";" then
+			open_ifs = open_ifs - 1
+		end
+		if open_ifs == 0 then
+			return i + 1
+		end
+		i = i + 1
+	end
+	return nil
+end
+
+function yc_skip_to_else(code, starti)
+	local i = starti
+	local s = false
+	local open_ifs = 1
+	while s ~= nil and s~= "" do
+		s = code:sub(i, i)
+		if s == "i" and code:sub(i+1, i+1) == "f" then --if in µCScript
+			open_ifs = open_ifs + 1
+		end
+		if s == ";" then
+			open_ifs = open_ifs - 1
+		end
+		if open_ifs == 1 and s == ">" then
+			return i + 1
+		end
+		i = i + 1
+	end
+	return nil
+end
+
+--Commands
 function yc_command_on(params, L)
 	local rules = {}
 	for i, port in ipairs(params) do
@@ -186,32 +330,64 @@ function yc_command_off(params, L)
 	return L
 end
 
-function yc_command_sbi(params, eeprom)
-	if params[1]==nil or params[2]==nil or params[3] ~=nil or tonumber(params[1])==nil or tonumber(params[2])==nil then return nil end
-	if tonumber(params[1])>EEPROM_SIZE or tonumber(params[1])<1 or (tonumber(params[2])~=1 and tonumber(params[2]~=0)) then return nil end
+function yc_command_print(params, eeprom, L)
+	local s = ""
+	for i, param in ipairs(params) do
+		if param:sub(1,1) == '"' and param:sub(#param, #param) == '"' then
+			s = s..param:sub(2, #param-1)
+		else
+			r = yc_command_parsecondition(param, L, eeprom)
+			if r == "1" or r == "0" then
+				s = s..r
+			else return nil end
+		end
+	end
+	print(s) --don't remove
+	return true
+end
+
+function yc_command_sbi(params, eeprom, L, Lv)
+	if params[1]==nil or params[2]==nil or params[3] ~=nil then return nil end
+	local status = yc_command_parsecondition(params[2], L, eeprom)
+
+	if status == nil then return nil, nil end
+
+	if string.find("ABCD", params[1])~=nil and #params[1]==1 then --is a port
+		if status == "1" then
+			Lv = yc_set_portstate (params[1], true,  Lv)
+		else
+			Lv = yc_set_portstate (params[1], false, Lv)
+		end
+		return eeprom, Lv;
+	end
+
+	--is an eeprom address
 	new_eeprom = "";
 	for i=1, #eeprom do
 		if tonumber(params[1])==i then 
-			new_eeprom = new_eeprom..params[2] 
+			new_eeprom = new_eeprom..status
 		else
 			new_eeprom = new_eeprom..eeprom:sub(i, i)
 		end
 	end
-	return new_eeprom
+	return new_eeprom, Lv
 end
 
+--If
 function yc_command_if(code, starti, L, eeprom)
 	local cond, endi = yc_command_if_getcondition(code, starti)
 	if cond == nil then return nil end
 
-	cond = yc_command_if_parsecondition(cond, L, eeprom)
+	cond = yc_command_parsecondition(cond, L, eeprom)
 
 	if cond == "0" then result = false
 	elseif cond == "1" then result = true
 	else result = nil end
+	if result == nil then end
 	return result, endi --endi from local cond, endi = yc_command_if_getcondition(code, starti)
 end
 
+--Condition parsing
 function yc_command_if_getcondition(code, starti)
 	i = starti
 	s = nil
@@ -236,22 +412,20 @@ function yc_command_if_getcondition(code, starti)
 	return nil, nil
 end
 
-function yc_command_if_parsecondition(cond, L, eeprom)
-	cond = string.gsub(cond, "A", tostring(L.a and 1 or 0))
+function yc_command_parsecondition(cond, L, eeprom)
+	cond = string.gsub(cond, "A", tonumber(L.a and 1 or 0))
 	cond = string.gsub(cond, "B", tonumber(L.b and 1 or 0))
 	cond = string.gsub(cond, "C", tonumber(L.c and 1 or 0))
 	cond = string.gsub(cond, "D", tonumber(L.d and 1 or 0))
 
-	cond = string.gsub(cond, "!0", "1")
-	cond = string.gsub(cond, "!1", "0")
 
 	local i = 1
 	local l = string.len(cond)
 	while i<=l do
 		local s = cond:sub(i,i)
-		if s == "<" then
-			params, endi = yc_parse_get_eeprom_params(cond, i+1)
-			buf = yc_eeprom_read(tonumber(params[1]), eeprom)
+		if s == "#" then
+			addr, endi = yc_parse_get_eeprom_param(cond, i+1)
+			buf = yc_eeprom_read(tonumber(addr), eeprom)
 			if buf == nil then return nil end
 			local call = cond:sub(i, endi-1)
 			cond = string.gsub(cond, call, buf)
@@ -261,6 +435,9 @@ function yc_command_if_parsecondition(cond, L, eeprom)
 		i = i + 1
 	end
 
+	cond = string.gsub(cond, "!0", "1")
+	cond = string.gsub(cond, "!1", "0")
+
 	local i = 2
 	local l = string.len(cond)
 	while i<=l do
@@ -269,6 +446,7 @@ function yc_command_if_parsecondition(cond, L, eeprom)
 		local a = tonumber(cond:sub(i+1, i+1))
 		if cond:sub(i+1, i+1) == nil then break end
 		if s == "=" then
+			if a==nil then return nil end
 			if a == b  then buf = "1" end
 			if a ~= b then buf = "0" end
 			cond = string.gsub(cond, b..s..a, buf)
@@ -286,6 +464,7 @@ function yc_command_if_parsecondition(cond, L, eeprom)
 		local a = tonumber(cond:sub(i+1, i+1))
 		if cond:sub(i+1, i+1) == nil then break end
 		if s == "&" then
+			if a==nil then return nil end
 			local buf = ((a==1) and (b==1))
 			if buf == true  then buf = "1" end
 			if buf == false then buf = "0" end
@@ -294,6 +473,7 @@ function yc_command_if_parsecondition(cond, L, eeprom)
 			l = string.len(cond)
 		end
 		if s == "|" then
+			if a==nil then return nil end
 			local buf = ((a == 1) or (b == 1))
 			if buf == true  then buf = "1" end
 			if buf == false then buf = "0" end
@@ -302,6 +482,7 @@ function yc_command_if_parsecondition(cond, L, eeprom)
 			l = string.len(cond)
 		end
 		if s == "~" then
+			if a==nil then return nil end
 			local buf = (((a == 1) or (b == 1)) and not((a==1) and (b==1)))
 			if buf == true  then buf = "1" end
 			if buf == false then buf = "0" end
@@ -311,47 +492,65 @@ function yc_command_if_parsecondition(cond, L, eeprom)
 		end
 		i = i + 1
 	end
+
 	return cond
 end
 
+--Virtual-Hardware functions
 function yc_eeprom_read(number, eeprom)
-	if params == nil then return nil, nil end
-	value = eeprom:sub(params[1], number)
+	if number == nil then return nil, nil end
+	value = eeprom:sub(number, number)
 	if value  == nil then return nil, nil end
 	return value, endi
 end
 
-function yc_get_port_rules(port)
-	local rules = nil
-	if port == "A" then
-		rules = mesecon:get_rules("microcontrollerA")
-	elseif port == "B" then
-		rules = mesecon:get_rules("microcontrollerB")
-	elseif port == "C" then
-		rules = mesecon:get_rules("microcontrollerC")
-	elseif port == "D" then
-		rules = mesecon:get_rules("microcontrollerD")
+--Real I/O functions
+function yc_action(pos, L) --L-->Lvirtual
+	Lv = yc_get_virtual_portstates(pos)
+	local meta = minetest.env:get_meta(pos)
+	local code = meta:get_string("code")
+	local heat = meta:get_int("heat")
+	local eeprom = meta:get_string("eeprom")
+	local infotext   = meta:get_string("infotext")
+	local formspec = meta:get_string("formspec")
+	local name = "mesecons_microcontroller:microcontroller"
+		..tonumber(L.d and 1 or 0)
+		..tonumber(L.c and 1 or 0)
+		..tonumber(L.b and 1 or 0)
+		..tonumber(L.a and 1 or 0)
+	minetest.env:add_node(pos, {name=name})
+	local meta = minetest.env:get_meta(pos)
+	meta:set_string("code", code)
+	meta:set_int("heat", heat)
+	meta:set_string("eeprom", eeprom)
+	meta:set_string("infotext", infotext)
+	meta:set_string("formspec", formspec)
+
+	yc_action_setports(pos, L, Lv)
+end
+
+function yc_action_setports(pos, L, Lv)
+	local name = "mesecons_microcontroller:microcontroller"
+	local rules
+	if Lv.a ~= L.a then
+		rules = mesecon:get_rules(name.."0001")
+		if L.a == true then mesecon:receptor_on(pos, rules)
+		else mesecon:receptor_off(pos, rules) end
 	end
-	return rules
-end
-
-function yc_action(pos, L)
-	yc_action_setport("A", L.a, pos)
-	yc_action_setport("B", L.b, pos)
-	yc_action_setport("C", L.c, pos)
-	yc_action_setport("D", L.d, pos)
-end
-
-function yc_action_setport(port, state, pos)
-	local rules = mesecon:get_rules("microcontroller"..port)
-	if state == false then
-		if mesecon:is_power_on({x=pos.x+rules[1].x, y=pos.y+rules[1].y, z=pos.z+rules[1].z}) then
-			mesecon:turnoff(pos, rules[1].x, rules[1].y, rules[1].z, false)
-		end
-	elseif state == true then
-		if mesecon:is_power_off({x=pos.x+rules[1].x, y=pos.y+rules[1].y, z=pos.z+rules[1].z}) then
-			mesecon:turnon(pos, rules[1].x, rules[1].y, rules[1].z, false)
-		end
+	if Lv.b ~= L.b then 
+		rules = mesecon:get_rules(name.."0010")
+		if L.b == true then mesecon:receptor_on(pos, rules)
+		else mesecon:receptor_off(pos, rules) end
+	end
+	if Lv.c ~= L.c then 
+		rules = mesecon:get_rules(name.."0100")
+		if L.c == true then mesecon:receptor_on(pos, rules)
+		else mesecon:receptor_off(pos, rules) end
+	end
+	if Lv.d ~= L.d then 
+		rules = mesecon:get_rules(name.."1000")
+		if L.d == true then mesecon:receptor_on(pos, rules)
+		else mesecon:receptor_off(pos, rules) end
 	end
 end
 
@@ -364,12 +563,12 @@ function yc_set_portstate(port, state, L)
 	return L
 end
 
-function yc_get_portstates(pos)
-	rulesA = mesecon:get_rules("microcontrollerA")
-	rulesB = mesecon:get_rules("microcontrollerB")
-	rulesC = mesecon:get_rules("microcontrollerC")
-	rulesD = mesecon:get_rules("microcontrollerD")
-	local L = {
+function yc_get_real_portstates(pos)
+	rulesA = mesecon:get_rules("mesecons_microcontroller:microcontroller0001")
+	rulesB = mesecon:get_rules("mesecons_microcontroller:microcontroller0010")
+	rulesC = mesecon:get_rules("mesecons_microcontroller:microcontroller0100")
+	rulesD = mesecon:get_rules("mesecons_microcontroller:microcontroller1000")
+	L = {
 		a = mesecon:is_power_on({x=pos.x+rulesA[1].x, y=pos.y+rulesA[1].y, z=pos.z+rulesA[1].z}),
 		b = mesecon:is_power_on({x=pos.x+rulesB[1].x, y=pos.y+rulesB[1].y, z=pos.z+rulesB[1].z}),
 		c = mesecon:is_power_on({x=pos.x+rulesC[1].x, y=pos.y+rulesC[1].y, z=pos.z+rulesC[1].z}),
@@ -378,30 +577,68 @@ function yc_get_portstates(pos)
 	return L
 end
 
-function yc_skip_to_endif(code, starti)
-	local i = starti
-	local s = false
-	while s ~= nil and s~= "" do
-		s = code:sub(i, i)
-		if s == ";" then
-			return i + 1
-		end
-		i = i + 1
+function yc_get_virtual_portstates(pos)
+	name = minetest.env:get_node(pos).name
+	b, a = string.find(name, ":microcontroller")
+	if a == nil then return nil end
+	a = a + 1
+
+	Lvirtual = {a=false, b=false, c=false, d=false}
+	if name:sub(a  , a  ) == "1" then Lvirtual.d = true end
+	if name:sub(a+1, a+1) == "1" then Lvirtual.c = true end
+	if name:sub(a+2, a+2) == "1" then Lvirtual.b = true end
+	if name:sub(a+3, a+3) == "1" then Lvirtual.a = true end
+	return Lvirtual
+end
+
+function yc_merge_portstates(Lreal, Lvirtual)
+	local L = {a=false, b=false, c=false, d=false}
+	if Lvirtual.a or Lreal.a then L.a = true end
+	if Lvirtual.b or Lreal.b then L.b = true end
+	if Lvirtual.c or Lreal.c then L.c = true end
+	if Lvirtual.d or Lreal.d then L.d = true end
+	return L
+end
+
+--"Overheat" protection
+function yc_heat(meta)
+	h = meta:get_int("heat")
+	if h ~= nil then
+		meta:set_int("heat", h + 1)
 	end
-	return nil
+end
+
+function yc_cool(meta)
+	h = meta:get_int("heat")
+	if h ~= nil then
+		meta:set_int("heat", h - 1)
+	end
+end
+
+function yc_overheat(meta)
+	h = meta:get_int("heat")
+	if h == nil then return true end -- if nil the overheat
+	if h>30 then 
+		return true
+	else 
+		return false 
+	end
+end
+
+function yc_overheat_off(pos)
+	rules = mesecon:get_rules("mesecons_microcontroller:microcontroller1111")
+	mesecon:receptor_off(pos, rules);
 end
 
 mesecon:register_on_signal_change(function(pos, node)
-	if node.name == "mesecons_microcontroller:microcontroller" then
-		minetest.after(0.5, update_yc, pos)
+	if string.find(node.name, "mesecons_microcontroller:microcontroller")~=nil then
+		update_yc(pos)
 	end
 end)
 
-
-mesecon:add_rules("microcontrollerA", {{x = -1, y = 0, z = 0}})
-mesecon:add_rules("microcontrollerB", {{x = 0, y = 0, z = 1}})
-mesecon:add_rules("microcontrollerC", {{x = 1, y = 0, z = 0}})
-mesecon:add_rules("microcontrollerD", {{x = 0, y = 0, z = -1}})
-mesecon:add_rules("microcontroller_default", {})
-mesecon:add_receptor_node("mesecons_microcontroller:microcontroller", mesecon:get_rules("microcontroller_default"))
-mesecon:add_receptor_node("mesecons_microcontroller:microcontroller", mesecon:get_rules("microcontroller_default"))
+minetest.register_on_dignode(function(pos, node)
+	if string.find(node.name, "mesecons_microcontroller:microcontroller") then
+		rules = mesecon:get_rules(node.name)
+		mesecon:receptor_off(pos, rules)
+	end
+end)

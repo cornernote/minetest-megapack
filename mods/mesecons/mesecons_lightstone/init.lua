@@ -2,13 +2,13 @@ function mesecon:lightstone_add(name, base_item, texture_off, texture_on)
     minetest.register_node("mesecons_lightstone:lightstone_" .. name .. "_off", {
 	    tile_images = {texture_off},
 	    inventory_image = minetest.inventorycube(texture_off),
-	    groups = {cracky=2},
+	    groups = {cracky=2, mesecon_effector_off = 1, mesecon = 2},
     	    description=name.." Lightstone",
     })
     minetest.register_node("mesecons_lightstone:lightstone_" .. name .. "_on", {
 	    tile_images = {texture_on},
 	    inventory_image = minetest.inventorycube(texture_on),
-	    groups = {cracky=2,not_in_creative_inventory=1},
+	    groups = {cracky=2,not_in_creative_inventory=1, mesecon_effector_on = 1, mesecon = 2},
 	    drop = "node mesecons_lightstone:lightstone_" .. name .. "_off 1",
 	    light_source = LIGHT_MAX-2,
     	    description=name.." Lightstone",
@@ -29,8 +29,8 @@ function mesecon:lightstone_add(name, base_item, texture_off, texture_on)
 	    output = "node mesecons_lightstone:lightstone_" .. name .. "_off 1",
 	    recipe = {
 		    {'',base_item,''},
-		    {base_item,'node default:torch 1',base_item},
-		    {'','node mesecons:mesecon_off 1',''},
+		    {base_item,'default:torch',base_item},
+		    {'','group:mesecon_conductor_craftable',''},
 	    }
     })
 end

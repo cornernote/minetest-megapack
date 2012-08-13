@@ -1,7 +1,10 @@
 -- Solar Panel
 minetest.register_node("mesecons_solarpanel:solar_panel", {
 	drawtype = "nodebox",
-	tile_images = {"jeija_solar_panel.png"},
+	tile_images = {
+		"jeija_solar_panel.png",
+		"jeija_solar_panel_sides.png"
+		},
 	inventory_image = "jeija_solar_panel.png",
 	wield_image = "jeija_solar_panel.png",
 	paramtype = "light",
@@ -10,18 +13,18 @@ minetest.register_node("mesecons_solarpanel:solar_panel", {
 	is_ground_content = true,
 	node_box = {
 		type = "wallmounted",
-		wall_bottom = {-0.4375, -0.5, -0.4375, 0.4375, -0.45, 0.4375},
-		wall_top = {-0.4375, 0.45, -0.4375, 0.4375, 0.5, 0.4375},
-		wall_side = {-0.5, -0.4375, -0.4375, -0.45, 0.4375, 0.4375},
+		wall_bottom = { -7/16, -8/16, -7/16,  7/16, -7/16, 7/16 },
+		wall_top    = { -7/16,  7/16, -7/16,  7/16,  8/16, 7/16 },
+		wall_side   = { -8/16, -7/16, -7/16, -7/16,  7/16, 7/16 },
 	},
 	selection_box = {
 		type = "wallmounted",
-		wall_bottom = {-0.4375, -0.5, -0.4375, 0.4375, -0.45, 0.4375},
-		wall_top = {-0.4375, 0.45, -0.4375, 0.4375, 0.5, 0.4375},
-		wall_side = {-0.5, -0.4375, -0.4375, -0.45, 0.4375, 0.4375},
+		wall_bottom = { -7/16, -8/16, -7/16,  7/16, -7/16, 7/16 },
+		wall_top    = { -7/16,  7/16, -7/16,  7/16,  8/16, 7/16 },
+		wall_side   = { -8/16, -7/16, -7/16, -7/16,  7/16, 7/16 },
 	},
 	furnace_burntime = 5,
-	groups = {dig_immediate=3},
+	groups = {dig_immediate=3, mesecon = 2},
     	description="Solar Panel",
 	after_dig_node = function(pos, node, digger)
 		mesecon:receptor_off(pos)

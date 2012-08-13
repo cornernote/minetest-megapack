@@ -3,7 +3,7 @@
 minetest.register_craft({
     output = '"mesecons_torch:mesecon_torch_on" 4',
     recipe = {
-        {"mesecons:mesecon_off"},
+        {"group:mesecon_conductor_craftable"},
         {"default:stick"},
     }
 })
@@ -22,7 +22,7 @@ minetest.register_node("mesecons_torch:mesecon_torch_off", {
         wall_side = {-0.5, -0.1, -0.1, -0.5+0.6, 0.1, 0.1},
     },
     legacy_wallmounted = true,
-    groups = {dig_immediate=3,not_in_creative_inventory=1},
+    groups = {dig_immediate=3,not_in_creative_inventory=1, mesecon = 2},
     drop = '"mesecons_torch:mesecon_torch_on" 1',
     description="Mesecon Torch",
 })
@@ -43,7 +43,7 @@ minetest.register_node("mesecons_torch:mesecon_torch_on", {
 		wall_side = {-0.5, -0.1, -0.1, -0.5+0.6, 0.1, 0.1},
 	},
 	legacy_wallmounted = true,
-	groups = {dig_immediate=3},
+	groups = {dig_immediate=3, mesecon = 2},
 	light_source = LIGHT_MAX-5,
 	description="Mesecon Torch",
 	after_place_node = function(pos)

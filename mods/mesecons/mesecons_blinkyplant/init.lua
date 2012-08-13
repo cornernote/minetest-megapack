@@ -7,7 +7,7 @@ minetest.register_node("mesecons_blinkyplant:blinky_plant_off", {
 	inventory_image = "jeija_blinky_plant_off.png",
 	paramtype = "light",
 	walkable = false,
-	groups = {dig_immediate=3},
+	groups = {dig_immediate=3, mesecon = 2},
     	description="Blinky Plant",
 	selection_box = {
 		type = "fixed",
@@ -22,7 +22,7 @@ minetest.register_node("mesecons_blinkyplant:blinky_plant_on", {
 	inventory_image = "jeija_blinky_plant_off.png",
 	paramtype = "light",
 	walkable = false,
-	groups = {dig_immediate=3, not_in_creative_inventory=1},
+	groups = {dig_immediate=3, not_in_creative_inventory=1, mesecon = 2},
 	drop='"mesecons_blinkyplant:blinky_plant_off" 1',
 	light_source = LIGHT_MAX-7,
 	description = "Blinky Plant",
@@ -38,8 +38,8 @@ minetest.register_node("mesecons_blinkyplant:blinky_plant_on", {
 minetest.register_craft({
 	output = '"mesecons_blinkyplant:blinky_plant_off" 1',
 	recipe = {
-	{'','"mesecons:mesecon_off"',''},
-	{'','"mesecons:mesecon_off"',''},
+	{'','"group:mesecon_conductor_craftable"',''},
+	{'','"group:mesecon_conductor_craftable"',''},
 	{'"default:junglegrass"','"default:junglegrass"','"default:junglegrass"'},
 	}
 })

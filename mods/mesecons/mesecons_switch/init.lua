@@ -3,14 +3,14 @@
 minetest.register_node("mesecons_switch:mesecon_switch_off", {
 	tile_images = {"jeija_mesecon_switch_side.png", "jeija_mesecon_switch_side.png", "jeija_mesecon_switch_side.png", "jeija_mesecon_switch_side.png", "jeija_mesecon_switch_side.png", "jeija_mesecon_switch_off.png"},
 	paramtype2="facedir",
-	groups = {dig_immediate=2},
+	groups = {dig_immediate=2, mesecon = 2},
     	description="Switch",
 })
 
 minetest.register_node("mesecons_switch:mesecon_switch_on", {
 	tile_images = {"jeija_mesecon_switch_side.png", "jeija_mesecon_switch_side.png", "jeija_mesecon_switch_side.png", "jeija_mesecon_switch_side.png", "jeija_mesecon_switch_side.png", "jeija_mesecon_switch_on.png"},
 	paramtype2="facedir",
-	groups = {dig_immediate=2,not_in_creative_inventory=1},
+	groups = {dig_immediate=2,not_in_creative_inventory=1, mesecon = 2},
 	drop='"mesecons_switch:mesecon_switch_off" 1',
 	description="Switch",
 	after_dig_node = function(pos)
@@ -38,6 +38,6 @@ minetest.register_craft({
 	output = '"mesecons_switch:mesecon_switch_off" 2',
 	recipe = {
 		{'"default:steel_ingot"', '"default:cobble"', '"default:steel_ingot"'},
-		{'"mesecons:mesecon_off"','', '"mesecons:mesecon_off"'},
+		{'"group:mesecon_conductor_craftable"','', '"group:mesecon_conductor_craftable"'},
 	}
 })

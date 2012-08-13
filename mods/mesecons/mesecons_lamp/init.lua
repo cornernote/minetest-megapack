@@ -20,7 +20,7 @@ minetest.register_node("mesecons_lamp:lamp_on", {
 		wall_bottom = {-0.3125,-0.5,-0.3125,0.3125,-0.375,0.3125},
 		wall_side = {-0.375,-0.3125,-0.3125,-0.5,0.3125,0.3125},
 	},
-	groups = {dig_immediate=3,not_in_creative_inventory=1},
+	groups = {dig_immediate=3,not_in_creative_inventory=1, mesecon_effector_on = 1, mesecon = 2},
 	drop='"mesecons_lamp:lamp_off" 1',
 })
 
@@ -45,7 +45,7 @@ minetest.register_node("mesecons_lamp:lamp_off", {
 		wall_bottom = {-0.3125,-0.5,-0.3125,0.3125,-0.375,0.3125},
 		wall_side = {-0.375,-0.3125,-0.3125,-0.5,0.3125,0.3125},
 	},
-	groups = {dig_immediate=3},
+	groups = {dig_immediate=3, mesecon_receptor_off = 1, mesecon_effector_off = 1, mesecon = 2},
     	description="Meselamp",
 })
 
@@ -53,7 +53,7 @@ minetest.register_craft({
 	output = '"mesecons_lamp:lamp_off" 1',
 	recipe = {
 		{'', '"default:glass"', ''},
-		{'"mesecons:mesecon_off"', '"default:steel_ingot"', '"mesecons:mesecon_off"'},
+		{'"group:mesecon_conductor_craftable"', '"default:steel_ingot"', '"group:mesecon_conductor_craftable"'},
 		{'', '"default:glass"', ''},
 	}
 })

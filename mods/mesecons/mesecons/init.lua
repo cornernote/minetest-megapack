@@ -80,8 +80,6 @@
 --The function # mesecon:register_conductor(onstate, offstate) is the only thing you need to do,
 --the mod does everything else for you (turn the conductor on and off...)
 
--- INCLUDE SETTINGS
-dofile(minetest.get_modpath("mesecons").."/settings.lua")
 
 -- PUBLIC VARIABLES
 mesecon={} -- contains all functions and all global variables
@@ -90,55 +88,16 @@ mesecon.actions_off={} -- Saves registered function callbacks for mesecon off
 mesecon.actions_change={} -- Saves registered function callbacks for mesecon change
 mesecon.pwr_srcs={}
 mesecon.pwr_srcs_off={}
+mesecon.effectors={}
 mesecon.rules={}
 mesecon.conductors={}
+
+-- INCLUDE SETTINGS
+dofile(minetest.get_modpath("mesecons").."/settings.lua")
 
 --Internal API
 dofile(minetest.get_modpath("mesecons").."/internal_api.lua");
 
-
-
--- MESECONS
-
-minetest.register_node("mesecons:mesecon_off", {
-	drawtype = "raillike",
-	tile_images = {"jeija_mesecon_off.png", "jeija_mesecon_curved_off.png", "jeija_mesecon_t_junction_off.png", "jeija_mesecon_crossing_off.png"},
-	inventory_image = "jeija_mesecon_off.png",
-	wield_image = "jeija_mesecon_off.png",
-	paramtype = "light",
-	is_ground_content = true,
-	walkable = false,
-	selection_box = {
-		type = "fixed",
-		fixed = {-0.5, -0.5, -0.5, 0.5, -0.45, 0.5},
-	},
-	groups = {dig_immediate=3},
-    	description="Mesecons",
-})
-
-minetest.register_node("mesecons:mesecon_on", {
-	drawtype = "raillike",
-	tile_images = {"jeija_mesecon_on.png", "jeija_mesecon_curved_on.png", "jeija_mesecon_t_junction_on.png", "jeija_mesecon_crossing_on.png"},
-	paramtype = "light",
-	is_ground_content = true,
-	walkable = false,
-	selection_box = {
-		type = "fixed",
-		fixed = {-0.5, -0.5, -0.5, 0.5, -0.45, 0.5},
-	},
-	groups = {dig_immediate=3, not_in_creaive_inventory=1},
-	drop = '"mesecons:mesecon_off" 1',
-	light_source = LIGHT_MAX-11,
-})
-
-minetest.register_craft({
-	output = '"mesecons:mesecon_off" 16',
-	recipe = {
-		{'"default:mese"'},
-	}
-})
-
-mesecon:register_conductor("mesecons:mesecon_on", "mesecons:mesecon_off")
 
 -- API API API API API API API API API API API API API API API API API API
 
@@ -173,11 +132,37 @@ function mesecon:add_receptor_node_off(nodename, rules, get_rules)
 end
 
 function mesecon:receptor_on(pos, rules)
-	mesecon:turnon(pos, 0, 0, 0, true, rules)
+	if rules == nil then
+		rules = mesecon:get_rules("default")
+	end
+
+	local i = 1
+	while rules[i]~=nil do
+		local np = {}
+		np.x = pos.x + rules[i].x
+		np.y = pos.y + rules[i].y
+		np.z = pos.z + rules[i].z
+		mesecon:turnon(np)
+		i=i+1
+	end
 end
 
 function mesecon:receptor_off(pos, rules)
-	mesecon:turnoff(pos, 0, 0, 0, true, rules)
+	if rules == nil then
+		rules = mesecon:get_rules("default")
+	end
+
+	local i = 1
+	while rules[i]~=nil do
+		local np = {}
+		np.x = pos.x + rules[i].x
+		np.y = pos.y + rules[i].y
+		np.z = pos.z + rules[i].z
+		if not mesecon:connected_to_pw_src(np, {}) then
+			mesecon:turnoff(np)
+		end
+		i=i+1
+	end
 end
 
 function mesecon:register_on_signal_on(action)
@@ -207,6 +192,16 @@ function mesecon:register_on_signal_change(action)
 	mesecon.actions_change[i]=action
 end
 
+function mesecon:register_conductor (onstate, offstate)
+	local i=0
+	while mesecon.conductors[i]~=nil do
+		i=i+1
+	end
+	mesecon.conductors[i]={}
+	mesecon.conductors[i].on=onstate
+	mesecon.conductors[i].off=offstate
+end
+
 mesecon:add_rules("default", 
 {{x=0,  y=0,  z=-1},
 {x=1,  y=0,  z=0},
@@ -223,17 +218,5 @@ mesecon:add_rules("default",
 
 print("[MESEcons] Main mod Loaded!")
 
---minetest.register_on_newplayer(function(player)
-	--local i=1
-	--while mesecon.wireless_receivers[i]~=nil do
-	--	pos=mesecon.wireless_receivers[i].pos
-	--	request=mesecon.wireless_receivers[i].requested_state
-	--	inverting=mesecon.wireless_receivers[i].inverting
-	--	if request==inverting then
-	--		mesecon:receptor_off(pos)
-	--	end
-	--	if request~=inverting  then
-	--		mesecon:receptor_on(pos)
-	--	end
-	--end
---end)
+--The actual wires
+dofile(minetest.get_modpath("mesecons").."/wires.lua");

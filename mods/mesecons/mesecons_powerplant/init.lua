@@ -7,7 +7,7 @@ minetest.register_node("mesecons_powerplant:power_plant", {
 	inventory_image = "jeija_power_plant.png",
 	paramtype = "light",
 	walkable = false,
-	groups = {dig_immediate=3},
+	groups = {dig_immediate=3, mesecon = 2},
 	light_source = LIGHT_MAX-9,
     	description="Power Plant",
 	after_place_node = function(pos)
@@ -25,8 +25,8 @@ minetest.register_node("mesecons_powerplant:power_plant", {
 minetest.register_craft({
 	output = '"mesecons_powerplant:power_plant" 1',
 	recipe = {
-		{'"mesecons:mesecon_off"'},
-		{'"mesecons:mesecon_off"'},
+		{'"group:mesecon_conductor_craftable"'},
+		{'"group:mesecon_conductor_craftable"'},
 		{'"default:junglegrass"'},
 	}
 })

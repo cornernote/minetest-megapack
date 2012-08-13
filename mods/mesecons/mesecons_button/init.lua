@@ -20,11 +20,11 @@ minetest.register_node("mesecons_button:button_off", {
     node_box = {
         type = "fixed",	
 	fixed = {
-		{ -6/16, -6/16, 7/16, 6/16, 6/16, 8/16 },	-- the thin plate behind the button
-		{ -4/16, -2/16, 5/16, 4/16, 2/16, 7/16 }	-- the button itself
+		{ -6/16, -6/16, 6/16, 6/16, 6/16, 8/16 },	-- the thin plate behind the button
+		{ -4/16, -2/16, 4/16, 4/16, 2/16, 6/16 }	-- the button itself
 	}
     },
-    groups = {dig_immediate=2},
+    groups = {dig_immediate=2, mesecon = 1},
     description = "Button",
 })
 minetest.register_node("mesecons_button:button_on", {
@@ -41,6 +41,7 @@ minetest.register_node("mesecons_button:button_on", {
 	paramtype2 = "facedir",
 	legacy_wallmounted = true,
 	walkable = false,
+	light_source = LIGHT_MAX-7,
     selection_box = {
         type = "fixed",
 	fixed = { -6/16, -6/16, 5/16, 6/16, 6/16, 8/16 }
@@ -48,11 +49,11 @@ minetest.register_node("mesecons_button:button_on", {
     node_box = {
         type = "fixed",
 	fixed = {
-		{ -6/16, -6/16, 7/16, 6/16, 6/16, 8/16 },
-		{ -4/16, -2/16, 13/32, 4/16, 2/16, 7/16 }
+		{ -6/16, -6/16,  6/16, 6/16, 6/16, 8/16 },
+		{ -4/16, -2/16, 11/32, 4/16, 2/16, 6/16 }
 	}
     },
-	groups = {dig_immediate=2, not_in_creative_inventory=1},
+	groups = {dig_immediate=2, not_in_creative_inventory=1, mesecon = 1},
 	drop = 'mesecons_button:button_off',
 	description = "Button",
 	after_dig_node = function(pos, oldnode)
@@ -94,7 +95,7 @@ end
 minetest.register_craft({
 	output = '"mesecons_button:button_off" 2',
 	recipe = {
-		{'"mesecons:mesecon_off"','"default:stone"'},
+		{'"group:mesecon_conductor_craftable"','"default:stone"'},
 	}
 })
 
