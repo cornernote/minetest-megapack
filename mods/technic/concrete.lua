@@ -50,7 +50,7 @@ minetest.register_craftitem("technic:concrete_post", {
 
 minetest.register_node("technic:concrete", {
 	description = "Concrete Block",
-	tile_images = {"technic_concrete_block.png"},
+	tile_images = {"technic_concrete_block.png",},
 	is_ground_content = true,
 	groups = {cracky=1},
 	sounds = default.node_sound_stone_defaults(),
@@ -68,6 +68,7 @@ minetest.register_node("technic:concrete_post", {
 		type = "fixed",
 		fixed = {-1/7, -1/2, -1/7, 1/7, 1/2, 1/7},
 	},
+
 	groups = {cracky=1},
 	sounds = default.node_sound_stone_defaults(),
 })

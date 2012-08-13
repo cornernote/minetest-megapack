@@ -20,7 +20,10 @@ dofile(minetest.get_modpath("technic").."/copper_chest.lua")
 dofile(minetest.get_modpath("technic").."/silver_chest.lua")
 dofile(minetest.get_modpath("technic").."/gold_chest.lua")
 dofile(minetest.get_modpath("technic").."/mithril_chest.lua")
+dofile(minetest.get_modpath("technic").."/electric.lua")
+dofile(minetest.get_modpath("technic").."/wires.lua")
 dofile(minetest.get_modpath("technic").."/dyes.lua")
+--dofile(minetest.get_modpath("technic").."/ores.lua")
 
 
 function has_locked_chest_privilege(meta, player)
