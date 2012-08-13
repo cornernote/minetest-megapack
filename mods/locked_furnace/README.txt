@@ -1,8 +1,8 @@
-Minetest 0.4 mod: money
-=======================
+Minetest 0.4 mod: locked_furnace
+=============================
 
 This can be found in:
-  https://github.com/kotolegokot/minetest-mods/money
+  https://github.com/kotolegokot/minetest-mods/locked_furnace
 
 License of source code
 ----------------------
@@ -16,7 +16,7 @@ the Free Software Foundation; either version 2 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along

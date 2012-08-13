@@ -1,4 +1,7 @@
---Mod by kotolegokot
+--[[
+	Mod by kotolegokot
+	Version 2012.8.13.0
+]]
 function table.contains(table, value)
 	for i = 1, #table do
 		if table[i] == value then
@@ -58,15 +61,6 @@ minetest.register_privilege("tell", {
 	description = "Can use /tell command",
 	give_to_singleplayer = false,
 })
---[[minetest.register_privilege("kick", { TODO
-	description = "Can use /kick command",
-	give_to_singleplayer = false,
-})
-minetest.register_privilege("kill", "Can use /kill command")
-minetest.register_privilege("kill_other", {
-	description = "Can use /kill <player> command",
-	give_to_singleplayer = false,
-})]]
 --Commands
 minetest.register_chatcommand("list", {
 	privs = {list=true},

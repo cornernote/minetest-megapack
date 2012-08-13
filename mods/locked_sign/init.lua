@@ -1,5 +1,7 @@
---Mod by kotolegokot
-
+--[[
+	Mod by kotolegokot
+	Version 2012.8.13.0
+]]
 minetest.register_node("locked_sign:sign_wall_locked", {
 	description = "Locked Sign",
 	drawtype = "signlike",
