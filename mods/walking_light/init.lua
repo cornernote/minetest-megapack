@@ -43,12 +43,12 @@ minetest.register_globalstep(function(dtime)
 	for i,player in ipairs(players) do
 		local player_name = player:get_player_name()
 		local wielded_item = player:get_wielded_item():get_name()
-		if wielded_item == "default:torch" then
+		if wielded_item == "default:torch" or wielded_item == "walking_light:pick_mese" then
 			-- Fackel ist in der Hand
 			local pos = player:getpos()
 			local rounded_pos = {x=round(pos.x),y=round(pos.y)+1,z=round(pos.z)}
 
-			if last_wielded[player_name] ~= "default:torch" or (player_positions[player_name]["x"] ~= rounded_pos.x or player_positions[player_name]["y"] ~= rounded_pos.y or player_positions[player_name]["z"] ~= rounded_pos.z) then
+			if (last_wielded[player_name] ~= "default:torch" and last_wielded[player_name] ~= "walking_light:pick_mese") or (player_positions[player_name]["x"] ~= rounded_pos.x or player_positions[player_name]["y"] ~= rounded_pos.y or player_positions[player_name]["z"] ~= rounded_pos.z) then
 				-- Fackel gerade in die Hand genommen oder zu neuem Node bewegt
 				local is_air  = minetest.env:get_node_or_nil(rounded_pos)
 				if is_air ~= nil and is_air.name == "air" then
@@ -62,7 +62,7 @@ minetest.register_globalstep(function(dtime)
 				local old_pos = {x=player_positions[player_name]["x"], y=player_positions[player_name]["y"], z=player_positions[player_name]["z"]}
 				repeat
 					local is_light  = minetest.env:get_node_or_nil(old_pos)
-					if is_light ~= nil and is_light.name == "walking_light:light" and last_wielded[player_name] == "default:torch" then
+					if is_light ~= nil and is_light.name == "walking_light:light" and (last_wielded[player_name] == "default:torch" or last_wielded[player_name] == "walking_light:pick_mese") then
 						-- print('remove '..minetest.pos_to_string(old_pos))
 						minetest.env:remove_node(old_pos)
 					end
@@ -73,8 +73,8 @@ minetest.register_globalstep(function(dtime)
 				player_positions[player_name]["z"] = rounded_pos.z
 			end
 
-			last_wielded[player_name] = "default:torch";
-		elseif last_wielded[player_name] == "default:torch" then
+			last_wielded[player_name] = wielded_item;
+		elseif last_wielded[player_name] == "default:torch" or last_wielded[player_name] == "walking_light:pick_mese" then
 			-- Fackel nicht in der Hand, aber beim letzten Durchgang war die Fackel noch in der Hand
 			local pos = player:getpos()
 			local rounded_pos = {x=round(pos.x),y=round(pos.y)+1,z=round(pos.z)}
@@ -115,4 +115,26 @@ minetest.register_node("walking_light:light", {
         type = "fixed",
         fixed = {0, 0, 0, 0, 0, 0},
     },
+})
+minetest.register_tool("walking_light:pick_mese", {
+	description = "Mese Pickaxe with light",
+	inventory_image = "walking_light_mesepick.png",
+	wield_image = "default_tool_mesepick.png",
+	tool_capabilities = {
+		full_punch_interval = 1.0,
+		max_drop_level=3,
+		groupcaps={
+			cracky={times={[1]=2.0, [2]=1.0, [3]=0.5}, uses=20, maxlevel=3},
+			crumbly={times={[1]=2.0, [2]=1.0, [3]=0.5}, uses=20, maxlevel=3},
+			snappy={times={[1]=2.0, [2]=1.0, [3]=0.5}, uses=20, maxlevel=3}
+		}
+	},
+})
+
+minetest.register_craft({
+	output = 'walking_light:pick_mese',
+	recipe = {
+		{'default:torch'},
+		{'default:pick_mese'},
+	}
 })
