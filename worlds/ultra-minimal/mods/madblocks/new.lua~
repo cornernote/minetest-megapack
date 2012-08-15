@@ -1,0 +1,99 @@
+-- ***********************************************************************************
+--		NEW METALLIC ITEMS				**************************************************
+-- ***********************************************************************************
+
+METALLIKE('brushedmetal','Brushed Metal',true)
+minetest.register_craft({	output = 'node "madblocks:brushedmetal" 4',	recipe = {
+		{'','',''},
+		{'default:steel_ingot','default:steel_ingot',''},
+		{'default:steel_ingot','default:steel_ingot',''},
+	}})
+minetest.register_craft({	output = 'node "madblocks:brushedmetal_fence" 6',	recipe = {
+		{'','',''},
+		{'default:steel_ingot','default:steel_ingot','default:steel_ingot'},
+		{'default:steel_ingot','default:steel_ingot','default:steel_ingot'},
+	}})
+METALLIKE('yellow_rustedmetal','Yellow Painted Rusted Metal',true)
+minetest.register_craft({	output = 'node "madblocks:yellow_rustedmetal" 1',	recipe = {
+		{'','madblocks:dye_yellow',''},
+		{'','default:steel_ingot',''},
+		{'','',''},
+	}})
+minetest.register_craft({	output = 'node "madblocks:yellow_rustedmetal_fence" 6',	recipe = {
+		{'','madblocks:dye_yellow',''},
+		{'default:steel_ingot','default:steel_ingot','default:steel_ingot'},
+		{'default:steel_ingot','default:steel_ingot','default:steel_ingot'},
+	}})
+
+METALLIKE('texturedmetal','Textured Metal')
+minetest.register_craft({	output = 'node "madblocks:texturedmetal" 2',	recipe = {
+		{'default:steel_ingot','',''},
+		{'','',''},
+		{'','','default:steel_ingot'},
+	}})
+METALLIKE('metalbulkhead','Metal Bulkhead')
+minetest.register_craft({	output = 'node "madblocks:metalbulkhead" 5',	recipe = {
+		{'default:steel_ingot','','default:steel_ingot'},
+		{'','default:steel_ingot',''},
+		{'default:steel_ingot','','default:steel_ingot'},
+	}})
+METALLIKE('stripedmetal','Caution Striped Metal')
+minetest.register_craft({	output = 'node "madblocks:stripedmetal" 2',	recipe = {
+		{'','default:steel_ingot',''},
+		{'','madblocks:dye_yellow',''},
+		{'','default:steel_ingot',''},
+	}})
+
+BRICKLIKE('brownmedistonebrick','Mediterranean Stonebrick (Brown Tones)')
+minetest.register_craft({	output = 'node "madblocks:brownmedistonebrick" 3',	recipe = {
+		{'','',''},
+		{'madblocks:dye_red','','madblocks:dye_black'},
+		{'default:cobble','madblocks:cement','default:cobble'},
+	}})
+
+
+-- ***********************************************************************************
+--		BIOFORMER							**************************************************
+-- ***********************************************************************************
+
+BIOFORM = nil
+minetest.register_chatcommand("bioform", {
+	params = "<biome>",
+	description = "transform",
+	privs = {server=true},
+	func = function(name, param)
+		if param == 'beach' or param == 'tallforest' then
+		 BIOFORM = param 
+		end
+		minetest.chat_send_player(name, "bioforming to "..param)
+		return
+	end,
+})
+minetest.register_abm({
+		nodenames = { "default:leaves","default:tree",'default:dirt_with_grass','default:sand' },
+		interval = 20,
+		chance = 2,
+		action = function(pos, node, active_object_count, active_object_count_wider)
+			if BIOFORM == 'beach' then
+				if node.name == 'default:tree' or node.name == 'default:leaves' then minetest.env:remove_node(pos)
+				elseif node.name == 'default:dirt_with_grass' then minetest.env:add_node(pos,{type="node",name='default:sand'})
+				elseif node.name == 'default:sand' then 
+					local air = { x=pos.x, y=pos.y+1,z=pos.z }
+					local is_air = minetest.env:get_node_or_nil(air)
+					if is_air ~= nil and is_air.name == 'air' and math.random(1,1000) == 1 then
+						minetest.env:add_node(air,{type="node",name='madblocks:palmtree'})
+					end
+				end
+			elseif BIOFORM == 'tallforest' then
+				if node.name == 'default:tree' then 
+					local air = { x=pos.x, y=pos.y+1,z=pos.z }
+					local is_air = minetest.env:get_node_or_nil(air)
+					if is_air == nil then return end
+					if is_air.name == 'air' or is_air.name == 'default:leaves' then
+						minetest.env:add_node(air,{type="node",name='default:sapling'})
+					end
+				end
+			end
+		end
+})
+

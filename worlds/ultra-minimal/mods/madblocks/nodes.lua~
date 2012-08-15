@@ -1,0 +1,225 @@
+BRICKLIKE = function(nodeid, nodename)
+	minetest.register_node("madblocks:"..nodeid, {
+		description = nodename,
+		tile_images = {"madblocks_"..nodeid..'.png'},
+		inventory_image = minetest.inventorycube("madblocks_"..nodeid..'.png'),
+		is_ground_content = true,
+		groups = {cracky=3},
+		sounds = default.node_sound_stone_defaults(),
+	})
+end
+
+--[[
+WOODLIKE = function(nodeid, nodename,fence)
+	minetest.register_node("madblocks:"..nodeid, {
+		description = nodename,
+		tile_images = {"madblocks_"..nodeid..".png"},
+		inventory_image = minetest.inventorycube("madblocks_"..nodeid..".png"),
+		is_ground_content = true,
+		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2,flammable=3},
+		sounds = default.node_sound_wood_defaults(),
+	})
+	if fence == true then
+		minetest.register_node("madblocks:"..nodeid.."_fence", {
+			description = nodename.." Fence",
+			drawtype = "fencelike",
+			tile_images = {"madblocks_"..nodeid..".png"},
+			inventory_image = "madblocks_"..nodeid.."_fence.png",
+			wield_image = "madblocks_"..nodeid.."_fence.png",
+			paramtype = "light",
+			is_ground_content = true,
+			selection_box = {
+				type = "fixed",
+				fixed = {-1/7, -1/2, -1/7, 1/7, 1/2, 1/7},
+			},
+			groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2,flammable=3},
+			sounds = default.node_sound_wood_defaults(),
+		})
+	end
+end
+SIGNLIKE = function(nodeid, light)
+	light = light or 0
+	minetest.register_node("madblocks:signs_"..nodeid, {
+		description = "Sign",
+		drawtype = "signlike",
+		tile_images = {"madblocks_signs_"..nodeid..".png"},
+		inventory_image = "madblocks_signs_"..nodeid..".png",
+		wield_image = "madblocks_signs_"..nodeid..".png",
+		paramtype = "light",
+		paramtype2 = "wallmounted",
+		is_ground_content = true,
+		walkable = false,
+		climbable = false,
+		selection_box = {
+			type = "wallmounted",
+		},
+		light_source = light	,
+		light_propagates = true,
+		sunlight_propagates = true,
+
+		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=3,flammable=2},
+		legacy_wallmounted = true,
+		sounds = default.node_sound_stone_defaults(),
+	})
+end
+PLANTLIKE = function(nodeid, nodename,type,option)
+	if option == nil then option = false end
+
+	local params ={ description = nodename, drawtype = "plantlike", tile_images = {"madblocks_"..nodeid..'.png'}, 
+	inventory_image = "madblocks_"..nodeid..'.png',	wield_image = "madblocks_"..nodeid..'.png', paramtype = "light",	}
+		
+	if type == 'veg' then
+		params.groups = {snappy=2,dig_immediate=3,flammable=2}
+		params.sounds = default.node_sound_leaves_defaults()
+		if option == false then params.walkable = false end
+	elseif type == 'met' then			-- metallic
+		params.groups = {cracky=3}
+		params.sounds = default.node_sound_stone_defaults()
+	elseif type == 'cri' then			-- craft items
+		params.groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2,flammable=3}
+		params.sounds = default.node_sound_wood_defaults()
+		if option == false then params.walkable = false end
+	elseif type == 'eat' then			-- edible
+		params.groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2,flammable=3}
+		params.sounds = default.node_sound_wood_defaults()
+		params.walkable = false
+		params.on_use = minetest.item_eat(option)
+	end
+	minetest.register_node("madblocks:"..nodeid, params)
+end
+GLOWLIKE = function(nodeid,nodename,drawtype)
+	if drawtype == nil then 
+		drawtype = 'glasslike'
+		inv_image = minetest.inventorycube("madblocks_"..nodeid..".png")
+	else 
+		inv_image = "madblocks_"..nodeid..".png" 
+	end
+	minetest.register_node("madblocks:"..nodeid, {
+		description = nodename,
+		drawtype = drawtype,
+		tile_images = {"madblocks_"..nodeid..".png"},
+		inventory_image = inv_image,
+		light_propagates = true,
+		paramtype = "light",
+		sunlight_propagates = true,
+		light_source = 15	,
+		is_ground_content = true,
+		groups = {snappy=2,cracky=3,oddly_breakable_by_hand=3},
+		sounds = default.node_sound_glass_defaults(),
+	})
+end
+METALLIKE = function(nodeid, nodename,fence)
+	minetest.register_node("madblocks:"..nodeid, {
+		description = nodename,
+		tile_images = {"madblocks_"..nodeid..".png"},
+		inventory_image = minetest.inventorycube("madblocks_"..nodeid..".png"),
+		is_ground_content = true,
+		groups = {cracky=3},
+		sounds = default.node_sound_wood_defaults(),
+	})
+	if fence == true then
+		minetest.register_node("madblocks:"..nodeid.."_fence", {
+			description = nodename.." Fence",
+			drawtype = "fencelike",
+			tile_images = {"madblocks_"..nodeid..".png"},
+			inventory_image = "madblocks_"..nodeid.."_fence.png",
+			wield_image = "madblocks_"..nodeid.."_fence.png",
+			paramtype = "light",
+			is_ground_content = true,
+			selection_box = {
+				type = "fixed",
+				fixed = {-1/7, -1/2, -1/7, 1/7, 1/2, 1/7},
+			},
+			groups = {cracky=3},
+			sounds = default.node_sound_wood_defaults(),
+		})
+	end
+end
+SOUNDS = {}
+SOUNDNODE = function(nodeid, nodename,drawtype)
+	SOUNDS[nodeid] = {}
+	SOUNDS[nodeid].sounds = {}
+	local on_punch = function(pos,node)
+		local sound = SOUNDS[nodeid].sounds[minetest.hash_node_position(pos)]
+		if sound == nil then 
+			local wanted_sound = {name=nodeid, gain=1.5}
+			SOUNDS[nodeid].sounds[minetest.hash_node_position(pos)] = {	handle = minetest.sound_play(wanted_sound, {pos=pos, loop=true}),	name = wanted_sound.name, }
+
+		else 
+			minetest.sound_stop(sound.handle)
+			SOUNDS[nodeid].sounds[minetest.hash_node_position(pos)] = nil
+		end
+
+	end
+	after_dig_node = function(pos,node)
+		local sound = SOUNDS[nodeid].sounds[minetest.hash_node_position(pos)]
+		if sound ~= nil then
+			minetest.sound_stop(sound.handle)
+			SOUNDS[nodeid].sounds[minetest.hash_node_position(pos)] = nil
+			nodeupdate(pos)
+		end
+	end
+	if drawtype == 'signlike' then
+		minetest.register_node("madblocks:"..nodeid, {
+			description = nodename,
+			drawtype = "signlike",
+			tile_images = {"madblocks_"..nodeid..'.png'}, 
+			inventory_image = "madblocks_"..nodeid..'.png',
+			wield_image = "madblocks_"..nodeid..'.png', 
+			paramtype = "light",
+			paramtype2 = "wallmounted",
+			sunlight_propagates = true,
+			walkable = false,
+			metadata_name = "sign",
+			selection_box = {
+				type = "wallmounted",
+				--wall_top = <default>
+				--wall_bottom = <default>
+				--wall_side = <default>
+			},
+			groups = {choppy=2,dig_immediate=2},
+			legacy_wallmounted = true,
+			sounds = default.node_sound_defaults(),
+			on_punch = on_punch,
+			after_dig_node = after_dig_node,		
+		})
+	else 
+		minetest.register_node("madblocks:"..nodeid, { 
+			description = nodename, 
+			drawtype = 'plantlike', 
+			tile_images = {"madblocks_"..nodeid..'.png'}, 
+			inventory_image = "madblocks_"..nodeid..'.png',
+			wield_image = "madblocks_"..nodeid..'.png', 
+			paramtype = "light",
+			groups = {cracky=3},
+			sounds = default.node_sound_stone_defaults(),
+			on_punch = on_punch,	
+			after_dig_node = after_dig_node,
+		})
+	end
+end
+]]--
+
+BRICKLIKE('mossystonebrick','Mossy Stone Brick')
+BRICKLIKE('culturedstone','Cultured Stone')
+BRICKLIKE('marblestonebrick','Marble Stone Brick')
+BRICKLIKE('shinystonebrick','Sand-Blasted Stone Brick')
+BRICKLIKE('cinderblock','Cinderblock')
+BRICKLIKE('blackstonebrick','Black Stonebrick')
+BRICKLIKE('roundstonebrick','Round Stonebrick')
+BRICKLIKE('slimstonebrick','Slim Stonebrick')
+BRICKLIKE('greystonebrick','Grey Stonebrick')
+BRICKLIKE('medistonebrick','Mediterranean Stonebrick')
+BRICKLIKE('whitestonebrick','White Stonebrick')
+BRICKLIKE('countrystonebrick','Country Stonebrick')
+
+-- ***********************************************************************************
+--		ASSORTED DEFS						**************************************************
+-- ***********************************************************************************
+
+BRICKLIKE('brownmedistonebrick','Mediterranean Stonebrick (Brown Tones)')
+minetest.register_craft({	output = 'node "madblocks:brownmedistonebrick" 3',	recipe = {
+		{'','',''},
+		{'madblocks:dye_red','','madblocks:dye_black'},
+		{'default:cobble','madblocks:cement','default:cobble'},
+	}})
