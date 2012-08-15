@@ -244,54 +244,54 @@ NETHER_PORTAL = {
 	{pos={x=1,y=0,z=0}, block="obsidian:obsidian_block"},
 	{pos={x=2,y=0,z=0}, block="obsidian:obsidian_block"},
 	{pos={x=3,y=0,z=0}, block="obsidian:obsidian_block"},
-	{pos={x=0,y=0,z=1}, block="obsidian:obsidian_block"},
+	--[[{pos={x=0,y=0,z=1}, block="obsidian:obsidian_block"},
 	{pos={x=1,y=0,z=1}, block="obsidian:obsidian_block"},
 	{pos={x=2,y=0,z=1}, block="obsidian:obsidian_block"},
 	{pos={x=3,y=0,z=1}, block="obsidian:obsidian_block"},
 	{pos={x=0,y=0,z=-1}, block="obsidian:obsidian_block"},
 	{pos={x=1,y=0,z=-1}, block="obsidian:obsidian_block"},
 	{pos={x=2,y=0,z=-1}, block="obsidian:obsidian_block"},
-	{pos={x=3,y=0,z=-1}, block="obsidian:obsidian_block"},
+	{pos={x=3,y=0,z=-1}, block="obsidian:obsidian_block"},]]
 	-- Floor 2
 	{pos={x=0,y=1,z=0}, block="obsidian:obsidian_block"},
 	{pos={x=1,y=1,z=0}, block="nether:nether_portal"},
 	{pos={x=2,y=1,z=0}, block="nether:nether_portal"},
 	{pos={x=3,y=1,z=0}, block="obsidian:obsidian_block"},
-	{pos={x=0,y=1,z=1}, block="obsidian:obsidian_block"},
+	--[[{pos={x=0,y=1,z=1}, block="obsidian:obsidian_block"},
 	{pos={x=3,y=1,z=1}, block="obsidian:obsidian_block"},
 	{pos={x=0,y=1,z=-1}, block="obsidian:obsidian_block"},
-	{pos={x=3,y=1,z=-1}, block="obsidian:obsidian_block"},
+	{pos={x=3,y=1,z=-1}, block="obsidian:obsidian_block"},]]
 	-- Floor 3
 	{pos={x=0,y=2,z=0}, block="obsidian:obsidian_block"},
 	{pos={x=1,y=2,z=0}, block="nether:nether_portal"},
 	{pos={x=2,y=2,z=0}, block="nether:nether_portal"},
 	{pos={x=3,y=2,z=0}, block="obsidian:obsidian_block"},
-	{pos={x=0,y=2,z=1}, block="obsidian:obsidian_block"},
+	--[[{pos={x=0,y=2,z=1}, block="obsidian:obsidian_block"},
 	{pos={x=3,y=2,z=1}, block="obsidian:obsidian_block"},
 	{pos={x=0,y=2,z=-1}, block="obsidian:obsidian_block"},
-	{pos={x=3,y=2,z=-1}, block="obsidian:obsidian_block"},
+	{pos={x=3,y=2,z=-1}, block="obsidian:obsidian_block"},]]
 	-- Floor 4
 	{pos={x=0,y=3,z=0}, block="obsidian:obsidian_block"},
 	{pos={x=1,y=3,z=0}, block="nether:nether_portal"},
 	{pos={x=2,y=3,z=0}, block="nether:nether_portal"},
 	{pos={x=3,y=3,z=0}, block="obsidian:obsidian_block"},
-	{pos={x=0,y=3,z=1}, block="obsidian:obsidian_block"},
+	--[[{pos={x=0,y=3,z=1}, block="obsidian:obsidian_block"},
 	{pos={x=3,y=3,z=1}, block="obsidian:obsidian_block"},
 	{pos={x=0,y=3,z=-1}, block="obsidian:obsidian_block"},
-	{pos={x=3,y=3,z=-1}, block="obsidian:obsidian_block"},
+	{pos={x=3,y=3,z=-1}, block="obsidian:obsidian_block"},]]
 	-- Floor 5
 	{pos={x=0,y=4,z=0}, block="obsidian:obsidian_block"},
 	{pos={x=1,y=4,z=0}, block="obsidian:obsidian_block"},
 	{pos={x=2,y=4,z=0}, block="obsidian:obsidian_block"},
 	{pos={x=3,y=4,z=0}, block="obsidian:obsidian_block"},
-	{pos={x=0,y=4,z=1}, block="obsidian:obsidian_block"},
+	--[[{pos={x=0,y=4,z=1}, block="obsidian:obsidian_block"},
 	{pos={x=1,y=4,z=1}, block="obsidian:obsidian_block"},
 	{pos={x=2,y=4,z=1}, block="obsidian:obsidian_block"},
 	{pos={x=3,y=4,z=1}, block="obsidian:obsidian_block"},
 	{pos={x=0,y=4,z=-1}, block="obsidian:obsidian_block"},
 	{pos={x=1,y=4,z=-1}, block="obsidian:obsidian_block"},
 	{pos={x=2,y=4,z=-1}, block="obsidian:obsidian_block"},
-	{pos={x=3,y=4,z=-1}, block="obsidian:obsidian_block"},
+	{pos={x=3,y=4,z=-1}, block="obsidian:obsidian_block"},]]
 }
 
 --== END OF EDITABLE OPTIONS ==--
@@ -377,7 +377,7 @@ minetest.register_node("nether:lava_flowing", {
 	description = "Nether Lava (flowing)",
 	inventory_image = minetest.inventorycube("default_lava.png"),
 	drawtype = "flowingliquid",
-	tiles = {"default_lava.png"},
+	tile_images = {"default_lava.png"},
 	paramtype = "light",
 	light_source = LIGHT_MAX - 1,
 	walkable = false,
@@ -401,7 +401,7 @@ minetest.register_node("nether:lava_source", {
 	description = "Nether Lava",
 	inventory_image = minetest.inventorycube("default_lava.png"),
 	drawtype = "liquid",
-	tiles = {"default_lava.png"},
+	tile_images = {"default_lava.png"},
 	paramtype = "light",
 	light_source = LIGHT_MAX - 1,
 	walkable = false,
@@ -424,7 +424,7 @@ minetest.register_node("nether:lava_source", {
 -- Netherrack
 minetest.register_node("nether:netherrack", {
 	description = "Netherrack",
-	tiles = {"nether_netherrack.png"},
+	tile_images = {"nether_netherrack.png"},
 	is_ground_content = true,
 	groups = {cracky=3, oddly_breakable_by_hand=3},
 	drop = "nether:netherrack",
@@ -434,7 +434,7 @@ minetest.register_node("nether:netherrack", {
 -- Nether tree
 minetest.register_node("nether:nether_tree", {
 	description = "Nether Tree",
-	tiles = {"nether_tree_top.png", "nether_tree_top.png", "nether_tree.png"},
+	tile_images = {"nether_tree_top.png", "nether_tree_top.png", "nether_tree.png"},
 	is_ground_content = true,
 	groups = {tree=1, snappy=2, choppy=2, oddly_breakable_by_hand=1},
 	sounds = default.node_sound_wood_defaults(),
@@ -445,7 +445,7 @@ minetest.register_node("nether:nether_leaves", {
 	description = "Nether Leaves",
 	drawtype = "allfaces_optional",
 	visual_scale = 1.3,
-	tiles = {"nether_leaves.png"},
+	tile_images = {"nether_leaves.png"},
 	paramtype = "light",
 	groups = {snappy=3, leafdecay=2},
 	drop = "nether:nether_leaves",
@@ -457,7 +457,7 @@ minetest.register_node("nether:nether_apple", {
 	description = "Nether Apple",
 	drawtype = "plantlike",
 	visual_scale = 1.0,
-	tiles = {"nether_apple.png"},
+	tile_images = {"nether_apple.png"},
 	inventory_image = "nether_apple.png",
 	paramtype = "light",
 	sunlight_propagates = true,
@@ -471,7 +471,7 @@ minetest.register_node("nether:nether_apple", {
 minetest.register_node("nether:nether_torch", {
 	description = "Nether Torch",
 	drawtype = "torchlike",
-	tiles = {"nether_torch_on_floor.png", "nether_torch_on_ceiling.png", "nether_torch.png"},
+	tile_images = {"nether_torch_on_floor.png", "nether_torch_on_ceiling.png", "nether_torch.png"},
 	inventory_image = "nether_torch_on_floor.png",
 	wield_image = "nether_torch_on_floor.png",
 	paramtype = "light",
@@ -494,7 +494,7 @@ minetest.register_node("nether:nether_torch", {
 minetest.register_node("nether:nether_torch_bottom", {
 	description = "Nether Torch Bottom Side (you hacker!)",
 	drawtype = "torchlike",
-	tiles = {"nether_torch_on_floor.png", "nether_torch_on_floor.png", "nether_torch_on_floor.png"},
+	tile_images = {"nether_torch_on_floor.png", "nether_torch_on_floor.png", "nether_torch_on_floor.png"},
 	inventory_image = "nether_torch_on_floor.png",
 	wield_image = "nether_torch_on_floor.png",
 	paramtype = "light",
@@ -514,20 +514,10 @@ minetest.register_node("nether:nether_torch_bottom", {
 	sounds = default.node_sound_defaults(),
 })
 
--- Nether Pearl
-minetest.register_craftitem("nether:nether_pearl", {
-	description = "Nether Pearl",
-	wield_image = "nether_pearl.png",
-	inventory_image = "nether_pearl.png",
-	visual = "sprite",
-	physical = true,
-	textures = {"nether_pearl.png"},
-})
-
 -- Nether Glowstone (Thanks to Gilli)
 minetest.register_node( "nether:glowstone", { 
 	description = "Nether Glowstone",
-	tiles = {"nether_glowstone.png"},
+	tile_images = {"nether_glowstone.png"},
 	light_source = 15, -- Like in Minecraft
 	inventory_inventory_image = minetest.inventorycube( "nether_glowstone.png" ),
 	is_ground_content = true,
@@ -892,6 +882,203 @@ function nether:teleport_player(from_nether, player)
 	player:setpos(teleportpos)
 end
 
+-- Nether Pearl
+minetest.register_craftitem("nether:nether_pearl", {
+	description = "Nether Pearl",
+	wield_image = "nether_pearl.png",
+	inventory_image = "nether_pearl.png",
+	visual = "sprite",
+	physical = true,
+	textures = {"nether_pearl.png"},
+	on_use = function(itemstack, user, pointed_thing)
+		if(pointed_thing.type == "node") then
+			ptpos = pointed_thing.above
+			user:setpos(ptpos)
+		elseif(pointed_thing.type == "object") then
+			ptpos = pointed_thing:getpos()
+			user:setpos(ptpos)
+		else
+			pitch = user.get_look_pitch(user)
+			yaw = user.get_look_yaw(user)
+			xl = math.cos(pitch) * math.cos(yaw)
+			yl = math.sin(pitch)
+			zl = math.cos(pitch) * math.sin(yaw)
+			print(xl .. " " .. yl .. " " .. zl)
+			pos = user:getpos()
+			pos.y = pos.y + 2
+			-- Calculate the position of the user
+			velocity = {x=xl, y=yl, z=zl}
+			acceleration = {x=0, y=-.25, z=0}
+			counter = 0
+			while true do
+				if(counter >= 100) then
+					break
+				end
+				local nn = minetest.env:get_node(pos).name
+				pos.x = pos.x - .5
+				if minetest.registered_nodes[nn].walkable then
+					pos.x = pos.x + .5
+					break
+				end
+				pos.x = pos.x + 1
+				if minetest.registered_nodes[nn].walkable then
+					pos.x = pos.x - .5
+					break
+				end
+				pos.x = pos.x - .5
+				pos.z = pos.z - .5
+				if minetest.registered_nodes[nn].walkable then
+					pos.z = pos.z + .5
+					break
+				end
+				pos.z = pos.z + 1
+				if minetest.registered_nodes[nn].walkable then
+					pos.z = pos.z - .5
+					break
+				end
+				pos.z = pos.z - .5
+				pos.y = pos.y - 1
+				if minetest.registered_nodes[nn].walkable then
+					pos.y = pos.y + 1
+					break
+				end
+				pos.x = pos.x - .5
+				if minetest.registered_nodes[nn].walkable then
+					pos.x = pos.x + .5
+					break
+				end
+				pos.x = pos.x + 1
+				if minetest.registered_nodes[nn].walkable then
+					pos.x = pos.x - .5
+					break
+				end
+				pos.x = pos.x - .5
+				pos.z = pos.z - .5
+				if minetest.registered_nodes[nn].walkable then
+					pos.z = pos.z + .5
+					break
+				end
+				pos.z = pos.z + 1
+				if minetest.registered_nodes[nn].walkable then
+					pos.z = pos.z - .5
+					break
+				end
+				pos.z = pos.z - .5
+				pos.y = pos.y + 2
+				if minetest.registered_nodes[nn].walkable then
+					pos.y = pos.y - 1
+					break
+				end
+				pos.y = pos.y - 1
+				pos.x = pos.x - .5
+				if minetest.registered_nodes[nn].walkable then
+					pos.x = pos.x + .5
+					break
+				end
+				pos.x = pos.x + 1
+				if minetest.registered_nodes[nn].walkable then
+					pos.x = pos.x - .5
+					break
+				end
+				pos.x = pos.x - .5
+				pos.z = pos.z - .5
+				if minetest.registered_nodes[nn].walkable then
+					pos.z = pos.z + .5
+					break
+				end
+				pos.z = pos.z + 1
+				if minetest.registered_nodes[nn].walkable then
+					pos.z = pos.z - .5
+					break
+				end
+				pos.z = pos.z - .5
+				pos.x = pos.x + velocity.x
+				pos.y = pos.y + velocity.y + .5 * acceleration.y
+				pos.z = pos.z + velocity.z
+				pos.x = pos.x - .5
+				if minetest.registered_nodes[nn].walkable then
+					pos.x = pos.x + .5 - velocity.x
+					break
+				end
+				pos.x = pos.x + 1
+				if minetest.registered_nodes[nn].walkable then
+					pos.x = pos.x - .5 - velocity.x
+					break
+				end
+				pos.x = pos.x - .5
+				pos.z = pos.z - .5
+				if minetest.registered_nodes[nn].walkable then
+					pos.z = pos.z + .5 - velocity.z
+					break
+				end
+				pos.z = pos.z + 1
+				if minetest.registered_nodes[nn].walkable then
+					pos.z = pos.z - .5 - velocity.z
+					break
+				end
+				pos.z = pos.z - .5
+				pos.y = pos.y - 1
+				if minetest.registered_nodes[nn].walkable then
+					pos.y = pos.y + 1 - velocity.y - .5 * acceleration.y
+					break
+				end
+				pos.x = pos.x - .5
+				if minetest.registered_nodes[nn].walkable then
+					pos.x = pos.x + .5 - velocity.x
+					break
+				end
+				pos.x = pos.x + 1
+				if minetest.registered_nodes[nn].walkable then
+					pos.x = pos.x - .5 - velocity.x
+					break
+				end
+				pos.x = pos.x - .5
+				pos.z = pos.z - .5
+				if minetest.registered_nodes[nn].walkable then
+					pos.z = pos.z + .5 - velocity.z
+					break
+				end
+				pos.z = pos.z + 1
+				if minetest.registered_nodes[nn].walkable then
+					pos.z = pos.z - .5 - velocity.z
+					break
+				end
+				pos.z = pos.z - .5
+				pos.y = pos.y + 2
+				if minetest.registered_nodes[nn].walkable then
+					pos.y = pos.y - 1 - velocity.y - .5 * acceleration.y
+					break
+				end
+				pos.y = pos.y - 1
+				pos.x = pos.x - .5
+				if minetest.registered_nodes[nn].walkable then
+					pos.x = pos.x + .5 - velocity.x
+					break
+				end
+				pos.x = pos.x + 1
+				if minetest.registered_nodes[nn].walkable then
+					pos.x = pos.x - .5 - velocity.x
+					break
+				end
+				pos.x = pos.x - .5
+				pos.z = pos.z - .5
+				if minetest.registered_nodes[nn].walkable then
+					pos.z = pos.z + .5 - velocity.z
+					break
+				end
+				pos.z = pos.z + 1
+				if minetest.registered_nodes[nn].walkable then
+					pos.z = pos.z - .5 - velocity.z
+					break
+				end
+				pos.z = pos.z - .5
+				counter = counter + 1
+			end
+			user:setpos(pos)
+		end
+	end
+})
+
 -- Creates a portal
 function nether:createportal(pos)
 	local currx
@@ -909,7 +1096,7 @@ end
 
 -- Portal Creator
 minetest.register_node("nether:nether_portal_creator", {
-	tiles = {"nether_portal_creator.png"},
+	tile_images = {"nether_portal_creator.png"},
 	description = "Nether Portal Creator",
 })
 
@@ -939,12 +1126,26 @@ minetest.register_abm({
 -- Portal Stuff
 minetest.register_node("nether:nether_portal", {
 	description = "Nether Portal",
-	drawtype = "glasslike",
-	tiles = {"nether_portal_stuff.png"},
-	inventory_image = "nether_portal_stuff.png",
-	wield_image = "nether_portal_stuff.png",
+	drawtype = "nodebox",
+	tiles = {
+		{name="nether_portal_stuff.png", animation={type="vertical_frames", aspect_w=16, aspect_h=16, length=2.0}},
+	},
+	--inventory_image = "nether_portal_stuff.png",
+	--wield_image = "nether_portal_stuff.png",
 	light_source = LIGHT_MAX - 2,
 	paramtype = "light",
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{-.5,-.5,-.1,  .5,.5,.1},
+		},
+	},
+	selection_box = {
+		type = "fixed",
+		fixed = {
+			{-.5,-.5,-.1,  .5,.5,.1},
+		},
+	},
 	sunlight_propagates = true,
 	walkable = false,
 	groups = {choppy=2,dig_immediate=3},
@@ -965,7 +1166,14 @@ minetest.register_abm({
 			for k, obj in pairs(objs) do
 				local objpos = obj:getpos()
 				local objmeta = minetest.env:get_meta(objpos)
-				if objpos.y>pos.y-1 and objpos.y<pos.y and obj:get_player_name() ~= nil and obj:get_player_name() ~= "" then
+				local zcheck = false
+				if objpos.z<pos.z then
+					zcheck = (pos.z-.1)<(objpos.z)
+				else
+					zcheck = (objpos.z)<(pos.z-.1)
+				end
+				--nether:printm(zcheck)
+				if objpos.y>pos.y-1 and objpos.y<pos.y and obj:get_player_name() ~= nil and obj:get_player_name() ~= "" and zcheck then
 					local innether = nether:inside_nether(obj:getpos())
 					if innether == true and (objmeta:get_string("teleportingfromnether") == "" or objmeta:get_string("teleportingfromnether") == nil) then
 						objmeta:set_string("teleportingfromnether", "true")

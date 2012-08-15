@@ -1,5 +1,5 @@
 minetest.register_node("obsidian:obsidian_block", {
-	tiles = {"obsidian_block.png"},
+	tile_images = {"obsidian_block.png"},
 	inventory_image = minetest.inventorycube("obsidian_block.png"),
 	is_ground_content = true,
 	groups = {oddly_breakable_by_hand=1},
