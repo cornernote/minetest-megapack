@@ -1,0 +1,7 @@
+Version 2:
+- soil dont turn to dirt when walking over it
+- fix hoe bug
+- rename corn to wheat
+- new textures for harvested wheat
+- make cotton drop strings when harvested
+- add rubber
