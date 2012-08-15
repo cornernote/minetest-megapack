@@ -1,0 +1,281 @@
+Change Log for Photorealistic texture packs
+-------------------------------------------
+
+2012-08-13: New default sapling texture (does not affect that used for some 
+mods).  Brought mesecons support up to date with the new nodebox-based stuff 
+(this causes some loss of support for the 0.5 series.  Sorry about that.).
+
+2012-08-10:  Completed adding support for signs mod (files renamed, re-
+rendered, added as needed), added support for yard signs.
+
+2012-08-09: Added experimental support for xyz's signs mod - sign texture 
+itself only; the text can't be improved yet.
+
+2012-08-06: Added seaweed for flowers mod.  A bit later: Reworked the new 
+texture so that it's partially transparent and tiles properly.  This 
+necessitated making it look a bit "larger" also, but it works anyway :-)
+
+2012-08-05: Fixed wrong filenames on pipeworks images (result of a change I 
+made to the actual mod)
+
+2012-08-01: Added geranium flower.
+
+2012-08-01: Brought UnifiedBricks support up to date.
+
+2012-07-31 (continuing): Water has to have an alpha channel and be partly 
+transparent or stuff behind it will show up in front, like clouds.
+
+2012-07-31 (continuing):  Added support for conifers mod.
+
+2012-07-31 (a while later): Brought support for Vessels mod up to date.
+
+2012-07-31: Improved wood texture a bit more, made it look more like planks 
+instead of smooth wood.
+
+2012-07-28: Fixed incorrectly-drawn left/right textures for a few homedecor 
+blocks, in keeping with having fixed the references therein.
+
+2012-07-26: Brought Unified Dyes support up to date, added support for Vessels 
+mod.  Discontinued support for old Madblocks modpack - it's way out of date.  
+Still have the images, I'll push them back up later with new names to account 
+for Mauvebic's recent changes.
+
+2012-07-19: Added support for my colored woods mod, improved appearance of 
+active furnace.
+
+2012-07-17: Added experimental support for wowiamdiamonds' Unified Bricks mod.
+
+2012-07-16 (even later): removed some leftover files from the last gentextures
+run on the unifieddyes textures.
+
+2012-07-16 (A bit later): Added support for locked sign mod.
+
+2012-07-16:  Brought support for unifieddyes up-to-date (now 89 colors).
+
+2012-07-14:  Added support for Jordach's older 16-color wool mod.
+
+2012-07-08 (immediately after): Added support for my junglegrass mod.  
+Tweaked rotation and position of default jungle grass to center it 
+better.
+
+2012-07-08:  Brought support for unifieddyes up-to-date.
+
+2012-07-07 (immediately after): Didn't like the tint I left on clay/clay 
+lump.  Reduced both to greyscale in keeping with the game's normal style.
+
+2012-07-07: Recolored clay, gravel, and stone to look more like the 
+colors used in the default textures, reworked coal, iron, and all 
+moreores minerals to use transparency so they can composite properly on 
+top of the stone.  Tweaked active furnace to look hotter, fixed wrong 
+filenames, retired 'cooking' variant.
+
+2012-06-30: Shifted torch on ceiling (both static and animated), so that 
+base of torch is actually centered.  Created new default door imagery in 
+the general style of the game's default texture (but still 
+photorealistic of course).  Renamed the previous wood-and-glass door 
+imagery for use by my homedecor mod.
+
+2012-06-26: Updated various homedecor dye filenames to accommodate the 
+changeover to unifieddyes.
+
+2012-06-23: Brought homedecor support up to date.
+
+2012-06-17: Added support for longer crack/digging animations (now 16 
+frames instead of 5), and preliminary support for animated torches, as 
+found in the latest git.
+
+2012-06-16 (much later): Enhanced the lava texture, added support for 
+animated lava featured in latest git.
+
+2012-06-16 (a bit later): Fixed accidental mirroring of 'folding' doors.
+
+2012-06-16: Added support for my homedecor mod. Adjusted color of 
+default_wood to look more like what might be used on a floor or deck and 
+to differentiate it from the wood table tops in homedecor (which use the 
+original color). Reduced all inventory images in defaults and in all 
+mods to max 64px. Re-rendered wooden door and all fence inventory images 
+to max 64px also (most were 32px).
+
+2012-06-14: Brought Blox support up to date.
+
+2012-06-03: Fixed a few missing images, added working image for ecube's 
+unobtanium mod, added missing blue dye for blox mod. Added support for 
+blox and bobblocks mods in C64 pack, brought C64 version up to date re: 
+moreblocks.
+
+2012-05-30: Reworked various moreores minerals, default and moreores 
+ingots, and a few of the lumps and blocks (shiner, more accurate colors, 
+etc.).  Lightened up and re-colored menubg image significantly.  
+Improved embossing on larger versions of mese.  Tinted iron apple 
+slightly red-brownish (to suggest oxidation/rust).  Reworked grass side 
+a bit to improve blending between grass and dirt.  Tweaked color and 
+embossing on sandstone.  Fixed stray pixels and missed cuts on default 
+swords.  Reworked fireplace wield/inventory image.  Fixed stray pixels 
+on larger sizes of flower pot (copy&paste error).  Tweaked larger sizes 
+of mesecons 'on' torches (center should have been whited out).
+
+2012-05-29 (almost immediately): Fixed filenames on maptools coins.
+
+2012-05-29: Added support for Bobblocks and Blox mods, brought moreores, 
+moreblocks, and maptools support up to date.  Tweaked 32 px maptools 
+admin pick, added a few missing 16px maptools textures.  Tweaked default 
+rails to better differentiate them from moreores copper rails.  Updated 
+filename for current hatches mod (now just hatch.png).
+
+2012-05-27: Added support for maptools, deleted furnace_furnace_* images 
+(for a patch that will never happen), renamed some of them and created 
+new ones to add support for darkrose's active furnaces patch (which 
+*does* exist).  Split all texture packs into separate github 
+repositories.
+
+2012-05-16 (even later): deleted github repo and created a new one with 
+multiple branches.
+
+2012-05-16 (a bit later): added a few more colors to complete wool mod 
+support.  Updated github repo (didn't go through properly last time).
+
+2012-05-16: Fixed a few stray pixels in the pies, scorched stuff and a 
+few tools, cleaned up edges of cotton, cotton-in-pot, and cotton (ball), 
+fixed slight slight lack of color saturation on chest top, added some 
+shading to chest sides to make handles stand out better, reduced noise 
+in dirt, grass+dirt side, and alien grass+dirt side, reworked mese, 
+faded the color a bit on the paper, broke the repetitive look of the 
+papyrus/bamboo, replaced tin and silver lumps with better images 
+(actually derived from platinum and osmium), added support for wool mod.  
+Updated screenshots.
+
+2012-05-06: Added support for my poison ivy mod.
+
+2012-05-01: Created 32px and 128px versions.  Fixed a few stray pixels 
+that snuck in while resizing some images earlier.  Reduced all fence and 
+door images meant for the inventory display to max 32x32 (anything more 
+is overkill).  Reworked 16px door inventory image slightly.  Reworked 
+other door images as well to fix scaling errors.  Reworked mesecons wall 
+lever and wall button and wireless devices to improve overall 
+appearance.  Reworked 512px "chicken" sign and all 256px and smaller 
+signs to fix edge quality.  Reduced menubg to max 128x128px.  Reduced 
+treeprop to max 128x128 pixels (both are always displayed small, both 
+lower in <128px packs).  Re-introduced 16 px pack - just gotta have it; 
+it's a bit more complete than before, but still lacks Madblocks Infra, 
+signs, and hydroponics mods.  Reworked unknown block/object/item images.
+
+2012-04-29 (almost immediately): Fixed a few missing 64px and 256px 
+images and image credits files.
+
+2012-04-29: Reworked bushes/strawberry "tree" a bit, renamed a bunch of 
+files and added a few more to bring Madblocks up to date (also adds good 
+support for power lines/utilities).  Retired the 16px texture pack from 
+distribution - it just isn't good enough.
+
+2012-04-26 (a bit later): Removed Tron flowers from regular distribution 
+(they're no longer used but I'll keep them locally just in case). 
+Replaced previous-removed hydroponics images with better ones that won't 
+make you itch. ;-)
+
+2012-04-26: Deleted all vine-like images related to the hydroponics mod.  
+I accidentally used a base plant that is most definitely NOT suitable 
+for eating - poison ivy!  Will replace the missing images shortly.
+
+2012-04-25 (a bit later): Reduced menu background image in 512px pack to 
+256x256 (it's always displayed at 128x128 pixels, so this still provides 
+some future-proofing).  Reduced half heart to 32x32 in 64/256/512px 
+packs to match full heart.  Added support for particles mod (64px and up 
+only, all images are 49x49px in all cases).
+
+2012-04-25: reworked moreblocks/rope to look more like the sort of 
+swinging vines/ropes seen in movies and such (left the ones for the 
+vines modpack alone).  Renamed a few files and added a bunch more to add 
+support for hydroponics mod (64px and above only).
+
+2012-04-24: reworked all magic lantern images in all packs; on a 
+revisit, I decided that the dithering to simulate translucency just 
+doesn't work, so I undid the dithering and flattened them all against a 
+dim yellow background.  Fixed an alpha error that snuck in while making 
+the nether "portal stuff" object, reduced 64px and 512px hearts to 32 px 
+each since they'll likely never need to be be drawn any larger than that 
+anyway (or probably over 16x16 for that matter).  Created a complete 
+256px version of the pack.
+
+2012-04-22 (even later): Duplicate default_furnace_front.png to a 
+different filename for use by the active furnaces mod.
+
+2012-04-22 (a bit later): Replaced active/cooking furnace with a set of 
+images to add support for lkjoel's active furnaces mod (WIP).
+
+2012-04-22: Tweaked 16px furnace a bit.  Added images for half heart and 
+active/cooking furnace.
+
+2012-04-21: Reworked moreores/gold ore, added support for nether mod.  
+Re-uploaded with 16px support for nether (same filename)
+
+2012-04-20 (a bit later): Reworked cooked rat (too many copy&paste 
+artifacts).  Added support for spotlights mod.
+
+2012-04-20: Reworked default_brick slightly, fixed outdated filenames on 
+moreores/mithril ore and cooked rat, reconfigured, renamed, and added a 
+whole bunch of textures to bring pack up to date with transition from 
+Moreblocks-OCD to Madblocks: this update adds support for all mods in 
+that set, except only partial support for infrastructure mod (only the 
+"street builder" object, 64px and larger sizes only), and signs mod 
+(64px and up only; 16px is just too low of a resolution to retain enough 
+detail).  Tweaked 16px default glass to match the various similar glow 
+glass objects.
+
+2012-04-15 (even later): Brightened up and reworked railroad tracks to 
+improve quality and tiling.  Reworked all mesecons wires and objects 
+bearing them to improve tiling.  Neither category of images was rendered 
+symmetrically, so they tiled weird at some rotations.  Updated relevant 
+screenshot.
+
+2012-04-15 (a bit later): reworked default and cherry blossom trees (and 
+tops) to use more accurate textures.  Note to self: if it bears apples, 
+it's probably an apple tree, and if it has cherry blossoms, it's 
+probably a cherry blossom tree. ;-) Also updated the screenshots.
+
+2012-04-15: re-rendered mesecon wires, reworked many mesecons to use the 
+new renders, fixed missing alpha channel on terra_redgrass_side and on a 
+couple of ores, fixed colors in treeprop to better match default_leaves, 
+fixed a couple of oversized images in 64x version (copy&paste error), 
+added partial mesecon wires and wire "central nodes" for possible future 
+use, fixed missing wall buttons and bouleau trees in 64px version, 
+created complete 16px version.
+
+2012-04-13 (even later): renamed mesecons 'torch' and 'lamp' series and 
+a few others, and added a bunch of new imagery to bring support for that 
+mod up to date (there were lots of changes upstream that I hadn't 
+accounted for).
+
+2012-04-13 (a bit later): added missing arrow images for throwing mod, 
+added missing credits for a few images.
+
+2012-04-13: added imagery for growing trees cherry blossom mod.
+
+2012-04-12 (even later): added imagery for nature pack mods.
+
+2012-04-12 (a bit later): turned straight railroad tracks around the 
+right way, updated screenshots.
+
+2012-04-12: added (default) wooden doors.
+
+2012-04-11 (a bit later): added fire, desert stone, desert sand, dry 
+shrub in keeping with recent minetest update.
+
+2012-04-11: removed alpha from water, re-rendered stone brick.  Added 
+imagery for moreblocks "OCD extension", flowers, terra, growing trees 
+alien, and growing trees bouleau mods.
+
+2012-04-09 (even later): added imagery for magic lantern mod, based on 
+the author's concept/test images.
+
+2012-04-09 (a bit later): created a 64x64 pixel version.
+
+2012-04-09: thickened vines, re-rendered sand and sandstone, and tweaked 
+ladder and a few others to improve tiling and stacking, tweaked 
+tree/jungle tree tops to better flow from the sides, darkened/increased 
+saturation on mithril block, added beveled edges to bookshelves, furnace 
+front and sides, hatch, many mesecons blocks.
+
+2012-04-08: fixed missing alpha channels on default_grass_side and 
+various ores.
+
+2012-04-06: initial upload of 512px version for testing.

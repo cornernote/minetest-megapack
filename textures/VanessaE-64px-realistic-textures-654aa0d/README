@@ -1,0 +1,10 @@
+This texture pack aims to create a realistic environment for Minetest.  
+All images herein are derived either from photographs found on Wikipedia 
+and other distribution-friendly sites, or from my or my husband's own 
+photography, or from renderings made with Inkscape and The GIMP.
+
+Put the Vanessa_* folder wherever you want to keep your texture packs, 
+and edit ~/.minetest/minetest.conf to point to it.
+
+See image-credits.txt for more information on exactly where the images 
+came from.

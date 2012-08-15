@@ -1,0 +1,551 @@
+All images used in this texture pack are either my own work, or from
+the following free files:
+
+
+Default stuff
+-------------
+default_apple, apple_iron:
+http://commons.wikimedia.org/wiki/File:GreenApple.png
+
+buckets
+http://commons.wikimedia.org/wiki/File:Seau_%C3%A0_puits.jpg
+
+default_lava
+http://commons.wikimedia.org/wiki/File:Villarrica_lava_fountain.jpg
+
+water
+http://commons.wikimedia.org/wiki/File:D_Zyl.jpg
+
+crack
+http://commons.wikimedia.org/wiki/File:Tafoni_by_Endico.jpg
+
+default_book
+http://commons.wikimedia.org/wiki/File:Copertina_Breve_di_Villa_di_Chiesa.JPG
+
+default_bookshelf
+http://commons.wikimedia.org/wiki/File:Wooden_fence_closeup.jpg
+http://commons.wikimedia.org/wiki/File:Wood_picea_abies.jpg
+http://commons.wikimedia.org/wiki/File:Science_books_in_Senate_House.jpg
+
+default_brick
+http://commons.wikimedia.org/wiki/File:Bricks-4147.jpg
+http://commons.wikimedia.org/wiki/File:Concrete_texture.jpg
+
+default_cactus_side
+http://commons.wikimedia.org/wiki/File:Cactus_GardenSD2.jpg
+
+default_cactus_top
+( Photo by Abe Ezekowitz, 2008-06-05)
+http://commons.wikimedia.org/wiki/File:Cactus_GardenSD2.jpg
+
+default_chest_side, default_chest_front, default_chest_top
+http://commons.wikimedia.org/wiki/File:Wooden_fence_closeup.jpg
+
+default_chest_lock
+http://commons.wikimedia.org/wiki/File:Wooden_fence_closeup.jpg
+http://commons.wikimedia.org/wiki/File:Archibald_Knox04.jpg
+
+default_clay_brick
+http://commons.wikimedia.org/wiki/File:1906_SF_earthquake_fire-burned_bricks_WFHM_SF.JPG
+
+default_coal_lump
+http://commons.wikimedia.org/wiki/File:Coal_anthracite.jpg
+
+default_cobble
+http://commons.wikimedia.org/wiki/File:Camaret_Steine_SK_DSC_0009.jpg
+
+default_cooked_rat
+http://commons.wikimedia.org/wiki/File:Rat_meat_dishes.jpg
+
+default_dirt
+http://commons.wikimedia.org/wiki/File:Soil.jpg
+
+default_fence
+http://commons.wikimedia.org/wiki/File:Wooden_fence_closeup.jpg
+
+default_furnace_front, default_furnace_side
+http://commons.wikimedia.org/wiki/File:David_Crabill_House,_oven.jpg
+
+default_grass
+http://commons.wikimedia.org/wiki/File:Grass_01.jpg
+
+default_grass_footsteps, default_grass_side.png
+http://commons.wikimedia.org/wiki/File:Grass_01.jpg
+http://commons.wikimedia.org/wiki/File:Soil.jpg
+
+default_gravel
+http://commons.wikimedia.org/wiki/File:Gravel_small_stones.jpg
+
+default_iron_lump
+http://commons.wikimedia.org/wiki/File:Iron-135048.jpg
+
+default_junglegrass
+(photograph by Abe Ezekowitz, 2010-08-31)
+
+default_jungletree
+http://commons.wikimedia.org/wiki/File:White_Oak_Quercus_alba_Tree_Bark_3264px.jpg
+
+default_jungletree_top
+http://commons.wikimedia.org/wiki/File:White_Oak_Quercus_alba_Tree_Bark_3264px.jpg
+http://commons.wikimedia.org/wiki/File:Tree_rings.jpg
+
+default_ladder
+http://commons.wikimedia.org/wiki/File:Utility_pole,_Saul_Road,_January_2010.JPG
+http://commons.wikimedia.org/wiki/File:Rope-coconut_fibre-Tamil_Nadu.JPG
+
+default_leaves
+(Photo by Abraham Ezekowitz)
+
+default_mineral_coal
+http://commons.wikimedia.org/wiki/File:Coal_lump.jpg
+
+default_mineral_iron
+http://commons.wikimedia.org/wiki/File:Hoesch-Hauptverwaltung-IMG_1039.JPG
+
+default_mossycobble
+http://commons.wikimedia.org/wiki/File:Camaret_Steine_SK_DSC_0009.jpg
+http://commons.wikimedia.org/wiki/File:Mos_in_gazon_%28Moss_in_lawn%29.jpg
+
+default_nc_*
+Not included in this texture map because the original Nyancat image is
+low-resolution and can't readily be improved upon.  Did not reference
+Misa's replacement images as they are of something else entirely.
+
+default_papyrus
+http://commons.wikimedia.org/wiki/File:BambooKyoto.jpg
+
+default_sapling
+http://commons.wikimedia.org/wiki/File:Fortunella_margarita_%28small_tree%29.JPG
+
+default_scorched_stuff
+http://commons.wikimedia.org/wiki/File:Spirulina-powder-shadow.jpg
+
+default_steel_block
+http://commons.wikimedia.org/wiki/File:Brushed_metal.jpg
+http://commons.wikimedia.org/wiki/File:Screw_metal.jpg
+
+default_stick
+(Photo by Abraham Ezekowitz, 2007-08-12)
+
+default_sign_*
+http://commons.wikimedia.org/wiki/File:Swietenia_macrophylla_wood.jpg
+Linux standard font "URW Chancery"
+
+default_tool_mesepick
+http://commons.wikimedia.org/wiki/File:Gold-tt48a.jpg
+http://commons.wikimedia.org/wiki/File:Pickaxe.jpg
+http://commons.wikimedia.org/wiki/File:Wood_picea_abies.jpg
+
+default_tool_(all other picks)
+http://commons.wikimedia.org/wiki/File:Pickaxe.jpg
+http://commons.wikimedia.org/wiki/File:Wood_picea_abies.jpg
+
+default_tool_(shovels)
+http://www.flickr.com/photos/offutt_afb/6425813419/sizes/o/in/photostream/
+( http://farm8.staticflickr.com/7155/6425813419_02d9abf1f0_o_d.jpg )
+http://commons.wikimedia.org/wiki/File:Pagoda_Tree_Cornus_alternifolia_Trunk_2000px.jpg
+
+default_tool_(axes)
+http://commons.wikimedia.org/wiki/File:Accetta.jpg
+http://commons.wikimedia.org/wiki/File:Wood_picea_abies.jpg
+
+default_tool_(all)
+http://commons.wikimedia.org/wiki/File:The_Svante_Nilsson_Sture_Sword_01.jpg
+
+default_torch*
+(Photo by Abraham Ezekowitz, 2007-08-12)
+http://commons.wikimedia.org/wiki/File:Eternal_Flame.jpg
+http://commons.wikimedia.org/wiki/File:Birkenpech.JPG
+
+default_tree
+http://commons.wikimedia.org/wiki/File:Kmen_jablon%C4%9B.jpg
+
+default_tree_top
+http://commons.wikimedia.org/wiki/File:Kmen_jablon%C4%9B.jpg
+http://commons.wikimedia.org/wiki/File:Tree_rings.jpg
+
+default_tnt_*
+http://commons.wikimedia.org/wiki/File:Wooden_fence_closeup.jpg
+http://commons.wikimedia.org/wiki/File:Metal_strip_cast_by_Elrod_machine.jpg
+http://commons.wikimedia.org/wiki/File:Powder_steel.jpg
+http://commons.wikimedia.org/wiki/File:Marlinespike-hitch-ABOK-2030-Step1.jpg
+
+default_wood
+http://commons.wikimedia.org/wiki/File:Wood_picea_abies.jpg
+
+fireball
+http://commons.wikimedia.org/wiki/File:Solar_storm_Halloween_2003_%28SOHO-EIT,_Ultraviolet_304_%C3%85%29.ogv
+(single frame/screenshot)
+
+heart
+http://commons.wikimedia.org/wiki/File:Heart_coraz%C3%B3n.svg
+
+rat
+http://commons.wikimedia.org/wiki/File:Taxidermy_brown_rat_wood_bionerd.jpg
+
+treeprop
+http://commons.wikimedia.org/wiki/File:Eucalyptus_trees%2C_Munnar.jpg
+
+wieldhand
+http://en.wikipedia.org/wiki/File:Snailhand.JPG
+
+fire
+http://commons.wikimedia.org/wiki/File:Fire02.jpg
+
+doors
+http://commons.wikimedia.org/wiki/File:Front_door_of_Morey_Mansion.jpg
+Also Minetest logo as used on main page, wiki, etc.
+
+
+Hatches, obsidian, sponge, throwing
+-----------------------------------
+hatches_hatch
+http://commons.wikimedia.org/wiki/File:Wooden_fence_closeup.jpg
+
+obsidian_obsidian
+http://commons.wikimedia.org/wiki/File:Obsidian_1.jpg
+
+sponges_sponge
+http://commons.wikimedia.org/wiki/File:Sponge-viscose.jpg
+
+throwing_bow
+(Photo by Abraham Ezekowitz, 2007-08-12)
+
+throwing_string
+http://publicphoto.org/household/ball-of-hemp-twine/attachment/ball-of-hemp-twine_31614/
+
+throwing_arrow
+http://commons.wikimedia.org/wiki/File:Two_arrows.jpg
+
+Moreores
+--------
+Copper rails:  see default rails
+
+All shovels:
+http://www.flickr.com/photos/offutt_afb/6425813419/sizes/o/in/photostream/
+( http://farm8.staticflickr.com/7155/6425813419_02d9abf1f0_o_d.jpg )
+http://commons.wikimedia.org/wiki/File:Pagoda_Tree_Cornus_alternifolia_Trunk_2000px.jpg
+
+All picks
+http://commons.wikimedia.org/wiki/File:Pickaxe.jpg
+http://commons.wikimedia.org/wiki/File:Wood_picea_abies.jpg
+
+All Axes:
+http://commons.wikimedia.org/wiki/File:Accetta.jpg
+http://commons.wikimedia.org/wiki/File:Wood_picea_abies.jpg
+
+All Swords:
+http://commons.wikimedia.org/wiki/File:The_Svante_Nilsson_Sture_Sword_01.jpg
+
+mineral_gold
+http://commons.wikimedia.org/wiki/File:Gold-270438.jpg
+
+gold_lump
+http://commons.wikimedia.org/wiki/File:Gold-49956.jpg
+
+mineral_copper
+http://commons.wikimedia.org/wiki/File:NatCopper.jpg
+
+copper_lump
+http://commons.wikimedia.org/wiki/File:Copper.jpg
+
+mineral_tin
+http://en.wikipedia.org/wiki/File:Osmium_crystals.jpg
+
+tin_lump
+http://commons.wikimedia.org/wiki/File:Gold-49956.jpg
+
+mineral_silver
+http://en.wikipedia.org/wiki/File:Platinum-nugget.jpg
+
+silver_lump
+http://commons.wikimedia.org/wiki/File:Gold-49956.jpg
+
+mithril_ore
+http://commons.wikimedia.org/wiki/File:Pyrite_3.jpg
+
+mithril_lump
+http://commons.wikimedia.org/wiki/File:Lapis-lazuli_hg.jpg
+
+
+Moreblocks
+----------
+jungle stick:  see default stick
+horizontal trees:  see regular and jungle trees
+
+jungle wood/wood fence
+http://commons.wikimedia.org/wiki/File:Iroko_wood.jpg
+
+Many blocks use:
+http://commons.wikimedia.org/wiki/File:Screw_metal.jpg
+
+plankstone
+http://commons.wikimedia.org/wiki/File:Wooden_fence_closeup.jpg
+
+emptybookshelf
+http://commons.wikimedia.org/wiki/File:Wooden_fence_closeup.jpg
+http://commons.wikimedia.org/wiki/File:Wood_picea_abies.jpg
+
+sweeper
+http://commons.wikimedia.org/wiki/File:Besom_broom.jpg
+
+oerkkiblock
+http://commons.wikimedia.org/wiki/File:Mineral_Cinabrio_GDFL013.jpg
+
+Mesecons
+--------
+all conductors:
+http://en.wikipedia.org/wiki/File:Amethyst_Quartz.jpg
+
+object detectors:
+http://commons.wikimedia.org/wiki/File:Tux_Paint_t-shirt_01.svg
+http://commons.wikimedia.org/wiki/File:Screw_metal.jpg
+
+piston pushers:
+http://commons.wikimedia.org/wiki/File:Screw_metal.jpg
+http://commons.wikimedia.org/wiki/File:Wooden_fence_closeup.jpg
+
+silicon
+http://commons.wikimedia.org/wiki/File:Silicon.jpg
+
+solar_panel
+http://commons.wikimedia.org/wiki/File:US_Navy_100304-N-7676W-059_A_300-watt_photovoltaic_battery_system,_developed_by_the_Office_of_Naval_Research,_can_provide_continuous_power_to_Marines_in_the_field.jpg
+
+wireless transmitter/receiver/inverter blocks
+http://commons.wikimedia.org/wiki/File:Gravel_small_stones.jpg
+http://commons.wikimedia.org/wiki/File:Brushed_metal.jpg
+
+plants, blinky lights
+(Photo by Abraham Ezekowitz, 2007-08-12)
+http://commons.wikimedia.org/wiki/File:Gluehlampe_01_KMJ.png
+http://commons.wikimedia.org/wiki/File:Metal_strip_cast_by_Elrod_machine.jpg
+
+IC
+http://commons.wikimedia.org/wiki/File:DSCF0548.JPG
+
+Noteblock
+http://commons.wikimedia.org/wiki/File:Yamaha_NS-2000_Speaker_-midrange-.jpg
+http://commons.wikimedia.org/wiki/File:Musical_note_nicu_bucule_01.svg
+
+torches
+(Photo by Abraham Ezekowitz, 2007-08-12)
+http://commons.wikimedia.org/wiki/File:Gluehlampe_01_KMJ.png
+http://commons.wikimedia.org/wiki/File:Metal_strip_cast_by_Elrod_machine.jpg
+
+lamps
+http://commons.wikimedia.org/wiki/File:Fluorescent_emergency_light.JPG
+
+
+madblocks bricks
+----------------
+mossystonebrick
+http://commons.wikimedia.org/wiki/File:Moss_on_a_Rock.jpg
+
+marblestonebrick
+http://commons.wikimedia.org/wiki/File:Marble_in_Geopark_on_Albertov_%281%29.JPG
+
+all dyes
+http://commons.wikimedia.org/wiki/File:Rhodium_powder_pressed_melted.jpg
+
+all wood colors, redwoodparq
+http://commons.wikimedia.org/wiki/File:Wood_picea_abies.jpg
+
+all fence colors
+http://commons.wikimedia.org/wiki/File:Wooden_fence_closeup.jpg
+
+cultured stone
+http://www.flickr.com/photos/jglitten/3167874991/sizes/o/in/photostream/
+
+asphalt
+http://commons.wikimedia.org/wiki/File:Asphalt_concrete.JPG
+
+(others not listed:  see similarly-named items in default set)
+
+
+Terra
+-----
+water, lava, red grass, dirt:  same as standard textures above.
+
+terraformer object:
+http://commons.wikimedia.org/wiki/File:Nasa_blue_marble.jpg
+http://commons.wikimedia.org/wiki/File:Gravel_small_stones.jpg
+
+
+Growing trees - Alien, Bouleau
+------------------------------
+sapling, leaves:  same as regular ones
+
+tree
+http://commons.wikimedia.org/wiki/File:Black_Walnut_Bark_Detail.JPG
+
+tree top
+http://commons.wikimedia.org/wiki/File:Black_Walnut_Bark_Detail.JPG
+http://commons.wikimedia.org/wiki/File:Tree_rings.jpg
+
+Growing trees - cherry blossom
+------------------------------
+tree
+(photo by Abe Ezekowitz, 2012-04-15)
+
+tree top
+(photo by Abe Ezekowitz, 2012-04-15)
+http://commons.wikimedia.org/wiki/File:Tree_rings.jpg
+
+sapling
+(Photo by Abe Ezekowitz, 2007-08-12)
+
+leaves
+http://commons.wikimedia.org/wiki/File:Washington_D.C._Cherry_Blossoms.jpg
+
+Nature pack
+---------------
+irontrees:  all four are same as alien and bouleau (re-colored)
+vines, vines-rotten:  same as default_rope (re-colored)
+
+nature - blossom
+http://commons.wikimedia.org/wiki/File:Apple_blossom_%28Malus_domestica%29_05.JPG
+http://commons.wikimedia.org/wiki/File:Apple_blossom_%28Malus_domestica%29_09.JPG
+http://commons.wikimedia.org/wiki/File:Apple_blossom_%28Malus_domestica%29_23.JPG
+http://commons.wikimedia.org/wiki/File:Apple_blossom_%28Malus_domestica%29_21.JPG
+
+bushes - berry pie (raw and cooked)
+http://commons.wikimedia.org/wiki/File:Rhubarb_Pie_Lattice_Crust_Delicious.JPG
+
+bushes - sugar
+http://commons.wikimedia.org/wiki/File:Demerara_sugar-1.JPG
+
+bushes - strawberry
+http://commons.wikimedia.org/wiki/File:Strawberry444.jpg
+
+bushes - strawberry "bush"
+http://commons.wikimedia.org/wiki/File:Shrub.JPG
+
+bushes - basket
+http://commons.wikimedia.org/wiki/File:Cane_Basket_Weaving_-_Kolkata_2011-12-08_7432.JPG
+
+
+Furnace mod (WIP)
+-----------------
+http://commons.wikimedia.org/wiki/File:David_Crabill_House,_oven.jpg
+http://commons.wikimedia.org/wiki/File:Lumps_of_coal.jpg
+http://commons.wikimedia.org/wiki/File:Fire02.jpg
+
+
+MadBlocks
+---------
+http://www.clker.com/clipart-2839.html
+http://commons.wikimedia.org/wiki/File:Chicken_silhouette_02.svg
+http://commons.wikimedia.org/wiki/File:MUTCD_R1-1.svg
+http://commons.wikimedia.org/wiki/File:Road_Closed_Ahead_sign.svg
+http://commons.wikimedia.org/wiki/File:CALTRANS_W50-1.svg
+http://commons.wikimedia.org/wiki/File:Cctv.svg
+http://commons.wikimedia.org/wiki/File:Ontario_420.svg
+http://commons.wikimedia.org/wiki/File:Qc220.svg
+http://commons.wikimedia.org/wiki/File:Italian_traffic_signs_-_senso_vietato.svg
+http://commons.wikimedia.org/wiki/File:NYSDOT_Interchange_Exit_Direction_Sign.svg
+http://commons.wikimedia.org/wiki/File:Quebec_Sortie_Droite.svg
+http://commons.wikimedia.org/wiki/File:No_sign.svg
+http://www.clker.com/clipart-13488.html
+http://commons.wikimedia.org/wiki/File:Zeichen_237.svg
+http://commons.wikimedia.org/wiki/File:Hospital_sign.svg
+http://mutcd.fhwa.dot.gov/kno_2009.htm (cropped "parks" sign from MUTCD 2009 PDF)
+(Plus I used the overall layout/appearance of a Virginia Beach "No Swearing" sign)
+http://mutcd.fhwa.dot.gov/kno_2009.htm (cropped "men working" sign from MUTCD 2009 PDF)
+http://upload.wikimedia.org/wikipedia/commons/6/68/Followspot.JPG
+http://commons.wikimedia.org/wiki/File:Metal_strip_cast_by_Elrod_machine.jpg
+vine-like parts: photograph by Vanessa Ezekowitz, 2012-04-24
+wild grass: photograph by Abe Ezekowitz, 2010-08-31
+http://commons.wikimedia.org/wiki/File:HandsInSoil.jpg
+http://commons.wikimedia.org/wiki/File:Flowers_-_red_rose_fc02.jpg
+http://commons.wikimedia.org/wiki/File:Flower_Buds.jpeg
+http://commons.wikimedia.org/wiki/File:Gluehlampe_01_KMJ.png
+http://commons.wikimedia.org/wiki/File:Metal_strip_cast_by_Elrod_machine.jpg
+http://commons.wikimedia.org/wiki/File:Peas.JPG
+http://commons.wikimedia.org/wiki/File:Habanero_closeup_edit2.jpg
+http://commons.wikimedia.org/wiki/File:Habanero%27s_%2B_Jalape%C3%B1o%27s.JPG
+http://commons.wikimedia.org/wiki/File:Bright_red_tomato_and_cross_section02.jpg
+http://commons.wikimedia.org/wiki/File:Bountiful_tomato_crop_2_-_geograph.org.uk_-_1531376.jpg
+http://commons.wikimedia.org/wiki/File:Tomato-front.png
+http://commons.wikimedia.org/wiki/File:Tomato.jpg
+http://commons.wikimedia.org/wiki/File:Cynara_cardunculus_012.jpg
+http://commons.wikimedia.org/wiki/File:Electrical_meter.jpg
+http://commons.wikimedia.org/wiki/File:Hemingray42.jpg
+
+Bobblocks
+---------
+punji sticks ("trap")
+http://commons.wikimedia.org/wiki/File:2_antique_sai.jpg
+http://commons.wikimedia.org/wiki/File:Viking_swords.jpg
+
+maptools
+--------
+admin pick:  see mese pick
+super apple:  see regular apple
+infinite fuel:  see coal lump
+
+copper coin
+http://commons.wikimedia.org/wiki/File:2010_cent_reverse.jpg
+
+silver coin
+http://commons.wikimedia.org/wiki/File:American_Silver_Eagle,_reverse.jpg
+
+gold coin
+http://commons.wikimedia.org/wiki/File:2006_AEGold_Proof_Obv.png
+
+(chose US coins because that's where I live, at and their denominations 
+sounded right to me.  Used the back side of each to avoid the "In G*d We 
+Trust" slogan)
+
+Blox
+----
+All dyes: 
+http://commons.wikimedia.org/wiki/File:Simax_erlenmeyer_flask_narrow_neck_100ml.jpg
+
+teleporter:
+http://en.wikipedia.org/wiki/File:Brosen_windrose.svg
+
+Unobtanium
+----------
+mineral:  (own photo)
+lump:  http://commons.wikimedia.org/wiki/File:Galena-Fluorite-62633.jpg
+
+Dyes/Vessels
+------------
+http://en.wikipedia.org/wiki/File:WinchesterBottle2.JPG
+
+Flowers
+-----------
+all potted plants:
+http://commons.wikimedia.org/wiki/File:Giant_flower_pot.jpg
+
+cotton
+http://commons.wikimedia.org/wiki/File:Cotton_field_kv04.jpg
+
+flower_cotton
+http://commons.wikimedia.org/wiki/File:CottonPlant.JPG
+
+dandelion (white)
+http://commons.wikimedia.org/wiki/File:Dandelion_clock2.JPG
+
+dandelion (yellow)
+http://commons.wikimedia.org/wiki/File:Dandelion_flower.jpg
+
+rose
+http://commons.wikimedia.org/wiki/File:Flowers_-_red_rose_fc02.jpg
+
+tulip
+http://commons.wikimedia.org/wiki/File:Tulip_single_upright.PNG
+
+viola
+http://commons.wikimedia.org/wiki/File:1764_-_Salzburg_-_Stiftskirche_St_Peter_-_Viola.JPG
+
+waterlily
+http://commons.wikimedia.org/wiki/File:Egyptian_Museum_-_Lotus_petal.JPG
+http://commons.wikimedia.org/wiki/File:White_Waterlily_Osaka.jpg
+
+geranium
+http://commons.wikimedia.org/wiki/File:Geranium_Johnsons_Blue_A.jpg
+
+seaweed
+http://commons.wikimedia.org/wiki/File:TomCorser_Seaweed_2.jpg
+(photo by Tom Corser, www.tomcorser.com)
