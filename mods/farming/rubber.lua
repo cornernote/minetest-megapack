@@ -133,7 +133,6 @@ minetest.register_on_generated(function(minp, maxp, blockseed)
 	local tmp = {x=(maxp.x-minp.x)/2+minp.x, y=(maxp.y-minp.y)/2+minp.y, z=(maxp.z-minp.z)/2+minp.z}
 	local pos = minetest.env:find_node_near(tmp, maxp.x-minp.x, {"default:dirt_with_grass"})
 	if pos ~= nil then
-		anz = anz+1
 		generate_rubber_tree({x=pos.x, y=pos.y+1, z=pos.z})
 	end
 end)
@@ -148,3 +147,10 @@ local bucket_tmp = {
 	itemname = "farming:bucket_rubber"
 }
 bucket.liquids["farming:rubber_tree_full"] = bucket_tmp
+
+-- ========= FUEL =========
+minetest.register_craft({
+	type = "fuel",
+	recipe = "farming:rubber_sapling",
+	burntime = 10
+})

@@ -2,15 +2,12 @@ minetest.register_craftitem("farming:wheat_seed", {
 	description = "Wheat Seeds",
 	inventory_image = "farming_wheat_seed.png",
 	on_place = function(itemstack, placer, pointed_thing)
-		local node = minetest.env:get_node(pointed_thing.under)
 		local above = minetest.env:get_node(pointed_thing.above)
-		if node.name == "farming:soil" or node.name == "farming:soil_wet" then
-			if above.name == "air" then
-				above.name = "farming:wheat_1"
-				minetest.env:set_node(pointed_thing.above, above)
-				itemstack:take_item(1)
-				return itemstack
-			end
+		if above.name == "air" then
+			above.name = "farming:wheat_1"
+			minetest.env:set_node(pointed_thing.above, above)
+			itemstack:take_item(1)
+			return itemstack
 		end
 	end
 })
@@ -146,7 +143,33 @@ minetest.register_craft({
 minetest.register_craftitem("farming:bread", {
 	description = "Bread",
 	inventory_image = "farming_bread.png",
+	stack_max = 1,
 	on_use = minetest.item_eat(10)
+})
+
+minetest.register_craftitem("farming:pumpkin_bread", {
+	description = "Pumpkin Bread",
+	inventory_image = "farming_bread_pumpkin.png",
+	stack_max = 1,
+	on_use = minetest.item_eat(20)
+})
+
+minetest.register_craftitem("farming:pumpkin_cake_mix", {
+	description = "Pumpkin Cake Mix",
+	inventory_image = "farming_cake_mix_pumpkin.png",
+})
+
+minetest.register_craft({
+	output = "farming:pumpkin_cake_mix",
+	type = "shapeless",
+	recipe = {"farming:cake_mix", "farming:pumpkin"}
+})
+
+minetest.register_craft({
+	type = "cooking",
+	output = "farming:pumpkin_bread",
+	recipe = "farming:pumpkin_cake_mix",
+	cooktime = 10
 })
 
 minetest.register_alias("farming:corn_seed", "farming:wheat_seed")
@@ -155,3 +178,16 @@ minetest.register_alias("farming:corn_2", "farming:wheat_2")
 minetest.register_alias("farming:corn_3", "farming:wheat_3")
 minetest.register_alias("farming:corn", "farming:wheat")
 minetest.register_alias("farming:corn_harvested", "farming:wheat_harvested")
+
+-- ========= FUEL =========
+minetest.register_craft({
+	type = "fuel",
+	recipe = "farming:wheat_seed",
+	burntime = 1
+})
+
+minetest.register_craft({
+	type = "fuel",
+	recipe = "farming:wheat_harvested",
+	burntime = 2
+})

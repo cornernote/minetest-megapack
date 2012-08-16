@@ -2,15 +2,12 @@ minetest.register_craftitem("farming:cotton_seed", {
 	description = "Cotton Seeds",
 	inventory_image = "farming_cotton_seed.png",
 	on_place = function(itemstack, placer, pointed_thing)
-		local node = minetest.env:get_node(pointed_thing.under)
 		local above = minetest.env:get_node(pointed_thing.above)
-		if node.name == "farming:soil" or node.name == "farming:soil_wet" then
-			if above.name == "air" then
-				above.name = "farming:cotton_1"
-				minetest.env:set_node(pointed_thing.above, above)
-				itemstack:take_item(1)
-				return itemstack
-			end
+		if above.name == "air" then
+			above.name = "farming:cotton_1"
+			minetest.env:set_node(pointed_thing.above, above)
+			itemstack:take_item(1)
+			return itemstack
 		end
 	end
 })
@@ -98,4 +95,17 @@ minetest.register_craftitem("farming:string", {
 minetest.register_craft({
 	output = "wool:white",
 	recipe = {{"farming:string"}}
+})
+
+-- ========= FUEL =========
+minetest.register_craft({
+	type = "fuel",
+	recipe = "farming:cotton_seed",
+	burntime = 1
+})
+
+minetest.register_craft({
+	type = "fuel",
+	recipe = "farming:string",
+	burntime = 1
 })
