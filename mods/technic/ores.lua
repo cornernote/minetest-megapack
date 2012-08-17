@@ -1,6 +1,6 @@
 minetest.register_node( "technic:mineral_diamond", {
 	description = "Diamond Ore",
-	tile_images = { "technic_mineral_diamond.png" },
+	tile_images = { "default_stone.png^technic_mineral_diamond.png" },
 	is_ground_content = true,
 	groups = {cracky=3},
 	sounds = default.node_sound_stone_defaults(),
@@ -56,5 +56,5 @@ local function generate_ore(name, wherein, minp, maxp, seed, chunks_per_volume, 
 end
 
 minetest.register_on_generated(function(minp, maxp, seed)
-generate_ore("technic:mineral_diamond", "default:stone", minp, maxp, seed+20,   1/11/11/11,    1, -31000,  -512)
+generate_ore("technic:mineral_diamond", "default:stone", minp, maxp, seed+20,   1/11/11/11,    1, -31000,  -450)
 end)

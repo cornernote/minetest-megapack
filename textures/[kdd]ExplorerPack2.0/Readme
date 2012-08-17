@@ -1,0 +1,72 @@
+Explorer Pack 2.0 by kddekadenz
+===============================
+
+
+************************************************************************
+* TABLE OF CONTENTS
+************************************************************************
+ 
+1.General informations
+2.Install instructions
+		2.1 Linux Mint
+		2.2 Windows
+3.Changelog
+4.Contact
+
+
+
+************************************************************************
+* 1. GENERAL INFORMATIONS
+************************************************************************
+
+What: 			Texturepack for Minetest
+Size: 			128x128 pixel
+author: 		kddekadenz
+sources of textures: 	opengameart.org;  Golgotha; burnigwell.org; wikipedia.com
+
+
+************************************************************************
+* 2. INSTALL INSTRUCTIONS
+************************************************************************
+
+2.1 Linux Mint
+
+-Extract the archive
+-Copy and paste all of the textures from the 'data' folder into /usr/share/minetest
+(be sure to open the folder as admin) and overwrite the old textures 
+	-> IMPORTANT: don't forget to make a backup of your old textures
+-Start the game and enjoy
+
+
+
+2.2 Windows
+
+-Extract the archive
+-Copy and paste all of the textures from the 'data' folder into the 'data' folder 
+in your Minetest folder and overwrite the old textures 
+	-> IMPORTANT: don't forget to make a backup of your old textures
+-Start the game and enjoy
+
+
+************************************************************************
+* 3. CHANGELOG
+************************************************************************
+
+1.0 intial release
+	1.1 updated to v.20110731-3
+	1.2 updated to v.20110922_1.1
+
+2.0 removed all textures from cgtextures and created new ones
+
+
+
+************************************************************************
+* 4. CONTACT
+************************************************************************
+
+If you have any problems or just want to tell me that you like this pack visit the official thread(http://celeron.55.lt/~celeron55/minetest/forum/viewtopic.php?id=146) or send me a PM (nickname:kddekadenz).
+
+Visit my website: www.kddekadenz.jimdo.com
+
+
+

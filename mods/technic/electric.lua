@@ -30,12 +30,18 @@ minetest.register_craft({
 	}
 })
 
-minetest.register_craftitem("technic:battery", {
-	description = "Recharcheable battery",
-	inventory_image = "technic_battery.png",
-	stack_max = 1,
-}) 
 
+--minetest.register_craftitem("technic:battery", {
+--	description = "Recharcheable battery",
+--	inventory_image = "technic_battery.png",
+--	stack_max = 1,
+--}) 
+
+minetest.register_tool("technic:battery",
+{description = "RE Battery",
+inventory_image = "technic_battery.png",
+energy_charge = 0,
+tool_capabilities = {max_drop_level=0, groupcaps={fleshy={times={}, uses=10000, maxlevel=0}}}}) 
 
 minetest.register_craftitem("technic:battery_box", {
 	description = "Battery box",
@@ -44,6 +50,17 @@ minetest.register_craftitem("technic:battery_box", {
 
 
 
+battery_box_formspec =
+	"invsize[8,9;]"..
+	"image[1,1;1,2;technic_power_meter_bg.png]"..
+	"list[current_name;src;3,1;1,1;]"..
+	"image[4,1;1,1;technic_battery_reload.png]"..
+	"list[current_name;dst;5,1;1,1;]"..
+	"label[0,0;Battery box]"..
+	"label[3,0;Charge]"..
+	"label[5,0;Discharge]"..
+	"label[1,3;Power level]"..
+	"list[current_player;main;0,5;8,4;]"
 
 minetest.register_node("technic:battery_box", {
 	description = "Battery box",
@@ -56,18 +73,34 @@ minetest.register_node("technic:battery_box", {
 		local meta = minetest.env:get_meta(pos)
 		meta:set_string("infotext", "Battery box")
 		meta:set_float("technic_power_machine", 1)
+		meta:set_string("formspec", battery_box_formspec)
+		local inv = meta:get_inventory()
+		inv:set_size("src", 1)
+		inv:set_size("dst", 1)
 		battery_charge = 0
 		max_charge = 60000
 		end,	
+	can_dig = function(pos,player)
+		local meta = minetest.env:get_meta(pos);
+		local inv = meta:get_inventory()
+		if not inv:is_empty("dst") then
+			return false
+		elseif not inv:is_empty("src") then
+			return false
+		end
+		return true
+	end,
 })
 
 electric_furnace_formspec =
 	"invsize[8,9;]"..
-	"image[1,1;1,1;technic_power_meter_bg.png]"..
-	"list[current_name;src;2,1;1,1;]"..
+	"image[1,1;1,2;technic_power_meter_bg.png]"..
+	"list[current_name;src;3,1;1,1;]"..
 	"list[current_name;dst;5,1;2,2;]"..
-	"list[current_player;main;0,5;8,4;]"
-
+	"list[current_player;main;0,5;8,4;]"..
+	"label[0,0;Electric Furnace]"..
+	"label[1,3;Power level]"
+	
 minetest.register_node("technic:electric_furnace", {
 	description = "Electric furnace",
 	tiles = {"technic_electric_furnace_top.png", "technic_electric_furnace_bottom.png", "technic_electric_furnace_side.png",
@@ -158,9 +191,11 @@ minetest.register_abm({
 				"invsize[8,9;]"..
 				"image[1,1;1,2;technic_power_meter_bg.png^[lowpart:"..
 						(load)..":technic_power_meter_fg.png]"..
-				"list[current_name;src;2,1;1,1;]"..
+				"list[current_name;src;3,1;1,1;]"..
 				"list[current_name;dst;5,1;2,2;]"..
-				"list[current_player;main;0,5;8,4;]")
+				"list[current_player;main;0,5;8,4;]"..
+				"label[0,0;Electric Furnace]"..
+				"label[1,3;Power level]")
 
 		local inv = meta:get_inventory()
 		
@@ -238,6 +273,20 @@ end
 
 	LV_nodes_visited = {}
 
+function get_RE_battery_load (load1)
+if load1==0 then load1=65535 end
+local temp = 65536-load1
+temp= temp/65535*10000
+return math.floor(temp + 0.5)
+end
+
+function set_RE_battery_load (load1)
+if load1 == 0 then return 65535 end
+local temp=load1/10000*65535
+temp=65536-temp
+return math.floor(temp)
+end
+
 minetest.register_abm({
 	nodenames = {"technic:battery_box"},
 	interval = 1,
@@ -246,9 +295,68 @@ minetest.register_abm({
 	local meta = minetest.env:get_meta(pos)
 	charge= meta:get_float("battery_charge")
 	max_charge= 60000
-	meta:set_float("battery_charge",charge)
-	meta:set_string("infotext", "Battery box: "..charge.."/"..max_charge.."  EU");
+		
+		local inv = meta:get_inventory()
+		if inv:is_empty("src")==false  then 
+		srcstack = inv:get_stack("src", 1)
+		src_item=srcstack:to_table()
+		if src_item["name"]== "technic:battery" then
+		local load1=tonumber((src_item["wear"])) 
+		load1=get_RE_battery_load(load1)
+		load_step=1000
+		if load1<10000 and charge>0 then 
+		 if charge-load_step<0 then load_step=charge end
+		 if load1+load_step>10000 then load_step=10000-load1 end
+		load1=load1+load_step
+		charge=charge-load_step
+	
+		load1=set_RE_battery_load(load1)
+		src_item["wear"]=tostring(load1)
+		inv:set_stack("src", 1, src_item)
+		end		
+		end
+		end
+		meta:set_float("battery_charge",charge)
 
+		if inv:is_empty("dst") == false then 
+		srcstack = inv:get_stack("dst", 1)
+		src_item=srcstack:to_table()
+		if src_item["name"]== "technic:battery" then
+		local load1=tonumber((src_item["wear"])) 
+		local load1=tonumber((src_item["wear"])) 
+		load1=get_RE_battery_load(load1)
+		load_step=1000
+		if load1>0 and charge<max_charge then 
+			 if charge+load_step>max_charge then load_step=max_charge-charge end
+		  	 if load1-load_step<0 then load_step=load1 end
+		load1=load1-load_step
+		charge=charge+load_step
+	
+		load1=set_RE_battery_load(load1)
+		src_item["wear"]=tostring(load1)
+		inv:set_stack("dst", 1, src_item)
+		end		
+		end
+		end
+		
+
+	meta:set_float("battery_charge",charge)
+	meta:set_string("infotext", "Battery box: "..charge.."/"..max_charge);
+
+	local load = math.floor(charge/60000 * 100)
+	meta:set_string("formspec",
+				"invsize[8,9;]"..
+				"image[1,1;1,2;technic_power_meter_bg.png^[lowpart:"..
+						(load)..":technic_power_meter_fg.png]"..
+				"list[current_name;src;3,1;1,1;]"..
+				"image[4,1;1,1;technic_battery_reload.png]"..
+				"list[current_name;dst;5,1;1,1;]"..
+				"label[0,0;Battery box]"..
+				"label[3,0;Charge]"..
+				"label[5,0;Discharge]"..
+				"label[1,3;Power level]"..
+				"list[current_player;main;0,5;8,4;]")
+		
 	local pos1={}
 
 	pos1.y=pos.y-1
@@ -296,28 +404,28 @@ if charge>max_charge then charge=max_charge end
 i=1
 	repeat
 	if RE_nodes[i]==nil then break end
-		pos1.x=RE_nodes[i].x
+		pos1.x=RE_nodes[i].x         -- loading all conected machines buffers
 		pos1.y=RE_nodes[i].y
 		pos1.z=RE_nodes[i].z
 	local meta1 = minetest.env:get_meta(pos1)
 	local internal_EU_buffer=meta1:get_float("internal_EU_buffer")
 	local internal_EU_buffer_size=meta1:get_float("internal_EU_buffer_size")
-	if internal_EU_buffer<internal_EU_buffer_size then 
-		internal_EU_buffer=internal_EU_buffer+200;
-		end
+
 	local charge_to_give=200
-	if (charge-charge_to_give)>0 then
-	if internal_EU_buffer>internal_EU_buffer_size then
-		internal_EU_buffer=internal_EU_buffer_size
+	if internal_EU_buffer+charge_to_give>internal_EU_buffer_size then
+		charge_to_give=internal_EU_buffer_size-internal_EU_buffer
 	end
+	if charge-charge_to_give<0 then charge_to_give=charge end
+
+	internal_EU_buffer=internal_EU_buffer+charge_to_give
 	meta1:set_float("internal_EU_buffer",internal_EU_buffer)
 	charge=charge-charge_to_give;
-	end
+	
 	i=i+1
 	until false
 	
 	meta:set_float("battery_charge",charge)
-	meta:set_string("infotext", "Battery box: "..charge.."/"..max_charge.." EU");
+	meta:set_string("infotext", "Battery box: "..charge.."/"..max_charge);
 
 
 end
@@ -372,6 +480,9 @@ if meta:get_float("cablelike")==1 then new_node_added=add_new_cable_node(LV_node
 if minetest.env:get_node(pos1).name == "technic:solar_panel" then 	new_node_added=add_new_cable_node(PR_nodes,pos1) end		
 if minetest.env:get_node(pos1).name == "technic:electric_furnace" then 	new_node_added=add_new_cable_node(RE_nodes,pos1) end		
 if minetest.env:get_node(pos1).name == "technic:electric_furnace_active" then 	new_node_added=add_new_cable_node(RE_nodes,pos1) end		
+if minetest.env:get_node(pos1).name == "technic:tool_workshop" then 	new_node_added=add_new_cable_node(RE_nodes,pos1) end		
+if minetest.env:get_node(pos1).name == "technic:music_player" then 	new_node_added=add_new_cable_node(RE_nodes,pos1) end		
+if minetest.env:get_node(pos1).name == "technic:grinder" then 	new_node_added=add_new_cable_node(RE_nodes,pos1) end		
 end
 		
 
@@ -402,6 +513,17 @@ minetest.register_node("technic:solar_panel", {
     	description="Solar Panel",
 	active = false,
 	technic_power_machine=1,
+	drawtype = "nodebox",
+	paramtype = "light",
+	is_ground_content = true,	
+	node_box = {
+			type = "fixed",
+			fixed = {-0.5, -0.5, -0.5, 0.5, 0, 0.5},
+		},
+		selection_box = {
+			type = "fixed",
+			fixed = {-0.5, -0.5, -0.5, 0.5, 0, 0.5},
+		},
 	on_construct = function(pos)
 		local meta = minetest.env:get_meta(pos)
 		meta:set_float("technic_power_machine", 1)

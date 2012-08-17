@@ -31,12 +31,16 @@ minetest.register_node("technic:lv_cable", {
 	rules_z2=0,
 	paramtype = "light",
         drawtype = "nodebox", 
+	selection_box = {
+		type = "fixed",
+                fixed = {
+		{ -0.1 , -0.1 , -0.1 , 0.1 ,  0.1 , 0.1  },
+		}},
 	node_box = {
 		type = "fixed",
                 fixed = {
 		{ -0.1 , -0.1 , -0.1 , 0.1 ,  0.1 , 0.1  },
-		}
-	},
+		}},
 	on_construct = function(pos)
 	meta=minetest.env:get_meta(pos)
 	meta:set_float("cablelike",1)
@@ -100,6 +104,12 @@ minetest.register_node("technic:lv_cable"..count, {
 	cablelike=1,
 	paramtype = "light",
         drawtype = "nodebox", 
+	selection_box = {
+		type = "fixed",
+           fixed = {
+		temp_x1,temp_x2,temp_y1,temp_y2,temp_z1,temp_z2,
+		}},
+
 	node_box = {
 		type = "fixed",
            fixed = {
