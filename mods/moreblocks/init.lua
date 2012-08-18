@@ -7,52 +7,10 @@ Licensed under WTFPL.
 ****
 --]]
 
--- Aliases (some of them are about the default mod, some about moreblocks)
 
--- Additional default aliases
-
-minetest.register_alias("woodpick", "default:pick_wood")
-minetest.register_alias("woodenpick", "default:pick_wood")
-minetest.register_alias("stonepick", "default:pick_stone")
-minetest.register_alias("steelpick", "default:pick_steel")
-minetest.register_alias("ironpick", "default:pick_steel")
-minetest.register_alias("mesepick", "default:pick_mese")
-
-minetest.register_alias("woodaxe", "default:axe_wood")
-minetest.register_alias("woodenaxe", "default:axe_wood")
-minetest.register_alias("stoneaxe", "default:axe_stone")
-minetest.register_alias("steelaxe", "default:axe_steel")
-minetest.register_alias("ironaxe", "default:axe_steel")
-
-minetest.register_alias("woodshovel", "default:shovel_wood")
-minetest.register_alias("woodenshovel", "default:shovel_wood")
-minetest.register_alias("stoneshovel", "default:shovel_stone")
-minetest.register_alias("steelshovel", "default:shovel_steel")
-minetest.register_alias("ironshovel", "default:shovel_steel")
-
-minetest.register_alias("woodsword", "default:sword_wood")
-minetest.register_alias("woodensword", "default:sword_wood")
-minetest.register_alias("stonesword", "default:sword_stone")
-minetest.register_alias("steelsword", "default:sword_steel")
-minetest.register_alias("ironsword", "default:sword_steel")
-
-minetest.register_alias("grass", "default:dirt_with_grass")
-minetest.register_alias("grassblock", "default:dirt_with_grass")
-minetest.register_alias("grass_block", "default:dirt_with_grass")
-
-minetest.register_alias("grassfootsteps", "default:dirt_with_grass_footsteps")
-minetest.register_alias("grass_footsteps", "default:dirt_with_grass_footsteps")
-
-minetest.register_alias("stick", "default:stick")
-minetest.register_alias("sign", "default:sign_wall")
-minetest.register_alias("fence", "default:fence_wood")
-minetest.register_alias("coal", "default:coal_lump")
-minetest.register_alias("iron", "default:iron_lump")
-minetest.register_alias("clay", "default:clay_lump")
-minetest.register_alias("steel", "default:steel_ingot")
-minetest.register_alias("steel_block", "default:steelblock")
-
--- More Blocks aliases
+--
+-- Aliases
+--
 
 minetest.register_alias("stonebrick", "moreblocks:stonebrick")
 minetest.register_alias("stonebricks", "moreblocks:stonebrick")
@@ -80,471 +38,351 @@ minetest.register_alias("cactuschecker", "moreblocks:cactuschecker")
 minetest.register_alias("coalchecker", "moreblocks:coalchecker")
 minetest.register_alias("ironchecker", "moreblocks:ironchecker")
 
--- Redefinitions of some default crafting recipes
 
-minetest.register_craft({
-	output = 'default:sign_wall 4',
-	recipe = {
-		{'default:wood', 'default:wood', 'default:wood'},
-		{'default:wood', 'default:wood', 'default:wood'},
-		{'', 'default:stick', ''},
-	}
-})
-
-minetest.register_craft({
-	output = 'default:ladder 3',
-	recipe = {
-		{'default:stick', '', 'default:stick'},
-		{'default:stick', 'default:stick', 'default:stick'},
-		{'default:stick', '', 'default:stick'},
-	}
-})
-
-minetest.register_craft({
-	output = 'default:paper 3',
-	recipe = {
-		{'default:papyrus', 'default:papyrus', 'default:papyrus'},
-	}
-})
-
-minetest.register_craft({
-	output = 'default:rail 16',
-	recipe = {
-		{'default:steel_ingot', '', 'default:steel_ingot'},
-		{'default:steel_ingot', 'default:stick', 'default:steel_ingot'},
-		{'default:steel_ingot', '', 'default:steel_ingot'},
-	}
-})
-
-minetest.register_craft({
-	output = 'default:axe_wood',
-	recipe = {
-		{'default:wood', 'default:wood'},
-		{'default:stick', 'default:wood	'},
-		{'default:stick', ''},
-	}
-})
-
-minetest.register_craft({
-	output = 'default:axe_stone',
-	recipe = {
-		{'default:cobble', 'default:cobble'},
-		{'default:stick', 'default:cobble'},
-		{'default:stick', ''},
-	}
-})
-
-minetest.register_craft({
-	output = 'default:axe_steel',
-	recipe = {
-		{'default:steel_ingot', 'default:steel_ingot'},
-		{'default:stick', 'default:steel_ingot'},
-		{'default:stick', ''},
-	}
-})
-
--- Tool repair buff (15% bonus instead of 2%)
-
-minetest.register_craft({
-	type = "toolrepair",
-	additional_wear = -0.15,
-})
-
+--
 -- Crafting
+--
 
+-- junglewood
 minetest.register_craft({
-	output = 'default:stick 1',
+	output = "moreblocks:junglewood 4",
 	recipe = {
-		{'node "default:dry_shrub"'},
+		{"default:jungletree"},
 	}
 })
 
+-- junglestick
 minetest.register_craft({
-	output = 'default:sandstone 1',
+	output = "moreblocks:junglestick 4",
 	recipe = {
-		{'default:desert_sand', 'default:desert_sand'},
-		{'default:desert_sand', 'default:desert_sand'},
+		{"moreblocks:junglewood"},
 	}
 })
 
+-- fence_junglewood
 minetest.register_craft({
-	output = 'default:dirt_with_grass 1',
+	output = "moreblocks:fence_junglewood 2",
 	recipe = {
-		{'node "default:junglegrass"'},
-		{'node "default:dirt"'},
+		{"moreblocks:junglestick", "moreblocks:junglestick", "moreblocks:junglestick"},
+		{"moreblocks:junglestick", "moreblocks:junglestick", "moreblocks:junglestick"},
 	}
 })
 
+-- stonebrick
 minetest.register_craft({
-	output = 'default:dirt_with_grass 1',
+	output = "moreblocks:stonebrick 4",
 	recipe = {
-		{'node "default:mese"'},
-		{'node "default:dirt"'},
+		{"default:stone", "default:stone"},
+		{"default:stone", "default:stone"},
 	}
 })
 
+-- circlestonebrick
 minetest.register_craft({
-	output = 'default:mossycobble 1',
+	output = "moreblocks:circlestonebrick 8",
 	recipe = {
-		{'node "default:junglegrass"'},
-		{'node "default:cobble"'},
+		{"default:stone", "default:stone", "default:stone"},
+		{"default:stone", "", "default:stone"},
+		{"default:stone", "default:stone", "default:stone"},
 	}
 })
 
+-- allfacestree
 minetest.register_craft({
-	output = 'default:mossycobble 1',
+	output = "moreblocks:allfacestree 8",
 	recipe = {
-		{'node "default:mese"'},
-		{'node "default:cobble"'},
+		{"default:tree", "default:tree", "default:tree"},
+		{"default:tree", "", "default:tree"},
+		{"default:tree", "default:tree", "default:tree"},
 	}
 })
 
+-- sweeper
 minetest.register_craft({
-	output = 'node "moreblocks:junglewood" 4',
+	output = "moreblocks:sweeper 3",
 	recipe = {
-		{'node "jungletree"'},
+		{"default:junglegrass"},
+		{"default:stick"},
 	}
 })
 
+-- stonesquare
 minetest.register_craft({
-	output = 'node "moreblocks:junglestick" 4',
+	output = "moreblocks:stonesquare 4",
 	recipe = {
-		{'node "moreblocks:junglewood"'},
+		{"default:cobble", "default:cobble"},
+		{"default:cobble", "default:cobble"},
 	}
 })
 
+-- splitstonesquare
 minetest.register_craft({
-	output = 'node "moreblocks:fence_junglewood" 2',
+	output = "moreblocks:splitstonesquare",
 	recipe = {
-		{'node "moreblocks:junglestick"', 'node "moreblocks:junglestick"', 'node "moreblocks:junglestick"'},
-		{'node "moreblocks:junglestick"', 'node "moreblocks:junglestick"', 'node "moreblocks:junglestick"'},
+		{"moreblocks:stonesquare 1"},
 	}
 })
 
+-- emptybookshelf
 minetest.register_craft({
-	output = 'node "moreblocks:stonebrick" 4',
+	output = "moreblocks:emptybookshelf",
 	recipe = {
-		{'node "stone"', 'node "stone"'},
-		{'node "stone"', 'node "stone"'},
+		{"moreblocks:sweeper"},
+		{"default:bookshelf"},
 	}
 })
 
+-- ironstonebrick
 minetest.register_craft({
-	output = 'node "moreblocks:circlestonebrick" 8',
+	output = "moreblocks:ironstonebrick",
 	recipe = {
-		{'node "stone"', 'node "stone"', 'node "stone"'},
-		{'node "stone"', '', 'node "stone"'},
-		{'node "stone"', 'node "stone"', 'node "stone"'},
+		{"default:steel_ingot"},
+		{"moreblocks:stonebrick"},
 	}
 })
 
+-- plankstone
 minetest.register_craft({
-	output = 'node "moreblocks:allfacestree" 8',
+	output = "moreblocks:plankstone 4",
 	recipe = {
-		{'node "tree"', 'node "tree"', 'node "tree"'},
-		{'node "tree"', '', 'node "tree"'},
-		{'node "tree"', 'node "tree"', 'node "tree"'},
+		{"default:cobble", "default:cobble"},
+		{"default:wood", "default:wood"},
+	}
+})
+minetest.register_craft({
+	output = "moreblocks:plankstone 4",
+	recipe = {
+		{"default:wood", "default:stone"},
+		{"default:stone", "default:wood"},
 	}
 })
 
+-- coalchecker
 minetest.register_craft({
-	output = 'craft "moreblocks:sweeper" 3',
+	output = "moreblocks:coalchecker 4",
 	recipe = {
-		{'node "junglegrass"'},
-		{'craft "Stick"'},
+		{"default:stone", "default:coal_lump"},
+		{"default:coal_lump", "default:stone"},
+	}
+})
+minetest.register_craft({
+	output = "moreblocks:coalchecker 4",
+	recipe = {
+		{"default:coal_lump", "default:stone"},
+		{"default:stone", "default:coal_lump"},
 	}
 })
 
+-- ironchecker
 minetest.register_craft({
-	output = 'node "moreblocks:stonesquare" 4',
+	output = "moreblocks:ironchecker 4",
 	recipe = {
-		{'node "cobble"', 'node "cobble"'},
-		{'node "cobble"', 'node "cobble"'},
+		{"default:steel_ingot", "default:stone"},
+		{"default:stone", "default:steel_ingot"},
+	}
+})
+minetest.register_craft({
+	output = "moreblocks:ironchecker 4",
+	recipe = {
+		{"default:stone", "default:steel_ingot"},
+		{"default:steel_ingot", "default:stone"},
 	}
 })
 
+-- ironglass
 minetest.register_craft({
-	output = 'node "moreblocks:splitstonesquare" 1',
+	output = "moreblocks:ironglass",
 	recipe = {
-		{'node "moreblocks:stonesquare"'},
+		{"default:steel_ingot"},
+		{"default:glass"},
 	}
 })
 
+-- coalglass
 minetest.register_craft({
-	output = 'node "moreblocks:emptybookshelf" 1',
+	output = "moreblocks:coalglass",
 	recipe = {
-		{'craft "moreblocks:sweeper"'},
-		{'node "default:bookshelf"'},
+		{"default:coal_lump"},
+		{"default:glass"},
 	}
 })
 
+-- cleanglass
 minetest.register_craft({
-	output = 'node "moreblocks:ironstonebrick" 1',
+	output = "moreblocks:cleanglass",
 	recipe = {
-		{'craft "default:steel_ingot"'},
-		{'node "moreblocks:stonebrick"'},
+		{"moreblocks:sweeper"},
+		{"default:glass"},
 	}
 })
 
+-- glowglass
 minetest.register_craft({
-	output = 'node "default:wood" 4',
+	output = "moreblocks:glowglass",
 	recipe = {
-		{'node "moreblocks:horizontaltree"'},
+		{"default:torch"},
+		{"default:glass"},
 	}
 })
 
+-- superglowglass
 minetest.register_craft({
-	output = 'node "moreblocks:junglewood" 4',
+	output = "moreblocks:superglowglass",
 	recipe = {
-		{'node "moreblocks:horizontaljungletree"'},
+		{"default:torch"},
+		{"default:torch"},
+		{"default:glass"},
 	}
 })
 
+-- coalstone
 minetest.register_craft({
-	output = 'node "moreblocks:plankstone" 4',
+	output = "moreblocks:coalstone",
 	recipe = {
-		{'node "cobble"', 'node "cobble"'},
-		{'node "wood"', 'node "wood"'},
+		{"default:coal_lump"},
+		{"default:stone"},
 	}
 })
 
+-- trapstone
 minetest.register_craft({
-	output = 'node "moreblocks:plankstone" 4',
+	output = "moreblocks:trapstone 12",
 	recipe = {
-		{'node "wood', 'node "stone"'},
-		{'node "stone"', 'node "wood"'},
+		{"default:mese"},
+		{"default:stone"},
 	}
 })
 
+-- trapglass
 minetest.register_craft({
-	output = 'node "moreblocks:coalchecker" 4',
+	output = "moreblocks:trapglass 12",
 	recipe = {
-		{'node "stone"', 'craft "lump_of_coal"'},
-		{'craft "lump_of_coal"', 'node "stone"'},
+		{"default:mese"},
+		{"default:glass"},
 	}
 })
 
+-- ironstone
 minetest.register_craft({
-	output = 'node "moreblocks:coalchecker" 4',
+	output = "moreblocks:ironstone",
 	recipe = {
-		{'craft "lump_of_coal"', 'node "stone"'},
-		{'node "stone"', 'craft "lump_of_coal"'},
+		{"default:steel_ingot"},
+		{"default:stone"},
 	}
 })
 
+-- cactusbrick
 minetest.register_craft({
-	output = 'node "moreblocks:ironchecker" 4',
+	output = "moreblocks:cactusbrick",
 	recipe = {
-		{'craft "steel_ingot"', 'node "stone"'},
-		{'node "stone"', 'craft "steel_ingot"'},
+		{"default:cactus"},
+		{"default:brick"},
 	}
 })
 
+-- cactuschecker
 minetest.register_craft({
-	output = 'node "default:chest_locked" 1',
+	output = "moreblocks:cactuschecker 4",
 	recipe = {
-		{'craft "steel_ingot"'},
-		{'node "chest"'},
+		{"default:cactus", "default:stone"},
+		{"default:stone", "default:cactus"},
 	}
 })
 
+-- cactuschecker
 minetest.register_craft({
-	output = 'node "moreblocks:ironchecker" 4',
+	output = "moreblocks:cactuschecker 4",
 	recipe = {
-		{'node "stone"', 'craft "steel_ingot"'},
-		{'craft "steel_ingot"', 'node "stone"'},
+		{"default:stone", "default:cactus"},
+		{"default:cactus", "default:stone"},
 	}
 })
 
+-- oerkkiblock
 minetest.register_craft({
-	output = 'node "moreblocks:ironglass" 1',
+	output = "moreblocks:oerkkiblock 9",
 	recipe = {
-		{'craft "steel_ingot"'},
-		{'node "glass"'},
+		{"default:iron_lump", "default:coal_lump", "default:iron_lump"},
+		{"default:coal_lump", "bookshelf", "default:coal_lump"},
+		{"default:iron_lump", "default:coal_lump", "default:iron_lump"},
 	}
 })
 
+-- oerkkiblock
 minetest.register_craft({
-	output = 'node "moreblocks:coalglass" 1',
+	output = "moreblocks:oerkkiblock 9",
 	recipe = {
-		{'craft "lump_of_coal"'},
-		{'node "glass"'},
+		{"default:coal_lump", "default:iron_lump", "default:coal_lump"},
+		{"default:iron_lump", "default:bookshelf", "default:iron_lump"},
+		{"default:coal_lump", "default:iron_lump", "default:coal_lump"},
 	}
 })
 
+-- rope
 minetest.register_craft({
-	output = 'node "moreblocks:cleanglass" 1',
+	output = "moreblocks:rope",
 	recipe = {
-		{'craft "moreblocks:sweeper'},
-		{'node "glass"'},
+		{"default:junglegrass"},
+		{"default:junglegrass"},
+		{"default:junglegrass"},
 	}
 })
 
+-- horizontaltree
 minetest.register_craft({
-	output = 'node "moreblocks:glowglass" 1',
+	output = "moreblocks:horizontaltree 2",
 	recipe = {
-		{'node "torch"'},
-		{'node "glass"'},
+		{"default:tree", "default:tree"},
+	}
+})
+minetest.register_craft({
+	output = "default:wood 4",
+	recipe = {
+		{"moreblocks:horizontaltree"},
+	}
+})
+minetest.register_craft({
+	output = "default:tree 2",
+	recipe = {
+		{"moreblocks:horizontaltree"},
+		{"moreblocks:horizontaltree"},
 	}
 })
 
+-- horizontaljungletree
 minetest.register_craft({
-	output = 'node "moreblocks:superglowglass" 1',
+	output = "moreblocks:horizontaljungletree 2",
 	recipe = {
-		{'node "torch"'},
-		{'node "torch"'},
-		{'node "glass"'},
+		{"default:jungletree", "default:jungletree"},
+	}
+})
+minetest.register_craft({
+	output = "moreblocks:junglewood 4",
+	recipe = {
+		{"moreblocks:horizontaljungletree"},
+	}
+})
+minetest.register_craft({
+	output = "default:jungletree 2",
+	recipe = {
+		{"moreblocks:horizontaljungletree"},
+		{"moreblocks:horizontaljungletree"},
+	}
+})
+-- glowstone
+minetest.register_craft({
+	output = 'moreblocks:glowstone',
+	recipe = {
+		{'', 'default:torch', ''},
+		{'default:torch', 'moreblocks:stonesquare', 'default:torch'},
+		{'', 'default:torch', ''},
 	}
 })
 
-minetest.register_craft({
-	output = 'node "moreblocks:coalstone" 1',
-	recipe = {
-		{'craft "lump_of_coal"'},
-		{'node "stone"'},
-	}
-})
 
-minetest.register_craft({
-	output = 'node "moreblocks:trapstone" 12',
-	recipe = {
-		{'node "mese"'},
-		{'node "stone"'},
-	}
-})
-
-minetest.register_craft({
-	output = 'node "moreblocks:trapglass" 12',
-	recipe = {
-		{'node "mese"'},
-		{'node "glass"'},
-	}
-})
-
-minetest.register_craft({
-	output = 'node "moreblocks:ironstone" 1',
-	recipe = {
-		{'craft "steel_ingot"'},
-		{'node "stone"'},
-	}
-})
-
-minetest.register_craft({
-	output = 'node "moreblocks:cactusbrick" 1',
-	recipe = {
-		{'node "cactus"'},
-		{'node "brick"'},
-	}
-})
-
-minetest.register_craft({
-	output = 'node "moreblocks:cactuschecker" 4',
-	recipe = {
-		{'node "cactus"', 'node "stone"'},
-		{'node "stone"', 'node "cactus"'},
-	}
-})
-
-minetest.register_craft({
-	output = 'node "moreblocks:cactuschecker" 4',
-	recipe = {
-		{'node "stone"', 'node "cactus"'},
-		{'node "cactus"', 'node "stone"'},
-	}
-})
-
-minetest.register_craft({
-	output = 'node "moreblocks:oerkkiblock" 9',
-	recipe = {
-		{'craft "lump_of_iron', 'craft "lump_of_coal"', 'craft "lump_of_iron"'},
-		{'craft "lump_of_coal"', 'node "bookshelf"', 'craft "lump_of_coal"'},
-		{'craft "lump_of_iron', 'craft "lump_of_coal"', 'craft "lump_of_iron"'},
-	}
-})
-
-minetest.register_craft({
-	output = 'node "moreblocks:oerkkiblock" 9',
-	recipe = {
-		{'craft "lump_of_coal', 'craft "lump_of_iron"', 'craft "lump_of_coal"'},
-		{'craft "lump_of_iron"', 'node "bookshelf"', 'craft "lump_of_iron"'},
-		{'craft "lump_of_coal"', 'craft "lump_of_iron"', 'craft "lump_of_coal"'},
-	}
-})
-
-minetest.register_craft({
-	output = 'node "sapling" 1',
-	recipe = {
-		{'node "leaves"', 'node "leaves"', 'node "leaves"'},
-		{'node "leaves"', 'node "leaves"', 'node "leaves"'},
-		{'', 'craft "Stick"', ''},
-	}
-})
-
-minetest.register_craft({
-	output = 'node "moreblocks:rope" 1',
-	recipe = {
-		{'node "leaves"'},
-		{'node "leaves"'},
-		{'node "leaves"'},
-	}
-})
-
-minetest.register_craft({
-	output = 'node "moreblocks:rope" 1',
-	recipe = {
-		{'node "leaves"'},
-		{'node "junglegrass"'},
-		{'node "leaves"'},
-	}
-})
-
-minetest.register_craft({
-	output = 'node "moreblocks:rope" 1',
-	recipe = {
-		{'node "junglegrass"'},
-		{'node "junglegrass"'},
-		{'node "junglegrass"'},
-	}
-})
-
-minetest.register_craft({
-	output = 'craft "steel_ingot" 9',
-	recipe = {
-		{'node "default:steelblock"'},
-	}
-})
-
-minetest.register_craft({
-	output = 'node "moreblocks:horizontaltree" 2',
-	recipe = {
-		{'node "tree"', 'node "tree"'},
-	}
-})
-
-minetest.register_craft({
-	output = 'node "tree" 2',
-	recipe = {
-		{'node "moreblocks:horizontaltree"'},
-		{'node "moreblocks:horizontaltree"'},
-	}
-})
-
-minetest.register_craft({
-	output = 'node "moreblocks:horizontaljungletree" 2',
-	recipe = {
-		{'node "jungletree"', 'node "jungletree"'},
-	}
-})
-
-minetest.register_craft({
-	output = 'node "jungletree" 2',
-	recipe = {
-		{'node "moreblocks:horizontaljungletree"'},
-		{'node "moreblocks:horizontaljungletree"'},
-	}
-})
-
+--
 -- Blocks
+--
 
 minetest.register_node("moreblocks:junglewood", {
 	description = "Jungle Wooden Planks",
@@ -811,6 +649,19 @@ minetest.register_node("moreblocks:rope", {
 	},
 	groups = {snappy=3,flammable=2},
 	sounds = default.node_sound_leaves_defaults(),
+})
+
+minetest.register_node("moreblocks:glowstone", {
+	description = "Glowstone",
+	tiles = {"blox_glowstone.png"},
+	inventory_image = "blox_glowstone.png",
+	light_propagates = true,
+	paramtype = "light",
+	sunlight_propagates = true,
+	light_source = 30	,
+	is_ground_content = true,
+	groups = {cracky=2},
+	sounds = default.node_sound_stone_defaults(),
 })
 
 -- Items
