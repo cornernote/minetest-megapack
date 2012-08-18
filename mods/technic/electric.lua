@@ -155,7 +155,7 @@ minetest.register_node("technic:electric_furnace_active", {
 	on_construct = function(pos)
 		local meta = minetest.env:get_meta(pos)
 		meta:set_float("technic_power_machine", 1)
-		meta:set_string("formspec", electric_furnace_inactive_formspec)
+		meta:set_string("formspec", electric_furnace_formspec)
 		meta:set_string("infotext", "Electric furnace");
 		local inv = meta:get_inventory()
 		inv:set_size("src", 1)
@@ -273,16 +273,16 @@ end
 
 	LV_nodes_visited = {}
 
-function get_RE_battery_load (load1)
+function get_RE_item_load (load1,max_load)
 if load1==0 then load1=65535 end
 local temp = 65536-load1
-temp= temp/65535*10000
+temp= temp/65535*max_load
 return math.floor(temp + 0.5)
 end
 
-function set_RE_battery_load (load1)
+function set_RE_item_load (load1,max_load)
 if load1 == 0 then return 65535 end
-local temp=load1/10000*65535
+local temp=load1/max_load*65535
 temp=65536-temp
 return math.floor(temp)
 end
@@ -302,7 +302,7 @@ minetest.register_abm({
 		src_item=srcstack:to_table()
 		if src_item["name"]== "technic:battery" then
 		local load1=tonumber((src_item["wear"])) 
-		load1=get_RE_battery_load(load1)
+		load1=get_RE_item_load(load1,10000)
 		load_step=1000
 		if load1<10000 and charge>0 then 
 		 if charge-load_step<0 then load_step=charge end
@@ -310,7 +310,28 @@ minetest.register_abm({
 		load1=load1+load_step
 		charge=charge-load_step
 	
-		load1=set_RE_battery_load(load1)
+		load1=set_RE_item_load(load1,10000)
+		src_item["wear"]=tostring(load1)
+		inv:set_stack("src", 1, src_item)
+		end		
+		end
+		end
+		meta:set_float("battery_charge",charge)
+		
+	
+		if inv:is_empty("src")==false  then 
+		srcstack = inv:get_stack("src", 1)
+		src_item=srcstack:to_table()
+		if src_item["name"]== "technic:laser_mk1" then
+		local load1=tonumber((src_item["wear"])) 
+		load1=get_RE_item_load(load1,40000)
+		load_step=1000
+		if load1<40000 and charge>0 then 
+		 if charge-load_step<0 then load_step=charge end
+		 if load1+load_step>40000 then load_step=40000-load1 end
+		load1=load1+load_step
+		charge=charge-load_step
+		load1=set_RE_item_load(load1,40000)
 		src_item["wear"]=tostring(load1)
 		inv:set_stack("src", 1, src_item)
 		end		
@@ -318,13 +339,13 @@ minetest.register_abm({
 		end
 		meta:set_float("battery_charge",charge)
 
+
 		if inv:is_empty("dst") == false then 
 		srcstack = inv:get_stack("dst", 1)
 		src_item=srcstack:to_table()
 		if src_item["name"]== "technic:battery" then
 		local load1=tonumber((src_item["wear"])) 
-		local load1=tonumber((src_item["wear"])) 
-		load1=get_RE_battery_load(load1)
+		load1=get_RE_item_load(load1,10000)
 		load_step=1000
 		if load1>0 and charge<max_charge then 
 			 if charge+load_step>max_charge then load_step=max_charge-charge end
@@ -332,7 +353,7 @@ minetest.register_abm({
 		load1=load1-load_step
 		charge=charge+load_step
 	
-		load1=set_RE_battery_load(load1)
+		load1=set_RE_item_load(load1,10000)
 		src_item["wear"]=tostring(load1)
 		inv:set_stack("dst", 1, src_item)
 		end		

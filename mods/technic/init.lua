@@ -28,6 +28,7 @@ dofile(minetest.get_modpath("technic").."/ores.lua")
 dofile(minetest.get_modpath("technic").."/tool_workshop.lua")
 dofile(minetest.get_modpath("technic").."/music_player.lua")
 dofile(minetest.get_modpath("technic").."/grinder.lua")
+dofile(minetest.get_modpath("technic").."/mining_laser_mk1.lua")
 
 
 function has_locked_chest_privilege(meta, player)

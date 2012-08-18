@@ -63,7 +63,7 @@ minetest.register_node("technic:music_player", {
 	meta:set_float("music_player_current_track",music_player_current_track)
 	if fields.play and player_on==1 then  
 	minetest.sound_stop(music_handle)
-	music_handle=minetest.sound_play("technic_track"..music_player_current_track, {pos = pos, gain = 1.0,loop = true, max_hear_distance = 32,}) 	
+	music_handle=minetest.sound_play("technic_track"..music_player_current_track, {pos = pos, gain = 0.5,loop = true, max_hear_distance = 32,}) 	
 	end
 	if fields.stop then  
 	minetest.sound_stop(music_handle)
