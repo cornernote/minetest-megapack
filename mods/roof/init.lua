@@ -114,7 +114,7 @@ minetest.register_craft({
 	output = '"roof:redcanvas" 4',
 	recipe = {
 		{'"roof:thatch"'},
-		{'"flowers:flower_rose'},
+		{'"flowers:flower_rose"'},
 	}
 })
 
