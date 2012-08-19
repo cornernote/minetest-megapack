@@ -23,6 +23,7 @@ function item_drop(pos, oldnode, digger)
 		return
 	else
 		if string.find(oldnode.name, " ") ~= nil then
+			oldnode.name = oldnode.name:gsub('"',""):gsub("craft ",""):gsub("item ",""):gsub("node ","")
 			anzahl = string.sub(oldnode.name, string.find(oldnode.name, " ")+1, string.len(oldnode.name))
 			oldnode.name = string.sub(oldnode.name, 1, string.find(oldnode.name, " ")-1)
 		end
@@ -32,16 +33,18 @@ function item_drop(pos, oldnode, digger)
 			digger:get_inventory():remove_item("main", ItemStack(oldnode.name))
 		end
 		local item = minetest.env:add_item(pos, oldnode)
-		item:get_luaentity().collect = true
-		local x = math.random(1, 5)
-		if math.random(1,2) == 1 then
-			x = -x
+		if item ~= nil and item:get_luaentity()~=nil then
+			item:get_luaentity().collect = true
+			local x = math.random(1, 5)
+			if math.random(1,2) == 1 then
+				x = -x
+			end
+			local z = math.random(1, 5)
+			if math.random(1,2) == 1 then
+				z = -z
+			end
+			item:setvelocity({x=1/x, y=item:getvelocity().y, z=1/z})
 		end
-		local z = math.random(1, 5)
-		if math.random(1,2) == 1 then
-			z = -z
-		end
-		item:setvelocity({x=1/x, y=item:getvelocity().y, z=1/z})
 	end
 end
 
@@ -87,10 +90,15 @@ minetest.register_globalstep(function(dtime)
 	end
 	
 	for i,item in ipairs(item_timer) do
-		item:get_luaentity().timer = item:get_luaentity().timer + dtime
-		if item:get_luaentity().timer > 1 then
-			item:get_luaentity().collect = true
-			table.remove(item_timer, i)
+		if item ~= nil and item:get_luaentity() ~= nil then
+			if item:get_luaentity().timer == nil then
+				item:get_luaentity().timer = 0
+			end
+			item:get_luaentity().timer = item:get_luaentity().timer + dtime
+			if item:get_luaentity().timer > 1 then
+				item:get_luaentity().collect = true
+				table.remove(item_timer, i)
+			end
 		end
 	end
 end)
@@ -124,7 +132,7 @@ minetest.after(0, function()
 		
 		local new_node = {
 			after_dig_node = func,
-			stack_max = 64,
+			--stack_max = 64,
 		}
 		for str,val in pairs(node) do
 			new_node[str] = val
