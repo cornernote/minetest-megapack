@@ -1,0 +1,179 @@
+--[[
+ Mod	3D FORNITURE
+ Author	Tonyka
+--]]
+
+--alias
+
+minetest.register_alias('table', '3dforniture:table')
+minetest.register_alias('chair', '3dforniture:chair')
+minetest.register_alias('bars', '3dforniture:bars')
+minetest.register_alias('binding_bars', '3dforniture:L_binding_bars')
+
+--crafting
+
+minetest.register_craft( {
+	output = '3dforniture:table',
+	recipe = {
+		{ 'default:wood','default:wood', 'default:wood' },
+		{ 'default:stick', '', 'default:stick' },
+	},
+})
+
+minetest.register_craft( {
+	output = '3dforniture:chair 2',
+	recipe = {
+		{ 'default:stick',''},
+		{ 'default:wood','default:wood' },
+		{ 'default:stick','default:stick' },
+	},
+})
+
+minetest.register_craft( {
+	output = '3dforniture:bars 10',
+	recipe = {
+		{ 'default:steel_ingot','default:steel_ingot','default:steel_ingot' },
+		{ 'default:steel_ingot','default:steel_ingot','default:steel_ingot' },
+	},
+})
+
+minetest.register_craft( {
+	output = '3dforniture:L_binding_bars 4',
+	recipe = {
+		{ '3dforniture:bars','' },
+		{ '3dforniture:bars','3dforniture:bars' },
+	},
+})
+
+--fuel
+
+minetest.register_craft({
+	type = 'fuel',
+	recipe = '3dforniture:table',
+	burntime = 30,
+})
+
+minetest.register_craft({
+	type = 'fuel',
+	recipe = '3dforniture:chair',
+	burntime = 15,
+})
+
+
+--nodes
+
+minetest.register_node("3dforniture:table", {
+	description = 'Table',
+	tiles = {
+		"forniture_wood.png",
+		"forniture_wood.png",
+		"forniture_wood_s1.png",
+		"forniture_wood_s1.png",
+		"forniture_wood_s2.png",
+		"forniture_wood_s2.png",
+	},
+	drawtype = "nodebox",
+	sunlight_propagates = true,
+	paramtype = 'light',
+	paramtype2 = "facedir",
+		node_box = {
+		type = "fixed",
+		fixed = {
+			{-0.4,-0.5,-0.4, -0.3,0.4,-0.3},
+			{0.3,-0.5,-0.4, 0.4,0.4,-0.3},
+			{-0.4,-0.5,0.3, -0.3,0.4,0.4},
+			{0.3,-0.5,0.3, 0.4,0.4,0.4},
+			{-0.5,0.4,-0.5, 0.5,0.5,0.5},
+			{-0.4,-0.2,-0.3, -0.3,-0.1,0.3},
+			{0.3,-0.2,-0.4, 0.4,-0.1,0.3},
+			{-0.3,-0.2,-0.4, 0.4,-0.1,-0.3},
+			{-0.3,-0.2,0.3, 0.3,-0.1,0.4},
+		},
+	},
+	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2}
+})
+
+minetest.register_node("3dforniture:chair", {
+	description = 'Chair',
+	tiles = {
+		"forniture_wood.png",
+		"forniture_wood.png",
+		"forniture_wood_s1.png",
+		"forniture_wood_s1.png",
+		"forniture_wood_s2.png",
+		"forniture_wood_s2.png",
+	},
+	drawtype = "nodebox",
+	sunlight_propagates = true,
+	paramtype = 'light',
+	paramtype2 = "facedir",
+		node_box = {
+		type = "fixed",
+		fixed = {
+			{-0.3,-0.5,0.2, -0.2,0.5,0.3},
+			{0.2,-0.5,0.2, 0.3,0.5,0.3},
+			{-0.3,-0.5,-0.3, -0.2,-0.1,-0.2},
+			{0.2,-0.5,-0.3, 0.3,-0.1,-0.2},
+			{-0.3,-0.1,-0.3, 0.3,0,0.2},
+			{-0.2,0.1,0.25, 0.2,0.4,0.26}
+		},
+	},
+	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2}
+})
+
+minetest.register_node("3dforniture:bars", {
+	description = 'bars',
+	tiles = {
+		"forniture_black_metal.png",
+		"forniture_black_metal.png",
+		"forniture_black_metal_s1.png",
+		"forniture_black_metal_s1.png",
+		"forniture_black_metal_s2.png",
+		"forniture_black_metal_s2.png",
+	},
+	drawtype = "nodebox",
+	sunlight_propagates = true,
+	paramtype = 'light',
+	paramtype2 = "facedir",
+		node_box = {
+		type = "fixed",
+		fixed = {
+			{-0.5,-0.5,-0.1, -0.4,0.5,0.1},
+			{-0.1,-0.5,-0.1, 0.1,0.5,0.1},
+			{0.4,-0.5,-0.1, 0.5,0.5,0.1},
+			{-0.5,-0.5,-0.05, 0.5,-0.45,0.05},
+			{-0.5,0.45,-0.05, 0.5,0.5,0.05}
+		},
+	},
+	groups = {cracky=1}
+})
+
+minetest.register_node("3dforniture:L_binding_bars", {
+	description = 'binding bars',
+	tiles = {
+		"forniture_black_metal.png",
+		"forniture_black_metal.png",
+		"forniture_black_metal_s1.png",
+		"forniture_black_metal_s1.png",
+		"forniture_black_metal_s2.png",
+		"forniture_black_metal_s2.png",
+	},
+	drawtype = "nodebox",
+	sunlight_propagates = false,
+	paramtype = 'light',
+	paramtype2 = "facedir",
+		node_box = {
+		type = "fixed",
+		fixed = {
+			{-0.1,-0.5,-0.5, 0.1,0.5,-0.4},
+			{-0.15,-0.5,-0.15, 0.15,0.5,0.15},
+			{0.4,-0.5,-0.1, 0.5,0.5,0.1},
+			{0,-0.5,-0.05, 0.5,-0.45,0.05},
+			{-0.05,-0.5,-0.5, 0.05,-0.45,0},
+			{0,0.45,-0.05, 0.5,0.5,0.05},
+			{-0.05,0.45,-0.5, 0.05,0.5,0},
+			
+		},
+	},
+	groups = {cracky=1}
+})
