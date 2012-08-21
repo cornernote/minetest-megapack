@@ -1,4 +1,3 @@
---------------------------------------------------------------------------------------------------------
 --Ambiance Configuration for version .08
 
 local max_frequency_all = 1000 --the larger you make this number the lest frequent ALL sounds will happen recommended values between 100-2000.
@@ -21,8 +20,6 @@ local water_frequent_frequency = 1000  --underwater sounds
 local water_frequent_volume = 1.0 
 local music_frequency = 1  --music (suggestion: keep this one low like around 1)
 local music_volume = 0.3 
---End of Config
-----------------------------------------------------------------------------------------------------
 
 local night = {
 	handler = {},
@@ -48,14 +45,13 @@ local day = {
 local day_frequent = {
 	handler = {},
 	frequency = day_frequent_frequency,
-	{name="robin2", length=16, gain=day_frequent_volume},
-	{name="birdsongnl", length=13, gain=day_frequent_volume},
+	{name="robin2", length=43, gain=day_frequent_volume},
+	{name="birdsongnl", length=72, gain=day_frequent_volume},
 	{name="bird", length=30, gain=day_frequent_volume}--,
 --	{name="Best Cardinal Bird", length=4, gain=day_frequent_volume},
 --	{name="craw", length=3, gain=day_frequent_volume},
 --	{name="bluejay", length=18, gain=day_frequent_volume}
 }
-
 
 local cave = {
 	handler = {},
@@ -85,7 +81,7 @@ local water_frequent = {
 	frequency = water_frequent_frequency,
 	on_stop = "drowning_gasp",
 	{name="scuba1bubbles", length=11, gain=water_frequent_volume},
-	{name="scuba1calm", length=10},  --not sure why but sometimes I get errors when setting gain=water_frequent_volume here.
+	{name="scuba1calm", length=10, gain=water_frequent_volume},
 	{name="scuba1calm2", length=8.5, gain=water_frequent_volume},
 	{name="scuba1interestingbubbles", length=11, gain=water_frequent_volume},
 	{name="scuba1tubulentbubbles", length=10.5, gain=water_frequent_volume}
