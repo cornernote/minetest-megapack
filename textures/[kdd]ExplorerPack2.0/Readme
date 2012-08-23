@@ -32,8 +32,7 @@ sources of textures: 	opengameart.org;  Golgotha; burnigwell.org; wikipedia.com
 2.1 Linux Mint
 
 -Extract the archive
--Copy and paste all of the textures from the 'data' folder into /usr/share/minetest
-(be sure to open the folder as admin) and overwrite the old textures 
+-Copy and paste all of the textures from the 'data' folder into /usr/share/minetest (be sure to open the folder as admin) and overwrite the old textures 
 	-> IMPORTANT: don't forget to make a backup of your old textures
 -Start the game and enjoy
 
@@ -42,10 +41,15 @@ sources of textures: 	opengameart.org;  Golgotha; burnigwell.org; wikipedia.com
 2.2 Windows
 
 -Extract the archive
--Copy and paste all of the textures from the 'data' folder into the 'data' folder 
-in your Minetest folder and overwrite the old textures 
+-Copy and paste all of the textures from the 'data' folder into the 'data' folder in your Minetest folder and overwrite the old textures 
 	-> IMPORTANT: don't forget to make a backup of your old textures
 -Start the game and enjoy
+
+
+2.3 Cross Platform
+
+- locate your minetest.conf
+- add to it: texture_path = <insert location of the AdventurePack data folder here>
 
 
 ************************************************************************
@@ -57,6 +61,21 @@ in your Minetest folder and overwrite the old textures
 	1.2 updated to v.20110922_1.1
 
 2.0 removed all textures from cgtextures and created new ones
+
+3.0 updated to Minetest 0.4
+	-> changed nyancat texture
+	-> changed ore textures (coal,mese,iron)
+	-> added new hand texture
+4.0 updated to 0.4 Release Candidate #1
+	-> renamed textures
+	-> recolored cactus & papyrus
+	-> added inactive furnace + improved active one
+	-> added animated lava
+	-> added locked chest
+	-> junglegrass texture is now desert shrub texture
+	-> changed junglegrass texture to farn
+	-> changed wieldhand
+	-> edited player texture	
 
 
 
