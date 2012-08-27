@@ -1,0 +1,59 @@
+hp = 20
+name = VanessaEzekowitz
+pitch = 5.1
+position = (262.59,104.58,-216.07)
+version = 1
+yaw = 269.99
+PlayerArgsEnd
+List main 32
+Item mesecons_walllever:wall_lever_00_on 83
+Item mesecons_walllever:wall_lever_00_off 13
+Item default:dirt
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+EndInventoryList
+List craft 9
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+EndInventoryList
+List craftpreview 1
+Empty
+EndInventoryList
+List craftresult 1
+Empty
+EndInventoryList
+EndInventory

@@ -1,0 +1,2 @@
+VanessaEzekowitz::shout,interact
+singleplayer::interact,give,teleport,privs,basic_privs,bring,settime,password,ban,rollback,shout,fly,worldedit,fast,server

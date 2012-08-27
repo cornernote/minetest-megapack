@@ -1,0 +1,59 @@
+hp = 20
+name = singleplayer
+pitch = 20.89
+position = (654.96,1416.2,589.1)
+version = 1
+yaw = -182.04
+PlayerArgsEnd
+List main 32
+Item default:pick_mese 1 59048
+Item mesecons_walllever:wall_lever_off 98
+Item default:stone 91
+Empty
+Item mesecons_switch:mesecon_switch_off 80
+Item mesecons:wire_00000000_off 43
+Item default:cobble 425
+Item default:glass 353
+Item default:cobble 99
+Item moreores:pick_bronze 1 408
+Item default:glass 99
+Item flowers:flower_dandelion_yellow 3
+Item default:coal_lump 97
+Item mesecons_button:button_off 2
+Item mesecons_torch:mesecon_torch_off 93
+Item mesecons_torch:mesecon_torch_on 5
+Item mesecons:wire_00000000_off 99
+Item default:cobble 23
+Item moreores:copper_lump
+Item flowers:flower_tulip 2
+Item default:glass 3
+Item mesecons_microcontroller:microcontroller0000 99
+Empty
+Item mesecons_pistons:piston_normal 97
+Item mesecons_lamp:lamp_off 95
+Item mesecons_detector:object_detector_off 98
+Item default:wood 10
+Item default:wood 929
+Item mesecons_detector:object_detector_off 99
+Empty
+Empty
+Item default:stick 80
+EndInventoryList
+List craft 9
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+EndInventoryList
+List craftpreview 1
+Empty
+EndInventoryList
+List craftresult 1
+Empty
+EndInventoryList
+EndInventory

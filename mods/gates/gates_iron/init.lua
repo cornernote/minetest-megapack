@@ -33,11 +33,11 @@ gates.register_node('gates_iron:classic', {
     sunlight_propagates = true,
     paramtype = 'light',
     visual_scale = 1.5,
-	tiles = {'gate_iron_open.png'},
+	tile_images = {'gate_iron_open.png'},
 	walkable = false,
 },
 {
-	tiles = {'gate_iron_top.png','gate_iron_top.png','gate_iron.png'},
+	tile_images = {'gate_iron_top.png','gate_iron_top.png','gate_iron.png'},
 	walkable = true,
 }, "on_mesecon")
 
@@ -52,7 +52,7 @@ gates.register_node('gates_iron:long', {
 			{-0.9, -0.25, -0.1, 0.9, 0.25, 0.1},
 		},
 	},
-	tiles = {'gate_iron_long.png'},
+	tile_images = {'gate_iron_long.png'},
 	sunlight_propagates = true,
     paramtype = "light",
 },
@@ -91,7 +91,7 @@ gates.register_node('gates_iron:short', {
 			{-0.5, -0.5, -0.06, 0.5, 0.5, 0.06},
 		},
 	},
-	tiles = {'default_stone.png'},
+	tile_images = {'default_stone.png'},
 	--sunlight_propagates = true,
     paramtype = "light",
 },

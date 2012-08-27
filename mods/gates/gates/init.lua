@@ -18,14 +18,14 @@
 -- {
 --     #open gate options go here
 --
---     tiles = {'open_gate.png'}, 
+--     tile_images = {'open_gate.png'}, 
 --	   walkable = false,
 --     drawtype = "plantlike",
 -- },
 -- {
 --     #closed gate options go here
 --
---     tiles = {'closed_gate_top.png','closed_gate_bottom.png','closed_gate_sides.png'}, 
+--     tile_images = {'closed_gate_top.png','closed_gate_bottom.png','closed_gate_sides.png'}, 
 --	   walkable = true,
 -- },
 -- }, "on_punch") #The mode to switch the gate eg. on_punch, on_mesecon_signal, on_whatever
