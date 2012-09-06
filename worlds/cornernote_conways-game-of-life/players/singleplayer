@@ -1,0 +1,59 @@
+hp = 19
+name = singleplayer
+pitch = 1.5
+position = (2343.11,252.99,729.41)
+version = 1
+yaw = -179.86
+PlayerArgsEnd
+List main 32
+Item mesecons_microcontroller:microcontroller0000 18
+Item mesecons_insulated:insulated_off 62
+Item mesecons:wire_00000000_off 63
+Item default:sign_wall 48
+Item mesecons_button:button_off 16
+Item mesecons_walllever:wall_lever_off 8
+Item default:pick_mese 1 7986
+Item mesecons_lightstone:lightstone_green_off 45
+Item default:cobble 47
+Empty
+Empty
+Item mesecons_lamp:lamp_off 49
+Item wool:black 8
+Item mesecons_switch:mesecon_switch_off 33
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Item default:torch 44
+EndInventoryList
+List craft 9
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+EndInventoryList
+List craftpreview 1
+Empty
+EndInventoryList
+List craftresult 1
+Empty
+EndInventoryList
+EndInventory
