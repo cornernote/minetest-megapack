@@ -1,1 +1,1 @@
-gameid = mesecons
+gameid = minetest

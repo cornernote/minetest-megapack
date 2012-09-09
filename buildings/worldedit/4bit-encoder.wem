@@ -1,0 +1,823 @@
+return {
+-- Table: {1}
+{
+   {2},
+   {3},
+   {4},
+   {5},
+   {6},
+   {7},
+   {8},
+   {9},
+   {10},
+   {11},
+   {12},
+   {13},
+   {14},
+   {15},
+   {16},
+   {17},
+   {18},
+   {19},
+   {20},
+   {21},
+   {22},
+   {23},
+   {24},
+   {25},
+   {26},
+   {27},
+   {28},
+   {29},
+   {30},
+   {31},
+   {32},
+},
+-- Table: {2}
+{
+   ["y"]=0,
+   ["x"]=0,
+   ["name"]="mesecons_switch:mesecon_switch_off",
+   ["z"]=0,
+   ["meta"]={33},
+   ["param2"]=1,
+   ["param1"]=0,
+},
+-- Table: {3}
+{
+   ["y"]=0,
+   ["x"]=0,
+   ["name"]="mesecons_switch:mesecon_switch_off",
+   ["z"]=1,
+   ["meta"]={34},
+   ["param2"]=1,
+   ["param1"]=0,
+},
+-- Table: {4}
+{
+   ["y"]=0,
+   ["x"]=0,
+   ["name"]="mesecons_switch:mesecon_switch_off",
+   ["z"]=2,
+   ["meta"]={35},
+   ["param2"]=1,
+   ["param1"]=0,
+},
+-- Table: {5}
+{
+   ["y"]=0,
+   ["x"]=0,
+   ["name"]="mesecons_switch:mesecon_switch_off",
+   ["z"]=3,
+   ["meta"]={36},
+   ["param2"]=1,
+   ["param1"]=0,
+},
+-- Table: {6}
+{
+   ["y"]=0,
+   ["x"]=0,
+   ["name"]="mesecons_switch:mesecon_switch_off",
+   ["z"]=4,
+   ["meta"]={37},
+   ["param2"]=1,
+   ["param1"]=0,
+},
+-- Table: {7}
+{
+   ["y"]=0,
+   ["x"]=0,
+   ["name"]="mesecons_switch:mesecon_switch_off",
+   ["z"]=5,
+   ["meta"]={38},
+   ["param2"]=1,
+   ["param1"]=0,
+},
+-- Table: {8}
+{
+   ["y"]=0,
+   ["x"]=0,
+   ["name"]="mesecons_switch:mesecon_switch_off",
+   ["z"]=6,
+   ["meta"]={39},
+   ["param2"]=1,
+   ["param1"]=0,
+},
+-- Table: {9}
+{
+   ["y"]=0,
+   ["x"]=0,
+   ["name"]="mesecons_switch:mesecon_switch_off",
+   ["z"]=7,
+   ["meta"]={40},
+   ["param2"]=1,
+   ["param1"]=0,
+},
+-- Table: {10}
+{
+   ["y"]=0,
+   ["x"]=1,
+   ["name"]="mesecons:wire_01100000_off",
+   ["z"]=0,
+   ["meta"]={41},
+   ["param2"]=0,
+   ["param1"]=15,
+},
+-- Table: {11}
+{
+   ["y"]=0,
+   ["x"]=1,
+   ["name"]="mesecons_microcontroller:microcontroller0000",
+   ["z"]=1,
+   ["meta"]={42},
+   ["param2"]=0,
+   ["param1"]=15,
+},
+-- Table: {12}
+{
+   ["y"]=0,
+   ["x"]=1,
+   ["name"]="mesecons_microcontroller:microcontroller0000",
+   ["z"]=2,
+   ["meta"]={43},
+   ["param2"]=0,
+   ["param1"]=15,
+},
+-- Table: {13}
+{
+   ["y"]=0,
+   ["x"]=1,
+   ["name"]="mesecons_microcontroller:microcontroller0000",
+   ["z"]=3,
+   ["meta"]={44},
+   ["param2"]=0,
+   ["param1"]=15,
+},
+-- Table: {14}
+{
+   ["y"]=0,
+   ["x"]=1,
+   ["name"]="mesecons_microcontroller:microcontroller0000",
+   ["z"]=4,
+   ["meta"]={45},
+   ["param2"]=0,
+   ["param1"]=15,
+},
+-- Table: {15}
+{
+   ["y"]=0,
+   ["x"]=1,
+   ["name"]="mesecons_microcontroller:microcontroller0000",
+   ["z"]=5,
+   ["meta"]={46},
+   ["param2"]=0,
+   ["param1"]=15,
+},
+-- Table: {16}
+{
+   ["y"]=0,
+   ["x"]=1,
+   ["name"]="mesecons_microcontroller:microcontroller0000",
+   ["z"]=6,
+   ["meta"]={47},
+   ["param2"]=0,
+   ["param1"]=15,
+},
+-- Table: {17}
+{
+   ["y"]=0,
+   ["x"]=1,
+   ["name"]="mesecons_microcontroller:microcontroller0000",
+   ["z"]=7,
+   ["meta"]={48},
+   ["param2"]=0,
+   ["param1"]=15,
+},
+-- Table: {18}
+{
+   ["y"]=0,
+   ["x"]=1,
+   ["name"]="mesecons_lightstone:lightstone_blue_off",
+   ["z"]=8,
+   ["meta"]={49},
+   ["param2"]=0,
+   ["param1"]=0,
+},
+-- Table: {19}
+{
+   ["y"]=0,
+   ["x"]=2,
+   ["name"]="mesecons:wire_01100000_off",
+   ["z"]=1,
+   ["meta"]={50},
+   ["param2"]=0,
+   ["param1"]=15,
+},
+-- Table: {20}
+{
+   ["y"]=0,
+   ["x"]=2,
+   ["name"]="mesecons_microcontroller:microcontroller0000",
+   ["z"]=2,
+   ["meta"]={51},
+   ["param2"]=0,
+   ["param1"]=15,
+},
+-- Table: {21}
+{
+   ["y"]=0,
+   ["x"]=2,
+   ["name"]="mesecons_microcontroller:microcontroller0000",
+   ["z"]=3,
+   ["meta"]={52},
+   ["param2"]=0,
+   ["param1"]=15,
+},
+-- Table: {22}
+{
+   ["y"]=0,
+   ["x"]=2,
+   ["name"]="mesecons_microcontroller:microcontroller0000",
+   ["z"]=4,
+   ["meta"]={53},
+   ["param2"]=0,
+   ["param1"]=15,
+},
+-- Table: {23}
+{
+   ["y"]=0,
+   ["x"]=2,
+   ["name"]="mesecons_microcontroller:microcontroller0000",
+   ["z"]=5,
+   ["meta"]={54},
+   ["param2"]=0,
+   ["param1"]=15,
+},
+-- Table: {24}
+{
+   ["y"]=0,
+   ["x"]=2,
+   ["name"]="mesecons_microcontroller:microcontroller0000",
+   ["z"]=6,
+   ["meta"]={55},
+   ["param2"]=0,
+   ["param1"]=15,
+},
+-- Table: {25}
+{
+   ["y"]=0,
+   ["x"]=2,
+   ["name"]="mesecons_microcontroller:microcontroller0000",
+   ["z"]=7,
+   ["meta"]={56},
+   ["param2"]=0,
+   ["param1"]=15,
+},
+-- Table: {26}
+{
+   ["y"]=0,
+   ["x"]=2,
+   ["name"]="mesecons_lightstone:lightstone_blue_off",
+   ["z"]=8,
+   ["meta"]={57},
+   ["param2"]=0,
+   ["param1"]=0,
+},
+-- Table: {27}
+{
+   ["y"]=0,
+   ["x"]=3,
+   ["name"]="mesecons:wire_01100000_off",
+   ["z"]=3,
+   ["meta"]={58},
+   ["param2"]=0,
+   ["param1"]=15,
+},
+-- Table: {28}
+{
+   ["y"]=0,
+   ["x"]=3,
+   ["name"]="mesecons_microcontroller:microcontroller0000",
+   ["z"]=4,
+   ["meta"]={59},
+   ["param2"]=0,
+   ["param1"]=15,
+},
+-- Table: {29}
+{
+   ["y"]=0,
+   ["x"]=3,
+   ["name"]="mesecons_microcontroller:microcontroller0000",
+   ["z"]=5,
+   ["meta"]={60},
+   ["param2"]=0,
+   ["param1"]=15,
+},
+-- Table: {30}
+{
+   ["y"]=0,
+   ["x"]=3,
+   ["name"]="mesecons_microcontroller:microcontroller0000",
+   ["z"]=6,
+   ["meta"]={61},
+   ["param2"]=0,
+   ["param1"]=15,
+},
+-- Table: {31}
+{
+   ["y"]=0,
+   ["x"]=3,
+   ["name"]="mesecons_microcontroller:microcontroller0000",
+   ["z"]=7,
+   ["meta"]={62},
+   ["param2"]=0,
+   ["param1"]=15,
+},
+-- Table: {32}
+{
+   ["y"]=0,
+   ["x"]=3,
+   ["name"]="mesecons_lightstone:lightstone_blue_off",
+   ["z"]=8,
+   ["meta"]={63},
+   ["param2"]=0,
+   ["param1"]=0,
+},
+-- Table: {33}
+{
+   ["inventory"]={64},
+   ["fields"]={65},
+},
+-- Table: {34}
+{
+   ["inventory"]={66},
+   ["fields"]={67},
+},
+-- Table: {35}
+{
+   ["inventory"]={68},
+   ["fields"]={69},
+},
+-- Table: {36}
+{
+   ["inventory"]={70},
+   ["fields"]={71},
+},
+-- Table: {37}
+{
+   ["inventory"]={72},
+   ["fields"]={73},
+},
+-- Table: {38}
+{
+   ["inventory"]={74},
+   ["fields"]={75},
+},
+-- Table: {39}
+{
+   ["inventory"]={76},
+   ["fields"]={77},
+},
+-- Table: {40}
+{
+   ["inventory"]={78},
+   ["fields"]={79},
+},
+-- Table: {41}
+{
+   ["inventory"]={80},
+   ["fields"]={81},
+},
+-- Table: {42}
+{
+   ["inventory"]={82},
+   ["fields"]={83},
+},
+-- Table: {43}
+{
+   ["inventory"]={84},
+   ["fields"]={85},
+},
+-- Table: {44}
+{
+   ["inventory"]={86},
+   ["fields"]={87},
+},
+-- Table: {45}
+{
+   ["inventory"]={88},
+   ["fields"]={89},
+},
+-- Table: {46}
+{
+   ["inventory"]={90},
+   ["fields"]={91},
+},
+-- Table: {47}
+{
+   ["inventory"]={92},
+   ["fields"]={93},
+},
+-- Table: {48}
+{
+   ["inventory"]={94},
+   ["fields"]={95},
+},
+-- Table: {49}
+{
+   ["inventory"]={96},
+   ["fields"]={97},
+},
+-- Table: {50}
+{
+   ["inventory"]={98},
+   ["fields"]={99},
+},
+-- Table: {51}
+{
+   ["inventory"]={100},
+   ["fields"]={101},
+},
+-- Table: {52}
+{
+   ["inventory"]={102},
+   ["fields"]={103},
+},
+-- Table: {53}
+{
+   ["inventory"]={104},
+   ["fields"]={105},
+},
+-- Table: {54}
+{
+   ["inventory"]={106},
+   ["fields"]={107},
+},
+-- Table: {55}
+{
+   ["inventory"]={108},
+   ["fields"]={109},
+},
+-- Table: {56}
+{
+   ["inventory"]={110},
+   ["fields"]={111},
+},
+-- Table: {57}
+{
+   ["inventory"]={112},
+   ["fields"]={113},
+},
+-- Table: {58}
+{
+   ["inventory"]={114},
+   ["fields"]={115},
+},
+-- Table: {59}
+{
+   ["inventory"]={116},
+   ["fields"]={117},
+},
+-- Table: {60}
+{
+   ["inventory"]={118},
+   ["fields"]={119},
+},
+-- Table: {61}
+{
+   ["inventory"]={120},
+   ["fields"]={121},
+},
+-- Table: {62}
+{
+   ["inventory"]={122},
+   ["fields"]={123},
+},
+-- Table: {63}
+{
+   ["inventory"]={124},
+   ["fields"]={125},
+},
+-- Table: {64}
+{
+},
+-- Table: {65}
+{
+},
+-- Table: {66}
+{
+},
+-- Table: {67}
+{
+},
+-- Table: {68}
+{
+},
+-- Table: {69}
+{
+},
+-- Table: {70}
+{
+},
+-- Table: {71}
+{
+},
+-- Table: {72}
+{
+},
+-- Table: {73}
+{
+},
+-- Table: {74}
+{
+},
+-- Table: {75}
+{
+},
+-- Table: {76}
+{
+},
+-- Table: {77}
+{
+},
+-- Table: {78}
+{
+},
+-- Table: {79}
+{
+},
+-- Table: {80}
+{
+},
+-- Table: {81}
+{
+},
+-- Table: {82}
+{
+},
+-- Table: {83}
+{
+   ["heat"]="0",
+   ["formspec"]="size[9,2.5]field[0.256,-0.2;9,2;code;Code:;sbi(B,A~D)sbi(C,A&D)]button[0  ,0.2;1.5,3;band;AND]button[1.5,0.2;1.5,3;bxor;XOR]button[3  ,0.2;1.5,3;bnot;NOT]button[4.5,0.2;1.5,3;bnand;NAND]button[6  ,0.2;1.5,3;btflop;T-Flop]button[7.5,0.2;1.5,3;brsflop;RS-Flop]button_exit[3.5,1;2,3;program;Program]",
+   ["code"]="sbi(B,A~D)sbi(C,A&D)",
+   ["infotext"]="Working Microcontroller\
+sbi(B,A~D)sbi(C,A&D)",
+   ["eeprom"]="0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+   ["afterid"]="0",
+   ["working"]="0",
+},
+-- Table: {84}
+{
+},
+-- Table: {85}
+{
+   ["heat"]="0",
+   ["formspec"]="size[9,2.5]field[0.256,-0.2;9,2;code;Code:;sbi(B,A~D)sbi(C,A&D)]button[0  ,0.2;1.5,3;band;AND]button[1.5,0.2;1.5,3;bxor;XOR]button[3  ,0.2;1.5,3;bnot;NOT]button[4.5,0.2;1.5,3;bnand;NAND]button[6  ,0.2;1.5,3;btflop;T-Flop]button[7.5,0.2;1.5,3;brsflop;RS-Flop]button_exit[3.5,1;2,3;program;Program]",
+   ["code"]="sbi(B,A~D)sbi(C,A&D)",
+   ["infotext"]="Working Microcontroller\
+sbi(B,A~D)sbi(C,A&D)",
+   ["eeprom"]="0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+   ["afterid"]="0",
+   ["working"]="0",
+},
+-- Table: {86}
+{
+},
+-- Table: {87}
+{
+   ["heat"]="0",
+   ["formspec"]="size[9,2.5]field[0.256,-0.2;9,2;code;Code:;sbi(B,A~D)sbi(C,A&D)]button[0  ,0.2;1.5,3;band;AND]button[1.5,0.2;1.5,3;bxor;XOR]button[3  ,0.2;1.5,3;bnot;NOT]button[4.5,0.2;1.5,3;bnand;NAND]button[6  ,0.2;1.5,3;btflop;T-Flop]button[7.5,0.2;1.5,3;brsflop;RS-Flop]button_exit[3.5,1;2,3;program;Program]",
+   ["code"]="sbi(B,A~D)sbi(C,A&D)",
+   ["infotext"]="Working Microcontroller\
+sbi(B,A~D)sbi(C,A&D)",
+   ["eeprom"]="0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+   ["afterid"]="0",
+   ["working"]="0",
+},
+-- Table: {88}
+{
+},
+-- Table: {89}
+{
+   ["heat"]="0",
+   ["formspec"]="size[9,2.5]field[0.256,-0.2;9,2;code;Code:;sbi(B,A~D)sbi(C,A&D)]button[0  ,0.2;1.5,3;band;AND]button[1.5,0.2;1.5,3;bxor;XOR]button[3  ,0.2;1.5,3;bnot;NOT]button[4.5,0.2;1.5,3;bnand;NAND]button[6  ,0.2;1.5,3;btflop;T-Flop]button[7.5,0.2;1.5,3;brsflop;RS-Flop]button_exit[3.5,1;2,3;program;Program]",
+   ["code"]="sbi(B,A~D)sbi(C,A&D)",
+   ["infotext"]="Working Microcontroller\
+sbi(B,A~D)sbi(C,A&D)",
+   ["eeprom"]="0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+   ["afterid"]="0",
+   ["working"]="0",
+},
+-- Table: {90}
+{
+},
+-- Table: {91}
+{
+   ["heat"]="0",
+   ["formspec"]="size[9,2.5]field[0.256,-0.2;9,2;code;Code:;sbi(B,A~D)sbi(C,A&D)]button[0  ,0.2;1.5,3;band;AND]button[1.5,0.2;1.5,3;bxor;XOR]button[3  ,0.2;1.5,3;bnot;NOT]button[4.5,0.2;1.5,3;bnand;NAND]button[6  ,0.2;1.5,3;btflop;T-Flop]button[7.5,0.2;1.5,3;brsflop;RS-Flop]button_exit[3.5,1;2,3;program;Program]",
+   ["code"]="sbi(B,A~D)sbi(C,A&D)",
+   ["infotext"]="Working Microcontroller\
+sbi(B,A~D)sbi(C,A&D)",
+   ["eeprom"]="0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+   ["afterid"]="0",
+   ["working"]="0",
+},
+-- Table: {92}
+{
+},
+-- Table: {93}
+{
+   ["heat"]="0",
+   ["formspec"]="size[9,2.5]field[0.256,-0.2;9,2;code;Code:;sbi(B,A~D)sbi(C,A&D)]button[0  ,0.2;1.5,3;band;AND]button[1.5,0.2;1.5,3;bxor;XOR]button[3  ,0.2;1.5,3;bnot;NOT]button[4.5,0.2;1.5,3;bnand;NAND]button[6  ,0.2;1.5,3;btflop;T-Flop]button[7.5,0.2;1.5,3;brsflop;RS-Flop]button_exit[3.5,1;2,3;program;Program]",
+   ["code"]="sbi(B,A~D)sbi(C,A&D)",
+   ["infotext"]="Working Microcontroller\
+sbi(B,A~D)sbi(C,A&D)",
+   ["eeprom"]="0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+   ["afterid"]="0",
+   ["working"]="0",
+},
+-- Table: {94}
+{
+},
+-- Table: {95}
+{
+   ["heat"]="0",
+   ["formspec"]="size[9,2.5]field[0.256,-0.2;9,2;code;Code:;sbi(B,A~D)sbi(C,A&D)]button[0  ,0.2;1.5,3;band;AND]button[1.5,0.2;1.5,3;bxor;XOR]button[3  ,0.2;1.5,3;bnot;NOT]button[4.5,0.2;1.5,3;bnand;NAND]button[6  ,0.2;1.5,3;btflop;T-Flop]button[7.5,0.2;1.5,3;brsflop;RS-Flop]button_exit[3.5,1;2,3;program;Program]",
+   ["code"]="sbi(B,A~D)sbi(C,A&D)",
+   ["infotext"]="Working Microcontroller\
+sbi(B,A~D)sbi(C,A&D)",
+   ["eeprom"]="0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+   ["afterid"]="0",
+   ["working"]="0",
+},
+-- Table: {96}
+{
+},
+-- Table: {97}
+{
+},
+-- Table: {98}
+{
+},
+-- Table: {99}
+{
+},
+-- Table: {100}
+{
+},
+-- Table: {101}
+{
+   ["heat"]="0",
+   ["formspec"]="size[9,2.5]field[0.256,-0.2;9,2;code;Code:;sbi(B,A~D)sbi(C,A&D)]button[0  ,0.2;1.5,3;band;AND]button[1.5,0.2;1.5,3;bxor;XOR]button[3  ,0.2;1.5,3;bnot;NOT]button[4.5,0.2;1.5,3;bnand;NAND]button[6  ,0.2;1.5,3;btflop;T-Flop]button[7.5,0.2;1.5,3;brsflop;RS-Flop]button_exit[3.5,1;2,3;program;Program]",
+   ["code"]="sbi(B,A~D)sbi(C,A&D)",
+   ["infotext"]="Working Microcontroller\
+sbi(B,A~D)sbi(C,A&D)",
+   ["eeprom"]="0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+   ["afterid"]="0",
+   ["working"]="0",
+},
+-- Table: {102}
+{
+},
+-- Table: {103}
+{
+   ["heat"]="0",
+   ["formspec"]="size[9,2.5]field[0.256,-0.2;9,2;code;Code:;sbi(B,A~D)sbi(C,A&D)]button[0  ,0.2;1.5,3;band;AND]button[1.5,0.2;1.5,3;bxor;XOR]button[3  ,0.2;1.5,3;bnot;NOT]button[4.5,0.2;1.5,3;bnand;NAND]button[6  ,0.2;1.5,3;btflop;T-Flop]button[7.5,0.2;1.5,3;brsflop;RS-Flop]button_exit[3.5,1;2,3;program;Program]",
+   ["code"]="sbi(B,A~D)sbi(C,A&D)",
+   ["infotext"]="Working Microcontroller\
+sbi(B,A~D)sbi(C,A&D)",
+   ["eeprom"]="0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+   ["afterid"]="0",
+   ["working"]="0",
+},
+-- Table: {104}
+{
+},
+-- Table: {105}
+{
+   ["heat"]="0",
+   ["formspec"]="size[9,2.5]field[0.256,-0.2;9,2;code;Code:;sbi(B,A~D)sbi(C,A&D)]button[0  ,0.2;1.5,3;band;AND]button[1.5,0.2;1.5,3;bxor;XOR]button[3  ,0.2;1.5,3;bnot;NOT]button[4.5,0.2;1.5,3;bnand;NAND]button[6  ,0.2;1.5,3;btflop;T-Flop]button[7.5,0.2;1.5,3;brsflop;RS-Flop]button_exit[3.5,1;2,3;program;Program]",
+   ["code"]="sbi(B,A~D)sbi(C,A&D)",
+   ["infotext"]="Working Microcontroller\
+sbi(B,A~D)sbi(C,A&D)",
+   ["eeprom"]="0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+   ["afterid"]="0",
+   ["working"]="0",
+},
+-- Table: {106}
+{
+},
+-- Table: {107}
+{
+   ["heat"]="0",
+   ["formspec"]="size[9,2.5]field[0.256,-0.2;9,2;code;Code:;sbi(B,A~D)sbi(C,A&D)]button[0  ,0.2;1.5,3;band;AND]button[1.5,0.2;1.5,3;bxor;XOR]button[3  ,0.2;1.5,3;bnot;NOT]button[4.5,0.2;1.5,3;bnand;NAND]button[6  ,0.2;1.5,3;btflop;T-Flop]button[7.5,0.2;1.5,3;brsflop;RS-Flop]button_exit[3.5,1;2,3;program;Program]",
+   ["code"]="sbi(B,A~D)sbi(C,A&D)",
+   ["infotext"]="Working Microcontroller\
+sbi(B,A~D)sbi(C,A&D)",
+   ["eeprom"]="0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+   ["afterid"]="0",
+   ["working"]="0",
+},
+-- Table: {108}
+{
+},
+-- Table: {109}
+{
+   ["heat"]="0",
+   ["formspec"]="size[9,2.5]field[0.256,-0.2;9,2;code;Code:;sbi(B,A~D)sbi(C,A&D)]button[0  ,0.2;1.5,3;band;AND]button[1.5,0.2;1.5,3;bxor;XOR]button[3  ,0.2;1.5,3;bnot;NOT]button[4.5,0.2;1.5,3;bnand;NAND]button[6  ,0.2;1.5,3;btflop;T-Flop]button[7.5,0.2;1.5,3;brsflop;RS-Flop]button_exit[3.5,1;2,3;program;Program]",
+   ["code"]="sbi(B,A~D)sbi(C,A&D)",
+   ["infotext"]="Working Microcontroller\
+sbi(B,A~D)sbi(C,A&D)",
+   ["eeprom"]="0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+   ["afterid"]="0",
+   ["working"]="0",
+},
+-- Table: {110}
+{
+},
+-- Table: {111}
+{
+   ["heat"]="0",
+   ["formspec"]="size[9,2.5]field[0.256,-0.2;9,2;code;Code:;sbi(B,A~D)sbi(C,A&D)]button[0  ,0.2;1.5,3;band;AND]button[1.5,0.2;1.5,3;bxor;XOR]button[3  ,0.2;1.5,3;bnot;NOT]button[4.5,0.2;1.5,3;bnand;NAND]button[6  ,0.2;1.5,3;btflop;T-Flop]button[7.5,0.2;1.5,3;brsflop;RS-Flop]button_exit[3.5,1;2,3;program;Program]",
+   ["code"]="sbi(B,A~D)sbi(C,A&D)",
+   ["infotext"]="Working Microcontroller\
+sbi(B,A~D)sbi(C,A&D)",
+   ["eeprom"]="0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+   ["afterid"]="0",
+   ["working"]="0",
+},
+-- Table: {112}
+{
+},
+-- Table: {113}
+{
+},
+-- Table: {114}
+{
+},
+-- Table: {115}
+{
+},
+-- Table: {116}
+{
+},
+-- Table: {117}
+{
+   ["heat"]="0",
+   ["formspec"]="size[9,2.5]field[0.256,-0.2;9,2;code;Code:;sbi(B,A~D)]button[0  ,0.2;1.5,3;band;AND]button[1.5,0.2;1.5,3;bxor;XOR]button[3  ,0.2;1.5,3;bnot;NOT]button[4.5,0.2;1.5,3;bnand;NAND]button[6  ,0.2;1.5,3;btflop;T-Flop]button[7.5,0.2;1.5,3;brsflop;RS-Flop]button_exit[3.5,1;2,3;program;Program]",
+   ["code"]="sbi(B,A~D)",
+   ["infotext"]="Working Microcontroller\
+sbi(B,A~D)",
+   ["eeprom"]="0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+   ["afterid"]="0",
+   ["working"]="0",
+},
+-- Table: {118}
+{
+},
+-- Table: {119}
+{
+   ["heat"]="0",
+   ["formspec"]="size[9,2.5]field[0.256,-0.2;9,2;code;Code:;sbi(B,A~D)]button[0  ,0.2;1.5,3;band;AND]button[1.5,0.2;1.5,3;bxor;XOR]button[3  ,0.2;1.5,3;bnot;NOT]button[4.5,0.2;1.5,3;bnand;NAND]button[6  ,0.2;1.5,3;btflop;T-Flop]button[7.5,0.2;1.5,3;brsflop;RS-Flop]button_exit[3.5,1;2,3;program;Program]",
+   ["code"]="sbi(B,A~D)",
+   ["infotext"]="Working Microcontroller\
+sbi(B,A~D)",
+   ["eeprom"]="0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+   ["afterid"]="0",
+   ["working"]="0",
+},
+-- Table: {120}
+{
+},
+-- Table: {121}
+{
+   ["heat"]="0",
+   ["formspec"]="size[9,2.5]field[0.256,-0.2;9,2;code;Code:;sbi(B,A~D)]button[0  ,0.2;1.5,3;band;AND]button[1.5,0.2;1.5,3;bxor;XOR]button[3  ,0.2;1.5,3;bnot;NOT]button[4.5,0.2;1.5,3;bnand;NAND]button[6  ,0.2;1.5,3;btflop;T-Flop]button[7.5,0.2;1.5,3;brsflop;RS-Flop]button_exit[3.5,1;2,3;program;Program]",
+   ["code"]="sbi(B,A~D)",
+   ["infotext"]="Working Microcontroller\
+sbi(B,A~D)",
+   ["eeprom"]="0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+   ["afterid"]="0",
+   ["working"]="0",
+},
+-- Table: {122}
+{
+},
+-- Table: {123}
+{
+   ["heat"]="0",
+   ["formspec"]="size[9,2.5]field[0.256,-0.2;9,2;code;Code:;sbi(B,A~D)]button[0  ,0.2;1.5,3;band;AND]button[1.5,0.2;1.5,3;bxor;XOR]button[3  ,0.2;1.5,3;bnot;NOT]button[4.5,0.2;1.5,3;bnand;NAND]button[6  ,0.2;1.5,3;btflop;T-Flop]button[7.5,0.2;1.5,3;brsflop;RS-Flop]button_exit[3.5,1;2,3;program;Program]",
+   ["code"]="sbi(B,A~D)",
+   ["infotext"]="Working Microcontroller\
+sbi(B,A~D)",
+   ["eeprom"]="0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+   ["afterid"]="0",
+   ["working"]="0",
+},
+-- Table: {124}
+{
+},
+-- Table: {125}
+{
+},
+}

@@ -1,0 +1,59 @@
+hp = 20
+name = singleplayer
+pitch = 26.1
+position = (433.67,-251.5,521.93)
+version = 1
+yaw = 309.79
+PlayerArgsEnd
+List main 32
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+EndInventoryList
+List craft 9
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+EndInventoryList
+List craftpreview 1
+Empty
+EndInventoryList
+List craftresult 1
+Empty
+EndInventoryList
+EndInventory
