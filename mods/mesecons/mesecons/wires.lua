@@ -3,7 +3,7 @@
 if NEW_STYLE_WIRES == false then --old wires
 minetest.register_node("mesecons:mesecon_off", {
 	drawtype = "raillike",
-	tile_images = {"jeija_mesecon_off.png", "jeija_mesecon_curved_off.png", "jeija_mesecon_t_junction_off.png", "jeija_mesecon_crossing_off.png"},
+	tiles = {"jeija_mesecon_off.png", "jeija_mesecon_curved_off.png", "jeija_mesecon_t_junction_off.png", "jeija_mesecon_crossing_off.png"},
 	inventory_image = "jeija_mesecon_off.png",
 	wield_image = "jeija_mesecon_off.png",
 	paramtype = "light",
@@ -19,7 +19,7 @@ minetest.register_node("mesecons:mesecon_off", {
 
 minetest.register_node("mesecons:mesecon_on", {
 	drawtype = "raillike",
-	tile_images = {"jeija_mesecon_on.png", "jeija_mesecon_curved_on.png", "jeija_mesecon_t_junction_on.png", "jeija_mesecon_crossing_on.png"},
+	tiles = {"jeija_mesecon_on.png", "jeija_mesecon_curved_on.png", "jeija_mesecon_t_junction_on.png", "jeija_mesecon_crossing_on.png"},
 	paramtype = "light",
 	is_ground_content = true,
 	walkable = false,
@@ -48,10 +48,10 @@ box_zp = {-1/16, -.5, 1/16, 1/16, -.5+1/16, 8/16}
 box_xm = {-8/16, -.5, -1/16, -1/16, -.5+1/16, 1/16}
 box_zm = {-1/16, -.5, -8/16, 1/16, -.5+1/16, -1/16}
 
-box_xpy = {.5-1/16, -.5+1/16, -1/16, .5, .5+1/16, 1/16}
-box_zpy = {-1/16, -.5+1/16, .5-1/16, 1/16, .5+1/16, .5}
-box_xmy = {-.5, -.5+1/16, -1/16, -.5+1/16, .5+1/16, 1/16}
-box_zmy = {-1/16, -.5+1/16, -.5, 1/16, .5+1/16, -.5+1/16}
+box_xpy = {.5-1/16, -.5+1/16, -1/16, .5, .4999+1/16, 1/16}
+box_zpy = {-1/16, -.5+1/16, .5-1/16, 1/16, .4999+1/16, .5}
+box_xmy = {-.5, -.5+1/16, -1/16, -.5+1/16, .4999+1/16, 1/16}
+box_zmy = {-1/16, -.5+1/16, -.5, 1/16, .4999+1/16, -.5+1/16}
 
 for xp=0, 1 do
 for zp=0, 1 do
@@ -87,21 +87,21 @@ for zmy=0, 1 do
 	if zpy == 1 then table.insert(nodebox, box_zpy) end
 	if xmy == 1 then table.insert(nodebox, box_xmy) end
 	if zmy == 1 then table.insert(nodebox, box_zmy) end
-	nobump = xp+zp+xm+zm
-	if adjx and adjz and (nobump > 2) then
+
+	if adjx and adjz and (xp + zp + xm + zm > 2) then
 		table.insert(nodebox, box_bump1)
 		table.insert(nodebox, box_bump2)
 		tiles_off = {
-			"wires_off.png",
-			"wires_off.png",
+			"wires_bump_off.png",
+			"wires_bump_off.png",
 			"wires_vertical_off.png",
 			"wires_vertical_off.png",
 			"wires_vertical_off.png",
 			"wires_vertical_off.png"
 		}
 		tiles_on = {
-			"wires_on.png",
-			"wires_on.png",
+			"wires_bump_on.png",
+			"wires_bump_on.png",
 			"wires_vertical_on.png",
 			"wires_vertical_on.png",
 			"wires_vertical_on.png",
@@ -110,16 +110,16 @@ for zmy=0, 1 do
 	else
 		table.insert(nodebox, box_center)
 		tiles_off = {
-			"wires_vertical_off.png",
-			"wires_vertical_off.png",
+			"wires_off.png",
+			"wires_off.png",
 			"wires_vertical_off.png",
 			"wires_vertical_off.png",
 			"wires_vertical_off.png",
 			"wires_vertical_off.png"
 		}
 		tiles_on = {
-			"wires_vertical_on.png",
-			"wires_vertical_on.png",
+			"wires_on.png",
+			"wires_on.png",
 			"wires_vertical_on.png",
 			"wires_vertical_on.png",
 			"wires_vertical_on.png",
@@ -141,6 +141,7 @@ for zmy=0, 1 do
 		wield_image = "jeija_mesecon_off.png",
 		paramtype = "light",
 		paramtype2 = "facedir",
+		sunlight_propagates = true,
 		selection_box = {
               		type = "fixed",
 			fixed = {-.5, -.5, -.5, .5, -.5+1/16, .5}
@@ -161,6 +162,7 @@ for zmy=0, 1 do
 		tiles = tiles_on,
 		paramtype = "light",
 		paramtype2 = "facedir",
+		sunlight_propagates = true,
 		selection_box = {
               		type = "fixed",
 			fixed = {-.5, -.5, -.5, .5, -.5+1/16, .5}
@@ -232,24 +234,51 @@ function mesecon:update_autoconnect(pos, secondcall, replace_old)
 	nodename = minetest.env:get_node(pos).name
 	if string.find(nodename, "mesecons:wire_") == nil and not replace_old then return nil end
 
+
 	--if the groups mesecon == 1 then wires won't connect to it
-	xp = 	(minetest.get_item_group(minetest.env:get_node(xppos).name, "mesecon") > 1 or
-		minetest.get_item_group(minetest.env:get_node(xpympos).name, "mesecon") > 1) and 1 or 0
-	zp = 	(minetest.get_item_group(minetest.env:get_node(zppos).name, "mesecon")  > 1 or
-		minetest.get_item_group(minetest.env:get_node(zpympos).name, "mesecon") > 1) and 1 or 0
-	xm = 	(minetest.get_item_group(minetest.env:get_node(xmpos).name, "mesecon") > 1 or
-		minetest.get_item_group(minetest.env:get_node(xmympos).name, "mesecon") > 1) and 1 or 0
-	zm = 	(minetest.get_item_group(minetest.env:get_node(zmpos).name, "mesecon") > 1 or 
-		minetest.get_item_group(minetest.env:get_node(zmympos).name, "mesecon") > 1) and 1 or 0
+	local zmg = 	minetest.get_item_group(minetest.env:get_node(zmpos  ).name, "mesecon")
+	local zmymg = 	minetest.get_item_group(minetest.env:get_node(zmympos).name, "mesecon")
+	local xmg = 	minetest.get_item_group(minetest.env:get_node(xmpos  ).name, "mesecon")
+	local xmymg = 	minetest.get_item_group(minetest.env:get_node(xmympos).name, "mesecon")
+	local zpg = 	minetest.get_item_group(minetest.env:get_node(zppos  ).name, "mesecon")
+	local zpymg = 	minetest.get_item_group(minetest.env:get_node(zpympos).name, "mesecon")
+	local xpg = 	minetest.get_item_group(minetest.env:get_node(xppos  ).name, "mesecon")
+	local xpymg = 	minetest.get_item_group(minetest.env:get_node(xpympos).name, "mesecon")
 
 
-	xpy = (minetest.get_item_group(minetest.env:get_node(xpypos).name, "mesecon") > 1) and 1 or 0
-	zpy = (minetest.get_item_group(minetest.env:get_node(zpypos).name, "mesecon") > 1) and 1 or 0
-	xmy = (minetest.get_item_group(minetest.env:get_node(xmypos).name, "mesecon") > 1) and 1 or 0
-	zmy = (minetest.get_item_group(minetest.env:get_node(zmypos).name, "mesecon") > 1) and 1 or 0
+	local xpyg = minetest.get_item_group(minetest.env:get_node(xpypos).name, "mesecon")
+	local zpyg = minetest.get_item_group(minetest.env:get_node(zpypos).name, "mesecon")
+	local xmyg = minetest.get_item_group(minetest.env:get_node(xmypos).name, "mesecon")
+	local zmyg = minetest.get_item_group(minetest.env:get_node(zmypos).name, "mesecon")
 
+	if ((zmg == 2) or (zmymg == 2)) == true then zm = 1 else zm = 0 end
+	if ((xmg == 2) or (xmymg == 2)) == true then xm = 1 else xm = 0 end
+	if ((zpg == 2) or (zpymg == 2)) == true then zp = 1 else zp = 0 end
+	if ((xpg == 2) or (xpymg == 2)) == true then xp = 1 else xp = 0 end
+
+	if xpyg == 2 then xpy = 1 else xpy = 0 end
+	if zpyg == 2 then zpy = 1 else zpy = 0 end
+	if xmyg == 2 then xmy = 1 else xmy = 0 end
+	if zmyg == 2 then zmy = 1 else zmy = 0 end
+
+	-- If group == 3 then the mesecon only connects to input and output ports
+	if xpg == 3 and mesecon:rules_link_bothdir(pos, xppos) then xp = 1 end
+	if xmg == 3 and mesecon:rules_link_bothdir(pos, xmpos) then xm = 1 end
+	if zpg == 3 and mesecon:rules_link_bothdir(pos, zppos) then zp = 1 end
+	if zmg == 3 and mesecon:rules_link_bothdir(pos, zmpos) then zm = 1 end
+
+	if xpymg == 3 and mesecon:rules_link_bothdir(pos, xpympos) then xp = 1 end
+	if xmymg == 3 and mesecon:rules_link_bothdir(pos, xmympos) then xm = 1 end
+	if zpymg == 3 and mesecon:rules_link_bothdir(pos, zpympos) then zp = 1 end
+	if zmymg == 3 and mesecon:rules_link_bothdir(pos, zmympos) then zm = 1 end
+
+	if xpyg == 3 then if mesecon:rules_link(pos, xpypos) then xpy = 1 end end
+	if zpyg == 3 then if mesecon:rules_link(pos, zpypos) then zpy = 1 end end
+	if xmyg == 3 then if mesecon:rules_link(pos, xmypos) then xmy = 1 end end
+	if zmyg == 3 then if mesecon:rules_link(pos, zmypos) then zmy = 1 end end
+
+	-- Backward compatibility
 	if replace_old then
-		print ("replacing")
 		xp = 	(xp == 1 or	(string.find(minetest.env:get_node(xppos  ).name, "mesecons:mesecon_") ~= nil or
 					 string.find(minetest.env:get_node(xpympos).name, "mesecons:mesecon_") ~= nil)) and 1 or 0
 		zp = 	(zp == 1 or	(string.find(minetest.env:get_node(zppos  ).name, "mesecons:mesecon_") ~= nil or
@@ -273,6 +302,7 @@ function mesecon:update_autoconnect(pos, secondcall, replace_old)
 	local nodeid = 	tostring(xp )..tostring(zp )..tostring(xm )..tostring(zm )..
 			tostring(xpy)..tostring(zpy)..tostring(xmy)..tostring(zmy)
 
+	
 	if string.find(nodename, "_off") ~= nil then
 		minetest.env:set_node(pos, {name = "mesecons:wire_"..nodeid.."_off"})
 	else

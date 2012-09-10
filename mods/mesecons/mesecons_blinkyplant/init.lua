@@ -3,7 +3,7 @@
 minetest.register_node("mesecons_blinkyplant:blinky_plant_off", {
 	drawtype = "plantlike",
 	visual_scale = 1,
-	tile_images = {"jeija_blinky_plant_off.png"},
+	tiles = {"jeija_blinky_plant_off.png"},
 	inventory_image = "jeija_blinky_plant_off.png",
 	paramtype = "light",
 	walkable = false,
@@ -18,7 +18,7 @@ minetest.register_node("mesecons_blinkyplant:blinky_plant_off", {
 minetest.register_node("mesecons_blinkyplant:blinky_plant_on", {
 	drawtype = "plantlike",
 	visual_scale = 1,
-	tile_images = {"jeija_blinky_plant_on.png"},
+	tiles = {"jeija_blinky_plant_on.png"},
 	inventory_image = "jeija_blinky_plant_off.png",
 	paramtype = "light",
 	walkable = false,
@@ -26,9 +26,6 @@ minetest.register_node("mesecons_blinkyplant:blinky_plant_on", {
 	drop='"mesecons_blinkyplant:blinky_plant_off" 1',
 	light_source = LIGHT_MAX-7,
 	description = "Blinky Plant",
-	after_dig_node = function(pos)
-		mesecon:receptor_off(pos)
-	end,
 	selection_box = {
 		type = "fixed",
 		fixed = {-0.1, -0.5, -0.1, 0.1, -0.5+0.6, 0.1},
@@ -40,7 +37,7 @@ minetest.register_craft({
 	recipe = {
 	{'','"group:mesecon_conductor_craftable"',''},
 	{'','"group:mesecon_conductor_craftable"',''},
-	{'"default:junglegrass"','"default:junglegrass"','"default:junglegrass"'},
+	{'"default:sapling"','"default:sapling"','"default:sapling"'},
 	}
 })
 

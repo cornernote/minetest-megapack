@@ -2,7 +2,7 @@
 
 minetest.register_node("mesecons_hydroturbine:hydro_turbine_off", {
 	drawtype = "nodebox",
-	tile_images = {"jeija_hydro_turbine_off.png"},
+	tiles = {"jeija_hydro_turbine_off.png"},
 	groups = {dig_immediate=2, mesecon = 2},
     	description="Water Turbine",
 	paramtype = "light",
@@ -24,7 +24,7 @@ minetest.register_node("mesecons_hydroturbine:hydro_turbine_off", {
 
 minetest.register_node("mesecons_hydroturbine:hydro_turbine_on", {
 	drawtype = "nodebox",
-	tile_images = {"jeija_hydro_turbine_on.png"},
+	tiles = {"jeija_hydro_turbine_on.png"},
 	drop = '"mesecons_hydroturbine:hydro_turbine_off" 1',
 	groups = {dig_immediate=2,not_in_creative_inventory=1, mesecon = 2},
 	description="Water Turbine",
@@ -53,7 +53,6 @@ nodenames = {"mesecons_hydroturbine:hydro_turbine_off"},
 	action = function(pos, node, active_object_count, active_object_count_wider)
 		local waterpos={x=pos.x, y=pos.y+1, z=pos.z}
 		if minetest.env:get_node(waterpos).name=="default:water_flowing" then
-			--minetest.env:remove_node(pos)
 			minetest.env:add_node(pos, {name="mesecons_hydroturbine:hydro_turbine_on"})
 			nodeupdate(pos)
 			mesecon:receptor_on(pos)
@@ -68,7 +67,6 @@ nodenames = {"mesecons_hydroturbine:hydro_turbine_on"},
 	action = function(pos, node, active_object_count, active_object_count_wider)
 		local waterpos={x=pos.x, y=pos.y+1, z=pos.z}
 		if minetest.env:get_node(waterpos).name~="default:water_flowing" then
-			--minetest.env:remove_node(pos)
 			minetest.env:add_node(pos, {name="mesecons_hydroturbine:hydro_turbine_off"})
 			nodeupdate(pos)
 			mesecon:receptor_off(pos)

@@ -13,6 +13,7 @@ minetest.register_node("mesecons_button:button_off", {
     paramtype2 = "facedir",
     legacy_wallmounted = true,
     walkable = false,
+    sunlight_propagates = true,
     selection_box = {
         type = "fixed",
 	fixed = { -6/16, -6/16, 5/16, 6/16, 6/16, 8/16 }
@@ -24,7 +25,7 @@ minetest.register_node("mesecons_button:button_off", {
 		{ -4/16, -2/16, 4/16, 4/16, 2/16, 6/16 }	-- the button itself
 	}
     },
-    groups = {dig_immediate=2, mesecon = 1},
+    groups = {dig_immediate=2, mesecon = 3, mesecon_needs_receiver = 1},
     description = "Button",
 })
 minetest.register_node("mesecons_button:button_on", {
@@ -42,6 +43,7 @@ minetest.register_node("mesecons_button:button_on", {
 	legacy_wallmounted = true,
 	walkable = false,
 	light_source = LIGHT_MAX-7,
+	sunlight_propagates = true,
     selection_box = {
         type = "fixed",
 	fixed = { -6/16, -6/16, 5/16, 6/16, 6/16, 8/16 }
@@ -53,12 +55,9 @@ minetest.register_node("mesecons_button:button_on", {
 		{ -4/16, -2/16, 11/32, 4/16, 2/16, 6/16 }
 	}
     },
-	groups = {dig_immediate=2, not_in_creative_inventory=1, mesecon = 1},
+	groups = {dig_immediate=2, not_in_creative_inventory=1, mesecon = 3, mesecon_needs_receiver = 1},
 	drop = 'mesecons_button:button_off',
 	description = "Button",
-	after_dig_node = function(pos, oldnode)
-		mesecon:receptor_off(pos, mesecon.button_get_rules(oldnode.param2))
-	end
 })
 
 minetest.register_on_punchnode(function(pos, node, puncher)
@@ -100,22 +99,12 @@ minetest.register_craft({
 })
 
 mesecon:add_rules("button", {
-{x=1,  y=0,  z=0},
-{x=-1, y=0,  z=0},
-{x=0,  y=0,  z=1},
-{x=1,  y=1,  z=0},
-{x=1,  y=-1, z=0},
-{x=-1, y=1,  z=0},
-{x=-1, y=-1, z=0},
-{x=0,  y=1,  z=1},
-{x=0,  y=-1, z=1},
-{x=0,  y=1,  z=-1},
-{x=0,  y=0,  z=-1},
-{x=0,  y=-1, z=-1},
-{x=0,  y=-1, z=0},
-{x=2,  y=0,  z=0},
-{x=1,  y=-1,  z=1},
-{x=1,  y=-1,  z=-1}})
+{x = 1,  y = 0, z = 0},
+{x = 1,  y = 1, z = 0},
+{x = 1,  y =-1, z = 0},
+{x = 1,  y =-1, z = 1},
+{x = 1,  y =-1, z =-1},
+{x = 2,  y = 0, z = 0},})
 
 mesecon:add_receptor_node_off("mesecons_button:button_off", nil, mesecon.button_get_rules)
 mesecon:add_receptor_node("mesecons_button:button_on", nil, mesecon.button_get_rules)

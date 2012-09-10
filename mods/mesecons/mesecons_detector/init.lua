@@ -1,6 +1,6 @@
 --SHORT RANGE DETECTORS
 minetest.register_node("mesecons_detector:object_detector_off", {
-	tile_images = {"default_steel_block.png", "default_steel_block.png", "jeija_object_detector_off.png", "jeija_object_detector_off.png", "jeija_object_detector_off.png", "jeija_object_detector_off.png"},
+	tiles = {"default_steel_block.png", "default_steel_block.png", "jeija_object_detector_off.png", "jeija_object_detector_off.png", "jeija_object_detector_off.png", "jeija_object_detector_off.png"},
 	paramtype = "light",
 	walkable = true,
 	groups = {cracky=3, mesecon = 2},
@@ -8,15 +8,12 @@ minetest.register_node("mesecons_detector:object_detector_off", {
 })
 
 minetest.register_node("mesecons_detector:object_detector_on", {
-	tile_images = {"default_steel_block.png", "default_steel_block.png", "jeija_object_detector_on.png", "jeija_object_detector_on.png", "jeija_object_detector_on.png", "jeija_object_detector_on.png"},
+	tiles = {"default_steel_block.png", "default_steel_block.png", "jeija_object_detector_on.png", "jeija_object_detector_on.png", "jeija_object_detector_on.png", "jeija_object_detector_on.png"},
 	paramtype = "light",
 	walkable = true,
 	groups = {cracky=3,not_in_creative_inventory=1, mesecon = 2},
 	drop = 'mesecons_detector:object_detector_off',
 	description="Player Detector",
-	after_dig_node = function(pos)
-		mesecon:receptor_off(pos, mesecon:get_rules("pressureplate"))
-	end
 })
 
 minetest.register_craft({
@@ -76,5 +73,5 @@ minetest.register_abm(
 	end,
 })
 
-mesecon:add_receptor_node("mesecons_detector:object_detector_on")
-mesecon:add_receptor_node_off("mesecons_detector:object_detector_off")
+mesecon:add_receptor_node("mesecons_detector:object_detector_on", mesecon:get_rules("pressureplate"))
+mesecon:add_receptor_node_off("mesecons_detector:object_detector_off", mesecon:get_rules("pressureplate"))

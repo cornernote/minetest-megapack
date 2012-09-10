@@ -12,6 +12,14 @@ WorldEdit has a huge potential for abuse by untrusted players. Therefore, users 
 
 For in-game information about these commands, type `/help <command name>` in the chat. For example, to learn more about the `//copy` command, simply type `/help /copy` to display information relevant to copying a region.
 
+Axes
+----
+The coordinate system is the same as that used by MineTest; Y is upwards, X is perpendicular, and Z is parallel.
+
+When an axis is specified in a WorldEdit command, it is specified as one of the following values: x, y, z, or ?.
+
+The value ? represents the axis the player is currently facing. If the player is facing more than one axis, the axis the player face direction is closest to will be used.
+
 Regions
 -------
 Most WorldEdit commands operate on regions. Regions are a set of two positions that define a 3D cube. They are local to each player and chat commands affect only the region for the player giving the commands.
@@ -83,53 +91,86 @@ Replace all instances of <search node> with <place node> in the current WorldEdi
     //replace dirt flowers:flower_waterlily
     //replace flowers:flower_rose flowers:flower_tulip
 
-### //copy x/y/z <amount>
+### //hollowcylinder x/y/z/? <length> <radius> <node>
 
-Copy the current WorldEdit region along the x/y/z axis by <amount> nodes.
+Add hollow cylinder at WorldEdit position 1 along the x/y/z/? axis with length <length> and radius <radius>, composed of <node>.
+
+    //hollowcylinder x +5 8 dirt
+    //hollowcylinder y 28 10 default:glass
+    //hollowcylinder z -12 3 mesecons:mesecon
+    //hollowcylinder ? 2 4 stone
+
+### //cylinder x/y/z/? <length> <radius> <node>
+
+Add cylinder at WorldEdit position 1 along the x/y/z/? axis with length <length> and radius <radius>, composed of <node>.
+
+    //cylinder x +5 8 dirt
+    //cylinder y 28 10 default:glass
+    //cylinder z -12 3 mesecons:mesecon
+    //cylinder ? 2 4 stone
+    
+### //spiral <size> <node>
+
+Add spiral at WorldEdit position 1 with size <size>, composed of <node>.
+
+    //spiral 8 dirt
+    //spiral 5 default:glass
+    //spiral 2 stone
+
+
+### //copy x/y/z/? <amount>
+
+Copy the current WorldEdit region along the x/y/z/? axis by <amount> nodes.
 
     //copy x 15
     //copy y -7
     //copy z +4
+    //copy ? 8
 
-### //move x/y/z <amount>
+### //move x/y/z/? <amount>
 
-Move the current WorldEdit region along the x/y/z axis by <amount> nodes.
+Move the current WorldEdit region along the x/y/z/? axis by <amount> nodes.
 
     //move x 15
     //move y -7
     //move z +4
+    //move ? -1
 
-### //stack x/y/z <count>
+### //stack x/y/z/? <count>
 
-Stack the current WorldEdit region along the x/y/z axis <count> times.
+Stack the current WorldEdit region along the x/y/z/? axis <count> times.
 
     //stack x 3
     //stack y -1
     //stack z +5
+    //stack ? 12
 
-### //transpose x/y/z x/y/z
+### //transpose x/y/z/? x/y/z/?
 
-Transpose the current WorldEdit region along the x/y/z and x/y/z axes.
+Transpose the current WorldEdit region along the x/y/z/? and x/y/z/? axes.
 
     //transpose x y
     //transpose x z
     //transpose y z
+    //transpose ? y
 
-### //flip x/y/z
+### //flip x/y/z/?
 
-Flip the current WorldEdit region along the x/y/z axis.
+Flip the current WorldEdit region along the x/y/z/? axis.
 
    //flip x
    //flip y
    //flip z
+   //flip ?
 
 ### //rotate
 
-Rotate the current WorldEdit region around the y axis by angle <angle> (90 degree increment).
+Rotate the current WorldEdit region around the axis <axis> by angle <angle> (90 degree increment).
 
-    //rotate 90
-    //rotate 180
-    //rotate 270
+    //rotate x 90
+    //rotate y 180
+    //rotate z 270
+    //rotate ? -90
 
 ### //dig
 
@@ -150,6 +191,20 @@ Load nodes from "(world folder)/schems/<file>.we" with position 1 of the current
 
     //load some random filename
     //load huge_base
+
+### //metasave <file>
+
+Save the current WorldEdit region including metadata to "(world folder)/schems/<file>.wem".
+
+    //metasave some random filename
+    //metasave huge_base
+
+### //metaload <file>
+
+Load nodes and metadata from "(world folder)/schems/<file>.wem" with position 1 of the current WorldEdit region as the origin.
+
+    //metaload some random filename
+    //metaload huge_base
 
 WorldEdit API
 -------------
@@ -172,6 +227,24 @@ Returns the number of nodes set.
 Replaces all instances of `searchnode` with `replacenode` in a region defined by positions `pos1` and `pos2`.
 
 Returns the number of nodes replaced.
+
+### worldedit.hollow_cylinder(pos, axis, length, radius, nodename)
+
+Adds a hollow cylinder at `pos` along the `axis` axis ("x" or "y" or "z") with length `length` and radius `radius`.
+
+Returns the number of nodes added.
+
+### worldedit.cylinder(pos, axis, length, radius, nodename)
+
+Adds a cylinder at `pos` along the `axis` axis ("x" or "y" or "z") with length `length` and radius `radius`.
+
+Returns the number of nodes added.
+
+### worldedit.spiral(pos, size, nodename)
+
+Adds a spiral at `pos` with size `size`.
+
+Returns the number of nodes changed.
 
 ### worldedit.copy(pos1, pos2, axis, amount)
 
@@ -234,6 +307,18 @@ Loads the nodes represented by string `value` at position `originpos`, using the
 This function is deprecated, and should not be used unless there is a need to support legacy WorldEdit save files.
 
 Returns the number of nodes deserialized.
+
+### worldedit.metasave(pos1, pos2, file)
+
+Saves the nodes and meta defined by positions `pos1` and `pos2` into a file
+
+Returns the number of nodes saved
+
+### worldedit.metaload(pos1, file)
+
+Loads the nodes and meta from `file` to position `pos1`
+
+Returns the number of nodes loaded
 
 License
 -------

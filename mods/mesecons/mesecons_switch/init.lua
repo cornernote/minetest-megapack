@@ -1,25 +1,21 @@
 -- MESECON_SWITCH
 
 minetest.register_node("mesecons_switch:mesecon_switch_off", {
-	tile_images = {"jeija_mesecon_switch_side.png", "jeija_mesecon_switch_side.png", "jeija_mesecon_switch_side.png", "jeija_mesecon_switch_side.png", "jeija_mesecon_switch_side.png", "jeija_mesecon_switch_off.png"},
+	tiles = {"jeija_mesecon_switch_side.png", "jeija_mesecon_switch_side.png", "jeija_mesecon_switch_side.png", "jeija_mesecon_switch_side.png", "jeija_mesecon_switch_side.png", "jeija_mesecon_switch_off.png"},
 	paramtype2="facedir",
 	groups = {dig_immediate=2, mesecon = 2},
     	description="Switch",
 })
 
 minetest.register_node("mesecons_switch:mesecon_switch_on", {
-	tile_images = {"jeija_mesecon_switch_side.png", "jeija_mesecon_switch_side.png", "jeija_mesecon_switch_side.png", "jeija_mesecon_switch_side.png", "jeija_mesecon_switch_side.png", "jeija_mesecon_switch_on.png"},
+	tiles = {"jeija_mesecon_switch_side.png", "jeija_mesecon_switch_side.png", "jeija_mesecon_switch_side.png", "jeija_mesecon_switch_side.png", "jeija_mesecon_switch_side.png", "jeija_mesecon_switch_on.png"},
 	paramtype2="facedir",
 	groups = {dig_immediate=2,not_in_creative_inventory=1, mesecon = 2},
 	drop='"mesecons_switch:mesecon_switch_off" 1',
 	description="Switch",
-	after_dig_node = function(pos)
-		mesecon:receptor_off(pos)
-	end
 })
 
-mesecon:add_receptor_node("mesecons_switch:mesecon_switch_on")
-mesecon:add_receptor_node_off("mesecons_switch:mesecon_switch_off")
+mesecon:register_receptor("mesecons_switch:mesecon_switch_on", "mesecons_switch:mesecon_switch_off")
 
 minetest.register_on_punchnode(function(pos, node, puncher)
 	if node.name == "mesecons_switch:mesecon_switch_on" then

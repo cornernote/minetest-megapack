@@ -1,14 +1,14 @@
 function mesecon:lightstone_add(name, base_item, texture_off, texture_on)
     minetest.register_node("mesecons_lightstone:lightstone_" .. name .. "_off", {
-	    tile_images = {texture_off},
+	    tiles = {texture_off},
 	    inventory_image = minetest.inventorycube(texture_off),
 	    groups = {cracky=2, mesecon_effector_off = 1, mesecon = 2},
     	    description=name.." Lightstone",
     })
     minetest.register_node("mesecons_lightstone:lightstone_" .. name .. "_on", {
-	    tile_images = {texture_on},
+	    tiles = {texture_on},
 	    inventory_image = minetest.inventorycube(texture_on),
-	    groups = {cracky=2,not_in_creative_inventory=1, mesecon_effector_on = 1, mesecon = 2},
+	    groups = {cracky=2,not_in_creative_inventory=1, mesecon = 2},
 	    drop = "node mesecons_lightstone:lightstone_" .. name .. "_off 1",
 	    light_source = LIGHT_MAX-2,
     	    description=name.." Lightstone",
@@ -33,10 +33,12 @@ function mesecon:lightstone_add(name, base_item, texture_off, texture_on)
 		    {'','group:mesecon_conductor_craftable',''},
 	    }
     })
+    mesecon:register_effector("mesecons_lightstone:lightstone_" .. name .. "_on", "mesecons_lightstone:lightstone_" .. name .. "_off")
 end
 
 
 mesecon:lightstone_add("red", "craft default:clay_brick 1", "jeija_lightstone_red_off.png", "jeija_lightstone_red_on.png")
 mesecon:lightstone_add("green", "node default:cactus 1", "jeija_lightstone_green_off.png", "jeija_lightstone_green_on.png")
+mesecon:lightstone_add("blue", "node mesecons_materials:fiber 1", "jeija_lightstone_blue_off.png", "jeija_lightstone_blue_on.png")
 mesecon:lightstone_add("gray", "node default:cobble 1", "jeija_lightstone_gray_off.png", "jeija_lightstone_gray_on.png")
 mesecon:lightstone_add("darkgray", "node default:gravel 1", "jeija_lightstone_darkgray_off.png", "jeija_lightstone_darkgray_on.png")

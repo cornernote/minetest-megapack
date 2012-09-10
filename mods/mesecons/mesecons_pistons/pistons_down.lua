@@ -3,7 +3,7 @@
 minetest.register_node("mesecons_pistons:piston_down_normal", {
 	description = "Piston DOWN",
 	tiles = {"jeija_piston_tb.png", "jeija_piston_side.png", "jeija_piston_tb.png", "jeija_piston_tb.png", "jeija_piston_tb.png", "jeija_piston_tb.png"},
-	groups = {cracky=3, mesecon_effector_on = 1, mesecon_effector_off = 1, mesecon = 2},
+	groups = {cracky=3, mesecon = 2},
 	after_dig_node = function(pos, oldnode)
 		local dir = {x=0, y=-1, z=0}
 		pos.x, pos.y, pos.z = pos.x + dir.x, pos.y + dir.y, pos.z + dir.z --move to first node to check
@@ -18,11 +18,13 @@ minetest.register_node("mesecons_pistons:piston_down_normal", {
 	end,
 })
 
+mesecon:register_effector("mesecons_pistons:piston_down_normal", "mesecons_pistons:piston_down_normal")
+
 --registration sticky one:
 minetest.register_node("mesecons_pistons:piston_down_sticky", {
 	description = "Sticky Piston DOWN",
 	tiles = {"jeija_piston_tb.png", "jeija_piston_sticky_side.png", "jeija_piston_tb.png", "jeija_piston_tb.png", "jeija_piston_tb.png", "jeija_piston_tb.png"},
-	groups = {cracky=3, mesecon_effector_on = 1, mesecon_effector_off = 1, mesecon = 2},
+	groups = {cracky=3, mesecon = 2},
 	after_dig_node = function(pos, oldnode)
 		local dir = {x=0, y=-1, z=0}
 		pos.x, pos.y, pos.z = pos.x + dir.x, pos.y + dir.y, pos.z + dir.z --move to first node to check
@@ -36,6 +38,8 @@ minetest.register_node("mesecons_pistons:piston_down_sticky", {
 		end
 	end,
 })
+
+mesecon:register_effector("mesecons_pistons:piston_down_sticky", "mesecons_pistons:piston_down_sticky")
 
 minetest.register_craft({
 	output = "mesecons_pistons:piston_down_normal",
@@ -137,10 +141,7 @@ mesecon:register_on_signal_on(function(pos, node)
 		--check for column end
 		if checknode.name == "air"
 		or checknode.name == "ignore"
-		or checknode.name == "default:water_source"
-		or checknode.name == "default:water_flowing"
-		or checknode.name == "default:lava_source"
-		or checknode.name == "default:lava_flowing" then
+		or not(minetest.registered_nodes[checknode.name].liquidtype == "none") then
 			break
 		end
 
@@ -205,10 +206,7 @@ mesecon:register_on_signal_off(function(pos, node)
 		checknode = minetest.env:get_node(checkpos)
 		if checknode.name ~= "air"
 		and checknode.name ~= "ignore"
-		and checknode.name ~= "default:water_source"
-		and checknode.name ~= "default:water_flowing"
-		and checknode.name ~= "default:lava_source"
-		and checknode.name ~= "default:lava_flowing"
+		and minetest.registered_nodes[checknode.name].liquidtype == "none"
 		and not mesecon:is_mvps_stopper(checknode.name) then
 			minetest.env:remove_node(checkpos)
 		    mesecon:updatenode(checkpos)
