@@ -1,3 +1,0 @@
-game_time = 0
-time_of_day = 6500
-EnvArgsEnd

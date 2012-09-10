@@ -1,2 +1,0 @@
-jordan4ibanez::interact,shout
-player::interact,shout
