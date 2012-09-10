@@ -1,4 +1,4 @@
-local version = "0.0.3"
+local version = "0.0.4"
 
 clownfish_prototype = {   
 		name="clownfish",
@@ -10,14 +10,16 @@ clownfish_prototype = {
 					kill_result="animalmaterials:scale_golden",
 					armor_groups= {
 						fleshy=3,
-					}
+					},
+					envid = "open_waters"
 				},				
 		movement =  {
-					default_gen=movement_gen,
+					default_gen="probab_mov_gen",
 					min_accel=0.2,
 					max_accel=0.3,
 					max_speed=1.5,
-					pattern="swim_pattern2"
+					pattern="swim_pattern2",
+					canfly=true,
 					},		
 		harvest        = nil,
 		catching = {

@@ -1,0 +1,344 @@
+-------------------------------------------------------------------------------
+Mob Framework Mod (former animals mod) provides a framework for creating mobs
+
+(c) sapier (code,some graphics)
+(c) rinoux (many 2D graphics)
+
+Contact sapier a t gmx net
+-------------------------------------------------------------------------------
+Big thanks to rinoux for providing graphics and all others for their 
+suggestions too!
+-------------------------------------------------------------------------------
+
+
+No what is in?
+-------------------------------------------------------------------------------
+
+Vampires
+Hostile mobs spawning at night in unlighted areas. They can't withstand the 
+sun and will burn as sun rises
+
+Chicken
+Cicken droping egs now and then
+
+Sheep
+Sheep that can be sheered, their wool will grow again. They randomly will 
+spawn on willows
+
+Cow
+Cows will spawn on willows and produce milk.
+
+Deer
+Will spawn below trees.
+
+Big Red
+They look like giant easter bunnys but beware of their plasma balls! Big red
+spawns in dark stony areas
+
+Dungeonmasters
+Just dungenmasters throwing fireballs they spawn in dark stony areas too.
+
+Rat 
+Just a small animal jumping around
+
+Creeper
+Don't get near they will explode
+
+Blue White Fish
+Just a swimming animal
+
+Gull
+flys around over your head!
+
+Clownfish
+A funny small quick fish swiming around
+
+Wolf
+A animal hiding in the woods that can be tamed to follow you
+
+
+What can you do with them?
+-------------------------------------------------------------------------------
+
+Sheep -> take scissors and sheer them
+Cow -> take an empty glass and get milk
+Chicken -> collect eggs
+Vombie -> drops bone on kill
+Clownfish -> drops golden scale on kill
+Wolf -> tame it!
+
+
+How to catch mobss? Take a lasso or net to catch them, create a farm. No they 
+won't breed except sheep if there's a filled barn nearby
+
+
+Recieps:
+-------------------------------------------------------------------------------
+Empty glass
+
+none glass none
+none glass none
+none none  none
+
+Lasso
+
+none  wool  none
+wool  none  wool
+none  wool  none
+
+Scissors
+
+none  iron_ingot none
+none  iron_ingot none
+stick    none    stick
+
+Net
+
+wool  none  wool
+none  wool  none
+wool  none  wool
+
+Barn
+
+stick stick stick
+wood  wood  wood
+
+Vombie trap
+
+wood       wood     wood
+wood  scale_golden  wood
+wood       wood     wood
+
+Settings:
+-------------------------------------------------------------------------------
+mobf_enable_socket_trace  = true/false
+-->enable socket mod tracing
+
+mobf_disable_3d_mode = true/false
+-->disable 3d models
+
+disable_vombie_3d_burn_animation = true/false
+-->VOMBIE ONLY disable 3d burn animation
+
+Changelog:
+-------------------------------------------------------------------------------
+
+Changes 1.4.0
+-rename core to MOBF
+-remove some dead code
+-fixed bug in random drops entities lifetime not save
+-fixed bug wrong parameter set to true on remove due to pop dens check
+-fixed bug mobs running around like crazy after on_step frequency increase
+-added spawn in deep caves spawn algorithm
+-added special movement gen none only applying y acceleration but stopping mob 
+ otherwise
+
+Changes 1.3.5
+-make vault generation much more quiet
+-add function for adding movement pattern by external functions
+
+Changes 1.3.4
+-increase check frequency to 4/s
+-fix jumpy cow and deer
+-fixed dm and big_red spawning in lighted areas
+-fixed bug harvest delay not enforced
+-make cow a little bit more slim
+-added vault generation code from celeron (slightly modified)
+-reduce sound distance dm/cow/sheep/vombie
+-fixed vombie model (was wrong direction)
+-made vombie agressive again
+-remove vombie at once if entity is activated at daytime
+
+Changes 1.3.3
+-disable luatrace
+
+Changes 1.3.2
+-split configuration of 2d 3d animals
+-more 3d animals
+-improoved base position checking
+-added warnings for long abms
+-added load/unload check
+-removed spawn point registry
+-removed minetest serialization
+-readded remove animals script(non working atm)
+
+Changes 1.3.1
+-fixed regression unable to craft lasso and net
+-added doxygen style comments
+-added documentation
+-fixed lot of code style breakages
+-extracted environments from movement patterns
+-moved prototype for path based movement generator to own folder
+
+Changes 1.3.0
+-added 3d fish blue white
+-fixed another yaw bug
+-fixed movement check bug
+-fixed position prediction
+-replaced animalmaterials:wool_? by wool:x
+-added fire effect for fireball
+-replaced custom serialization by new minetest function
+-added fire for self destruct
+-fix lasso and net recieps
+-added wolf
+
+Changes 1.2.93:
+-added 3d barn
+-fixed bug animals have wrong orientation
+-fixed bug sheep get stuc in corner
+-fixed cow model
+
+Changes 1.2.92:
+-added support for 3d animals
+-fix bug in probabilistic movement gen when handling min speed
+-fixed movement of stop_and_go animals
+-made Sheep 3D
+-made Cow 3D
+
+
+Changes 1.2.91:
+-fixed bugs in animals sheep
+-updated animalmaterials to new syntax
+
+Changes 1.2.90:
+-added support for surface differentiation in good/ok/bad
+-added support for different movement generators
+-added fight mode movement generator change
+-fixed bug barn depending on vombie instead of sheep
+-reduced cpu load in normal movement loop
+-adjusted probability values to new check cycle
+
+Changes 1.2.1:
+-use official health system
+-add group support for all animals
+-scissors get damaged by harvesting wool
+-add footstep sounds
+
+Changes 1.2.0:
+-added sound support
+-(non working) path based movement gen stub
+
+Changes 1.1.0:
+-support for prefered environment
+-performance improvements (mainly in spawning algorithms)
+-internal reorganization
+-added on_hit_callback and on_kill_callback in fighting subsystem
+
+Changes 1.0.0:
+-added changes required for flying animals
+-added lifetime support (it's only used for breeding right now)
+-for any animal a item is created by default
+-added gull
+-added clownfish
+-added vombie trap
+-added barn (breed sheep!)
+
+Changes 0.9.11:
+-animal definitions have been moved to different mods
+-player punch pushes back animal
+
+Changes 0.9.9:
+-MAJOR code reorganization
+-fixed creeper
+-added collision boxes with correct height 
+(width ain't possible as sprites are rotated automaticaly)
+-added some missing item graphics
+-fixed a lot of small bugs probably not even discovered
+-improoved big red graphic
+-added initial documentation
+
+Changes 0.9.0:
+-changed harvesting to LMB
+-fixed bug making rats jump to high
+-adjusted to new git 20120122
+-make dungeon master more dangerous
+-added glass for harvesting milk
+
+Changes 0.8.9:
+-added net
+-added fish support
+-added rat
+
+Changes 0.8.3:
+-added creeper
+-added movement pattern support -> support for different movement styles
+-added lua script "remove_animals.lua" (rename to init.lua to remove all animals from your world)
+
+Changes 0.8.2:
+-added cow graphics from rinoux
+-added some item images from rinoux
+-fixed unnecessary workaround in line of sight code by correct implementation
+
+Changes 0.8.1:
+-bugfix for release error
+
+Changes 0.8.0:
+-added deer graphics from rinoux
+-added distance attack support (inspired by jeija mod throwing)
+-added plasma and fireballs
+-added dungeonmaster
+
+Changes 0.7.3:
+-fixed some issues with spawning to many animals in case of frequent server restarts
+-added chicken (big thanks to rinoux)
+-added new graphics for sheep (even more thanks to rinoux for providing them)
+
+Changes 0.7.0:
+-added support for animals following target while fighting
+-make hostile animals even more agressive
+-add vampire spawning all over the world during night ;-)
+
+Changes 0.6.0:
+-added support for looking directions
+-added support for animals attacking player on their own
+Latest git from 20120103 required!
+
+Changes 0.5.0:
+-fixed bug animals disapearing if more than one animal is at same position
+-switched to new lua api
+Latest build 20120102 required!
+
+Changes 0.4.5:
+-fixed spawn algorithms not correctly ensuring population density of animals
+
+Changes 0.4.3:
+-added lasso for catching animals
+
+Changes 0.4.2:
+-add scissors for harvesting wool
+
+Changes 0.4.1:
+-fixed bug mod not running on stock 0.4 dev
+-big red now spawns in shadows only
+
+Changes 0.4.0:
+-added support for animals spawning
+
+Changes 0.3.0:
+-added support for animals fighting back
+
+Changes 0.2.2:
+-animal may jump 1 block but only if it's a "natural" surface (to avoid jumping over fences, walls e.g.). Natural surfaces are by now dirt, sand, stone and clay.
+
+Changes 0.2.1:
+-animal size increased
+
+Changes 0.2.0:
+-added cow
+-added deer
+-fixed bugs in base functionality used by deer and cow
+
+Changes 0.1.1:
+-fixed bug crashing server on rightclick
+
+Changes 0.1.0:
+-Major improovements in motion generation code
+-switched to modular design (still needed to create a single file till next dev release of minetest, if you've already got the master minetest you may rename init_modular.lua to init)
+-added support for:
+*animals harvestable
+*animals transforming on harvest
+*animals retransforming after specified amount of time
+-prepared for:
+*animals harvestable when wearing special tool
+*animals harvestable by consuming special tool
+

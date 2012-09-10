@@ -18,6 +18,15 @@ function printpos(pos)
 end
 
 
+-------------------------------------------------------------------------------
+-- name: issamepos(pos1,pos2)
+--
+-- @brief check if two 3d positions are equal
+--
+-- @param pos1 position one
+-- @param pos2 position two
+-- @return true/false
+-------------------------------------------------------------------------------
 function issamepos(pos1,pos2) 
 	
 	if (pos1 == nil) or
@@ -35,10 +44,19 @@ function issamepos(pos1,pos2)
 	return false
 end
 
-
-function contains(table_to_check,element) 
+--is element in table
+-------------------------------------------------------------------------------
+-- name: contains(table_to_check,position)
+--
+-- @brief check if a table contains a specific position
+--
+-- @param table_to_check table to search in
+-- @param position position to search
+-- @return true/false
+-------------------------------------------------------------------------------
+function contains(table_to_check,position) 
 	for i,v in ipairs(table_to_check) do
-		if issamepos(v,element) then
+		if issamepos(v,position) then
 			return true
 		end
 	end
@@ -47,7 +65,15 @@ function contains(table_to_check,element)
 
 end
 
-
+-------------------------------------------------------------------------------
+-- name: growing_trees_is_tree_structure(pos)
+--
+-- @brief check if node at pos a tree structure (leaves don't count as structure)
+--
+-- @param pos position to check
+-- @return true/false
+-------------------------------------------------------------------------------
+-- 
 function growing_trees_is_tree_structure(pos)
 	local node = minetest.env:get_node(pos)
 	
@@ -55,12 +81,61 @@ function growing_trees_is_tree_structure(pos)
 		return false
 	end
 	
-	if node.name == "growing_trees:trunk" or
-		node.name == "growing_trees:branch" or
-		node.name == "growing_trees:sprout" or
-		node.name == "growing_trees:branch_sprout" then
+	if  growing_trees_node_is_type(trunk_type ,node.name) or
+		growing_trees_node_is_type(branch_type ,node.name) then
 		return true
 	end
 	
 	return false
+end
+
+
+-------------------------------------------------------------------------------
+-- name: growing_trees_get_surface(x,z, min_y, max_y)
+--
+--! @brief get surface for x/z coordinates
+--
+--! @param x x-coordinate
+--! @param z z-coordinate
+--! @param min_y minimum y-coordinate to consider
+--! @param max_y maximum y-coordinate to consider
+--! @return y value of surface or nil
+-------------------------------------------------------------------------------
+function growing_trees_get_surface(x,z, min_y, max_y)
+
+    for runy = min_y, max_y do
+        local pos = { x=x,y=runy, z=z }
+        local node_to_check = minetest.env:get_node(pos)
+        
+        if node_to_check.name == "default:dirt_with_grass" then
+            return pos.y
+        end
+    end
+
+    return nil
+end
+
+-------------------------------------------------------------------------------
+-- name: growing_trees_neighbour_positions(pos,ynodes_too)
+--
+--! @brief get positions of positions sharing a side with pos
+--
+--! @param pos position to get surrounding positions
+--! @param ynodes_too get y neighbours too
+--! @return table of positions
+-------------------------------------------------------------------------------
+function growing_trees_neighbour_positions(pos,ynodes_too)
+	local retval = {}
+	
+	table.insert(retval, {x=pos.x-1,y=pos.y,z=pos.z})
+	table.insert(retval, {x=pos.x+1,y=pos.y,z=pos.z})
+	table.insert(retval, {x=pos.x,y=pos.y,z=pos.z+1})
+	table.insert(retval, {x=pos.x,y=pos.y,z=pos.z-1})
+	
+	if ynodes_too then
+		table.insert(retval, {x=pos.x,y=pos.y+1,z=pos.z})
+		table.insert(retval, {x=pos.x,y=pos.y-1,z=pos.z})
+	end
+	
+	return retval
 end

@@ -16,6 +16,10 @@ http://wiki.minetest.com/wiki/Installing_Mods
 How to use the mod:
 Just install it an everything works.
 
+For developers:
+You dont have to use get_drops() anymore because of changes in the
+builtin files of minetest.
+
 License:
 Sourcecode: WTFPL (see below)
 Sound: WTFPL (see below)

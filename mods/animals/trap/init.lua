@@ -53,7 +53,7 @@ minetest.register_entity(":trap:undead_ent",
 					local luaentity = value:get_luaentity()
 					
 					if luaentity ~= nil and
-						luaentity.name == "animal_vombie:vombie" then						
+						luaentity.name == "animal_vombie:vombie" then
 						spawning.remove(luaentity)
 						
 						self.object:remove()
@@ -84,7 +84,5 @@ minetest.register_node("trap:cought_vombie", {
 		drop = "animal_vombie:vombie",
 		light_source = 2,
 	})
-	
---animals_register_animal_item("vombie","animal_vombie","Trapped Vombie")
 	
 print("trap mod version " .. version .. " loaded")

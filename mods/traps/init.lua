@@ -1,5 +1,6 @@
 dofile(minetest.get_modpath("traps").."/mine.lua")
 dofile(minetest.get_modpath("traps").."/cage.lua")
+dofile(minetest.get_modpath("traps").."/lava.lua")
 
 minetest.register_craft({
 output="traps:cage",

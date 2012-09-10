@@ -71,14 +71,14 @@ minetest.register_entity(":barn:barn_ent",
 					if luaentity ~= nil and
 						luaentity.name == "animal_sheep:sheep" and 
 						le_animal1 ~= nil and
-						le_animal2 == nil then						
+						le_animal2 == nil then
 						
 						le_animal2 = luaentity
 					end
 					
 					if luaentity ~= nil and
 						luaentity.name == "animal_sheep:sheep" and 
-						le_animal1 == nil then						
+						le_animal1 == nil then
 						
 						le_animal1 = luaentity
 					end
@@ -99,12 +99,12 @@ minetest.register_entity(":barn:barn_ent",
 					local pos_to_breed = {
 											x = pos1.x + (pos2.x - pos1.x) /2,
 											y = pos1.y,
-											z = pos1.z + (pos2.z - pos1.z) /2,					
+											z = pos1.z + (pos2.z - pos1.z) /2,
 										}
 										
 					--TODO check position by now this is done by spawn algorithm only
 					
-					local lamb = minetest.env:add_entity(pos_to_breed,"animal_sheep:lamb")					
+					local lamb = minetest.env:add_entity(pos_to_breed,"animal_sheep:lamb")
 					
 					local lamb_lua = lamb:get_luaentity()
 					lamb_lua.dynamic_data.spawning.player_spawned = true
@@ -183,7 +183,5 @@ minetest.register_entity(":barn:barn_empty_ent",
 		end,
 		
 		})
-
---animals_register_animal_item("vombie","animal_vombie","Trapped Vombie")
 	
 print("barn mod version " .. version .. " loaded")

@@ -100,7 +100,9 @@ minetest.register_node("technic:grinder", {
 	description = "Grinder",
 	tiles = {"technic_grinder_top.png", "technic_machine_bottom.png", "technic_grinder_side.png",
 		"technic_grinder_side.png", "technic_grinder_side.png", "technic_grinder_front.png"},
+	paramtype2 = "facedir",
 	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
+	legacy_facedir_simple = true,
 	sounds = default.node_sound_wood_defaults(),
 	technic_power_machine=1,
 	internal_EU_buffer=0;

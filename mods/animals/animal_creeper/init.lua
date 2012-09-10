@@ -1,6 +1,6 @@
-local version = "0.0.4"
+local version = "0.0.5"
 
-creeper_prototype = {   
+creeper_prototype = {
 		name="creeper",
 		modname="animal_creeper", 
 	
@@ -10,35 +10,37 @@ creeper_prototype = {
 					kill_result="",
 					armor_groups= {
 						cracky=3,
-					}
+					},
+					envid="on_ground_1",
 				},				
 		movement =  {
-					default_gen=movement_gen,
+					default_gen="probab_mov_gen",
 					min_accel=0.4,
 					max_accel=0.6,
 					max_speed=2,
-					pattern="stop_and_go"
+					pattern="stop_and_go",
+					canfly=false,
 					},		
 		harvest        = nil,
-		catching       = nil,				  	
-		random_drop    = nil,		
-		auto_transform = nil,					
+		catching       = nil,
+		random_drop    = nil,
+		auto_transform = nil,
 		graphics = {
 					sprite_scale={x=4,y=4},
 					sprite_div = {x=6,y=1},
 					visible_height = 1.5,
 					},		
 		combat = {
-					mgen=mgen_follow,
+					mgen="follow_mov_gen",
 					angryness=0.95,
 					starts_attack=true,
-					sun_sensitive=true,					
-					melee = {						
+					sun_sensitive=true,
+					melee = {
 						maxdamage=0,
 						range=2, 
 						speed=1, 
-						},						
-					distance 		= nil,				
+						},
+					distance 		= nil,
 					self_destruct = {
 						damage=15,
 						range=5,
@@ -47,7 +49,7 @@ creeper_prototype = {
 						},
 					},
 		
-		spawning = {		
+		spawning = {
 					rate=0.02,
 					density=500,
 					algorithm="at_night",
@@ -60,11 +62,11 @@ creeper_prototype = {
 								chance = 0.5,
 								gain = 1,
 								max_hear_distance = 75,
-								},					
+								},
 					self_destruct = {
 								name="bomb_explosion",
 								gain = 2,
-								max_hear_distance = 1000,
+								max_hear_distance = 150,
 								},
 					},	
 		}

@@ -1,66 +1,36 @@
-local version = "0.0.8"
+local version = "0.0.11"
 --+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 --+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 -- Node definitions
 --+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 --+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
--------------------------------------------------------------------------------
--------------------------------------------------------------------------------
--- wool 
--- 
--------------------------------------------------------------------------------
--------------------------------------------------------------------------------
-minetest.register_node("animalmaterials:wool_white", {
-	description = "Wool (white)",
-	tiles = {"animalmaterials_wool_white.png"},
-	groups = { snappy=3,wool=1 }
-})
-minetest.register_node("animalmaterials:wool_grey", {
-	description = "Wool (grey)",
-	tiles = {"animalmaterials_wool_grey.png"},
-	groups = { snappy=3, wool=1 }
-})
-minetest.register_node("animalmaterials:wool_brown", {
-	description = "Wool (grey)",
-	tiles = {"animalmaterials_wool_grey.png"},
-	groups = { snappy=3, wool=1 }
-})
-minetest.register_node("animalmaterials:wool_black", {
-	description = "Wool (grey)",
-	tiles = {"animalmaterials_wool_black.png"},
-	groups = { snappy=3, wool=1 }
-})
-
-minetest.register_craft({
-    type = "fuel",
-    recipe = "animalmaterials:wool_black",
-    burntime = 2,
-})
-
-minetest.register_craft({
-    type = "fuel",
-    recipe = "animalmaterials:wool_white",
-    burntime = 2,
-})
-
-minetest.register_craft({
-    type = "fuel",
-    recipe = "animalmaterials:wool_grey",
-    burntime = 2,
-})
-
-minetest.register_craft({
-    type = "fuel",
-    recipe = "animalmaterials:wool_brown",
-    burntime = 2,
-})
-
 --+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 --+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 -- Item definitions
 --+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 --+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+-- deamondeath sword
+--
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+	minetest.register_tool("animalmaterials:sword_deamondeath", {
+	description = "Sword (Deamondeath)",
+	inventory_image = "default_tool_steelsword.png",
+	tool_capabilities = {
+		full_punch_interval = 0.50,
+		max_drop_level=1,
+		groupcaps={
+			fleshy={times={[1]=2.00, [2]=0.80, [3]=0.40}, uses=10, maxlevel=1},
+			snappy={times={[2]=0.70, [3]=0.30}, uses=40, maxlevel=1},
+			choppy={times={[3]=0.70}, uses=40, maxlevel=0},
+			deamon={times={[1]=0.25, [2]=0.10, [3]=0.05}, uses=20, maxlevel=3},
+		}
+	}
+	})
 -------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
 -- scissors
@@ -173,6 +143,18 @@ minetest.register_craftitem("animalmaterials:egg_big", {
 minetest.register_craftitem("animalmaterials:bone", {
 	description = "Bone",
 	image = "animalmaterials_bone.png",
+	stack_max=25
+})
+
+
+-------------------------------------------------------------------------------
+-- bone
+--
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+minetest.register_craftitem("animalmaterials:fur", {
+	description = "Fur",
+	image = "animalmaterials_fur.png",
 	stack_max=25
 })
 -------------------------------------------------------------------------------

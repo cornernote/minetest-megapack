@@ -1,4 +1,14 @@
-local version = "0.0.4"
+local version = "0.0.6"
+
+local chicken_deer = {
+						not_in_creative_inventory=1
+					}
+
+local selectionbox_deer = {-1, -1.5, -1, 1, 1.5, 1}
+
+local modpath = minetest.get_modpath("animal_deer")
+
+dofile (modpath .. "/model.lua")
 
 deer_prototype = {   
 		name="deer",
@@ -10,14 +20,16 @@ deer_prototype = {
 					kill_result="animalmaterials:meat_raw 2",
 					armor_groups= {
 						fleshy=3,
-					}
+					},
+					envid="meadow",
 				},				
 		movement =  { 
-					default_gen=movement_gen,
+					default_gen="probab_mov_gen",
 					min_accel=0.2,
 					max_accel=0.4,
 					max_speed=2,
-					pattern="stop_and_go_meadow"
+					pattern="stop_and_go",
+					canfly=false,
 					},		
 		harvest        = nil,
 		catching = {
@@ -31,7 +43,13 @@ deer_prototype = {
 					sprite_div = {x=6,y=1},
 					visible_height = 2,
 					visible_width = 1,
-					},		
+					},
+		graphics_3d = {
+			visual = "wielditem",
+			textures = {"animal_deer:box_deer"},
+			collisionbox = selectionbox_deer,
+			visual_size= {x=2,y=2,z=2},
+			},
 		combat         = nil,
 		
 		spawning = {		

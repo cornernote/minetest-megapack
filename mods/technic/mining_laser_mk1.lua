@@ -7,18 +7,18 @@ local laser_shoot = function(itemstack, player, pointed_thing)
 				print (direction_y)
 				if direction_y>50 then entity_name="technic:laser_beam_entityV"
 					else entity_name="technic:laser_beam_entity" end
-				local obj=minetest.env:add_entity({x=playerpos.x,y=playerpos.y+1.5,z=playerpos.z},entity_name)
+				local obj=minetest.env:add_entity({x=playerpos.x,y=playerpos.y+1.6,z=playerpos.z},entity_name)
 				if obj:get_luaentity().player == nil then
 					obj:get_luaentity().player = player
 				end
 				obj:setvelocity({x=dir.x*19, y=dir.y*19, z=dir.z*19})
-				obj:setacceleration({x=dir.x*-3, y=0, z=dir.z*-3})
+				obj:setacceleration({x=dir.x*-2, y=0, z=dir.z*-2})
 				obj:setyaw(player:get_look_yaw()+math.pi)
 				if obj:get_luaentity().player == nil then
 					obj:get_luaentity().player = player
 				end
 				obj:get_luaentity().node = player:get_inventory():get_stack("main", 1):get_name()
-				music_handle=minetest.sound_play("throwing_laser", {pos = pos, gain = 0.5,loop = false, max_hear_distance = 32,}) 	
+				minetest.sound_play("technic_laser", {pos = playerpos, gain = 1.0, max_hear_distance = 10,})
 				return true
 end
 
@@ -88,7 +88,7 @@ LASER_BEAM_ENTITY={
 	visual_size = {x=0.2, y=0.2},
 	textures = {"technic:laser_beam_box"},
 	lastpos={},
-	max_range=10,
+	max_range=15,
 	count=0,
 --	digger=nil,
 	collisionbox = {0,0,0,0,0,0},
@@ -98,15 +98,10 @@ LASER_BEAM_ENTITY.on_step = function(self, dtime)
 	self.timer=self.timer+dtime
 	local pos = self.object:getpos()
 	local node = minetest.env:get_node(pos)
-	if self.lastpos.x~=nil then
-		if node.name ~= "air" then
-			if self.player then minetest.node_dig(pos,node,self.player) end
-		end
-	end
-
+	if self.lastpos.x~=nil then lazer_it (pos, node, self.player) end
 	self.lastpos={x=pos.x, y=pos.y, z=pos.z}	
 	self.count=self.count+1
-	if self.count==self.max_range then self.object:remove() end
+	if self.count>=self.max_range then self.object:remove() end
 end
 
 LASER_BEAM_ENTITYV={
@@ -116,7 +111,7 @@ LASER_BEAM_ENTITYV={
 	visual_size = {x=0.2, y=0.2},
 	textures = {"technic:laser_beam_boxV"},
 	lastpos={},
-	max_range=10,
+	max_range=15,
 	count=0,
 	collisionbox = {0,0,0,0,0,0},
 }
@@ -125,11 +120,7 @@ LASER_BEAM_ENTITYV.on_step = function(self, dtime)
 	self.timer=self.timer+dtime
 	local pos = self.object:getpos()
 	local node = minetest.env:get_node(pos)
-	if self.lastpos.x~=nil then
-		if node.name ~= "air" then
-			if self.player then minetest.node_dig(pos,node,self.player) end
-		end
-	end
+	if self.lastpos.x~=nil then lazer_it (pos, node, self.player,self.count) end		
 
 	self.lastpos={x=pos.x, y=pos.y, z=pos.z}	
 	self.count=self.count+1
@@ -140,3 +131,23 @@ end
 minetest.register_entity("technic:laser_beam_entity", LASER_BEAM_ENTITY)
 minetest.register_entity("technic:laser_beam_entityV", LASER_BEAM_ENTITYV)
 
+function lazer_it (pos, node, player,count)		
+	if node.name == "air" then return end
+	if node.name == "default:lava_source" then return end
+	if node.name == "default:lava_flowing" then return end
+	if node.name == "default:water_source" then minetest.env:remove_node(pos) return end
+	if node.name == "default:water_flowing" then minetest.env:remove_node(pos) return end
+	if node.name == "ignore" then minetest.env:remove_node(pos) return end
+
+	if player then 
+	local drops = minetest.get_node_drops(node.name, "default:pick_mese")
+	if player:get_inventory() then
+		local _, dropped_item
+		for _, dropped_item in ipairs(drops) do
+			player:get_inventory():add_item("main", dropped_item)
+		end
+	end
+	minetest.env:remove_node(pos)
+	end
+
+end

@@ -1,4 +1,4 @@
-local version = "0.0.8"
+local version = "0.0.12"
 
 local sheep_groups = {
 						sheerable=1,
@@ -11,77 +11,81 @@ local selectionbox_lamb = {-0.65*0.6, -0.8*0.6, -0.65*0.6, 0.65*0.6, 0.45*0.6, 0
 
 local modpath = minetest.get_modpath("animal_sheep")
 
---include debug trace functions
 dofile (modpath .. "/model.lua")
 
-sheep_prototype = {   
+sheep_prototype = {
 		name="sheep",
 		modname="animal_sheep",
 	
 		generic = {
 					description="Sheep",
 					base_health=10,
-					kill_result="animalmaterials:meat_raw 1",		
+					kill_result="animalmaterials:meat_raw 1",
 					armor_groups= {
 						fleshy=3,
 					},
-					groups = sheep_groups
-				},				
+					groups = sheep_groups,
+					envid="meadow",
+				},
 		movement =  {
-					default_gen=movement_gen,
+					default_gen="probab_mov_gen",
 					min_accel=0.2,
 					max_accel=0.4,
 					max_speed=1.5,
 					min_speed=0.2,
-					pattern="stop_and_go_meadow"
-					},		
+					pattern="stop_and_go",
+					canfly=false,
+					},
 		harvest = {	
 					tool="animalmaterials:scissors",
 					max_tool_usage=10,
 					tool_consumed=false,
-					result="animalmaterials:wool_white 1", 
+					result="wool:white 1", 
 					transforms_to="animal_sheep:sheep_naked",
 					min_delay=-1,
 					},
 		catching = {
 					tool="animalmaterials:lasso",
 					consumed=true,
-					},				  	
-		random_drop    = nil,		
-		auto_transform = nil,					
+					},
+		random_drop    = nil,
+		auto_transform = nil,
 		graphics = { 
+					sprite_scale={x=4,y=4},
+					sprite_div = {x=6,y=1},
+					visible_height = 1.5,
+					},	
+		graphics_3d = { 
 					visual = "wielditem",
 					textures = {"animal_sheep:box_wool"},
 					collisionbox = selectionbox_sheep,
 					visual_size= {x=1,y=1,z=1},
-					},		
+					},
 		combat         = nil,
 		
-		spawning = {		
+		spawning = {
 					rate=0.002,
 					density=50,
 					algorithm="willow",
 					height=2
 					},
-					
 		sound = {
 					random = {
 								name="Mudchute_sheep_1",
 								min_delta = 30,
 								chance = 0.5,
-								gain = 0.8,
-								max_hear_distance = 75,
+								gain = 0.5,
+								max_hear_distance = 10,
 								},
 					harvest = {
 								name="harvest",
 								gain = 0.8,
-								max_hear_distance = 5,
-								},							
-								
+								max_hear_distance = 5
+								},
 					},
 		}
 		
-lamb_prototype = {   
+lamb_prototype = {
 		name="lamb",
 		modname="animal_sheep", 
 	
@@ -91,35 +95,40 @@ lamb_prototype = {
 					kill_result="animalmaterials:meat_raw 1",
 					armor_groups= {
 						fleshy=3,
-					}
-				},				
-		movement =  { 
-					default_gen=movement_gen,
+					},
+					envid="meadow",
+				},
+		movement =  {
+					default_gen="probab_mov_gen",
+					canfly=false,
 					min_accel=0.1,
 					max_accel=0.2,
 					max_speed=1,
 					pattern="stop_and_go"
-					},		
+					},
 		harvest     = nil,
 		catching = {
 					tool="animalmaterials:lasso",
 					consumed=true,
-					},		  	
-		random_drop = nil,		
+					},
+		random_drop = nil,
 		auto_transform = {
 					result="animal_sheep:sheep",
 					delay=1800
-					},					
-		graphics = { 
+					},
+		graphics = {
+					sprite_scale={x=4,y=4},
+					sprite_div = {x=6,y=1},
+					visible_height = 1,
+					},
+		graphics_3d = { 
 					visual = "wielditem",
 					textures = {"animal_sheep:box_wool"},
 					collisionbox = selectionbox_lamb,
 					visual_size= {x=0.6,y=1,z=0.6},
-					visible_height = 1,
-					},		
+					},
 		combat      = nil,
-		
-		spawning = {		
+		spawning = {
 					rate=0,
 					density=0,
 					algorithm="none",
@@ -130,14 +139,13 @@ lamb_prototype = {
 								name="Mudchute_lamb_1",
 								min_delta = 30,
 								chance = 0.5,
-								gain = 0.8,
-								max_hear_distance = 50,
-								},								
-								
+								gain = 0.4,
+								max_hear_distance = 10,
+								},
 					},
 		}
 	
-sheep_naked_prototype = {   
+sheep_naked_prototype = {
 		name="sheep_naked",
 		modname="animal_sheep", 
 	
@@ -148,9 +156,11 @@ sheep_naked_prototype = {
 					armor_groups= {
 						fleshy=3,
 					},
-				},				
+					envid="meadow"
+				},
 		movement =  {
-					default_gen=movement_gen,
+					default_gen="probab_mov_gen",
+					canfly=false,
 					min_accel=0.2,
 					max_accel=0.4,
 					max_speed=1.5,
@@ -161,22 +171,25 @@ sheep_naked_prototype = {
 		catching = {
 					tool="animalmaterials:lasso",
 					consumed=true,
-					},		  	
-		random_drop = nil,		
+					},
+		random_drop = nil,
 		auto_transform = {
 					result="animal_sheep:sheep",
 					delay=300
-					},					
+					},
 		graphics = { 
+					sprite_scale={x=4,y=4},
+					sprite_div = {x=6,y=1},
+					visible_height = 1.5,
+					},
+		graphics_3d = {
 					visual = "wielditem",
 					textures = {"animal_sheep:box_naked"},
 					collisionbox = selectionbox_sheep,
 					visual_size= {x=1,y=1,z=1},
-					visible_height = 1,
-					},	
+					},
 		combat      = nil,
-		
-		spawning = {		
+		spawning = {
 					rate=0,
 					density=0,
 					algorithm="none",
@@ -187,10 +200,9 @@ sheep_naked_prototype = {
 								name="Mudchute_sheep_1",
 								min_delta = 30,
 								chance = 0.5,
-								gain = 0.8,
-								max_hear_distance = 75,
-								},								
-								
+								gain = 0.5,
+								max_hear_distance = 10,
+								},
 					},
 		}	
 
