@@ -1,4 +1,4 @@
-local version = "0.0.7"
+local version = "0.0.5"
 sliders_gravity = -9.81
 
 local min_speed_jitter = 0.05

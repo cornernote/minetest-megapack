@@ -54,8 +54,9 @@ function calc_accel_on_sliders(own_pos,hitter_pos)
 
 	local slidertype =  detect_slider_type(own_pos)
 
-	if slidertype == "inv" then
-		print("Not on sliders")
+	if slidertype == "inv" or
+	   slidertype == "in_air" then
+		--print("Not on sliders")
 		local speedchange = calc_accel(own_pos,hitter_pos)
 		return {dir=slidertype,x=speedchange.x,z=speedchange.z}
 	end
@@ -90,12 +91,12 @@ function calc_accel_on_sliders(own_pos,hitter_pos)
 	if slidertype == "x+" then
 
 		if math.abs(speedchange.x) > math.abs(speedchange.z) then
-			print("x dir:"..speedchange.x)
+			--print("x dir:"..speedchange.x)
 			if speedchange.x > 0 then
 				return {dir=slidertype,x=sliders_speedaddon,z=0}
 			end
 		else
-			print("z dir")
+			--print("z dir")
 			if speedchange.z < 0 then
 				return {dir=slidertype,x=0,z=-sliders_speedaddon}
 			end

@@ -24,5 +24,15 @@ end
 -- retval: string with coordinates of pos
 -------------------------------------------------------------------------------
 function printpos(pos)
-	return "("..pos.x..","..pos.y..","..pos.z..")"
+    if pos ~= nil then
+	   return "("..pos.x..","..pos.y..","..pos.z..")"
+	end
+	
+	return ""
+end
+
+function pushable_block_calc_distance(pos1,pos2)
+    return math.sqrt(   math.pow(pos1.x-pos2.x,2) + 
+                math.pow(pos1.y-pos2.y,2) +
+                math.pow(pos1.z-pos2.z,2))
 end

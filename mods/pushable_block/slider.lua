@@ -9,19 +9,52 @@
 -------------------------------------------------------------------------------
 function get_ground_level(pos)
 
-	local current_pos =round_pos(pos)
+    local current_pos =round_pos(pos)
 
-	local tested_node = minetest.env:get_node(current_pos)
+    local tested_node = minetest.env:get_node(current_pos)
+
+    
+
+    while tested_node ~= nil and tested_node.name == "air" do
+        current_pos = {x=current_pos.x,y=current_pos.y -1,z=current_pos.z}
+
+        tested_node = minetest.env:get_node(current_pos)
+    end
+
+    return current_pos
+end
+
+function get_ground_level_x(pos)
 
 	
+	
+	local dirs = {
+	   {x=0,z=0.5},
+	   {x=0,z=-0.5},
+	   {x=0.5,z=0},
+	   {x=-0.5,z=0}
+	}
 
-	while tested_node ~= nil and tested_node.name == "air" do
-		current_pos = {x=current_pos.x,y=current_pos.y -1,z=current_pos.z}
+    local current_ground_level = round_pos(pos)
+    
+    
+    for i=1, #dirs do
+    
+        local current_pos = round_pos({x=pos.x+dirs[i].x,y=pos.y+2,z=pos.z+dirs[i].z})
+        
+        local tested_node = minetest.env:get_node(current_pos)
 
-		tested_node = minetest.env:get_node(current_pos)
-	end
-
-	return current_pos
+        while tested_node ~= nil and tested_node.name == "air" do
+            current_pos = {x=current_pos.x,y=current_pos.y -1,z=current_pos.z}
+            tested_node = minetest.env:get_node(current_pos)
+            
+            if current_pos.y > current_ground_level.y then
+                current_ground_level = current_pos
+            end
+        end
+    end
+    
+	return {x=pos.x,y=current_ground_level.y,z=pos.z}
 end
 
 
@@ -36,6 +69,7 @@ end
 function is_slider(name)
 
 	if 	name == "pushable_block:slider" or
+	   name == "pushable_block:break" or
 		name == "pushable_block:booster" then
 		return true
 	end
@@ -81,6 +115,28 @@ function get_boost(speed,pos)
 			z_accel = 5
 		end
 	end
+	
+	if  node_at_pos ~= nil and
+        node_at_pos.name == "pushable_block:break" then
+
+        --print("Found booster: " .. printpos(pos))
+
+        if speed.x > 0 then
+            x_accel = -5
+        end
+
+        if speed.x < 0 then
+            x_accel = 5
+        end
+
+        if speed.z < 0 then
+            z_accel = 5
+        end
+        
+        if speed.z > 0 then
+            z_accel = -5
+        end
+    end
 
 	return {x=x_accel,z=z_accel}
 end
@@ -103,31 +159,26 @@ function detect_slider_type(pos)
 
 	if is_slider(current_node.name) ~= true and
 		current_node.name ~= "air" then
-		print("not on slider:"..current_node.name)
+		--print("not on slider:"..current_node.name)
 		return "inv"
 	end 
 
-	local node_x_before = minetest.env:get_node({x=pos.x-1,y=pos.y,z=pos.z})
-	local node_x_next   = minetest.env:get_node({x=pos.x+1,y=pos.y,z=pos.z})
-
-	local node_z_before = minetest.env:get_node({x=pos.x,y=pos.y,z=pos.z-1})
-	local node_z_next   = minetest.env:get_node({x=pos.x,y=pos.y,z=pos.z+1})
-
-
-	local node_x_before_above = minetest.env:get_node({x=pos.x-1,y=pos.y+1,z=pos.z}) 
-
-	local node_x_next_above = minetest.env:get_node({x=pos.x+1,y=pos.y+1,z=pos.z}) 
-
-	local node_z_before_above = minetest.env:get_node({x=pos.x,y=pos.y+1,z=pos.z-1})
-
-	local node_z_next_above   = minetest.env:get_node({x=pos.x,y=pos.y+1,z=pos.z+1})
-
-	local node_below = minetest.env:get_node({x=pos.x,y=pos.y-1,z=pos.z})
+	local node_x_prev = minetest.env:get_node({x=pos.x-1,y=pos.y,z=pos.z})
+	local node_x_next = minetest.env:get_node({x=pos.x+1,y=pos.y,z=pos.z})
+	local node_z_prev = minetest.env:get_node({x=pos.x,y=pos.y,z=pos.z-1})
+	local node_z_next = minetest.env:get_node({x=pos.x,y=pos.y,z=pos.z+1})
 
 
-	if node_x_before ~= nil and
+	local node_x_prev_above = minetest.env:get_node({x=pos.x-1,y=pos.y+1,z=pos.z})
+	local node_x_next_above = minetest.env:get_node({x=pos.x+1,y=pos.y+1,z=pos.z})
+	local node_z_prev_above = minetest.env:get_node({x=pos.x,y=pos.y+1,z=pos.z-1})
+	local node_z_next_above = minetest.env:get_node({x=pos.x,y=pos.y+1,z=pos.z+1})
+
+	local node_below        = minetest.env:get_node({x=pos.x,y=pos.y-1,z=pos.z})
+
+	if node_x_prev ~= nil and
 		node_below ~= nil and
-		is_slider(node_x_before.name) and
+		is_slider(node_x_prev.name) and
 		is_slider(node_below.name) then
 		return "x-b"
 	end
@@ -139,9 +190,9 @@ function detect_slider_type(pos)
 		return "x+b"
 	end
 
-	if node_z_before ~= nil and
+	if node_z_prev ~= nil and
 		node_below ~= nil and
-		is_slider(node_z_before.name) and
+		is_slider(node_z_prev.name) and
 		is_slider(node_below.name) then
 		return "z-b"
 	end
@@ -154,24 +205,22 @@ function detect_slider_type(pos)
 	end
 
 	if current_node.name == "air" then
-		return "inv"
+		return "in_air"
 	end
 
 	
-	if node_x_before_above ~= nil and
-		is_slider(node_x_before_above.name) then
+	if node_x_prev_above ~= nil and
+		is_slider(node_x_prev_above.name) then
 		return "x-u"
 	end
 
 	if node_x_next_above ~= nil and
 		is_slider(node_x_next_above.name) then
-
 		return "x+u"
 	end
 
-	if node_z_before_above ~= nil and
-		is_slider(node_z_before_above.name) then
-
+	if node_z_prev_above ~= nil and
+		is_slider(node_z_prev_above.name) then
 		return "z-u"
 	end
 
@@ -182,19 +231,19 @@ function detect_slider_type(pos)
 	end
 		
 
-
-	if node_z_before ~= nil and
+    --easy moving without up or down
+	if node_z_prev ~= nil and
 		node_x_next ~= nil and
-		is_slider(node_z_before.name) and
+		is_slider(node_z_prev.name) and
 		is_slider(node_x_next.name) then
 
 		return "x+"
 	end
 
-	if node_z_before ~= nil and
-		node_x_before ~= nil and
-		is_slider(node_z_before.name) and
-		is_slider(node_x_before.name) then
+	if node_z_prev ~= nil and
+		node_x_prev ~= nil and
+		is_slider(node_z_prev.name) and
+		is_slider(node_x_prev.name) then
 
 		return "x-"
 	end
@@ -208,26 +257,26 @@ function detect_slider_type(pos)
 	end
 
 	if node_z_next ~= nil and
-		node_x_before ~= nil and
+		node_x_prev ~= nil and
 		is_slider(node_z_next.name) and
-		is_slider(node_x_before.name) then
+		is_slider(node_x_prev.name) then
 
 		return "z-"
 	end
 
 
 	--only basic directions by now
-	if node_x_before ~= nil and
+	if node_x_prev ~= nil and
 		node_x_next ~= nil and
-		(is_slider(node_x_before.name) or
+		(is_slider(node_x_prev.name) or
 		is_slider(node_x_next.name)) then
 
 		return "x"
 	end
 
-	if node_z_before ~= nil and
+	if node_z_prev ~= nil and
 		node_z_next ~= nil and
-		(is_slider(node_z_before.name) or
+		(is_slider(node_z_prev.name) or
 		is_slider(node_z_next.name)) then
 
 		return "z"

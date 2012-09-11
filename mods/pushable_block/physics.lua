@@ -43,21 +43,23 @@ function calc_gravity(slidertype)
 
 	local gravity_x = 0
 	local gravity_z = 0
+	
+	local gravity_factor = 0.25
 
 	if slidertype == "x-u" or slidertype == "x-b" then
-		gravity_x = - 0.25 * sliders_gravity
+		gravity_x = - gravity_factor * sliders_gravity
 	end
 
 	if slidertype == "x+u" or slidertype == "x+b" then
-		gravity_x = 0.25 * sliders_gravity
+		gravity_x = gravity_factor * sliders_gravity
 	end
 
 	if slidertype == "z-u" or slidertype == "z-b" then
-		gravity_z = - 0.25 * sliders_gravity
+		gravity_z = - gravity_factor * sliders_gravity
 	end
 
 	if slidertype == "z+u" or slidertype == "z+b" then
-		gravity_z = 0.25 * sliders_gravity
+		gravity_z = gravity_factor * sliders_gravity
 	end
 
 	return {x = gravity_x,z=gravity_z}
@@ -69,11 +71,10 @@ end
 --
 -- action: calculate resistance based upon speed and density
 --
--- param1: slidertype to calculate gravity
--- retval: xz-gravity
+-- param1: slidertype to calculate resistance
+-- retval: xz-resistanc
 -------------------------------------------------------------------------------
 function calc_resistance(speed)
-
 	local x_resistance = math.pow(speed.x,2) * density
 	local z_resistance = math.pow(speed.z,2) * density
 
@@ -87,6 +88,7 @@ function calc_resistance(speed)
 	
 	return { x = x_resistance,
 		 z = z_resistance  }
+
 end
 
 
