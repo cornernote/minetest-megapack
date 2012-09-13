@@ -1,0 +1,1 @@
+singleplayer::interact,teleport,fast,bring,basic_privs,password,ban,shout,settime,fly,server,privs,give

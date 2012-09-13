@@ -1,0 +1,59 @@
+hp = 18
+name = singleplayer
+pitch = 13.88
+position = (3152.82,185,-1316.16)
+version = 1
+yaw = 43.58
+PlayerArgsEnd
+List main 32
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Item default:dirt
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Item default:torch 96
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Item default:fence_wood
+Item moreblocks:fence_junglewood
+Empty
+Empty
+Empty
+Item default:cobble 33
+Item default:rail 77
+Item moreores:copper_lump
+EndInventoryList
+List craft 9
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+Empty
+EndInventoryList
+List craftpreview 1
+Empty
+EndInventoryList
+List craftresult 1
+Empty
+EndInventoryList
+EndInventory
