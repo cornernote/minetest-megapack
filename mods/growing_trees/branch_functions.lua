@@ -281,16 +281,19 @@ function growing_trees_grow_leaves(pos)
 	for z = pos.z - 2, pos.z + 2 do	
 		local currentpos = {x = x, y = y, z = z}
 		
-		if current_node ~= nil and
-			current_node.name == "air" then
-			
-			if growing_trees_next_to(currentpos,branch_type,true) ~= nil or
-				growing_trees_next_to(currentpos,leaves_type,true) ~= nil and 
-				math.random() < 0.2 then
-				minetest.env:add_node(currentpos,{type="node",name="growing_trees:leaves"})
+		local distance = growing_trees_calc_distance(pos,currentpos)
+        
+	        if distance <= 2 then
+			if current_node ~= nil and
+				current_node.name == "air" then
+				
+				if growing_trees_next_to(currentpos,branch_type,true) ~= nil or
+					growing_trees_next_to(currentpos,leaves_type,true) ~= nil and 
+					math.random() < 0.2 then
+					minetest.env:add_node(currentpos,{type="node",name="growing_trees:leaves"})
+				end
 			end
-		end
-	
+		end	
 	end
 	end
 	end
@@ -310,20 +313,50 @@ function growing_trees_grow_sprout_leaves(pos)
 	for z = pos.z - 1, pos.z + 1 do	
 		local currentpos = {x = x, y = y, z = z}
 		
-		local current_node = minetest.env:get_node(currentpos)
-		
-		if current_node ~= nil and
-			current_node.name == "air" then
+		local distance = growing_trees_calc_distance(pos,currentpos)
+        
+        if distance <= 1.5 then
+			local current_node = minetest.env:get_node(currentpos)
 			
-			if growing_trees_next_to(currentpos,trunk_type,true) ~= nil or
-				growing_trees_next_to(currentpos,leaves_type,true) ~= nil and 
-				math.random() < 0.3 then
-				minetest.env:add_node(currentpos,{type="node",name="growing_trees:leaves"})
+			if current_node ~= nil and
+				current_node.name == "air" then
+				
+				if growing_trees_next_to(currentpos,trunk_type,true) ~= nil or
+					growing_trees_next_to(currentpos,leaves_type,true) ~= nil and 
+					math.random() < 0.3 then
+					minetest.env:add_node(currentpos,{type="node",name="growing_trees:leaves"})
+				end
 			end
-		end
+	   end
+	end
+	end
+	end
 	
-	end
-	end
+	local treesize = growing_trees_get_tree_size({x=pos.x,y=pos.y-1,z=pos.z})
+	
+	if treesize > 2 and
+	   treesize < 6 then
+	   
+	    for x = pos.x - 3, pos.x + 3 do
+	    for y = pos.y - 3, pos.y + 3 do
+	    for z = pos.z - 3, pos.z + 3 do 
+	        local currentpos = {x = x, y = y, z = z}
+	        local current_node = minetest.env:get_node(currentpos)
+	        
+	        if current_node ~= nil and
+                    current_node.name == "air" then
+	            local distance = growing_trees_calc_distance(pos,currentpos)
+	            if distance <= 3 then
+	                if growing_trees_next_to(currentpos,branch_type,true) ~= nil or
+	                    growing_trees_next_to(currentpos,leaves_type,true) ~= nil and 
+	                    math.random() < 0.2 then
+	                    minetest.env:add_node(currentpos,{type="node",name="growing_trees:leaves"})
+	                end
+	            end
+	        end 
+	    end
+	    end
+	    end
 	end
 end
 

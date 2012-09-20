@@ -29,6 +29,7 @@ function growing_trees_place_sprout(pos)
 
             minetest.env:add_node(pos,{type=node,name="growing_trees:trunk"})
             minetest.env:add_node(pos_above,{type=node,name="growing_trees:trunk_sprout"})
+            growing_trees_grow_sprout_leaves(pos_above)
             return true
         end
     end

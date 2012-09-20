@@ -50,7 +50,7 @@ trunk_static_type = {
 }
 
 leaves_type = {
-			"growing_tree:leaves"
+			"growing_trees:leaves"
 }
 
 -------------------------------------------------------------------------------

@@ -1,9 +1,11 @@
 drowning = {}	-- Exported functions
 
 local players_under_water = {}
+local drowning_seconds = {}
 
-local START_DROWNING_SECONDS = 60
-local DROWNING_SECONDS = 5
+local START_DROWNING_SECONDS = 40
+local FACTOR_DROWNING_SECONDS = 2
+local MIN_DROWNING_SECONDS = 2
 local DROWNING_DAMAGE = 1
 
 local timer = 0
@@ -15,48 +17,65 @@ minetest.register_globalstep(function(dtime)
 	else
 		return
 	end
-	for k, v in pairs(minetest.object_refs) do
-		if v:get_player_name() ~= nil then
-			name = v:get_player_name()
-			if players_under_water[name] == nil then
-				players_under_water[name] = {count=0, drowning=false}
+	for _,player in ipairs(minetest.get_connected_players()) do
+			local player_name = player:get_player_name()
+			if players_under_water[player_name] == nil then
+				players_under_water[player_name] = {count=0}
 			end
-			if IsPlayerInAir(v) == false then
-				players_under_water[name].count = players_under_water[name].count + .5
-				
-				if players_under_water[name].drowning and players_under_water[name].count >= DROWNING_SECONDS then
-					v:set_hp(v:get_hp() - DROWNING_DAMAGE)
-					pos = v:getpos()
-					pos.y=pos.y+1
-					minetest.sound_play({name="drowning_gurp"}, {pos = pos, gain = 1.0, max_hear_distance = 16})
-					players_under_water[name].count = players_under_water[name].count - DROWNING_SECONDS
-				elseif not players_under_water[name].drowning and players_under_water[name].count >= START_DROWNING_SECONDS then
-					players_under_water[name] = {count=0, drowning=true}
-					v:set_hp(v:get_hp() - DROWNING_DAMAGE)
-					pos = v:getpos()
-					pos.y=pos.y+1
-					minetest.sound_play({name="drowning_gurp"}, {pos = pos, gain = 1.0, max_hear_distance = 16})
+			if drowning_seconds[player_name] == nil then
+				drowning_seconds[player_name] = START_DROWNING_SECONDS
+			end
+			-- Lua interpretes nil and 0 as true
+			if PlayerNotInLiquid(player) == false then
+				players_under_water[player_name].count = players_under_water[player_name].count + .5
+				if players_under_water[player_name].count >= drowning_seconds[player_name] then
+					if player:get_hp() > 0 then
+						player:set_hp(player:get_hp() - DROWNING_DAMAGE)
+						pos = player:getpos()
+						pos.y=pos.y+1
+						minetest.sound_play({name="drowning_gurp"}, {pos = pos, gain = 1.0, max_hear_distance = 16})
+						players_under_water[player_name].count = players_under_water[player_name].count - drowning_seconds[player_name]
+						drowning_seconds[player_name] = math.floor(drowning_seconds[player_name]/FACTOR_DROWNING_SECONDS)
+						if drowning_seconds[player_name] < MIN_DROWNING_SECONDS then
+							drowning_seconds[player_name] = MIN_DROWNING_SECONDS
+						end
+					else
+						players_under_water[player_name] = {count=0}
+						drowning_seconds[player_name] = START_DROWNING_SECONDS
+					end
 				end
-			elseif players_under_water[name].count > 0 then
-				pos = v:getpos()
+			elseif players_under_water[player_name].count > 0 then
+				pos = player:getpos()
 				pos.y=pos.y+1
 				minetest.sound_play({name="drowning_gasp"}, {pos = pos, gain = 1.0, max_hear_distance = 32})
-				players_under_water[name] = {count=0, drowning=false}
+				players_under_water[player_name] = {count=0}
+				drowning_seconds[player_name] = START_DROWNING_SECONDS
 			end
-		end
 	end
 end)
 end
 
-function IsPlayerInAir(player)
-	-- player:getpos() is at the feet (I think) so add 1 to y to get where the head is?
-	pos = player:getpos()
+function PlayerNotInLiquid(player)
+	local pos = player:getpos()
 	pos.x = math.floor(pos.x+0.5)
-	pos.y = math.floor(pos.y+1.5)
+	pos.y = math.floor(pos.y+2.0)
 	pos.z = math.floor(pos.z+0.5)
 	
-	if minetest.env:get_node(pos).name == "air" then
-		return true
+	-- getting nodename at players head
+	n_head = minetest.env:get_node(pos).name
+	-- checking if node is liquid (0=not 2=lava 3=water) then player is underwater
+	-- this includes flowing water and flowing lava
+	if minetest.get_item_group(n_head, "liquid") ~= 0 then
+		return false
 	end
-	return false
+	return true
+end
+
+minetest.register_on_respawnplayer(reset_on_respawn)
+
+reset_on_respawn = function(player)
+	for _,player in ipairs(minetest.get_connected_players()) do
+			players_under_water[player_name] = {count=0}
+			drowning_seconds[player_name] = START_DROWNING_SECONDS
+	end
 end

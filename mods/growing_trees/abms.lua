@@ -21,7 +21,7 @@
 -------------------------------------------------------------------------------
 minetest.register_abm({
         nodenames = { "growing_trees:trunk_sprout" },
-        interval = 60,
+        interval = 30,
         chance = 5,
         action = function(pos, node, active_object_count, active_object_count_wider)
 
@@ -42,7 +42,7 @@ minetest.register_abm({
                 if root_node ~= nil and
                     root_node.name ~= "growing_trees:big_trunk" then
                    
-                   growing_trees_make_trunk_big(tree_root,SLOWDOWN_SIZE)
+                   growing_trees_make_trunk_big(tree_root,SLOWDOWN_TREE_GROWTH_SIZE)
                 end
             end
             
@@ -70,7 +70,7 @@ minetest.register_abm({
                 local node_above = minetest.env:get_node(pos_above)
                 
                 if node_above.name == "air" or
-                    node_above.name == "growing_trees:leaves" then
+                    growing_trees_node_is_type(leaves_type,node_above.name) then
                     
                     minetest.env:remove_node(pos)
                     minetest.env:add_node(pos,{type=node,name="growing_trees:trunk"})
@@ -85,18 +85,21 @@ minetest.register_abm({
                     --print("growing horizontaly")
                     --decide which direction to grow trunk
                     local pos_to_grow_to = growing_trees_get_random_next_to(pos)
+                    local node_at_pos_to_grow = minetest.env:get_node(pos_to_grow_to)
     
                     --check if pos is feasable
-                    --TODO
+                    if node_at_pos_to_grow.name == "air" or
+                        growing_trees_node_is_type(leaves_type,node_at_pos_to_grow.name) then
                     
-                    minetest.env:remove_node(pos)
-                    minetest.env:add_node(pos,{type=node,name="growing_trees:trunk"})
-                    
-                    minetest.env:add_node(pos_to_grow_to,{type=node,name="growing_trees:trunk_sprout"})
-                    
-                    grown = true
+	                    minetest.env:remove_node(pos)
+	                    minetest.env:add_node(pos,{type=node,name="growing_trees:trunk"})
+	                    
+	                    minetest.env:add_node(pos_to_grow_to,{type=node,name="growing_trees:trunk_sprout"})
+	                    
+	                    grown = true
+	                end
                 else
-                    print("Not growing horizontaly twice")
+                    growing_trees_debug("verbose","Not growing horizontaly twice")
                 end
             end
 			growing_trees_debug("verbose","Growing_Trees: trunk_sprout ABM*******************")
@@ -111,7 +114,7 @@ minetest.register_abm({
 -------------------------------------------------------------------------------
 minetest.register_abm({
         nodenames = trunk_static_type,
-        interval = 60,
+        interval = 15,
         chance = 5,
         
         action = function(pos, node, active_object_count, active_object_count_wider)
@@ -120,14 +123,17 @@ minetest.register_abm({
                 local treesize,tree_root = growing_trees_get_tree_size(pos)
                 
                 --don't add branches to trees to small
-                if treesize < 5 then
+                if treesize < 4 then
                 	growing_trees_debug("verbose","Growing_Trees: branch_abm ABM*******************")
                     return
                 end
                 
                 local growpos = growing_trees_get_random_next_to(pos)
+                local node_at_pos = minetest.env:get_node(pos)
                 
-                if growing_trees_is_tree_structure(growpos) == false then
+                if growing_trees_is_tree_structure(growpos) == false and
+                    ( node_at_pos.name == "air" or 
+                      growing_trees_node_is_type(leaves_type,node_at_pos.name)) then
                 
                     local distance       = growing_trees_min_distance(growpos)
                     local next_to_branch = growing_trees_next_to_branch(growpos,nil)
@@ -140,7 +146,8 @@ minetest.register_abm({
                     else
                         growing_trees_debug("verbose","Growing_Trees: NOT adding branch: " .. distance ..  " ntb: " .. dump(next_to_branch) )
                     end
-                
+                else
+                    growing_trees_debug("info","unable to get valid growpos for branch")
                 end
                 
                 growing_trees_debug("verbose","Growing_Trees: branch_add ABM********************")
@@ -172,7 +179,9 @@ minetest.register_abm({
             
             growing_trees_debug("verbose","Growing_Trees: evaluating growpos information " .. dump(tree_structure) .. " " .. dump(next_to_branch))
             if  tree_structure == false and
-                next_to_branch == false then
+                next_to_branch == false and
+                ( node_at_pos.name == "air" or 
+                  growing_trees_node_is_type(leaves_type,node_at_pos.name)) then
                 growing_trees_debug("verbose","valid growing pos found:" .. printpos(growpos) .. " -> " .. node_at_pos.name )
                 
                 local branch = {}
@@ -197,7 +206,7 @@ minetest.register_abm({
                 
                 if (treesize > MAX_TREE_SIZE) then
                     growing_trees_debug("info","Growing_Trees: branch maximum tree size reached")
-                    if math.random < 0.1 then
+                    if math.random() < 0.1 then
                         growing_trees_debug("info","Growing_Trees: aborting branch growth")
                         minetest.env:remove_node(pos)
                         minetest.env:add_node(pos,{type=node,name="growing_trees:leaves"})
@@ -233,7 +242,7 @@ minetest.register_abm({
 minetest.register_abm({
         nodenames = { "growing_trees:leaves" },
         interval = 10,
-        chance = 5,
+        chance = 2,
         
         action = function(pos, node, active_object_count, active_object_count_wider)
         
@@ -252,7 +261,7 @@ minetest.register_abm({
 minetest.register_abm({
         nodenames = { "growing_trees:trunk_sprout" },
         interval = 5,
-        chance = 5,
+        chance = 2,
         action = function(pos, node, active_object_count, active_object_count_wider)
              growing_trees_grow_sprout_leaves(pos)
         end
@@ -261,7 +270,7 @@ minetest.register_abm({
 minetest.register_abm({
         nodenames = branch_static_type,
         interval = 5,
-        chance = 5,
+        chance = 2,
         action = function(pos, node, active_object_count, active_object_count_wider)
                 growing_trees_grow_leaves(pos)
             end

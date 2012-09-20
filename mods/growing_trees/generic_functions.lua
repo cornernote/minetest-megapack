@@ -139,3 +139,18 @@ function growing_trees_neighbour_positions(pos,ynodes_too)
 	
 	return retval
 end
+
+-------------------------------------------------------------------------------
+-- name: growing_trees_calc_distance(pos1,pos2)
+--
+--! @brief calculate 3d distance between to points
+--
+--! @param pos1 first position
+--! @param pos2 second position
+--! @retval scalar value, distance
+-------------------------------------------------------------------------------
+function growing_trees_calc_distance(pos1,pos2)
+    return math.sqrt(   math.pow(pos1.x-pos2.x,2) + 
+                math.pow(pos1.y-pos2.y,2) +
+                math.pow(pos1.z-pos2.z,2))
+end

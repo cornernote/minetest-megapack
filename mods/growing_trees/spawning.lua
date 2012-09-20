@@ -65,8 +65,8 @@ minetest.register_on_generated(function(minp, maxp, seed)
         --randomly try to place new growing tree in area
         if not trunkpos then
             for i= 0, 5 do
-                local x_try = math.random(xdivs/-2,xdivs/2)
-                local z_try = math.random(zdivs/-2,zdivs/2)
+                local x_try = math.random(minimum_tree_distance/-2,minimum_tree_distance/2)
+                local z_try = math.random(minimum_tree_distance/-2,minimum_tree_distance/2)
                 
                 local pos = { x= x_center + x_try,
                                z= z_center+z_try }

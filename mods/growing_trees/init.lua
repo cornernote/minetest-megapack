@@ -12,7 +12,7 @@
 --
 -- Contact sapier a t gmx net
 -------------------------------------------------------------------------------
-local version = "0.0.5"
+local version = "0.0.8"
 
 local growing_trees_modpath = minetest.get_modpath("growing_trees")
 
@@ -31,7 +31,8 @@ MAX_TREE_SIZE = 20
 SLOWDOWN_TREE_GROWTH_SIZE = 10
 
 function growing_trees_debug(loglevel,text)
-    minetest.log(loglevel,text)
+    --minetest.log(loglevel,text)
+    --print(loglevel .. ": " .. text)
 end
 
 local tree_size_setting = minetest.setting_get("growing_trees_max_size")
