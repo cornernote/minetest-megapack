@@ -1,12 +1,11 @@
 --------------------------------------------------------------------------------------------------------
---Ambience Configuration for version .30   
---added music volume /mvol 0-3.3 music gain gets multiplied by this.
---added sound volume /mvol 0-1 sound gain gets multiplied by this.
---Working on:
---find out why wind stops while flying
---add an extra node near feet to handle treading water as a special case, and don't have to use node under feet. which gets
-	--invoked when staning on a ledge near water.
---reduce redundant code (stopplay and add ambience to list)
+--Ambiance Configuration for version .29   
+--working on Flying
+--PROB:  wind stops short even though it says we are still flying and don't hear the start sound.
+--really BIG prob, it ruins water meaning you hear beach while treading water.  (find out if still hear it in .28) because
+--it is fairly rare in .29
+--need a separate onstart variable for flying
+
 
 local max_frequency_all = 1000 --the larger you make this number the lest frequent ALL sounds will happen recommended values between 100-2000.
 
@@ -36,20 +35,11 @@ local desert_frequent_frequency = 700  --desertwind
 local desert_frequent_volume = 1.0 
 local swimming_frequent_frequency = 1000  --swimming splashes
 local swimming_frequent_volume = 1.0 
-local water_surface_volume = 1.0   -- sloshing water
-local lava_volume = 1.0 --lava
-local flowing_water_volume = .4  --waterfall
-local splashing_water_volume = 1
-local music_frequency = 7  --music (suggestion: keep this one low like around 6)
+local music_frequency = 0  --music (suggestion: keep this one low like around 6)
 local music_volume = 0.3 
-
 --End of Config
 ----------------------------------------------------------------------------------------------------
-local ambiences
 local counter=0--*****************
-local SOUNDVOLUME = 1
-local MUSICVOLUME = 1
-local sound_vol = 1
 local last_x_pos = 0
 local last_y_pos = 0
 local last_z_pos = 0
@@ -57,10 +47,9 @@ local node_under_feet
 local node_at_upper_body
 local node_at_lower_body
 local node_3_under_feet
+
 local played_on_start = false
-
-
-
+local played_on_start_flying = false
 
 local night = {
 	handler = {},
@@ -155,8 +144,8 @@ local flying = {
 local water = {
 	handler = {},
 	frequency = 0,--dolphins dont fit into small lakes
-	{name="dolphins", length=6, gain=1},
-	{name="dolphins_screaming", length=16.5, gain=1}
+	{name="dolphins", length=6},
+	{name="dolphins_screaming", length=16.5}
 }
 
 local water_frequent = {
@@ -165,7 +154,7 @@ local water_frequent = {
 	on_stop = "drowning_gasp",
 	--on_start = "Splash",
 	{name="scuba1bubbles", length=11, gain=water_frequent_volume},
-	{name="scuba1calm", length=10, gain=water_frequent_volume},  --not sure why but sometimes I get errors when setting gain=water_frequent_volume here.
+	{name="scuba1calm", length=10},  --not sure why but sometimes I get errors when setting gain=water_frequent_volume here.
 	{name="scuba1calm2", length=8.5, gain=water_frequent_volume},
 	{name="scuba1interestingbubbles", length=11, gain=water_frequent_volume},
 	{name="scuba1tubulentbubbles", length=10.5, gain=water_frequent_volume}
@@ -176,35 +165,35 @@ local water_surface = {
 	frequency = 1000,
 	on_stop = "Splash",
 	on_start = "Splash",
-	{name="lake_waves_2_calm", length=9.5, gain=water_surface_volume},
-	{name="lake_waves_2_variety", length=13.1, gain=water_surface_volume}
+	{name="lake_waves_2_calm", length=9.5},
+	{name="lake_waves_2_variety", length=13.1}
 }
 local splashing_water = {
 	handler = {},
 	frequency = 1000,
-	{name="Splash", length=1.22, gain=splashing_water_volume}
+	{name="Splash", length=1.22, gain=1}
 }
 
 local flowing_water = {
 	handler = {},
 	frequency = 1000,
-	{name="small_waterfall", length=14, gain=flowing_water_volume}
+	{name="small_waterfall", length=14, gain=.4}
 }
 local flowing_water2 = {
 	handler = {},
 	frequency = 1000,
-	{name="small_waterfall", length=11, gain=flowing_water_volume}
+	{name="small_waterfall", length=11, gain=.3}
 }
 
 local lava = {
 	handler = {},
 	frequency = 1000,
-	{name="earth01a", length=20, gain=lava_volume}
+	{name="earth01a", length=20}
 }
 local lava2 = {
 	handler = {},
 	frequency = 1000,
-	{name="earth01a", length=15, gain=lava_volume}
+	{name="earth01a", length=15}
 }
 
 
@@ -212,7 +201,6 @@ local play_music = minetest.setting_getbool("music") or false
 local music = {
 	handler = {},
 	frequency = music_frequency,
-	is_music=true,
 	{name="mtest", length=4*60+33, gain=music_volume},
 	{name="echos", length=2*60+26, gain=music_volume},
 	{name="FoamOfTheSea", length=1*60+50, gain=music_volume},
@@ -291,7 +279,7 @@ local get_immediate_nodes = function(pos)
 	node_at_upper_body = minetest.env:get_node(pos).name
 	pos.y = pos.y-1.19   
 	node_at_lower_body = minetest.env:get_node(pos).name
-	pos.y = pos.y+0.99  
+	pos.y = pos.y+0.99   --1.6
 	--minetest.chat_send_all("node_under_feet(" .. nodename .. ")")
 end 
 
@@ -325,7 +313,7 @@ local get_ambience = function(player)
 			return {water=water, water_frequent=water_frequent}
 		end
 	elseif node_at_upper_body == "air" then
-		if string.find(node_at_lower_body, "default:water") or string.find(node_under_feet, "default:water") then
+		if string.find(node_at_lower_body, "default:water") then
 		    --minetest.chat_send_all("bottom counted as water")
 			--we found air at upperbody, and water at lower body.  Now there are 4 possibilities:
 			--Key: under feet, moving or not
@@ -347,7 +335,7 @@ local get_ambience = function(player)
 						return {splashing_water}
 					end	
 				end
-			else--player is not moving: treading water
+			else--player is not moving
 				if string.find(node_under_feet, "default:water") then
 					if music then
 						return {water_surface=water_surface, music=music}
@@ -360,41 +348,29 @@ local get_ambience = function(player)
 		    end
 		end	
 	end
---	minetest.chat_send_all("----------")
---	if not player_is_moving_horiz then
---		minetest.chat_send_all("not moving horiz")
---	else
---		minetest.chat_send_all("moving horiz")
---	end	
---	minetest.chat_send_all("nub:" ..node_at_upper_body)
---	minetest.chat_send_all("nlb:" ..node_at_lower_body)
---	minetest.chat_send_all("nuf:" ..node_under_feet)
---	minetest.chat_send_all("----------")
+	if player_is_moving_horiz then
+		minetest.chat_send_all("playermoving")
+	end
+	if player_is_climbing then
+			minetest.chat_send_all("player Climbing")
+	end
+	minetest.chat_send_all("nub:" ..node_at_upper_body)
+	minetest.chat_send_all("nlb:" ..node_at_lower_body)
+	minetest.chat_send_all("nuf:" ..node_under_feet)
+	minetest.chat_send_all("n3uf:" ..node_3_under_feet)
 	
-	
---	if player_is_moving_horiz then
---		minetest.chat_send_all("playermoving")
---	end
---	if player_is_climbing then
---			minetest.chat_send_all("player Climbing")
---	end
---	minetest.chat_send_all("nub:" ..node_at_upper_body)
---	minetest.chat_send_all("nlb:" ..node_at_lower_body)
---	minetest.chat_send_all("nuf:" ..node_under_feet)
---	minetest.chat_send_all("n3uf:" ..node_3_under_feet)
---	
 	local air_or_ignore = {air=true,ignore=true}
 	--minetest.chat_send_all(air_or_ignore[node_under_feet])
 	if (player_is_moving_horiz or player_is_climbing) and air_or_ignore[node_at_upper_body] and air_or_ignore[node_at_lower_body]
 	 and air_or_ignore[node_under_feet] and air_or_ignore[node_3_under_feet] and not player_is_descending then 
-	--minetest.chat_send_all("flying!!!!")	
+	minetest.chat_send_all("flying!!!!")	
 		if music then
 			return {flying=flying, music=music}
 		else
 			return {flying}
 		end	
 	end
-	--minetest.chat_send_all("not flying!!!!")	
+	minetest.chat_send_all("not flying!!!!")	
 
 	if nodes_in_range(pos, 7, "default:lava_flowing")>5 or nodes_in_range(pos, 7, "default:lava_source")>5 then
 		if music then
@@ -439,8 +415,8 @@ local get_ambience = function(player)
 		end
 	end	
 
---	pos.y = pos.y-2 
---	nodename = minetest.env:get_node(pos).name
+	pos.y = pos.y-2 
+	nodename = minetest.env:get_node(pos).name
 --	minetest.chat_send_all("Found " .. nodename .. pos.y )
 	
 
@@ -467,18 +443,12 @@ local get_ambience = function(player)
 end
 
 -- start playing the sound, set the handler and delete the handler after sound is played
-local play_sound = function(player, list, number, is_music)
+local play_sound = function(player, list, number)
 	local player_name = player:get_player_name()
 	if list.handler[player_name] == nil then
 		local gain = 1.0
 		if list[number].gain ~= nil then
-			if is_music then 				
-				gain = list[number].gain*MUSICVOLUME
-				--minetest.chat_send_all("gain music: " .. gain )
-			else
-				gain = list[number].gain*SOUNDVOLUME 
-				--minetest.chat_send_all("gain sound: " .. gain )
-			end
+			gain = list[number].gain
 		end
 		local handler = minetest.sound_play(list[number].name, {to_player=player_name, gain=gain})
 		if handler ~= nil then
@@ -502,7 +472,7 @@ local stop_sound = function(still_playing, player)
 		local list = cave
 		if list.handler[player_name] ~= nil then
 			if list.on_stop ~= nil then
-				minetest.sound_play(list.on_stop, {to_player=player:get_player_name(),gain=SOUNDVOLUME})
+				minetest.sound_play(list.on_stop, {to_player=player:get_player_name()})
 			end
 			minetest.sound_stop(list.handler[player_name])
 			list.handler[player_name] = nil
@@ -512,7 +482,7 @@ local stop_sound = function(still_playing, player)
 		local list = cave_frequent
 		if list.handler[player_name] ~= nil then
 			if list.on_stop ~= nil then
-				minetest.sound_play(list.on_stop, {to_player=player:get_player_name(),gain=SOUNDVOLUME})
+				minetest.sound_play(list.on_stop, {to_player=player:get_player_name()})
 			end
 			minetest.sound_stop(list.handler[player_name])
 			list.handler[player_name] = nil
@@ -522,7 +492,7 @@ local stop_sound = function(still_playing, player)
 		local list = swimming_frequent
 		if list.handler[player_name] ~= nil then
 			if list.on_stop ~= nil then
-				minetest.sound_play(list.on_stop, {to_player=player:get_player_name(),gain=SOUNDVOLUME})
+				minetest.sound_play(list.on_stop, {to_player=player:get_player_name()})
 			end
 			minetest.sound_stop(list.handler[player_name])
 			list.handler[player_name] = nil
@@ -532,7 +502,7 @@ local stop_sound = function(still_playing, player)
 		local list = beach
 		if list.handler[player_name] ~= nil then
 			if list.on_stop ~= nil then
-				minetest.sound_play(list.on_stop, {to_player=player:get_player_name(),gain=SOUNDVOLUME})
+				minetest.sound_play(list.on_stop, {to_player=player:get_player_name()})
 			end
 			minetest.sound_stop(list.handler[player_name])
 			list.handler[player_name] = nil
@@ -542,7 +512,7 @@ local stop_sound = function(still_playing, player)
 		local list = beach_frequent
 		if list.handler[player_name] ~= nil then
 			if list.on_stop ~= nil then
-				minetest.sound_play(list.on_stop, {to_player=player:get_player_name(),gain=SOUNDVOLUME})
+				minetest.sound_play(list.on_stop, {to_player=player:get_player_name()})
 			end
 			minetest.sound_stop(list.handler[player_name])
 			list.handler[player_name] = nil
@@ -552,7 +522,7 @@ local stop_sound = function(still_playing, player)
 		local list = desert
 		if list.handler[player_name] ~= nil then
 			if list.on_stop ~= nil then
-				minetest.sound_play(list.on_stop, {to_player=player:get_player_name(),gain=SOUNDVOLUME})
+				minetest.sound_play(list.on_stop, {to_player=player:get_player_name()})
 			end
 			minetest.sound_stop(list.handler[player_name])
 			list.handler[player_name] = nil
@@ -562,7 +532,7 @@ local stop_sound = function(still_playing, player)
 		local list = desert_frequent
 		if list.handler[player_name] ~= nil then
 			if list.on_stop ~= nil then
-				minetest.sound_play(list.on_stop, {to_player=player:get_player_name(),gain=SOUNDVOLUME})
+				minetest.sound_play(list.on_stop, {to_player=player:get_player_name()})
 			end
 			minetest.sound_stop(list.handler[player_name])
 			list.handler[player_name] = nil
@@ -572,7 +542,7 @@ local stop_sound = function(still_playing, player)
 		local list = night
 		if list.handler[player_name] ~= nil then
 			if list.on_stop ~= nil then
-				minetest.sound_play(list.on_stop, {to_player=player:get_player_name(),gain=SOUNDVOLUME})
+				minetest.sound_play(list.on_stop, {to_player=player:get_player_name()})
 			end
 			minetest.sound_stop(list.handler[player_name])
 			list.handler[player_name] = nil
@@ -582,7 +552,7 @@ local stop_sound = function(still_playing, player)
 		local list = night_frequent
 		if list.handler[player_name] ~= nil then
 			if list.on_stop ~= nil then
-				minetest.sound_play(list.on_stop, {to_player=player:get_player_name(),gain=SOUNDVOLUME})
+				minetest.sound_play(list.on_stop, {to_player=player:get_player_name()})
 			end
 			minetest.sound_stop(list.handler[player_name])
 			list.handler[player_name] = nil
@@ -592,7 +562,7 @@ local stop_sound = function(still_playing, player)
 		local list = day
 		if list.handler[player_name] ~= nil then
 			if list.on_stop ~= nil then
-				minetest.sound_play(list.on_stop, {to_player=player:get_player_name(),gain=SOUNDVOLUME})
+				minetest.sound_play(list.on_stop, {to_player=player:get_player_name()})
 			end
 			minetest.sound_stop(list.handler[player_name])
 			list.handler[player_name] = nil
@@ -602,7 +572,7 @@ local stop_sound = function(still_playing, player)
 		local list = day_frequent
 		if list.handler[player_name] ~= nil then
 			if list.on_stop ~= nil then
-				minetest.sound_play(list.on_stop, {to_player=player:get_player_name(),gain=SOUNDVOLUME})
+				minetest.sound_play(list.on_stop, {to_player=player:get_player_name()})
 			end
 			minetest.sound_stop(list.handler[player_name])
 			list.handler[player_name] = nil
@@ -612,7 +582,7 @@ local stop_sound = function(still_playing, player)
 		local list = music
 		if list.handler[player_name] ~= nil then
 			if list.on_stop ~= nil then
-				minetest.sound_play(list.on_stop, {to_player=player:get_player_name(),gain=SOUNDVOLUME})
+				minetest.sound_play(list.on_stop, {to_player=player:get_player_name()})
 			end
 			minetest.sound_stop(list.handler[player_name])
 			list.handler[player_name] = nil
@@ -622,7 +592,7 @@ local stop_sound = function(still_playing, player)
 		local list = flowing_water
 		if list.handler[player_name] ~= nil then
 			if list.on_stop ~= nil then
-				minetest.sound_play(list.on_stop, {to_player=player:get_player_name(),gain=SOUNDVOLUME})
+				minetest.sound_play(list.on_stop, {to_player=player:get_player_name()})
 			end
 			minetest.sound_stop(list.handler[player_name])
 			list.handler[player_name] = nil
@@ -632,7 +602,7 @@ local stop_sound = function(still_playing, player)
 		local list = flowing_water2
 		if list.handler[player_name] ~= nil then
 			if list.on_stop ~= nil then
-				minetest.sound_play(list.on_stop, {to_player=player:get_player_name(),gain=SOUNDVOLUME})
+				minetest.sound_play(list.on_stop, {to_player=player:get_player_name()})
 			end
 			minetest.sound_stop(list.handler[player_name])
 			list.handler[player_name] = nil
@@ -642,7 +612,7 @@ local stop_sound = function(still_playing, player)
 		local list = lava
 		if list.handler[player_name] ~= nil then
 			if list.on_stop ~= nil then
-				minetest.sound_play(list.on_stop, {to_player=player:get_player_name(),gain=SOUNDVOLUME})
+				minetest.sound_play(list.on_stop, {to_player=player:get_player_name()})
 			end
 			minetest.sound_stop(list.handler[player_name])
 			list.handler[player_name] = nil
@@ -652,7 +622,7 @@ local stop_sound = function(still_playing, player)
 		local list = lava2
 		if list.handler[player_name] ~= nil then
 			if list.on_stop ~= nil then
-				minetest.sound_play(list.on_stop, {to_player=player:get_player_name(),gain=SOUNDVOLUME})
+				minetest.sound_play(list.on_stop, {to_player=player:get_player_name()})
 			end
 			minetest.sound_stop(list.handler[player_name])
 			list.handler[player_name] = nil
@@ -662,7 +632,7 @@ local stop_sound = function(still_playing, player)
 		local list = water
 		if list.handler[player_name] ~= nil then
 			if list.on_stop ~= nil then
-				minetest.sound_play(list.on_stop, {to_player=player:get_player_name(),gain=SOUNDVOLUME})
+				minetest.sound_play(list.on_stop, {to_player=player:get_player_name()})
 			end
 			minetest.sound_stop(list.handler[player_name])
 			list.handler[player_name] = nil
@@ -672,7 +642,7 @@ local stop_sound = function(still_playing, player)
 		local list = water_surface
 		if list.handler[player_name] ~= nil then
 			if list.on_stop ~= nil then				
-				minetest.sound_play(list.on_stop, {to_player=player:get_player_name(),gain=SOUNDVOLUME})
+				minetest.sound_play(list.on_stop, {to_player=player:get_player_name()})
 				played_on_start = false
 			end
 			minetest.sound_stop(list.handler[player_name])
@@ -683,7 +653,7 @@ local stop_sound = function(still_playing, player)
 		local list = water_frequent
 		if list.handler[player_name] ~= nil then
 			if list.on_stop ~= nil then				
-				minetest.sound_play(list.on_stop, {to_player=player:get_player_name(),gain=SOUNDVOLUME})
+				minetest.sound_play(list.on_stop, {to_player=player:get_player_name()})
 		--		minetest.chat_send_all("list.on_stop " .. list.on_stop  )				
 				played_on_start = false
 			end
@@ -698,7 +668,7 @@ local stop_sound = function(still_playing, player)
 		--	minetest.chat_send_all("handler flying "   )
 			if list.on_stop ~= nil then
 			--	minetest.chat_send_all("onstop flying"   )
-				minetest.sound_play(list.on_stop, {to_player=player:get_player_name(),gain=SOUNDVOLUME})
+				minetest.sound_play(list.on_stop, {to_player=player:get_player_name()})
 				played_on_start = false
 			end
 			minetest.sound_stop(list.handler[player_name])
@@ -709,7 +679,7 @@ local stop_sound = function(still_playing, player)
 		local list = splashing_water
 		if list.handler[player_name] ~= nil then
 			if list.on_stop ~= nil then
-				minetest.sound_play(list.on_stop, {to_player=player:get_player_name(),gain=SOUNDVOLUME})
+				minetest.sound_play(list.on_stop, {to_player=player:get_player_name()})
 			end
 			minetest.sound_stop(list.handler[player_name])
 			list.handler[player_name] = nil
@@ -727,53 +697,26 @@ minetest.register_globalstep(function(dtime)
 	timer = 0
 
 	for _,player in ipairs(minetest.get_connected_players()) do
-		ambiences = get_ambience(player)
+		local ambiences = get_ambience(player)
 		stop_sound(ambiences, player)
 		for _,ambience in pairs(ambiences) do
 			if math.random(1, 1000) <= ambience.frequency then			
---				if(played_on_start) then
---				--	minetest.chat_send_all("playedOnStart "  )
---				else
---				--	minetest.chat_send_all("FALSEplayedOnStart "  )
---				end
+				if(played_on_start) then
+				--	minetest.chat_send_all("playedOnStart "  )
+				else
+				--	minetest.chat_send_all("FALSEplayedOnStart "  )
+				end
 				if ambience.on_start ~= nil and played_on_start == false then
 					played_on_start = true
-					minetest.sound_play(ambience.on_start, {to_player=player:get_player_name(),gain=SOUNDVOLUME})					
+					minetest.sound_play(ambience.on_start, {to_player=player:get_player_name()})					
 				end
-			--	minetest.chat_send_all("ambience: " ..ambience )
+				minetest.chat_send_all("ambience: " ..ambience )
 			--	if ambience.on_start ~= nil and played_on_start_flying == false then
 			--		played_on_start_flying = true
 			--		minetest.sound_play(ambience.on_start, {to_player=player:get_player_name()})					
 			--	end
-				local is_music =false
-				if ambience.is_music ~= nil then
-					is_music = true
-				end
-				play_sound(player, ambience, math.random(1, #ambience),is_music)
+				play_sound(player, ambience, math.random(1, #ambience))
 			end
 		end
 	end
 end)
-
-minetest.register_chatcommand("svol", {
-	params = "<svol>",
-	description = "set volume of sounds, default 1 normal volume.",
-	privs = {server=true},
-	func = function(name, param)
-		SOUNDVOLUME = param
-	--	local player = minetest.env:get_player_by_name(name)
-	--	ambiences = get_ambience(player)
-	--	stop_sound({}, player)
-		minetest.chat_send_player(name, "Sound volume set.")
-	end,		})
-minetest.register_chatcommand("mvol", {
-	params = "<mvol>",
-	description = "set volume of music, default 1 normal volume.",
-	privs = {server=true},
-	func = function(name, param)
-		MUSICVOLUME = param
-	--	local player = minetest.env:get_player_by_name(name)
-	--	stop_sound({}, player)
-	--	ambiences = get_ambience(player)	
-		minetest.chat_send_player(name, "Music volume set.")
-	end,		})	
