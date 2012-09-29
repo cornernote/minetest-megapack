@@ -1,0 +1,55 @@
++ наковальня
++ костер
++ молотки для ковки, копания камня и убивания(только каменный)
++ рисовальный стол
++ рецепты
+- стандартные руды
++ 'Brown coal ore', 'Coal ore', 'Anthracite ore', 'Bituminous coal ore', 'Magnetite ore', 'Hematite ore', 'Limonite ore', 'Bismuthinite ore', 'Cassiterite ore', 'Galena ore', 'Garnierite ore', 'Malachite ore', 'Native copper ore', 'Native gold ore', 'Native silver ore', 'Sphalerite ore', 'Tetrahedrite ore', 'Lapis ore'
++ торф(горит 25)
++ флюс
++ минералы(выпадают из руд)
++ 'Bismuth','Pig iron','Wrought iron','Steel','Gold','Nickel','Platinum','Tin','Silver','Lead','Copper','Zinc','Brass','Sterling silver','Rose gold','Black bronze','Bismuth bronze','Bronze','Black steel',
++ металы неформированые
++ металы слитки
++ металы в формах
++ металы блоки
++ металы инструменты
++ формы для выплавки(сырая, жареная)
++ выплавка металов из руд
++ сплавы
++ наконечники инструментов
++ инструменты крафтятся из наконечника и палки
++ копья
++ рост яблок
++ получение кованого железа перековкой чугуна
++ получение дефолтного железа перековкой кованого
++ получение дефолтного угля пережиганием бревен или досок
++ месторождения теперь больше, но реже
+
++ Anvil
++ Bonfire
++ Hammers for forging, cutting stone and killing(stone only)
++ Scribing table
++ Recipes
+- Standard ore
++ Ores: Brown coal, Coal, Anthracite, Bituminous coal, Magnetite, Hematite, Limonite, Bismuthinite, Cassiterite, Galena, Garnierite, Malachite, Native copper, Native gold, Native silver, Sphalerite, Tetrahedrite, Lapis
++ Peat (fuel)
++ Flux
++ Minerals (drop out of the ore)
++ Metals: Bismuth, Pig iron, Wrought iron, Steel, Gold, Nickel, Platinum, Tin, Silver, Lead, Copper, Zinc , Brass, Sterling silver, Rose gold, Black bronze, Bismuth bronze, Bronze, Black steel,
++ Unshaped metals
++ Metals ingots
++ Metals in forms
++ Blocks of metals
++ Metals tools
++ Form for smelting (clay, ceramic)
++ Smelting metals from ores
++ Alloys
++ Tool heads
++ Crafting tools from head and stick
++ Spears
++ apples
++ forging pig iron to wrought iron
++ forging Wrought iron to default:Steel_ingot
++ burning tree and wood to default:coal_lump
++ very large ores place
