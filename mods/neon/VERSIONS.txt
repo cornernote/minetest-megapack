@@ -1,0 +1,26 @@
+This fill contains all information about the different versions of this mod!
+
+##########
+###0.1####
+##########
+-first release
+-basic nodes in default size
+-letters A-E
+
+##########
+###0.2####
+##########
+-displayed like signs
+-letters A-E
+-new textures
+
+##########
+###0.5####
+##########
+-nodes got a selection box
+-letters A-Z
+
+##########
+###0.6####
+##########
+-now supporting A-Z and 0-9

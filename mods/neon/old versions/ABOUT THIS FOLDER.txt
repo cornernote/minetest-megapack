@@ -1,0 +1,1 @@
+This folder stores all old versions of the "Neon"-mod. The older the version in here is, the less functions it adds to the game. The latest version can be found in the folder "Neon".
